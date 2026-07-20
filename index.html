@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sổ Điểm Danh Điện Tử</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Serif:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation (Class List) -->
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fa-solid fa-user-check"></i>
+                    <span>SỔ ĐIỂM DANH</span>
+                </div>
+                <div class="signature">ENGLISH WITH MISS NGUYET</div>
+            </div>
+            
+            <div class="sidebar-nav">
+                <div class="class-nav-item active" id="btn-home-nav">
+                    <span><i class="fa-solid fa-house"></i> Trang Chủ</span>
+                </div>
+            </div>
+            
+            <div class="sidebar-actions">
+                <button class="btn btn-primary w-100" id="btn-show-add-class-modal">
+                    <i class="fa-solid fa-plus"></i> Thêm Lớp Mới
+                </button>
+            </div>
+            
+            <div class="sidebar-scroll" id="sidebar-classes-list">
+                <!-- Class items will be injected here -->
+            </div>
+            
+            <div class="sidebar-footer">
+                <button class="btn-icon" id="theme-toggle" title="Chuyển đổi giao diện Sáng/Tối">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <div class="empty-state" id="empty-state-view">
+                <i class="fa-solid fa-hand-pointer empty-icon"></i>
+                <h2>Chưa chọn lớp học</h2>
+                <p>Vui lòng chọn một lớp ở menu bên trái để bắt đầu điểm danh.</p>
+            </div>
+
+            <!-- Home View -->
+            <div class="home-view" id="home-view">
+                <div class="home-header" style="margin-bottom: 30px;">
+                    <h2>Xin chào, chúc Miss Nguyet một ngày làm việc vui vẻ! ✨</h2>
+                </div>
+                
+                <div class="home-grid">
+                    <!-- Random Picker Section -->
+                    <div class="home-card random-picker-container">
+                        <h3>🎲 Gọi Tên Trả Bài</h3>
+                        <p>Chọn lớp và quay để gọi tên ngẫu nhiên:</p>
+                        
+                        <select id="random-class-select" class="form-select" style="margin-bottom: 20px;">
+                            <option value="">-- Chọn lớp --</option>
+                        </select>
+                        
+                        <!-- Tabs -->
+                        <div class="picker-tabs">
+                            <button class="picker-tab active" id="tab-slot">Quay Xổ Số</button>
+                            <button class="picker-tab" id="tab-wheel">Vòng Quay</button>
+                        </div>
+                        
+                        <!-- Slot Machine Mode -->
+                        <div id="mode-slot" class="picker-mode-content active">
+                            <div class="random-result-box" id="random-result-box">
+                                <span id="random-result-name">Sẵn sàng...</span>
+                            </div>
+                            <button class="btn btn-primary w-100" id="btn-pick-random" style="font-size: 18px; padding: 12px; margin-top: 16px;">
+                                <i class="fa-solid fa-wand-magic-sparkles"></i> GỌI TÊN
+                            </button>
+                        </div>
+                        
+                        <!-- Wheel Mode -->
+                        <div id="mode-wheel" class="picker-mode-content hidden">
+                            <div class="wheel-container">
+                                <div class="wheel-pointer"></div>
+                                <canvas id="lucky-wheel" width="300" height="300"></canvas>
+                                <div class="wheel-result-center" id="wheel-result-center"></div>
+                            </div>
+                            <button class="btn btn-primary w-100" id="btn-spin-wheel" style="font-size: 18px; padding: 12px; margin-top: 16px;">
+                                <i class="fa-solid fa-arrows-rotate"></i> QUAY VÒNG
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Game Section -->
+                    <div class="home-card game-container">
+                        <h3>🎮 Góc Giải Trí</h3>
+                        <p>Trò chơi Lật Hình Trí Nhớ (Memory Match)</p>
+                        <div class="game-stats">
+                            <span style="color: var(--primary-color);">Vòng: <b id="game-level">1</b></span>
+                            <span>Số lượt lật: <b id="game-moves">0</b></span>
+                            <button class="btn btn-secondary" id="btn-restart-game"><i class="fa-solid fa-rotate-right"></i></button>
+                        </div>
+                        <div class="memory-board" id="memory-board">
+                            <!-- Cards injected here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="class-view hidden" id="class-view">
+                <!-- Header -->
+                <header class="top-header">
+                    <div>
+                        <h1 id="page-title">Tên Lớp</h1>
+                        <p class="subtitle" id="page-subtitle">Đang tải...</p>
+                    </div>
+                    <div class="header-actions">
+                        <button class="btn btn-primary" id="btn-save-data">
+                            <i class="fa-solid fa-floppy-disk"></i> Lưu Dữ Liệu
+                        </button>
+                        <button class="btn btn-secondary" id="btn-export-csv" style="background-color: #48bb78; color: white; border: none;">
+                            <i class="fa-solid fa-file-csv"></i> Xuất Excel
+                        </button>
+                        <button class="btn btn-secondary" id="btn-sync-sheets" style="background-color: #0F9D58; color: white; border: none;">
+                            <i class="fa-brands fa-google-drive"></i> Đồng bộ G-Sheets
+                        </button>
+                        <button class="btn btn-secondary" id="btn-edit-class">
+                            <i class="fa-solid fa-pen"></i> Chỉnh sửa học viên
+                        </button>
+                    </div>
+                </header>
+
+                <div class="view-container">
+                    <!-- Week Selector -->
+                    <div class="week-selector-card">
+                        <button class="btn-icon circle" id="btn-prev-week" title="Tuần trước">
+                            <i class="fa-solid fa-chevron-left"></i>
+                        </button>
+                        <div class="week-info">
+                            <h2 id="week-display-title">Tuần 1</h2>
+                            <p id="week-display-dates">17/06/2026 - 23/06/2026</p>
+                        </div>
+                        <button class="btn-icon circle" id="btn-next-week" title="Tuần sau">
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </button>
+                    </div>
+
+                    <!-- Attendance Matrix -->
+                    <div class="matrix-card">
+                        <div class="legend-container">
+                            <div class="legend-item"><span class="legend-box v"></span> Vắng</div>
+                            <div class="legend-item"><span class="legend-box b"></span> Không làm bài</div>
+                            <div class="legend-item"><span class="legend-box t"></span> Không thuộc bài</div>
+                        </div>
+                        <div class="table-scroll">
+                            <table class="matrix-table" id="matrix-table">
+                                <thead>
+                                    <!-- Lesson Headers (Notes & Generates) -->
+                                    <tr class="notes-row" id="matrix-notes-row">
+                                        <!-- Injected via JS -->
+                                    </tr>
+                                    <!-- Columns Headers (Dates) -->
+                                    <tr class="dates-row" id="matrix-dates-row">
+                                        <!-- Injected via JS -->
+                                    </tr>
+                                </thead>
+                                <tbody id="matrix-body">
+                                    <!-- Student Rows Injected via JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modals -->
+    <!-- Add Class Modal -->
+    <div class="modal-overlay" id="add-class-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Thêm Lớp Mới</h3>
+                <button class="close-modal"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group mb-3">
+                    <label for="new-class-name">Tên lớp:</label>
+                    <input type="text" id="new-class-name" placeholder="VD: Lớp Tiếng Anh Giao Tiếp">
+                </div>
+                <div class="form-group row mb-3">
+                    <div class="input-wrapper">
+                        <label for="new-class-start">Ngày khai giảng:</label>
+                        <input type="date" id="new-class-start">
+                    </div>
+                    <div class="input-wrapper">
+                        <label for="new-class-duration">Thời lượng (tháng):</label>
+                        <input type="number" id="new-class-duration" step="0.5" value="4.5">
+                    </div>
+                </div>
+                <div class="form-group mb-4">
+                    <label>Lịch học trong tuần:</label>
+                    <div class="days-selector" id="new-class-days">
+                        <label class="day-checkbox"><input type="checkbox" value="1"> T2</label>
+                        <label class="day-checkbox"><input type="checkbox" value="2"> T3</label>
+                        <label class="day-checkbox"><input type="checkbox" value="3"> T4</label>
+                        <label class="day-checkbox"><input type="checkbox" value="4"> T5</label>
+                        <label class="day-checkbox"><input type="checkbox" value="5"> T6</label>
+                        <label class="day-checkbox"><input type="checkbox" value="6"> T7</label>
+                        <label class="day-checkbox"><input type="checkbox" value="0"> CN</label>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary close-modal">Hủy</button>
+                <button class="btn btn-primary" id="btn-add-class-submit">Lưu</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Manage Students Modal -->
+    <div class="modal-overlay" id="manage-students-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Quản Lý Học Viên</h3>
+                <button class="close-modal"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body" style="max-height: 60vh; overflow-y: auto;">
+                <div class="form-group">
+                    <label for="batch-student-names">Thêm nhiều học viên (mỗi người 1 dòng):</label>
+                    <textarea id="batch-student-names" rows="4" placeholder="Nguyễn Văn A&#10;Trần Thị B"></textarea>
+                    <button class="btn btn-primary w-100 mt-2" id="btn-save-students">Thêm Danh Sách</button>
+                </div>
+                <div class="divider"><span>DANH SÁCH HIỆN TẠI</span></div>
+                <div id="edit-student-list" class="edit-student-list">
+                    <!-- Students listed here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Announcement Result Modal -->
+    <div class="modal-overlay" id="announcement-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Bài Thông Báo Hoàn Chỉnh</h3>
+                <button class="close-modal"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="announcement-preview" id="announcement-preview"></div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" id="btn-copy-announcement">
+                    <i class="fa-regular fa-copy"></i> Copy Nội Dung
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lesson Details Modal (For Structured Announcement) -->
+    <div class="modal-overlay" id="lesson-details-modal">
+        <div class="modal" style="max-width: 650px;">
+            <div class="modal-header">
+                <h3>Soạn Nội Dung Buổi Học</h3>
+                <button class="close-modal"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body" style="max-height: 70vh; overflow-y: auto;">
+                <input type="hidden" id="ld-date">
+                <input type="hidden" id="ld-lesson-num">
+                
+                <div class="form-group mb-3">
+                    <label>Chủ đề bài học (VD: SPEAKING LESSON 01):</label>
+                    <input type="text" id="ld-topic" placeholder="Nhập chủ đề...">
+                </div>
+                
+                <div class="form-group mb-3">
+                    <label>Nội dung buổi học:</label>
+                    <textarea id="ld-content" rows="2" placeholder="VD: GETTING TO KNOW EACH OTHER"></textarea>
+                </div>
+                
+                <div class="form-group mb-3">
+                    <label>Bài tập:</label>
+                    <textarea id="ld-homework" rows="2" placeholder="VD: Không."></textarea>
+                </div>
+                
+                <div class="form-group mb-3">
+                    <label>Lưu ý chung:</label>
+                    <textarea id="ld-note" rows="3" placeholder="VD: Anh chị nhớ xem lại bài..."></textarea>
+                </div>
+                
+                <div class="form-group mb-3">
+                    <label>Tiết tới học gì:</label>
+                    <input type="text" id="ld-next" placeholder="VD: LISTENING">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary close-modal">Hủy</button>
+                <button class="btn btn-primary" id="btn-generate-structured">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i> Lưu & Tạo Thông Báo
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="toast"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>
