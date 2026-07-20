@@ -2,8 +2,12 @@
 let appState = {
     classes: [],
     selectedClassId: null,
-    currentWeekIndex: 0
+    currentWeekIndex: 0,
+    lastModified: Date.now()
 };
+
+let syncTimeout = null;
+let isSyncing = false;
 
 // Generate unique ID
 function generateId() {
@@ -102,7 +106,18 @@ function loadState() {
 }
 
 function saveState() {
+    appState.lastModified = Date.now();
     localStorage.setItem('attendance_app_v2', JSON.stringify(appState));
+    
+    // Auto sync
+    const scriptUrl = localStorage.getItem('googleAppsScriptUrl');
+    if (scriptUrl) {
+        updateCloudStatus('Đang lưu mây...', 'fa-spinner fa-spin');
+        clearTimeout(syncTimeout);
+        syncTimeout = setTimeout(() => {
+            postToCloud(scriptUrl);
+        }, 1500);
+    }
 }
 
 // Logic: Calculate all lesson dates for a course
@@ -139,7 +154,7 @@ const pageTitle = document.getElementById('page-title');
 const pageSubtitle = document.getElementById('page-subtitle');
 const btnEditClass = document.getElementById('btn-edit-class');
 const btnExportCSV = document.getElementById('btn-export-csv');
-const btnSyncSheets = document.getElementById('btn-sync-sheets');
+const btnSyncCloud = document.getElementById('btn-sync-cloud');
 const btnSaveData = document.getElementById('btn-save-data');
 
 const btnHomeNav = document.getElementById('btn-home-nav');
@@ -345,6 +360,9 @@ function init() {
             localStorage.setItem('lastExportMonth', currentMonth);
         }
     }
+    
+    // Auto fetch from cloud on load
+    fetchFromCloud();
 }
 
 // Theme
@@ -811,70 +829,83 @@ function exportToCSV() {
     document.body.removeChild(link);
 }
 
-btnSyncSheets.addEventListener('click', syncToGoogleSheets);
-
-async function syncToGoogleSheets() {
-    let scriptUrl = localStorage.getItem('googleAppsScriptUrl');
-    if (!scriptUrl) {
-        scriptUrl = prompt('Vui lòng nhập đường link Web App (Google Apps Script URL) mà cô đã triển khai:');
-        if (!scriptUrl) return;
-        localStorage.setItem('googleAppsScriptUrl', scriptUrl);
-    }
-    
-    const classObj = appState.classes.find(c => c.id === appState.selectedClassId);
-    if (!classObj) return;
-
-    const allDates = getCourseDates(classObj.schedule);
-    if (allDates.length === 0) {
-        alert('Lớp này chưa có lịch học để đồng bộ.');
-        return;
-    }
-
-    const rows = [];
-    const headerRow = ["STT", "Họ Tên", ...allDates.map(d => formatShortDate(d))];
-    rows.push(headerRow);
-
-    const sortedStudents = [...classObj.students].sort(sortStudentsByFirstName);
-
-    sortedStudents.forEach((student, idx) => {
-        const row = [idx + 1, student.name];
-        allDates.forEach(dateStr => {
-            const record = classObj.attendance[dateStr];
-            if (record) {
-                const marks = [];
-                if ((record.absentIds || []).includes(student.id)) marks.push('V');
-                if ((record.noHomeworkIds || []).includes(student.id)) marks.push('KLBT');
-                if ((record.noLessonIds || []).includes(student.id)) marks.push('KTB');
-                row.push(marks.join(' - '));
-            } else {
-                row.push('');
+if (btnSyncCloud) {
+    btnSyncCloud.addEventListener('click', () => {
+        let scriptUrl = localStorage.getItem('googleAppsScriptUrl');
+        if (!scriptUrl) {
+            scriptUrl = prompt('Lần đầu sử dụng Đám Mây! Vui lòng dán Link Web App (Google Apps Script) của cô vào đây:');
+            if (scriptUrl) {
+                localStorage.setItem('googleAppsScriptUrl', scriptUrl);
+                fetchFromCloud();
             }
-        });
-        rows.push(row);
+        } else {
+            if (confirm('Cô có muốn đổi đường link cấu hình Đám Mây không? Nếu không, bấm Cancel để tải dữ liệu mới nhất.')) {
+                scriptUrl = prompt('Nhập Link Web App mới:', scriptUrl);
+                if (scriptUrl) {
+                    localStorage.setItem('googleAppsScriptUrl', scriptUrl);
+                    fetchFromCloud();
+                }
+            } else {
+                fetchFromCloud();
+            }
+        }
     });
+}
 
-    const originalText = btnSyncSheets.innerHTML;
-    btnSyncSheets.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Đang tải...';
-    btnSyncSheets.disabled = true;
+function updateCloudStatus(text, iconClass) {
+    if (btnSyncCloud) {
+        btnSyncCloud.innerHTML = `<i class="fa-solid ${iconClass}"></i> <span id="cloud-status-text">${text}</span>`;
+    }
+}
 
+async function postToCloud(scriptUrl) {
+    if (isSyncing) return;
+    isSyncing = true;
     try {
         const response = await fetch(scriptUrl, {
             method: 'POST',
-            body: JSON.stringify({
-                className: classObj.name,
-                rows: rows
-            })
+            body: JSON.stringify(appState)
         });
-        showToast('Đồng bộ dữ liệu thành công!');
-    } catch (e) {
+        updateCloudStatus('Đã đồng bộ', 'fa-check');
+    } catch(e) {
         console.error(e);
-        showToast('Lỗi đồng bộ. Hãy kiểm tra lại link Apps Script!');
-        if (confirm('Lỗi mạng hoặc sai Link. Cô có muốn nhập lại link Apps Script không?')) {
-            localStorage.removeItem('googleAppsScriptUrl');
-        }
+        updateCloudStatus('Lỗi đồng bộ', 'fa-triangle-exclamation');
     } finally {
-        btnSyncSheets.innerHTML = originalText;
-        btnSyncSheets.disabled = false;
+        isSyncing = false;
+        setTimeout(() => updateCloudStatus('Đám mây: Bật', 'fa-cloud'), 3000);
+    }
+}
+
+async function fetchFromCloud() {
+    const scriptUrl = localStorage.getItem('googleAppsScriptUrl');
+    if (!scriptUrl) return;
+    
+    updateCloudStatus('Đang tải mây...', 'fa-spinner fa-spin');
+    try {
+        const response = await fetch(scriptUrl);
+        const cloudData = await response.json();
+        
+        if (cloudData && cloudData.classes && cloudData.lastModified) {
+            // Overwrite local state if cloud data is newer
+            if (!appState.lastModified || cloudData.lastModified > appState.lastModified) {
+                appState = cloudData;
+                localStorage.setItem('attendance_app_v2', JSON.stringify(appState));
+                
+                if (appState.selectedClassId) {
+                    renderSidebar();
+                    showClassView();
+                } else {
+                    renderSidebar();
+                    showHomeView();
+                }
+            }
+        }
+        updateCloudStatus('Đã đồng bộ', 'fa-check');
+    } catch(e) {
+        console.error(e);
+        updateCloudStatus('Lỗi kết nối', 'fa-triangle-exclamation');
+    } finally {
+        setTimeout(() => updateCloudStatus('Đám mây: Bật', 'fa-cloud'), 3000);
     }
 }
 
