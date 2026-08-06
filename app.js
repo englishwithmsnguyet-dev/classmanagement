@@ -84,7 +84,7 @@ function loadState() {
                     startDate: seed.startDate,
                     durationMonths: seed.duration,
                     daysOfWeek: seed.daysOfWeek,
-                    totalLessons: Math.floor(seed.duration * 4 * seed.daysOfWeek.length)
+                    totalLessons: Math.floor(seed.duration * 4.4 * seed.daysOfWeek.length) + 6 // Buffer for holidays
                 },
                 students: initialStudents,
                 attendance: {}
@@ -99,6 +99,15 @@ function loadState() {
         cb210.schedule.daysOfWeek = [1, 3, 5];
         stateChanged = true;
     }
+
+    // Migration: Fix totalLessons calculation to account for 4.4 weeks/month + holidays
+    appState.classes.forEach(c => {
+        const expectedLessons = Math.floor(c.schedule.durationMonths * 4.4 * c.schedule.daysOfWeek.length) + 6;
+        if (c.schedule.totalLessons < expectedLessons) {
+            c.schedule.totalLessons = expectedLessons;
+            stateChanged = true;
+        }
+    });
 
     if (stateChanged) {
         saveState();
