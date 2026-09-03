@@ -109,6 +109,14 @@ function loadState() {
         }
     });
 
+    // Migration: Add 3 extra weeks (9 lessons) to CB206
+    const cb206 = appState.classes.find(c => c.name === 'CB206');
+    if (cb206 && !cb206.extended3Weeks) {
+        cb206.schedule.totalLessons += 9;
+        cb206.extended3Weeks = true;
+        stateChanged = true;
+    }
+
     if (stateChanged) {
         saveState();
     }
