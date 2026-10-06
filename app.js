@@ -17,7 +17,17 @@ function generateId() {
 // Initial Data Seed
 const SEED_CLASSES = [
     { name: "CB206", startDate: "2026-04-02", daysOfWeek: [2, 4, 6], duration: 4.5 },
-    { name: "CB210", startDate: "2026-05-22", daysOfWeek: [1, 3, 5], duration: 4.5 },
+    { 
+        name: "CB210", 
+        startDate: "2026-05-22", 
+        daysOfWeek: [1, 3, 5], 
+        duration: 4.5,
+        timeSlot: "16g45 - 18g15",
+        scheduleChanges: [
+            { effectiveDate: "2026-10-05", daysOfWeek: [2, 4, 6], timeSlot: "16g45 - 18g15" }
+        ],
+        totalLessons: 85
+    },
     { name: "CB211", startDate: "2026-06-17", daysOfWeek: [1, 3, 5], duration: 4.5 },
     { name: "CB213", startDate: "2026-06-27", daysOfWeek: [2, 4, 6], duration: 4.5 },
     { name: "ONB103", startDate: "2026-06-17", daysOfWeek: [1, 3, 5], duration: 4.5 },
@@ -84,7 +94,9 @@ function loadState() {
                     startDate: seed.startDate,
                     durationMonths: seed.duration,
                     daysOfWeek: seed.daysOfWeek,
-                    totalLessons: Math.floor(seed.duration * 4.4 * seed.daysOfWeek.length) + 6 // Buffer for holidays
+                    timeSlot: seed.timeSlot || '',
+                    scheduleChanges: seed.scheduleChanges || [],
+                    totalLessons: seed.totalLessons || (Math.floor(seed.duration * 4.4 * seed.daysOfWeek.length) + 6)
                 },
                 students: initialStudents,
                 attendance: {}
@@ -117,9 +129,39 @@ function loadState() {
         stateChanged = true;
     }
 
+    // Migration: CB210 switches to 357 (16g45 - 18g15) from week of 2026-10-05
+    if (ensureClassScheduleMigrations(appState)) {
+        stateChanged = true;
+    }
+
     if (stateChanged) {
         saveState();
     }
+}
+
+function ensureClassScheduleMigrations(state) {
+    if (!state || !state.classes) return false;
+    let changed = false;
+    const cb210 = state.classes.find(c => c.name === 'CB210');
+    if (cb210) {
+        if (!cb210.schedule.scheduleChanges) {
+            cb210.schedule.scheduleChanges = [];
+        }
+        const hasOctChange = cb210.schedule.scheduleChanges.some(c => c.effectiveDate === '2026-10-05');
+        if (!hasOctChange) {
+            cb210.schedule.scheduleChanges.push({
+                effectiveDate: '2026-10-05',
+                daysOfWeek: [2, 4, 6],
+                timeSlot: '16g45 - 18g15'
+            });
+            cb210.schedule.timeSlot = '16g45 - 18g15';
+            if (!cb210.schedule.totalLessons || cb210.schedule.totalLessons < 85) {
+                cb210.schedule.totalLessons = 85;
+            }
+            changed = true;
+        }
+    }
+    return changed;
 }
 
 function saveState() {
@@ -145,13 +187,23 @@ function getCourseDates(schedule) {
     
     // Safety break
     let limit = 0;
-    while (dates.length < schedule.totalLessons && limit < 1000) {
-        if (schedule.daysOfWeek.includes(d.getDay())) {
-            // Store as YYYY-MM-DD
-            const yyyy = d.getFullYear();
-            const mm = String(d.getMonth() + 1).padStart(2, '0');
-            const dd = String(d.getDate()).padStart(2, '0');
-            dates.push(`${yyyy}-${mm}-${dd}`);
+    while (dates.length < schedule.totalLessons && limit < 1500) {
+        const yyyy = d.getFullYear();
+        const mm = String(d.getMonth() + 1).padStart(2, '0');
+        const dd = String(d.getDate()).padStart(2, '0');
+        const dateStr = `${yyyy}-${mm}-${dd}`;
+
+        let currentDaysOfWeek = schedule.daysOfWeek;
+        if (schedule.scheduleChanges && schedule.scheduleChanges.length > 0) {
+            for (const ch of schedule.scheduleChanges) {
+                if (dateStr >= ch.effectiveDate) {
+                    currentDaysOfWeek = ch.daysOfWeek;
+                }
+            }
+        }
+
+        if (currentDaysOfWeek.includes(d.getDay())) {
+            dates.push(dateStr);
         }
         d.setDate(d.getDate() + 1);
         limit++;
@@ -228,6 +280,15 @@ function init() {
             const seedInfo = SEED_CLASSES.find(s => s.name === clsName);
             cls.schedule.startDate = seedInfo.startDate;
             cls.schedule.daysOfWeek = seedInfo.daysOfWeek;
+            if (seedInfo.scheduleChanges) {
+                cls.schedule.scheduleChanges = seedInfo.scheduleChanges;
+            }
+            if (seedInfo.timeSlot) {
+                cls.schedule.timeSlot = seedInfo.timeSlot;
+            }
+            if (seedInfo.totalLessons && (!cls.schedule.totalLessons || cls.schedule.totalLessons < seedInfo.totalLessons)) {
+                cls.schedule.totalLessons = seedInfo.totalLessons;
+            }
             
             if (cls.students.length === 0) {
                 cls.students = SEED_STUDENTS[clsName].map(name => ({ id: generateId(), name }));
@@ -492,7 +553,7 @@ function showClassView() {
     
     const classObj = appState.classes.find(c => c.id === appState.selectedClassId);
     pageTitle.textContent = `Lớp ${classObj.name}`;
-    pageSubtitle.textContent = `Sĩ số: ${classObj.students.length} học viên | Ngày khai giảng: ${formatDate(classObj.schedule.startDate)} | Lịch học: ${formatSchedule(classObj.schedule.daysOfWeek)}`;
+    pageSubtitle.textContent = `Sĩ số: ${classObj.students.length} học viên | Ngày khai giảng: ${formatDate(classObj.schedule.startDate)} | Lịch học: ${getClassScheduleInfo(classObj.schedule)}`;
     
     renderMatrix();
 }
@@ -513,6 +574,18 @@ function formatShortDate(dateStr) {
 function formatSchedule(daysArr) {
     const map = { 1: 'T2', 2: 'T3', 3: 'T4', 4: 'T5', 5: 'T6', 6: 'T7', 0: 'CN' };
     return daysArr.map(d => map[d]).join(', ');
+}
+
+function getClassScheduleInfo(schedule) {
+    let days = schedule.daysOfWeek;
+    let time = schedule.timeSlot || '';
+    if (schedule.scheduleChanges && schedule.scheduleChanges.length > 0) {
+        const latest = schedule.scheduleChanges[schedule.scheduleChanges.length - 1];
+        days = latest.daysOfWeek;
+        if (latest.timeSlot) time = latest.timeSlot;
+    }
+    const daysText = formatSchedule(days);
+    return time ? `${daysText} (${time})` : daysText;
 }
 
 // Group dates into calendar weeks (Mon - Sun)
@@ -906,6 +979,7 @@ async function fetchFromCloud() {
             // Overwrite local state if cloud data is newer
             if (!appState.lastModified || cloudData.lastModified > appState.lastModified) {
                 appState = cloudData;
+                ensureClassScheduleMigrations(appState);
                 localStorage.setItem('attendance_app_v2', JSON.stringify(appState));
                 
                 if (appState.selectedClassId) {
@@ -966,7 +1040,7 @@ window.removeStudent = function(studentId) {
         renderEditStudentList();
         renderMatrix();
         
-        pageSubtitle.textContent = `Sĩ số: ${classObj.students.length} học viên | Ngày khai giảng: ${formatDate(classObj.schedule.startDate)} | Lịch học: ${formatSchedule(classObj.schedule.daysOfWeek)}`;
+        pageSubtitle.textContent = `Sĩ số: ${classObj.students.length} học viên | Ngày khai giảng: ${formatDate(classObj.schedule.startDate)} | Lịch học: ${getClassScheduleInfo(classObj.schedule)}`;
     }
 };
 
@@ -986,7 +1060,7 @@ document.getElementById('btn-save-students').addEventListener('click', () => {
     renderEditStudentList();
     renderMatrix();
     
-    pageSubtitle.textContent = `Sĩ số: ${classObj.students.length} học viên | Ngày khai giảng: ${formatDate(classObj.schedule.startDate)} | Lịch học: ${formatSchedule(classObj.schedule.daysOfWeek)}`;
+    pageSubtitle.textContent = `Sĩ số: ${classObj.students.length} học viên | Ngày khai giảng: ${formatDate(classObj.schedule.startDate)} | Lịch học: ${getClassScheduleInfo(classObj.schedule)}`;
     
     document.getElementById('batch-student-names').value = '';
     showToast(`Đã thêm ${names.length} học viên!`);
