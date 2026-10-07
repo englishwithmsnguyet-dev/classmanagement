@@ -30,6 +30,7 @@ const SEED_CLASSES = [
     },
     { name: "CB211", startDate: "2026-06-17", daysOfWeek: [1, 3, 5], duration: 4.5 },
     { name: "CB213", startDate: "2026-06-27", daysOfWeek: [2, 4, 6], duration: 4.5 },
+    { name: "CB219", startDate: "2026-10-02", daysOfWeek: [1, 3, 5], duration: 4.5, timeSlot: "20h15 - 21h45" },
     { name: "ONB103", startDate: "2026-06-17", daysOfWeek: [1, 3, 5], duration: 4.5 },
     { name: "B212", startDate: "2026-07-07", daysOfWeek: [2, 4, 6], duration: 6 }
 ];
@@ -69,6 +70,12 @@ const SEED_STUDENTS = {
         "Trương Ngọc Nhi", "Nguyễn Phạm Như Quỳnh", "Trần Lê Quỳnh", "Thị Mỹ Tâm", "Ông Lê Thành",
         "Trần Nguyễn Thanh Thảo", "Phan Nhật Thiện", "Nguyễn Mỹ Tiên", "Trần Thị Cẩm Tiên",
         "Võ Trần Bảo Tính", "Trương Thanh Toàn", "Phạm Ngọc Trâm", "Nguyễn Võ Bảo Trân"
+    ],
+    "CB219": [
+        "Lưu Thị Vân Anh", "Nguyễn Tuấn Anh", "Trần Thị Huỳnh Duy", "Duy Thị Huỳnh Hân",
+        "Trần Thị Xuân Hoa", "Nguyễn Phạm Khang", "Đặng Văn Khánh", "Chim Nhật Luân",
+        "Lư Vĩnh Phúc", "Nguyễn Chí Thiện", "Trần Thị Ngọc Thơ", "Huỳnh Yến Trang",
+        "Thị Thu Trinh", "Nguyễn Thị Mỹ Xuyên", "Nguyễn Như Ý"
     ]
 };
 
@@ -79,31 +86,9 @@ function loadState() {
     }
     
     let stateChanged = false;
-    SEED_CLASSES.forEach(seed => {
-        const exists = appState.classes.find(c => c.name === seed.name);
-        if (!exists) {
-            let initialStudents = [];
-            if (SEED_STUDENTS[seed.name]) {
-                initialStudents = SEED_STUDENTS[seed.name].map(name => ({ id: generateId(), name }));
-            }
-            
-            appState.classes.push({
-                id: generateId(),
-                name: seed.name,
-                schedule: {
-                    startDate: seed.startDate,
-                    durationMonths: seed.duration,
-                    daysOfWeek: seed.daysOfWeek,
-                    timeSlot: seed.timeSlot || '',
-                    scheduleChanges: seed.scheduleChanges || [],
-                    totalLessons: seed.totalLessons || (Math.floor(seed.duration * 4.4 * seed.daysOfWeek.length) + 6)
-                },
-                students: initialStudents,
-                attendance: {}
-            });
-            stateChanged = true;
-        }
-    });
+    if (ensureAllSeedClassesExist(appState)) {
+        stateChanged = true;
+    }
 
     // Migration: fix CB210 schedule (was mistakenly set to [2,4,6] instead of [1,3,5])
     const cb210 = appState.classes.find(c => c.name === 'CB210');
@@ -161,6 +146,37 @@ function ensureClassScheduleMigrations(state) {
             changed = true;
         }
     }
+    return changed;
+}
+
+function ensureAllSeedClassesExist(state) {
+    if (!state || !state.classes) return false;
+    let changed = false;
+    SEED_CLASSES.forEach(seed => {
+        const exists = state.classes.find(c => c.name === seed.name);
+        if (!exists) {
+            let initialStudents = [];
+            if (SEED_STUDENTS[seed.name]) {
+                initialStudents = SEED_STUDENTS[seed.name].map(name => ({ id: generateId(), name }));
+            }
+            
+            state.classes.push({
+                id: generateId(),
+                name: seed.name,
+                schedule: {
+                    startDate: seed.startDate,
+                    durationMonths: seed.duration,
+                    daysOfWeek: seed.daysOfWeek,
+                    timeSlot: seed.timeSlot || '',
+                    scheduleChanges: seed.scheduleChanges || [],
+                    totalLessons: seed.totalLessons || (Math.floor(seed.duration * 4.4 * seed.daysOfWeek.length) + 6)
+                },
+                students: initialStudents,
+                attendance: {}
+            });
+            changed = true;
+        }
+    });
     return changed;
 }
 
@@ -274,7 +290,7 @@ function init() {
     }
     
     // Data Migration: Populate actual students and schedules for seeded classes
-    ["CB210", "CB211", "CB213", "B212"].forEach(clsName => {
+    ["CB210", "CB211", "CB213", "B212", "CB219"].forEach(clsName => {
         const cls = appState.classes.find(c => c.name === clsName);
         if (cls) {
             const seedInfo = SEED_CLASSES.find(s => s.name === clsName);
@@ -979,8 +995,12 @@ async function fetchFromCloud() {
             // Overwrite local state if cloud data is newer
             if (!appState.lastModified || cloudData.lastModified > appState.lastModified) {
                 appState = cloudData;
-                ensureClassScheduleMigrations(appState);
+                const addedSeeds = ensureAllSeedClassesExist(appState);
+                const migrated = ensureClassScheduleMigrations(appState);
                 localStorage.setItem('attendance_app_v2', JSON.stringify(appState));
+                if (addedSeeds || migrated) {
+                    saveState();
+                }
                 
                 if (appState.selectedClassId) {
                     renderSidebar();
