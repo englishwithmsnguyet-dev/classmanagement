@@ -306,12 +306,52 @@
                     <label>Tiết tới học gì:</label>
                     <input type="text" id="ld-next" placeholder="VD: LISTENING">
                 </div>
+
+                <div class="form-group mb-3">
+                    <label style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                        <span><i class="fa-solid fa-camera" style="color: var(--primary);"></i> Ảnh điểm danh / Ảnh buổi học:</span>
+                        <span class="text-secondary" style="font-size: 0.8rem; font-weight: normal;">(Tự động nén ảnh sắc nét)</span>
+                    </label>
+                    <div class="photo-upload-zone">
+                        <label for="ld-photo-input" class="photo-upload-btn">
+                            <i class="fa-solid fa-cloud-arrow-up"></i> Tải ảnh lên (hoặc Chụp ảnh)
+                        </label>
+                        <input type="file" id="ld-photo-input" accept="image/*" multiple style="display: none;">
+                        <span class="text-secondary" style="font-size: 0.8rem;">Có thể chọn nhiều ảnh cùng lúc</span>
+                    </div>
+                    <div class="photo-preview-grid" id="ld-photo-grid"></div>
+                </div>
             </div>
             <div class="modal-footer">
                 <button class="btn btn-secondary close-modal">Hủy</button>
                 <button class="btn btn-primary" id="btn-generate-structured">
                     <i class="fa-solid fa-wand-magic-sparkles"></i> Lưu & Tạo Thông Báo
                 </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Image Viewer Modal (Lightbox) -->
+    <div class="modal-overlay" id="image-viewer-modal">
+        <div class="modal image-viewer-modal-dialog">
+            <div class="modal-header">
+                <h3 id="iv-title"><i class="fa-solid fa-camera" style="color: var(--primary);"></i> Ảnh Điểm Danh</h3>
+                <button class="close-modal"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body image-viewer-body">
+                <div class="iv-main-image-container">
+                    <img id="iv-main-img" src="" alt="Ảnh điểm danh phóng to">
+                </div>
+                <div class="iv-thumbnails-bar" id="iv-thumbs-bar"></div>
+            </div>
+            <div class="modal-footer" style="display: flex; justify-content: space-between; align-items: center;">
+                <span id="iv-counter" class="text-secondary" style="font-weight: 500;">Ảnh 1 / 1</span>
+                <div style="display: flex; gap: 8px;">
+                    <a id="iv-download-btn" class="btn btn-secondary btn-small" download="diem_danh.jpg" href="#" target="_blank">
+                        <i class="fa-solid fa-download"></i> Tải về máy
+                    </a>
+                    <button class="btn btn-primary btn-small close-modal">Đóng</button>
+                </div>
             </div>
         </div>
     </div>

@@ -732,10 +732,18 @@ function renderMatrix() {
         
         // Notes cell
         const thNote = document.createElement('th');
+        const hasPhotos = record.images && record.images.length > 0;
+        const photoBadgeHtml = hasPhotos ? `
+            <button class="btn-photo-badge" onclick="event.stopPropagation(); openImageViewer('${dateStr}', ${globalLessonNum})" title="Xem ${record.images.length} ảnh điểm danh">
+                <i class="fa-solid fa-camera"></i> ${record.images.length} ảnh
+            </button>
+        ` : '';
+
         thNote.innerHTML = `
             <button class="btn btn-primary btn-small w-100" onclick="openLessonDetails('${dateStr}', ${globalLessonNum})">
                 <i class="fa-solid fa-pen-to-square"></i> Soạn & Thông Báo
             </button>
+            ${photoBadgeHtml}
         `;
         matrixNotesRow.appendChild(thNote);
         
@@ -822,14 +830,24 @@ btnNextWeek.addEventListener('click', () => {
 });
 
 // Modals Handling
+const imageViewerModal = document.getElementById('image-viewer-modal');
 btnCloseModals.forEach(btn => {
     btn.addEventListener('click', () => {
         addClassModal.classList.remove('active');
         manageStudentsModal.classList.remove('active');
         announcementModal.classList.remove('active');
         lessonDetailsModal.classList.remove('active');
+        if (imageViewerModal) imageViewerModal.classList.remove('active');
     });
 });
+
+if (imageViewerModal) {
+    imageViewerModal.addEventListener('click', (e) => {
+        if (e.target === imageViewerModal) {
+            imageViewerModal.classList.remove('active');
+        }
+    });
+}
 
 // Add Class Logic
 btnShowAddClassModal.addEventListener('click', () => {
@@ -1104,6 +1122,155 @@ function formatEnglishDate(dateStr) {
     return `${dayName}, ${monthName} ${dateNum}${suffix}, ${year}`;
 }
 
+// Image Compression (Resize & optimize JPEG)
+function compressImage(file, maxWidth = 1280, quality = 0.78) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const img = new Image();
+            img.onload = () => {
+                const canvas = document.createElement('canvas');
+                let width = img.width;
+                let height = img.height;
+
+                if (width > maxWidth) {
+                    height = Math.round((height * maxWidth) / width);
+                    width = maxWidth;
+                }
+
+                canvas.width = width;
+                canvas.height = height;
+
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, width, height);
+
+                const dataUrl = canvas.toDataURL('image/jpeg', quality);
+                resolve(dataUrl);
+            };
+            img.onerror = reject;
+            img.src = e.target.result;
+        };
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+    });
+}
+
+// Attendance Photo Management
+let currentEditingPhotos = [];
+
+function renderEditingPhotoGrid() {
+    const grid = document.getElementById('ld-photo-grid');
+    if (!grid) return;
+    grid.innerHTML = '';
+    currentEditingPhotos.forEach((src, idx) => {
+        const item = document.createElement('div');
+        item.className = 'photo-preview-item';
+        item.innerHTML = `
+            <img src="${src}" alt="Ảnh ${idx + 1}" title="Bấm để xem phóng to">
+            <button type="button" class="photo-remove-btn" title="Xóa ảnh này">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        `;
+        item.querySelector('img').onclick = () => previewSinglePhoto(src);
+        item.querySelector('.photo-remove-btn').onclick = (e) => {
+            e.stopPropagation();
+            removeEditingPhoto(idx);
+        };
+        grid.appendChild(item);
+    });
+}
+
+window.removeEditingPhoto = function(idx) {
+    currentEditingPhotos.splice(idx, 1);
+    renderEditingPhotoGrid();
+};
+
+window.previewSinglePhoto = function(src) {
+    currentViewerImages = [src];
+    currentViewerIndex = 0;
+    renderImageViewer();
+    if (imageViewerModal) imageViewerModal.classList.add('active');
+};
+
+const photoInput = document.getElementById('ld-photo-input');
+if (photoInput) {
+    photoInput.addEventListener('change', async (e) => {
+        const files = Array.from(e.target.files);
+        if (files.length === 0) return;
+
+        showToast(`Đang nén ${files.length} ảnh...`);
+        for (const file of files) {
+            try {
+                const compressed = await compressImage(file, 1280, 0.78);
+                currentEditingPhotos.push(compressed);
+            } catch (err) {
+                console.error('Lỗi khi nén ảnh:', err);
+                showToast(`Không thể đọc ảnh: ${file.name}`);
+            }
+        }
+        renderEditingPhotoGrid();
+        photoInput.value = '';
+        showToast('Đã thêm ảnh vào buổi học!');
+    });
+}
+
+// Image Viewer Lightbox
+let currentViewerImages = [];
+let currentViewerIndex = 0;
+
+window.openImageViewer = function(dateStr, globalLessonNum) {
+    const classObj = appState.classes.find(c => c.id === appState.selectedClassId);
+    if (!classObj) return;
+    const record = classObj.attendance[dateStr];
+    if (!record || !record.images || record.images.length === 0) {
+        showToast('Buổi học này chưa có ảnh điểm danh.');
+        return;
+    }
+
+    currentViewerImages = [...record.images];
+    currentViewerIndex = 0;
+
+    const titleEl = document.getElementById('iv-title');
+    if (titleEl) {
+        titleEl.innerHTML = `<i class="fa-solid fa-camera" style="color: var(--primary);"></i> Ảnh Điểm Danh - Buổi ${globalLessonNum} (${formatDate(dateStr)})`;
+    }
+
+    renderImageViewer();
+    if (imageViewerModal) imageViewerModal.classList.add('active');
+};
+
+function renderImageViewer() {
+    if (currentViewerImages.length === 0) return;
+    if (currentViewerIndex >= currentViewerImages.length) currentViewerIndex = 0;
+
+    const currentSrc = currentViewerImages[currentViewerIndex];
+    const mainImg = document.getElementById('iv-main-img');
+    const counterEl = document.getElementById('iv-counter');
+    const downloadBtn = document.getElementById('iv-download-btn');
+    const thumbsBar = document.getElementById('iv-thumbs-bar');
+
+    if (mainImg) mainImg.src = currentSrc;
+    if (counterEl) counterEl.textContent = `Ảnh ${currentViewerIndex + 1} / ${currentViewerImages.length}`;
+    if (downloadBtn) {
+        downloadBtn.href = currentSrc;
+        downloadBtn.download = `diem_danh_${currentViewerIndex + 1}.jpg`;
+    }
+
+    if (thumbsBar) {
+        thumbsBar.innerHTML = '';
+        currentViewerImages.forEach((src, idx) => {
+            const thumb = document.createElement('img');
+            thumb.className = `iv-thumb ${idx === currentViewerIndex ? 'active' : ''}`;
+            thumb.src = src;
+            thumb.onclick = () => {
+                currentViewerIndex = idx;
+                renderImageViewer();
+            };
+            thumbsBar.appendChild(thumb);
+        });
+    }
+}
+
 // Generate Announcement Logic
 window.openLessonDetails = function(dateStr, globalLessonNum) {
     const classObj = appState.classes.find(c => c.id === appState.selectedClassId);
@@ -1124,6 +1291,10 @@ window.openLessonDetails = function(dateStr, globalLessonNum) {
     document.getElementById('ld-note').value = details.note || '';
     document.getElementById('ld-next').value = details.next || '';
     
+    // Load existing photos
+    currentEditingPhotos = [...(record.images || [])];
+    renderEditingPhotoGrid();
+    
     lessonDetailsModal.classList.add('active');
 };
 
@@ -1140,9 +1311,11 @@ document.getElementById('btn-generate-structured').addEventListener('click', () 
     const note = document.getElementById('ld-note').value.trim();
     const next = document.getElementById('ld-next').value.trim();
     
-    // Save details
+    // Save details and photos
     record.details = { topic, content, homework, note, next };
+    record.images = [...currentEditingPhotos];
     saveState();
+    renderMatrix();
     
     // Format Date: Friday, June 19th, 2026
     const englishDate = formatEnglishDate(dateStr);
