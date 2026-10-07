@@ -312,12 +312,14 @@
                         <span><i class="fa-solid fa-camera" style="color: var(--primary);"></i> Ảnh điểm danh / Ảnh buổi học:</span>
                         <span class="text-secondary" style="font-size: 0.8rem; font-weight: normal;">(Tự động nén ảnh sắc nét)</span>
                     </label>
-                    <div class="photo-upload-zone">
+                    <div class="photo-upload-zone" id="ld-photo-dropzone">
                         <label for="ld-photo-input" class="photo-upload-btn">
-                            <i class="fa-solid fa-cloud-arrow-up"></i> Tải ảnh lên (hoặc Chụp ảnh)
+                            <i class="fa-solid fa-cloud-arrow-up"></i> Tải ảnh lên
                         </label>
                         <input type="file" id="ld-photo-input" accept="image/*" multiple style="display: none;">
-                        <span class="text-secondary" style="font-size: 0.8rem;">Có thể chọn nhiều ảnh cùng lúc</span>
+                        <span class="text-secondary" style="font-size: 0.8rem;">
+                            Hoặc bấm <strong style="color: var(--primary);">Ctrl+V (Cmd+V)</strong> để dán ảnh / Kéo thả ảnh vào đây
+                        </span>
                     </div>
                     <div class="photo-preview-grid" id="ld-photo-grid"></div>
                 </div>

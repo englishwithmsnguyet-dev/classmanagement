@@ -1192,27 +1192,83 @@ window.previewSinglePhoto = function(src) {
     if (imageViewerModal) imageViewerModal.classList.add('active');
 };
 
+async function processAndAddPhotos(files) {
+    if (!files || files.length === 0) return;
+    showToast(`Đang nén ${files.length} ảnh...`);
+    for (const file of files) {
+        try {
+            const compressed = await compressImage(file, 1280, 0.78);
+            currentEditingPhotos.push(compressed);
+        } catch (err) {
+            console.error('Lỗi khi nén ảnh:', err);
+            showToast(`Không thể đọc ảnh: ${file.name || 'clipboard'}`);
+        }
+    }
+    renderEditingPhotoGrid();
+    showToast('Đã thêm ảnh thành công! 📸');
+}
+
 const photoInput = document.getElementById('ld-photo-input');
 if (photoInput) {
     photoInput.addEventListener('change', async (e) => {
         const files = Array.from(e.target.files);
-        if (files.length === 0) return;
-
-        showToast(`Đang nén ${files.length} ảnh...`);
-        for (const file of files) {
-            try {
-                const compressed = await compressImage(file, 1280, 0.78);
-                currentEditingPhotos.push(compressed);
-            } catch (err) {
-                console.error('Lỗi khi nén ảnh:', err);
-                showToast(`Không thể đọc ảnh: ${file.name}`);
-            }
-        }
-        renderEditingPhotoGrid();
+        await processAndAddPhotos(files);
         photoInput.value = '';
-        showToast('Đã thêm ảnh vào buổi học!');
     });
 }
+
+// Drag & Drop Photo onto Dropzone
+const dropzone = document.getElementById('ld-photo-dropzone');
+if (dropzone) {
+    ['dragenter', 'dragover'].forEach(eventName => {
+        dropzone.addEventListener(eventName, (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            dropzone.classList.add('dragover');
+        });
+    });
+    ['dragleave', 'drop'].forEach(eventName => {
+        dropzone.addEventListener(eventName, (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            dropzone.classList.remove('dragover');
+        });
+    });
+    dropzone.addEventListener('drop', async (e) => {
+        const dt = e.dataTransfer;
+        if (dt && dt.files && dt.files.length > 0) {
+            const imageFiles = Array.from(dt.files).filter(f => f.type.startsWith('image/'));
+            if (imageFiles.length > 0) {
+                await processAndAddPhotos(imageFiles);
+            }
+        }
+    });
+}
+
+// Copy & Paste (Ctrl+V / Cmd+V) image directly from clipboard
+window.addEventListener('paste', async (e) => {
+    // Only handle image paste if lessonDetailsModal is open
+    if (!lessonDetailsModal || !lessonDetailsModal.classList.contains('active')) return;
+
+    const clipboardData = e.clipboardData || window.clipboardData;
+    if (!clipboardData || !clipboardData.items) return;
+
+    const imageFiles = [];
+    for (const item of clipboardData.items) {
+        if (item.type.startsWith('image/')) {
+            const file = item.getAsFile();
+            if (file) {
+                imageFiles.push(file);
+            }
+        }
+    }
+
+    if (imageFiles.length > 0) {
+        e.preventDefault(); // Prevent inserting image binary into text inputs
+        showToast('Đang xử lý ảnh vừa dán (Ctrl+V)... 📋');
+        await processAndAddPhotos(imageFiles);
+    }
+});
 
 // Image Viewer Lightbox
 let currentViewerImages = [];

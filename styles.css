@@ -789,9 +789,10 @@ input:focus, textarea:focus { border-color: var(--primary); }
     border-radius: var(--radius-md);
     transition: var(--transition);
 }
-.photo-upload-zone:hover {
+.photo-upload-zone:hover,
+.photo-upload-zone.dragover {
     border-color: var(--primary);
-    background: #fff5f5;
+    background: #ffebee;
 }
 .photo-upload-btn {
     display: inline-flex;
