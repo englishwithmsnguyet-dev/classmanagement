@@ -3,6 +3,7 @@ let appState = {
     classes: [],
     selectedClassId: null,
     currentWeekIndex: 0,
+    pet: null,
     lastModified: Date.now()
 };
 
@@ -201,6 +202,9 @@ function loadState() {
         stateChanged = true;
     }
     if (ensureAllSeedClassesExist(appState)) {
+        stateChanged = true;
+    }
+    if (ensurePetState(appState)) {
         stateChanged = true;
     }
 
@@ -678,6 +682,7 @@ function showHomeView() {
     });
     
     initGame();
+    renderPetView();
 }
 
 function showClassView() {
@@ -955,6 +960,7 @@ btnNextWeek.addEventListener('click', () => {
 
 // Modals Handling
 const imageViewerModal = document.getElementById('image-viewer-modal');
+const petModal = document.getElementById('pet-modal');
 btnCloseModals.forEach(btn => {
     btn.addEventListener('click', () => {
         addClassModal.classList.remove('active');
@@ -962,6 +968,7 @@ btnCloseModals.forEach(btn => {
         announcementModal.classList.remove('active');
         lessonDetailsModal.classList.remove('active');
         if (imageViewerModal) imageViewerModal.classList.remove('active');
+        if (petModal) petModal.classList.remove('active');
     });
 });
 
@@ -969,6 +976,14 @@ if (imageViewerModal) {
     imageViewerModal.addEventListener('click', (e) => {
         if (e.target === imageViewerModal) {
             imageViewerModal.classList.remove('active');
+        }
+    });
+}
+
+if (petModal) {
+    petModal.addEventListener('click', (e) => {
+        if (e.target === petModal) {
+            petModal.classList.remove('active');
         }
     });
 }
@@ -1136,11 +1151,16 @@ async function fetchFromCloud() {
         if (cloudData && cloudData.classes && cloudData.lastModified) {
             // Overwrite local state if cloud data is newer
             if (!appState.lastModified || cloudData.lastModified > appState.lastModified) {
+                const localPet = appState.pet;
                 appState = cloudData;
+                if (!appState.pet && localPet) {
+                    appState.pet = localPet;
+                }
+                const petChanged = ensurePetState(appState);
                 const addedSeeds = ensureAllSeedClassesExist(appState);
                 const migrated = ensureClassScheduleMigrations(appState);
                 localStorage.setItem('attendance_app_v2', JSON.stringify(appState));
-                if (addedSeeds || migrated) {
+                if (addedSeeds || migrated || petChanged) {
                     saveState();
                 }
                 
@@ -1927,5 +1947,618 @@ function checkMatch() {
 }
 
 btnRestartGame.addEventListener('click', () => initGame(true));
+
+// ==========================================
+// VIRTUAL PET COMPANION ("Nuôi thú cưng")
+// ==========================================
+const PET_DATA = {
+    cat: {
+        id: 'cat',
+        species: 'Mèo Munchkin',
+        defaultName: 'Miu Miu',
+        foodIcon: '🐟',
+        foodName: 'Cá hồi tươi',
+        description: 'Bé mèo chân ngắn tròn xoe, thích nằm lười và quấn quýt bên cô Nguyệt.',
+        svg: `<svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M28 48 L18 20 L44 32 Z" fill="#F6AD55" stroke="#DD6B20" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M26 42 L21 24 L38 32 Z" fill="#FED7E2"/>
+  <path d="M92 48 L102 20 L76 32 Z" fill="#F6AD55" stroke="#DD6B20" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M94 42 L99 24 L82 32 Z" fill="#FED7E2"/>
+  <ellipse cx="60" cy="65" rx="42" ry="38" fill="#FBD38D" stroke="#DD6B20" stroke-width="2.5"/>
+  <ellipse cx="60" cy="74" rx="26" ry="22" fill="#FFFAF0"/>
+  <circle cx="44" cy="58" r="6" fill="#2D3748"/>
+  <circle cx="76" cy="58" r="6" fill="#2D3748"/>
+  <circle cx="42" cy="56" r="2.2" fill="#FFFFFF"/>
+  <circle cx="74" cy="56" r="2.2" fill="#FFFFFF"/>
+  <circle cx="46" cy="60" r="1" fill="#FFFFFF"/>
+  <circle cx="78" cy="60" r="1" fill="#FFFFFF"/>
+  <ellipse cx="36" cy="67" rx="6" ry="3.5" fill="#FEB2B2" opacity="0.8"/>
+  <ellipse cx="84" cy="67" rx="6" ry="3.5" fill="#FEB2B2" opacity="0.8"/>
+  <polygon points="57,65 63,65 60,68" fill="#E53E3E"/>
+  <path d="M54 70 Q57 73 60 70 Q63 73 66 70" stroke="#744210" stroke-width="2" stroke-linecap="round" fill="none"/>
+  <path d="M24 62 L10 60 M24 67 L10 68" stroke="#DD6B20" stroke-width="1.8" stroke-linecap="round"/>
+  <path d="M96 62 L110 60 M96 67 L110 68" stroke="#DD6B20" stroke-width="1.8" stroke-linecap="round"/>
+  <ellipse cx="46" cy="95" rx="9" ry="6" fill="#FFFAF0" stroke="#DD6B20" stroke-width="2"/>
+  <ellipse cx="74" cy="95" rx="9" ry="6" fill="#FFFAF0" stroke="#DD6B20" stroke-width="2"/>
+  <circle cx="60" cy="87" r="4.5" fill="#ECC94B" stroke="#B7791F" stroke-width="1.5"/>
+</svg>`,
+        quotes: {
+            greetings: [
+                "Chào cô Nguyệt ạ! Hôm nay cô có tiết dạy nào không nè? Chúc cô một ngày tràn ngập niềm vui! ✨",
+                "Cô Nguyệt ơi, em nhớ cô quá chừng! Hôm nay học viên có làm bài tập đầy đủ không cô? 🥰",
+                "Em đợi cô Nguyệt mãi thôi! Cô nhớ uống nước ấm giữ giọng dạy học nha cô! 🍵",
+                "Cô Nguyệt tuyệt vời nhất! Dạy học xong cô nhớ nghỉ ngơi đôi mắt xíu nha! 💕"
+            ],
+            feed: [
+                "Ngon tuyệt cú mèo luôn! Cảm ơn cô Nguyệt đã tẩm bổ món cá hồi cho em nha! 🐟😋",
+                "Măm măm~ No căng bụng rồi cô ơi, em được tiếp thêm 100% năng lượng! ⚡",
+                "Yum yum! Thức ăn cô cho là số một trần đời luôn á! 🎉",
+                "Bụng em tròn vo rồi nè cô ơi! Giờ em ngồi ngoan canh lớp cho cô dạy nghen! 🐾"
+            ],
+            pet: [
+                "Purr purr~ Thích quá à! Em yêu cô Nguyệt nhất trên đời! 💖",
+                "Được cô vuốt ve sướng mê ly luôn~ Em gửi cô ngàn nụ hôn nè! ✨",
+                "Meo meo~ Đã ghê cô ơi! Cô là cô giáo dịu dàng nhất quả đất! 🌸",
+                "Hí hí nhột quá cô ơi! Mà em thích lắm, cô xoa đầu em thêm miếng nữa đi! 🥰"
+            ],
+            hungry: [
+                "Cô Nguyệt ơi... bụng em đang sôi ùng ục nè, cô cho em xin chút cá hồi nha! 🥺🐟",
+                "Đói quá đói quá cô ơi... Cho em một miếng thôi cũng được ạ! 🐟"
+            ]
+        }
+    },
+    corgi: {
+        id: 'corgi',
+        species: 'Cún Corgi',
+        defaultName: 'Bơ Bơ',
+        foodIcon: '🍖',
+        foodName: 'Xương thơm ngon',
+        description: 'Chú cún mông trái tim siêu năng lượng, luôn vẫy đuôi mừng rỡ đón cô.',
+        svg: `<svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M24 50 L12 12 C24 16 38 28 42 42 Z" fill="#ED8936" stroke="#C05621" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M22 44 L16 20 C24 23 33 30 36 38 Z" fill="#FED7E2"/>
+  <path d="M96 50 L108 12 C96 16 82 28 78 42 Z" fill="#ED8936" stroke="#C05621" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M98 44 L104 20 C96 23 87 30 84 38 Z" fill="#FED7E2"/>
+  <ellipse cx="60" cy="65" rx="42" ry="38" fill="#ED8936" stroke="#C05621" stroke-width="2.5"/>
+  <path d="M52 35 C52 48 40 55 40 72 C40 85 50 92 60 92 C70 92 80 85 80 72 C80 55 68 48 68 35 Z" fill="#FFFFFF"/>
+  <circle cx="42" cy="58" r="5.5" fill="#2D3748"/>
+  <circle cx="78" cy="58" r="5.5" fill="#2D3748"/>
+  <circle cx="40.5" cy="56" r="2" fill="#FFFFFF"/>
+  <circle cx="76.5" cy="56" r="2" fill="#FFFFFF"/>
+  <ellipse cx="33" cy="68" rx="5" ry="3" fill="#FEB2B2" opacity="0.8"/>
+  <ellipse cx="87" cy="68" rx="5" ry="3" fill="#FEB2B2" opacity="0.8"/>
+  <ellipse cx="60" cy="66" rx="5" ry="3.5" fill="#2D3748"/>
+  <path d="M56 74 C56 81 64 81 64 74 Z" fill="#FC8181" stroke="#E53E3E" stroke-width="1.5"/>
+  <path d="M53 71 Q60 74 67 71" stroke="#2D3748" stroke-width="2" stroke-linecap="round" fill="none"/>
+  <ellipse cx="44" cy="96" rx="8" ry="5.5" fill="#FFFFFF" stroke="#C05621" stroke-width="2"/>
+  <ellipse cx="76" cy="96" rx="8" ry="5.5" fill="#FFFFFF" stroke="#C05621" stroke-width="2"/>
+</svg>`,
+        quotes: {
+            greetings: [
+                "Gâu gâu! Cô Nguyệt đã tới rồi! Em quẩy đuôi mừng cô muốn rụng luôn nè! 🐶✨",
+                "Cô Nguyệt ơi! Hôm nay cô có mang nguồn năng lượng vui tươi nào cho các bạn học viên hông? 🌟",
+                "Em đang ngồi đợi cô để cùng học bài đây! Cô sẵn sàng vào tiết chưa nè? 📚",
+                "Corgi chào cô giáo xinh xắn nhất trung tâm ạ! Chúc cô dạy học thật vui! 💖"
+            ],
+            feed: [
+                "Gâu! Khúc xương ngon đỉnh chóp luôn cô ơi! Cảm ơn cô Nguyệt nhiều lắm! 🍖🤤",
+                "Ngon bá cháy luôn! Em no căng cái bụng tròn vo rồi nè! 🐕",
+                "Măm măm~ Có đồ ăn của cô là em hăng hái trực lớp 10/10 luôn! ⚡",
+                "Thơm lừng luôn cô ơi! Em xin phép ăn sạch bách không chừa xíu nào! 🍗"
+            ],
+            pet: [
+                "Gâu gâu~ Được cô gãi cằm sướng ngất ngây luôn! 🐶💕",
+                "Thích quá à cô ơi! Cho em dựa vào chân cô một chút nhé! 🥰",
+                "Đuôi em đang lắc tít mù vì sung sướng nè! Yêu cô Nguyệt nhất! ✨",
+                "Cô cưng chiều em ghê! Em hứa sẽ làm chú cún ngoan nhất của cô! 💖"
+            ],
+            hungry: [
+                "Gâu... Cô Nguyệt ơi, bụng em reo như sấm rồi nè, cho em xin mẩu xương nha cô! 🥺🍖",
+                "Đói muốn xỉu luôn... Cô Nguyệt cứu đói cho em với ạ! 🦴"
+            ]
+        }
+    },
+    bunny: {
+        id: 'bunny',
+        species: 'Thỏ Mochi',
+        defaultName: 'Mochi',
+        foodIcon: '🥕',
+        foodName: 'Cà rốt giòn ngọt',
+        description: 'Bé thỏ trắng muốt mềm như bông tuyết, đeo nơ hoa điệu đà.',
+        svg: `<svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <ellipse cx="42" cy="30" rx="10" ry="24" fill="#FFFFFF" stroke="#CBD5E0" stroke-width="2.5" transform="rotate(-8 42 30)"/>
+  <ellipse cx="42" cy="30" rx="5.5" ry="17" fill="#FED7E2" transform="rotate(-8 42 30)"/>
+  <ellipse cx="78" cy="30" rx="10" ry="24" fill="#FFFFFF" stroke="#CBD5E0" stroke-width="2.5" transform="rotate(8 78 30)"/>
+  <ellipse cx="78" cy="30" rx="5.5" ry="17" fill="#FED7E2" transform="rotate(8 78 30)"/>
+  <circle cx="78" cy="46" r="4.5" fill="#FC8181"/>
+  <circle cx="78" cy="46" r="2" fill="#FEFCBF"/>
+  <ellipse cx="60" cy="72" rx="40" ry="35" fill="#FFFFFF" stroke="#CBD5E0" stroke-width="2.5"/>
+  <circle cx="44" cy="67" r="6" fill="#4A5568"/>
+  <circle cx="76" cy="67" r="6" fill="#4A5568"/>
+  <circle cx="42" cy="64.5" r="2.2" fill="#FFFFFF"/>
+  <circle cx="74" cy="64.5" r="2.2" fill="#FFFFFF"/>
+  <circle cx="46" cy="69" r="1.1" fill="#FFFFFF"/>
+  <circle cx="78" cy="69" r="1.1" fill="#FFFFFF"/>
+  <ellipse cx="34" cy="74" rx="6" ry="3.5" fill="#FED7E2" opacity="0.9"/>
+  <ellipse cx="86" cy="74" rx="6" ry="3.5" fill="#FED7E2" opacity="0.9"/>
+  <ellipse cx="60" cy="73" rx="3" ry="2" fill="#F687B3"/>
+  <path d="M60 75 L60 78 M57 80 L60 78 L63 80" stroke="#718096" stroke-width="1.8" stroke-linecap="round"/>
+  <ellipse cx="48" cy="98" rx="7" ry="5" fill="#FFFFFF" stroke="#CBD5E0" stroke-width="2"/>
+  <ellipse cx="72" cy="98" rx="7" ry="5" fill="#FFFFFF" stroke="#CBD5E0" stroke-width="2"/>
+</svg>`,
+        quotes: {
+            greetings: [
+                "Bé thỏ Mochi cúi chào cô Nguyệt ạ! Hôm nay trông cô tươi tắn quá! 🐰🌸",
+                "Cô Nguyệt ơi, em vừa nhảy nhót quanh lớp điểm danh học viên giúp cô nè! ✨",
+                "Chúc cô Nguyệt một buổi dạy học nhẹ nhàng, học sinh tiếp thu bài vèo vèo nha! 💕",
+                "Em ngoan ngoãn ngồi đây chờ cô rồi nè, hôm nay mình cùng cố gắng cô nha! 🌿"
+            ],
+            feed: [
+                "Rộp rộp~ Cà rốt giòn ngọt mê ly luôn cô ơi! Cảm ơn cô Nguyệt nhiều ạ! 🥕😋",
+                "Ngon quá nè cô! Bụng em phúng phính như chiếc bánh bao mochi rồi! 🥟",
+                "Măm măm~ Thỏ no bụng rồi, thỏ gửi cô một ngàn ngôi sao may mắn nha! ⭐",
+                "Cà rốt của cô là ngọt nhất quả đất luôn á cô Nguyệt ơi! 🥕💕"
+            ],
+            pet: [
+                "Ôi~ Lông em mềm mượt được cô vuốt thích mê luôn! 🐰✨",
+                "Em giật giật hai tai vì sung sướng nè! Cô xoa thêm tí nữa đi cô! 💕",
+                "Cô Nguyệt cưng em quá đi thôi, em yêu cô ngập tràn con tim! 💖",
+                "Êm ái như mây trôi vậy á cô ơi~ Cảm giác hạnh phúc ngập tràn luôn! 🌸"
+            ],
+            hungry: [
+                "Cô Nguyệt ơi... Em đói meo rồi nè, cho em xin củ cà rốt giòn giòn nha cô! 🥺🥕",
+                "Bụng bé thỏ teo tóp rồi nè cô... Cứu đói em với ạ! 🐰"
+            ]
+        }
+    },
+    panda: {
+        id: 'panda',
+        species: 'Gấu Trúc',
+        defaultName: 'Bánh Bao',
+        foodIcon: '🎋',
+        foodName: 'Trúc non tươi',
+        description: 'Chú gấu trúc béo ú đáng yêu, thích ăn trúc non và cuộn tròn ngủ trưa.',
+        svg: `<svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="28" cy="34" r="15" fill="#2D3748" stroke="#1A202C" stroke-width="2"/>
+  <circle cx="92" cy="34" r="15" fill="#2D3748" stroke="#1A202C" stroke-width="2"/>
+  <ellipse cx="60" cy="68" rx="42" ry="38" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="2.5"/>
+  <ellipse cx="43" cy="62" rx="11" ry="9" fill="#2D3748" transform="rotate(-15 43 62)"/>
+  <ellipse cx="77" cy="62" rx="11" ry="9" fill="#2D3748" transform="rotate(15 77 62)"/>
+  <circle cx="44" cy="62" r="4.5" fill="#FFFFFF"/>
+  <circle cx="76" cy="62" r="4.5" fill="#FFFFFF"/>
+  <circle cx="45" cy="62" r="2.5" fill="#1A202C"/>
+  <circle cx="75" cy="62" r="2.5" fill="#1A202C"/>
+  <circle cx="44" cy="61" r="1" fill="#FFFFFF"/>
+  <circle cx="74" cy="61" r="1" fill="#FFFFFF"/>
+  <ellipse cx="32" cy="74" rx="5.5" ry="3.5" fill="#FED7E2" opacity="0.9"/>
+  <ellipse cx="88" cy="74" rx="5.5" ry="3.5" fill="#FED7E2" opacity="0.9"/>
+  <ellipse cx="60" cy="72" rx="4.5" ry="3" fill="#2D3748"/>
+  <path d="M55 77 Q60 80 65 77" stroke="#2D3748" stroke-width="2" stroke-linecap="round" fill="none"/>
+  <ellipse cx="36" cy="96" rx="9" ry="7" fill="#2D3748"/>
+  <ellipse cx="84" cy="96" rx="9" ry="7" fill="#2D3748"/>
+</svg>`,
+        quotes: {
+            greetings: [
+                "Chào cô Nguyệt! Em vừa thức dậy sau giấc ngủ ngắn nè, thấy cô là em tỉnh cả ngủ! 🐼✨",
+                "Cô Nguyệt ơi, hôm nay ai đi học trễ cô cứ giao cho em 'dọa' bằng sự đáng yêu này nha! 🐾",
+                "Chúc cô giáo một ngày làm việc siêu hiệu quả và tràn đầy tiếng cười! 💕",
+                "Em đang ngồi khoanh chân học bài chờ cô vào lớp nè! 🎋"
+            ],
+            feed: [
+                "Rôm rốp~ Cành trúc non thơm ngọt xịn sò luôn cô ơi! Cảm ơn cô Nguyệt! 🎋😋",
+                "Bụng gấu bự no căng rồi nè cô ơi! Giờ em chỉ muốn lăn tròn một vòng thôi! 🐼",
+                "Măm măm~ Thức ăn ngon làm em tăng 200% độ dễ thương rồi! ✨",
+                "No nê quá cô ơi! Em hứa sẽ ngồi trật tự không quậy phá lớp của cô đâu! 💖"
+            ],
+            pet: [
+                "Ôi~ Bàn tay cô Nguyệt ấm áp ghê! Em cuộn tròn cho cô xoa đầu nè! 🐼💕",
+                "Thích mê li luôn cô ơi! Em gửi cô một cái ôm gấu trúc siêu to khổng lồ nè! 🤗✨",
+                "Cô xoa má bánh bao của em mềm không nè? Em thương cô Nguyệt nhất luôn! 🥰",
+                "Ưm ưm~ Sướng quá đi! Được cô cưng thế này em không muốn rời nửa bước! 🌸"
+            ],
+            hungry: [
+                "Cô Nguyệt ơi... Em đói bụng rồi, cô cho em xin vài nhánh trúc non nha! 🥺🎋",
+                "Bụng gấu đang đánh trống múa lân rồi cô ơi... Cứu bé gấu với ạ! 🐼"
+            ]
+        }
+    },
+    duck: {
+        id: 'duck',
+        species: 'Vịt Ducky',
+        defaultName: 'Quack Quack',
+        foodIcon: '🍞',
+        foodName: 'Bánh mì mềm',
+        description: 'Chú vịt vàng lí lắc đội mầm cây may mắn trên đầu, đi lạch bạch đón cô.',
+        svg: `<svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M60 25 C60 16 52 14 50 12 C54 20 58 20 60 25 Z" fill="#48BB78"/>
+  <path d="M60 25 C60 16 68 14 70 12 C66 20 62 20 60 25 Z" fill="#38A169"/>
+  <ellipse cx="60" cy="68" rx="40" ry="37" fill="#FEEBC8" stroke="#DD6B20" stroke-width="2.5"/>
+  <ellipse cx="23" cy="72" rx="7" ry="14" fill="#FBD38D" stroke="#DD6B20" stroke-width="2" transform="rotate(15 23 72)"/>
+  <ellipse cx="97" cy="72" rx="7" ry="14" fill="#FBD38D" stroke="#DD6B20" stroke-width="2" transform="rotate(-15 97 72)"/>
+  <circle cx="44" cy="58" r="5.5" fill="#2D3748"/>
+  <circle cx="76" cy="58" r="5.5" fill="#2D3748"/>
+  <circle cx="42.5" cy="56" r="2" fill="#FFFFFF"/>
+  <circle cx="74.5" cy="56" r="2" fill="#FFFFFF"/>
+  <ellipse cx="35" cy="67" rx="5.5" ry="3" fill="#FEB2B2" opacity="0.8"/>
+  <ellipse cx="85" cy="67" rx="5.5" ry="3" fill="#FEB2B2" opacity="0.8"/>
+  <ellipse cx="60" cy="68" rx="14" ry="8" fill="#F6AD55" stroke="#DD6B20" stroke-width="2.2"/>
+  <circle cx="56" cy="66" r="1.2" fill="#C05621"/>
+  <circle cx="64" cy="66" r="1.2" fill="#C05621"/>
+  <ellipse cx="48" cy="99" rx="8" ry="4" fill="#F6AD55" stroke="#DD6B20" stroke-width="2"/>
+  <ellipse cx="72" cy="99" rx="8" ry="4" fill="#F6AD55" stroke="#DD6B20" stroke-width="2"/>
+</svg>`,
+        quotes: {
+            greetings: [
+                "Cạp cạp! Vịt Ducky xin chào cô Nguyệt thân thương! Chúc cô một ngày rực rỡ! 🦆✨",
+                "Mầm cây trên đầu em báo hiệu hôm nay cô sẽ có một ngày dạy học thật nhiều điều may mắn! 🌱💖",
+                "Cô Nguyệt ơi! Em đã chuẩn bị tinh thần cổ vũ cô nhiệt tình hôm nay rồi nè! 📣",
+                "Lạch bạch lạch bạch~ Em chạy ra đón cô đây, hôm nay cô có vui không nè? 🥰"
+            ],
+            feed: [
+                "Cạp cạp ngon quá cô ơi! Bánh mì mềm xốp thơm phức luôn! Cảm ơn cô Nguyệt! 🍞😋",
+                "Măm măm~ Bụng vịt tròn ủng rồi nè cô! Đã cái nư dễ sợ! 🦆",
+                "Được cô cho ăn bánh mì là năng lượng tràn trề luôn á cô ơi! ⚡",
+                "Ngon xỉu lên xỉu xuống luôn! Em yêu mến cô Nguyệt vô cùng! 💕"
+            ],
+            pet: [
+                "Cạp~ Được cô xoa chiếc đầu có mầm cây thích ơi là thích! 🌱✨",
+                "Em vỗ cánh phành phạch mừng cô nè! Cưng cô Nguyệt nhất trên đời! 🦆💖",
+                "Cảm giác được cô yêu thương ấm áp như ánh nắng mai vậy đó cô! ☀️",
+                "Hi hi! Bàn tay cô mềm mại quá, em muốn được vuốt ve cả ngày luôn! 🥰"
+            ],
+            hungry: [
+                "Cạp... Cô Nguyệt ơi, em đói xẹp bụng rồi nè, cho em xin mẩu bánh mì nha cô! 🥺🍞",
+                "Vịt đói muốn ngất xỉu rồi cô ơi... Cứu đói em với ạ! 🦆"
+            ]
+        }
+    },
+    hamster: {
+        id: 'hamster',
+        species: 'Bé Hamster',
+        defaultName: 'Hạt Dẻ',
+        foodIcon: '🌻',
+        foodName: 'Hạt hướng dương',
+        description: 'Chú chuột hamster 2 má phúng phính ôm hạt hướng dương, tò mò và lanh lợi.',
+        svg: `<svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="28" cy="38" r="13" fill="#ED8936" stroke="#C05621" stroke-width="2"/>
+  <circle cx="28" cy="38" r="7" fill="#FED7E2"/>
+  <circle cx="92" cy="38" r="13" fill="#ED8936" stroke="#C05621" stroke-width="2"/>
+  <circle cx="92" cy="38" r="7" fill="#FED7E2"/>
+  <ellipse cx="60" cy="70" rx="42" ry="36" fill="#FBD38D" stroke="#C05621" stroke-width="2.5"/>
+  <ellipse cx="60" cy="76" rx="28" ry="24" fill="#FFFFFF"/>
+  <ellipse cx="26" cy="72" rx="10" ry="12" fill="#FBD38D" stroke="#C05621" stroke-width="2"/>
+  <ellipse cx="94" cy="72" rx="10" ry="12" fill="#FBD38D" stroke="#C05621" stroke-width="2"/>
+  <circle cx="43" cy="58" r="5.5" fill="#2D3748"/>
+  <circle cx="77" cy="58" r="5.5" fill="#2D3748"/>
+  <circle cx="41.5" cy="56" r="2" fill="#FFFFFF"/>
+  <circle cx="75.5" cy="56" r="2" fill="#FFFFFF"/>
+  <ellipse cx="34" cy="68" rx="5.5" ry="3.5" fill="#FEB2B2" opacity="0.8"/>
+  <ellipse cx="86" cy="68" rx="5.5" ry="3.5" fill="#FEB2B2" opacity="0.8"/>
+  <polygon points="58,66 62,66 60,69" fill="#E53E3E"/>
+  <path d="M56 71 Q60 74 64 71" stroke="#7B341E" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+  <ellipse cx="60" cy="85" rx="7" ry="11" fill="#4A5568" stroke="#2D3748" stroke-width="1.5" transform="rotate(-15 60 85)"/>
+  <path d="M57 78 L63 92" stroke="#ED8936" stroke-width="1.2"/>
+  <circle cx="52" cy="84" r="4.5" fill="#FFFAF0" stroke="#C05621" stroke-width="1.5"/>
+  <circle cx="68" cy="84" r="4.5" fill="#FFFAF0" stroke="#C05621" stroke-width="1.5"/>
+  <ellipse cx="46" cy="99" rx="7" ry="4" fill="#FFFAF0" stroke="#C05621" stroke-width="1.8"/>
+  <ellipse cx="74" cy="99" rx="7" ry="4" fill="#FFFAF0" stroke="#C05621" stroke-width="1.8"/>
+</svg>`,
+        quotes: {
+            greetings: [
+                "Chít chít! Bé hamster ôm hạt hướng dương chào cô Nguyệt ạ! 🐹✨",
+                "Cô Nguyệt ơi! Em vừa giấu sẵn 1 bọc kẹo may mắn cho cô bắt đầu tiết dạy nè! 🍬",
+                "Nhìn hai cái má phúng phính của em có giúp cô xua tan mệt mỏi hông nè? 🥰",
+                "Chúc cô Nguyệt hôm nay dạy lớp nào cũng rôm rả và học sinh tiếp thu tốt nha! 🌻"
+            ],
+            feed: [
+                "Chít chít~ Hạt hướng dương bùi béo tuyệt hảo luôn cô ơi! 🌻😋",
+                "Nhồm nhoàm~ Em nhét đầy 2 túi má luôn rồi nè, cảm ơn cô Nguyệt nhiều lắm! 🐹",
+                "No nê quá xá luôn! Có năng lượng rồi em chạy bánh xe quay tít mù cho cô xem nha! ⚡",
+                "Hạt ngon xuất sắc luôn cô ơi! Cô chăm em khéo số một thiên hạ luôn! 💕"
+            ],
+            pet: [
+                "Chít chít~ Hai má em phồng to được cô nắn nhẹ thích mê luôn! 🐹💕",
+                "Người em tròn như cục bông được cô âu yếm sướng ghê! ✨",
+                "Cô Nguyệt là người nuôi tuyệt vời nhất trên đời luôn á! 🥰",
+                "Yêu cô Nguyệt quá đi thôi! Em dụi cái mũi nhỏ vào tay cô nè! 💖"
+            ],
+            hungry: [
+                "Cô Nguyệt ơi... Túi má em rỗng tuếch rồi nè, cô cho em xin vài hạt hướng dương nha! 🥺🌻",
+                "Đói quá chừng cô ơi... Cứu đói cho bé hamster tròn xoe với ạ! 🐹"
+            ]
+        }
+    }
+};
+
+// DOM References for Pet
+const petStage = document.getElementById('pet-stage');
+const petAvatarWrapper = document.getElementById('pet-avatar-wrapper');
+const petNameEl = document.getElementById('pet-name');
+const petSpeciesEl = document.getElementById('pet-species-name');
+const petLevelEl = document.getElementById('pet-level');
+const petStreakEl = document.getElementById('pet-streak');
+const petSpeechEl = document.getElementById('pet-speech');
+const petHungerText = document.getElementById('pet-hunger-text');
+const petHungerBar = document.getElementById('pet-hunger-bar');
+const petHappinessText = document.getElementById('pet-happiness-text');
+const petHappinessBar = document.getElementById('pet-happiness-bar');
+const petFeedIcon = document.getElementById('pet-feed-icon');
+const btnFeedPet = document.getElementById('btn-feed-pet');
+const btnStrokePet = document.getElementById('btn-stroke-pet');
+const btnOpenPetModal = document.getElementById('btn-open-pet-modal');
+const petSelectionGrid = document.getElementById('pet-selection-grid');
+const inputPetName = document.getElementById('input-pet-name');
+const btnConfirmPet = document.getElementById('btn-confirm-pet');
+
+let tempSelectedPetId = 'cat';
+
+function ensurePetState(state) {
+    if (!state) return false;
+    const todayStr = new Date().toISOString().substring(0, 10);
+    let changed = false;
+
+    if (!state.pet) {
+        state.pet = {
+            id: 'cat',
+            name: 'Miu Miu',
+            hunger: 80,
+            happiness: 90,
+            level: 1,
+            exp: 0,
+            streak: 1,
+            lastVisitDate: todayStr,
+            lastFedDate: null,
+            lastPettedDate: null
+        };
+        return true;
+    }
+
+    if (!state.pet.id || !PET_DATA[state.pet.id]) { state.pet.id = 'cat'; changed = true; }
+    if (!state.pet.name) { state.pet.name = 'Miu Miu'; changed = true; }
+    if (typeof state.pet.hunger !== 'number') { state.pet.hunger = 80; changed = true; }
+    if (typeof state.pet.happiness !== 'number') { state.pet.happiness = 90; changed = true; }
+    if (typeof state.pet.level !== 'number') { state.pet.level = 1; changed = true; }
+    if (typeof state.pet.exp !== 'number') { state.pet.exp = 0; changed = true; }
+    if (typeof state.pet.streak !== 'number') { state.pet.streak = 1; changed = true; }
+
+    // Daily streak & decay check
+    if (state.pet.lastVisitDate !== todayStr) {
+        if (state.pet.lastVisitDate) {
+            const lastDate = new Date(state.pet.lastVisitDate + 'T00:00:00');
+            const today = new Date(todayStr + 'T00:00:00');
+            const diffDays = Math.round((today - lastDate) / (1000 * 60 * 60 * 24));
+            
+            if (diffDays === 1) {
+                state.pet.streak = (state.pet.streak || 0) + 1;
+            } else if (diffDays > 1) {
+                state.pet.streak = 1;
+            }
+            
+            if (diffDays >= 1) {
+                state.pet.hunger = Math.max(15, state.pet.hunger - (diffDays * 25));
+                state.pet.happiness = Math.max(15, state.pet.happiness - (diffDays * 20));
+            }
+        }
+        state.pet.lastVisitDate = todayStr;
+        changed = true;
+    }
+
+    return changed;
+}
+
+function updatePetStatusBars() {
+    if (!appState.pet) return;
+    if (petHungerText) petHungerText.textContent = `${appState.pet.hunger}%`;
+    if (petHungerBar) petHungerBar.style.width = `${appState.pet.hunger}%`;
+    if (petHappinessText) petHappinessText.textContent = `${appState.pet.happiness}%`;
+    if (petHappinessBar) petHappinessBar.style.width = `${appState.pet.happiness}%`;
+    if (petLevelEl) petLevelEl.textContent = appState.pet.level || 1;
+    if (petStreakEl) petStreakEl.textContent = appState.pet.streak || 1;
+}
+
+function renderPetView() {
+    if (!petAvatarWrapper) return;
+    ensurePetState(appState);
+
+    const pet = appState.pet;
+    const petData = PET_DATA[pet.id] || PET_DATA['cat'];
+
+    petAvatarWrapper.innerHTML = petData.svg;
+    if (petNameEl) petNameEl.textContent = pet.name;
+    if (petSpeciesEl) petSpeciesEl.textContent = petData.species;
+    if (petFeedIcon) petFeedIcon.textContent = petData.foodIcon;
+
+    updatePetStatusBars();
+
+    // Set speech bubble message
+    if (petSpeechEl) {
+        if (pet.hunger < 35 && petData.quotes.hungry && petData.quotes.hungry.length > 0) {
+            const randIdx = Math.floor(Math.random() * petData.quotes.hungry.length);
+            petSpeechEl.textContent = petData.quotes.hungry[randIdx];
+        } else if (petData.quotes.greetings && petData.quotes.greetings.length > 0) {
+            const randIdx = Math.floor(Math.random() * petData.quotes.greetings.length);
+            petSpeechEl.textContent = petData.quotes.greetings[randIdx];
+        }
+    }
+}
+
+function spawnPetParticle(emoji) {
+    const container = document.getElementById('pet-floating-effects');
+    if (!container) return;
+    const particle = document.createElement('span');
+    particle.className = 'floating-particle';
+    particle.textContent = emoji;
+    const randomX = (Math.random() - 0.5) * 60;
+    particle.style.left = `calc(50% + ${randomX}px)`;
+    particle.style.bottom = '40px';
+    const driftX = (Math.random() - 0.5) * 50;
+    particle.style.setProperty('--tx', `${driftX}px`);
+    container.appendChild(particle);
+    setTimeout(() => {
+        particle.remove();
+    }, 1200);
+}
+
+function triggerPetAnimation(animClass) {
+    if (!petAvatarWrapper) return;
+    petAvatarWrapper.classList.remove('bouncing', 'wiggling');
+    void petAvatarWrapper.offsetWidth; // Force reflow
+    petAvatarWrapper.classList.add(animClass);
+    setTimeout(() => {
+        if (petAvatarWrapper) petAvatarWrapper.classList.remove(animClass);
+    }, 600);
+}
+
+function addPetExp(amount) {
+    const pet = appState.pet;
+    if (!pet) return;
+    pet.exp = (pet.exp || 0) + amount;
+    if (pet.exp >= 100) {
+        pet.level = (pet.level || 1) + 1;
+        pet.exp = pet.exp - 100;
+        showToast(`🎉 Tuyệt vời! Bé ${pet.name} đã thăng cấp lên Cấp ${pet.level}!`);
+        if (petSpeechEl) {
+            petSpeechEl.textContent = `WOOHOO! Em đã lên Cấp ${pet.level} rồi cô Nguyệt ơi! 🎉✨ Cảm ơn cô đã chăm sóc em thật tốt! 🥰`;
+        }
+    }
+}
+
+function handleFeedPet() {
+    if (!appState.pet) return;
+    const pet = appState.pet;
+    const petData = PET_DATA[pet.id] || PET_DATA['cat'];
+
+    if (pet.hunger >= 100) {
+        if (petSpeechEl) {
+            petSpeechEl.textContent = `Em no căng tròn bụng rồi cô Nguyệt ơi! Lát nữa cô hãy cho em ăn tiếp nha! 😋`;
+        }
+        triggerPetAnimation('bouncing');
+        spawnPetParticle('😋');
+        return;
+    }
+
+    pet.hunger = Math.min(100, pet.hunger + 25);
+    pet.happiness = Math.min(100, pet.happiness + 5);
+    pet.lastFedDate = new Date().toISOString();
+    addPetExp(15);
+
+    triggerPetAnimation('bouncing');
+    spawnPetParticle(petData.foodIcon);
+
+    if (petSpeechEl && petData.quotes.feed) {
+        const randIdx = Math.floor(Math.random() * petData.quotes.feed.length);
+        petSpeechEl.textContent = petData.quotes.feed[randIdx];
+    }
+
+    updatePetStatusBars();
+    saveState();
+}
+
+function handleStrokePet() {
+    if (!appState.pet) return;
+    const pet = appState.pet;
+    const petData = PET_DATA[pet.id] || PET_DATA['cat'];
+
+    pet.happiness = Math.min(100, pet.happiness + 20);
+    pet.lastPettedDate = new Date().toISOString();
+    addPetExp(10);
+
+    triggerPetAnimation('wiggling');
+    const heartEmojis = ['💖', '💕', '✨', '🥰', '🌸'];
+    spawnPetParticle(heartEmojis[Math.floor(Math.random() * heartEmojis.length)]);
+
+    if (petSpeechEl && petData.quotes.pet) {
+        const randIdx = Math.floor(Math.random() * petData.quotes.pet.length);
+        petSpeechEl.textContent = petData.quotes.pet[randIdx];
+    }
+
+    updatePetStatusBars();
+    saveState();
+}
+
+function openPetModal() {
+    if (!petModal || !petSelectionGrid) return;
+    ensurePetState(appState);
+    tempSelectedPetId = appState.pet.id || 'cat';
+
+    if (inputPetName) {
+        inputPetName.value = appState.pet.name || PET_DATA[tempSelectedPetId].defaultName;
+    }
+
+    petSelectionGrid.innerHTML = '';
+    Object.values(PET_DATA).forEach(p => {
+        const card = document.createElement('div');
+        card.className = `pet-select-card ${p.id === tempSelectedPetId ? 'active' : ''}`;
+        card.dataset.id = p.id;
+        card.innerHTML = `
+            <div class="card-avatar">${p.svg}</div>
+            <h4>${p.species}</h4>
+            <p>${p.description}</p>
+            <div style="margin-top: 6px; font-size: 11px; color: #b45309; font-weight: 600;">
+                Khoái khẩu: ${p.foodIcon} ${p.foodName}
+            </div>
+        `;
+
+        card.addEventListener('click', () => {
+            tempSelectedPetId = p.id;
+            petSelectionGrid.querySelectorAll('.pet-select-card').forEach(c => c.classList.remove('active'));
+            card.classList.add('active');
+
+            // If name is default of another pet or empty, suggest new default name
+            const currentVal = inputPetName ? inputPetName.value.trim() : '';
+            const isAnyDefault = Object.values(PET_DATA).some(item => item.defaultName === currentVal);
+            if (!currentVal || isAnyDefault) {
+                if (inputPetName) inputPetName.value = p.defaultName;
+            }
+        });
+
+        petSelectionGrid.appendChild(card);
+    });
+
+    petModal.classList.add('active');
+}
+
+function confirmPetSelection() {
+    if (!appState.pet) return;
+    const chosenPetData = PET_DATA[tempSelectedPetId] || PET_DATA['cat'];
+    appState.pet.id = tempSelectedPetId;
+
+    const newName = inputPetName ? inputPetName.value.trim() : '';
+    appState.pet.name = newName || chosenPetData.defaultName;
+
+    if (petModal) petModal.classList.remove('active');
+    renderPetView();
+    saveState();
+    showToast(`Đã lưu bé ${appState.pet.name} (${chosenPetData.species})! 🐾`);
+}
+
+// Event Listeners for Pet
+if (btnFeedPet) {
+    btnFeedPet.addEventListener('click', (e) => {
+        e.stopPropagation();
+        handleFeedPet();
+    });
+}
+
+if (btnStrokePet) {
+    btnStrokePet.addEventListener('click', (e) => {
+        e.stopPropagation();
+        handleStrokePet();
+    });
+}
+
+if (petStage) {
+    petStage.addEventListener('click', () => {
+        handleStrokePet();
+    });
+}
+
+if (btnOpenPetModal) {
+    btnOpenPetModal.addEventListener('click', openPetModal);
+}
+
+if (btnConfirmPet) {
+    btnConfirmPet.addEventListener('click', confirmPetSelection);
+}
 
 document.addEventListener('DOMContentLoaded', init);

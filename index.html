@@ -118,6 +118,74 @@
                             <!-- Cards injected here -->
                         </div>
                     </div>
+
+                    <!-- Pet Companion Section -->
+                    <div class="home-card pet-container">
+                        <div class="pet-header-row">
+                            <h3>🐾 Thú Cưng Của Cô Nguyệt</h3>
+                            <button class="btn btn-secondary btn-small" id="btn-open-pet-modal" title="Đổi thú cưng hoặc đổi tên">
+                                <i class="fa-solid fa-paw"></i> Đổi bé
+                            </button>
+                        </div>
+                        
+                        <!-- Pet Level & Streak -->
+                        <div class="pet-badge-row">
+                            <span class="pet-badge pet-level-badge"><i class="fa-solid fa-crown"></i> Cấp <b id="pet-level">1</b></span>
+                            <span class="pet-badge pet-streak-badge"><i class="fa-solid fa-fire"></i> <b id="pet-streak">1</b> ngày bên nhau</span>
+                        </div>
+
+                        <!-- Pet Speech Bubble -->
+                        <div class="pet-speech-bubble" id="pet-speech">
+                            "Chào cô Nguyệt! Em đợi cô mãi thôi, hôm nay cô có mệt không? 🥰"
+                        </div>
+
+                        <!-- Pet Stage Area -->
+                        <div class="pet-stage" id="pet-stage" title="Bấm vào để vuốt ve bé!">
+                            <div class="pet-floating-effects" id="pet-floating-effects"></div>
+                            <div class="pet-avatar-wrapper" id="pet-avatar-wrapper">
+                                <!-- SVG avatar rendered dynamically -->
+                            </div>
+                            <div class="pet-shadow"></div>
+                        </div>
+
+                        <!-- Pet Name Display -->
+                        <div class="pet-name-tag">
+                            <span id="pet-name">Miu Miu</span>
+                            <span class="pet-species-badge" id="pet-species-name">Mèo Munchkin</span>
+                        </div>
+
+                        <!-- Pet Status Bars -->
+                        <div class="pet-status-container">
+                            <div class="pet-stat-item">
+                                <div class="pet-stat-label">
+                                    <span><i class="fa-solid fa-drumstick-bite" style="color: #ed8936;"></i> No bụng:</span>
+                                    <span id="pet-hunger-text">80%</span>
+                                </div>
+                                <div class="pet-progress-bar">
+                                    <div class="pet-progress-fill hunger-fill" id="pet-hunger-bar" style="width: 80%;"></div>
+                                </div>
+                            </div>
+                            <div class="pet-stat-item">
+                                <div class="pet-stat-label">
+                                    <span><i class="fa-solid fa-heart" style="color: #e53e3e;"></i> Hạnh phúc:</span>
+                                    <span id="pet-happiness-text">90%</span>
+                                </div>
+                                <div class="pet-progress-bar">
+                                    <div class="pet-progress-fill happiness-fill" id="pet-happiness-bar" style="width: 90%;"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Interaction Buttons -->
+                        <div class="pet-actions">
+                            <button class="btn btn-pet-action btn-feed" id="btn-feed-pet">
+                                <span class="action-icon" id="pet-feed-icon">🐟</span> Cho ăn
+                            </button>
+                            <button class="btn btn-pet-action btn-pet" id="btn-stroke-pet">
+                                <span class="action-icon">✋</span> Vuốt ve
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -357,6 +425,35 @@
                     </a>
                     <button class="btn btn-primary btn-small close-modal">Đóng</button>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pet Selection / Switcher Modal -->
+    <div class="modal-overlay" id="pet-modal">
+        <div class="modal pet-modal-dialog">
+            <div class="modal-header">
+                <h3><i class="fa-solid fa-paw" style="color: var(--primary);"></i> Chọn Bé Thú Cưng Của Cô</h3>
+                <button class="close-modal"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body" style="max-height: 75vh; overflow-y: auto;">
+                <p class="text-secondary text-center" style="margin-bottom: 15px;">
+                    Cô chọn một bé yêu thích để đồng hành mỗi ngày nhé:
+                </p>
+                <div class="pet-selection-grid" id="pet-selection-grid">
+                    <!-- Pet cards rendered dynamically -->
+                </div>
+                
+                <div class="form-group" style="margin-top: 20px;">
+                    <label><strong>Đặt tên thân mật cho bé:</strong></label>
+                    <input type="text" id="input-pet-name" placeholder="Ví dụ: Miu Miu, Bơ Bơ, Mochi..." maxlength="20">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary close-modal">Đóng</button>
+                <button class="btn btn-primary" id="btn-confirm-pet">
+                    <i class="fa-solid fa-check"></i> Xác Nhận Chọn Bé
+                </button>
             </div>
         </div>
     </div>
