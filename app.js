@@ -682,6 +682,7 @@ function showHomeView() {
     });
     
     initGame();
+    if (typeof window !== "undefined" && window.PetEngine) window.PetEngine.init();
     renderPetView();
 }
 
@@ -1950,305 +1951,9 @@ btnRestartGame.addEventListener('click', () => initGame(true));
 
 // ==========================================
 // VIRTUAL PET COMPANION ("Nuôi thú cưng")
-const PET_DATA = {
-  "nana": {
-    "id": "nana",
-    "species": "Mèo Vàng Na Na",
-    "defaultName": "Na Na",
-    "foodIcon": "🍲",
-    "foodName": "Hạt cá hồi",
-    "description": "Bé mèo cam sọc vằn đeo nơ hồng, mắt ngọc bích long lanh và đuôi vẫy duyên dáng.",
-    "isAuthentic": true,
-    "idleGif": "assets/pet/nana_stage_idle.gif",
-    "lickGif": "assets/pet/nana_stage_lick.gif",
-    "svg": "<svg viewBox=\"0 0 180 200\" class=\"fullbody-pet-svg\" xmlns=\"http://www.w3.org/2000/svg\">\n  <defs>\n    <linearGradient id=\"nana-fur\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\"><stop offset=\"0%\" stop-color=\"#FED7AA\"/><stop offset=\"50%\" stop-color=\"#FDBA74\"/><stop offset=\"100%\" stop-color=\"#FB923C\"/></linearGradient>\n    <linearGradient id=\"nana-fur-dark\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\"><stop offset=\"0%\" stop-color=\"#FB923C\"/><stop offset=\"100%\" stop-color=\"#EA580C\"/></linearGradient>\n    <linearGradient id=\"nana-cream\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\"><stop offset=\"0%\" stop-color=\"#FFFFFF\"/><stop offset=\"100%\" stop-color=\"#FFF7ED\"/></linearGradient>\n    <linearGradient id=\"nana-iris\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\"><stop offset=\"0%\" stop-color=\"#14532D\"/><stop offset=\"45%\" stop-color=\"#16A34A\"/><stop offset=\"85%\" stop-color=\"#4ADE80\"/><stop offset=\"100%\" stop-color=\"#86EFAC\"/></linearGradient>\n    <linearGradient id=\"nana-ear\" x1=\"0\" y1=\"1\" x2=\"0\" y2=\"0\"><stop offset=\"0%\" stop-color=\"#F472B6\"/><stop offset=\"100%\" stop-color=\"#FCE7F3\"/></linearGradient>\n    <linearGradient id=\"nana-bow\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"1\"><stop offset=\"0%\" stop-color=\"#F472B6\"/><stop offset=\"50%\" stop-color=\"#EC4899\"/><stop offset=\"100%\" stop-color=\"#BE185D\"/></linearGradient>\n    <radialGradient id=\"nana-blush\" cx=\"50%\" cy=\"50%\" r=\"50%\"><stop offset=\"0%\" stop-color=\"#FB7185\" stop-opacity=\"0.6\"/><stop offset=\"100%\" stop-color=\"#FB7185\" stop-opacity=\"0\"/></radialGradient>\n  </defs>\n  <ellipse cx=\"90\" cy=\"178\" rx=\"58\" ry=\"12\" fill=\"#7C2D12\" opacity=\"0.15\"/>\n  <g class=\"pet-anim-tail\" style=\"transform-origin: 54px 156px;\">\n    <path d=\"M 54 152 C 32 142 16 112 22 84 C 25 66 40 64 45 76 C 48 86 38 102 42 120 C 45 135 50 146 56 156 Z\" fill=\"url(#nana-fur)\" stroke=\"#C2410C\" stroke-width=\"2\" stroke-linejoin=\"round\"/>\n    <path d=\"M 22 84 C 25 66 40 64 45 76 C 40 82 30 84 22 84 Z\" fill=\"url(#nana-cream)\"/>\n    <path d=\"M 24 92 Q 32 90 38 96 M 27 106 Q 36 104 40 112 M 34 122 Q 44 120 46 128\" stroke=\"#C2410C\" stroke-width=\"2.5\" stroke-linecap=\"round\" opacity=\"0.6\"/>\n  </g>\n  <g class=\"pet-hind-legs\">\n    <path d=\"M 38 140 C 34 120 54 116 62 136 C 66 146 64 162 48 162 C 38 162 36 150 38 140 Z\" fill=\"url(#nana-fur-dark)\" stroke=\"#C2410C\" stroke-width=\"2\"/>\n    <ellipse cx=\"40\" cy=\"162\" rx=\"10\" ry=\"6\" fill=\"url(#nana-cream)\" stroke=\"#C2410C\" stroke-width=\"1.8\"/>\n    <path d=\"M 142 140 C 146 120 126 116 118 136 C 114 146 116 162 132 162 C 142 162 144 150 142 140 Z\" fill=\"url(#nana-fur-dark)\" stroke=\"#C2410C\" stroke-width=\"2\"/>\n    <ellipse cx=\"140\" cy=\"162\" rx=\"10\" ry=\"6\" fill=\"url(#nana-cream)\" stroke=\"#C2410C\" stroke-width=\"1.8\"/>\n  </g>\n  <g class=\"pet-solid-body\">\n    <path d=\"M 58 106 C 54 94 68 90 90 90 C 112 90 126 94 122 106 C 120 122 126 142 126 162 C 126 169 118 171 112 171 C 105 171 101 166 101 156 L 101 126 C 101 120 97 116 90 116 C 83 116 79 120 79 126 L 79 156 C 79 166 75 171 68 171 C 62 171 54 169 54 162 C 54 142 60 122 58 106 Z\" fill=\"url(#nana-fur)\" stroke=\"#C2410C\" stroke-width=\"2.2\" stroke-linejoin=\"round\"/>\n    <path d=\"M 74 100 C 66 114 70 134 90 134 C 110 134 114 114 106 100 C 100 98 80 98 74 100 Z\" fill=\"url(#nana-cream)\"/>\n    <path d=\"M 60 122 C 58 138 59 154 59 164 C 59 169 64 171 70 171 C 76 171 80 167 80 158 L 80 124\" fill=\"url(#nana-cream)\" stroke=\"#C2410C\" stroke-width=\"2\" stroke-linecap=\"round\"/>\n    <line x1=\"66\" y1=\"162\" x2=\"66\" y2=\"168\" stroke=\"#C2410C\" stroke-width=\"1.8\" stroke-linecap=\"round\"/>\n    <line x1=\"73\" y1=\"162\" x2=\"73\" y2=\"168\" stroke=\"#C2410C\" stroke-width=\"1.8\" stroke-linecap=\"round\"/>\n    <path d=\"M 120 122 C 122 138 121 154 121 164 C 121 169 116 171 110 171 C 104 171 100 167 100 158 L 100 124\" fill=\"url(#nana-cream)\" stroke=\"#C2410C\" stroke-width=\"2\" stroke-linecap=\"round\"/>\n    <line x1=\"107\" y1=\"162\" x2=\"107\" y2=\"168\" stroke=\"#C2410C\" stroke-width=\"1.8\" stroke-linecap=\"round\"/>\n    <line x1=\"114\" y1=\"162\" x2=\"114\" y2=\"168\" stroke=\"#C2410C\" stroke-width=\"1.8\" stroke-linecap=\"round\"/>\n    <path d=\"M 54 126 Q 63 128 63 135 M 126 126 Q 117 128 117 135\" stroke=\"#C2410C\" stroke-width=\"2.5\" stroke-linecap=\"round\" opacity=\"0.6\"/>\n  </g>\n  <g class=\"pet-anim-head\">\n    <g class=\"pet-anim-ears\" style=\"transform-origin: 90px 65px;\">\n      <path d=\"M 52 64 L 34 22 C 48 24 68 38 74 52 Z\" fill=\"url(#nana-fur)\" stroke=\"#C2410C\" stroke-width=\"2.2\" stroke-linejoin=\"round\"/>\n      <path d=\"M 50 56 L 39 30 C 49 33 62 44 67 50 Z\" fill=\"url(#nana-ear)\"/>\n      <path d=\"M 46 54 Q 56 46 52 38 M 52 56 Q 62 50 58 42\" stroke=\"#FFFFFF\" stroke-width=\"2.2\" stroke-linecap=\"round\"/>\n      <path d=\"M 128 64 L 146 22 C 132 24 112 38 106 52 Z\" fill=\"url(#nana-fur)\" stroke=\"#C2410C\" stroke-width=\"2.2\" stroke-linejoin=\"round\"/>\n      <path d=\"M 130 56 L 141 30 C 131 33 118 44 113 50 Z\" fill=\"url(#nana-ear)\"/>\n      <path d=\"M 134 54 Q 124 46 128 38 M 128 56 Q 118 50 122 42\" stroke=\"#FFFFFF\" stroke-width=\"2.2\" stroke-linecap=\"round\"/>\n    </g>\n    <path d=\"M 44 82 C 40 60 62 44 90 44 C 118 44 140 60 136 82 C 142 96 138 114 120 118 C 104 122 76 122 60 118 C 42 114 38 96 44 82 Z\" fill=\"url(#nana-fur)\" stroke=\"#C2410C\" stroke-width=\"2.2\"/>\n    <path d=\"M 43 82 L 35 88 L 44 92 L 37 98 L 48 102\" fill=\"none\" stroke=\"#C2410C\" stroke-width=\"1.8\" stroke-linejoin=\"round\"/>\n    <path d=\"M 137 82 L 145 88 L 136 92 L 143 98 L 132 102\" fill=\"none\" stroke=\"#C2410C\" stroke-width=\"1.8\" stroke-linejoin=\"round\"/>\n    <path d=\"M 90 48 L 90 58 M 82 50 Q 84 56 86 60 M 98 50 Q 96 56 94 60\" stroke=\"#C2410C\" stroke-width=\"2.5\" stroke-linecap=\"round\" opacity=\"0.7\"/>\n    <path d=\"M 68 88 C 66 78 78 76 84 82 C 87 78 93 78 96 82 C 102 76 114 78 112 88 C 112 104 68 104 68 88 Z\" fill=\"url(#nana-cream)\"/>\n    <g class=\"pet-anim-eyes\" style=\"transform-origin: 90px 76px;\">\n      <ellipse cx=\"68\" cy=\"74\" rx=\"10\" ry=\"11.5\" fill=\"#1C1917\"/>\n      <ellipse cx=\"68\" cy=\"75.5\" rx=\"8.5\" ry=\"9.5\" fill=\"url(#nana-iris)\"/>\n      <ellipse cx=\"68\" cy=\"74.5\" rx=\"5\" ry=\"6.5\" fill=\"#052E16\"/>\n      <ellipse cx=\"68\" cy=\"78\" rx=\"6\" ry=\"3.5\" fill=\"#BBF7D0\" opacity=\"0.6\"/>\n      <circle cx=\"65\" cy=\"71\" r=\"3.2\" fill=\"#FFFFFF\"/>\n      <circle cx=\"71\" cy=\"78\" r=\"1.6\" fill=\"#FFFFFF\"/>\n      <ellipse cx=\"112\" cy=\"74\" rx=\"10\" ry=\"11.5\" fill=\"#1C1917\"/>\n      <ellipse cx=\"112\" cy=\"75.5\" rx=\"8.5\" ry=\"9.5\" fill=\"url(#nana-iris)\"/>\n      <ellipse cx=\"112\" cy=\"74.5\" rx=\"5\" ry=\"6.5\" fill=\"#052E16\"/>\n      <ellipse cx=\"112\" cy=\"78\" rx=\"6\" ry=\"3.5\" fill=\"#BBF7D0\" opacity=\"0.6\"/>\n      <circle cx=\"109\" cy=\"71\" r=\"3.2\" fill=\"#FFFFFF\"/>\n      <circle cx=\"115\" cy=\"78\" r=\"1.6\" fill=\"#FFFFFF\"/>\n    </g>\n    <path d=\"M 60 63 Q 68 59 76 62\" stroke=\"#9A3412\" stroke-width=\"2.2\" stroke-linecap=\"round\" fill=\"none\"/>\n    <path d=\"M 104 62 Q 112 59 120 63\" stroke=\"#9A3412\" stroke-width=\"2.2\" stroke-linecap=\"round\" fill=\"none\"/>\n    <circle cx=\"58\" cy=\"85\" r=\"9\" fill=\"url(#nana-blush)\"/>\n    <circle cx=\"122\" cy=\"85\" r=\"9\" fill=\"url(#nana-blush)\"/>\n    <polygon points=\"88,83 92,83 90,86\" fill=\"#F43F5E\"/>\n    <path d=\"M 85 87 Q 90 90 90 87 Q 90 90 95 87\" stroke=\"#7C2D12\" stroke-width=\"2\" stroke-linecap=\"round\" fill=\"none\"/>\n    <path d=\"M 44 85 L 26 83 M 44 90 L 24 92 M 136 85 L 154 83 M 136 90 L 156 92\" stroke=\"#9A3412\" stroke-width=\"1.6\" stroke-linecap=\"round\"/>\n    <g class=\"pet-bowtie\" transform=\"translate(90, 106)\">\n      <path d=\"M 0 0 L -18 -8 C -22 -1  -22 1 -18 8 Z\" fill=\"url(#nana-bow)\" stroke=\"#9D174D\" stroke-width=\"1.5\"/>\n      <path d=\"M 0 0 L 18 -8 C 22 -1 22 1 18 8 Z\" fill=\"url(#nana-bow)\" stroke=\"#9D174D\" stroke-width=\"1.5\"/>\n      <circle cx=\"0\" cy=\"0\" r=\"4.5\" fill=\"#FDF2F8\" stroke=\"#9D174D\" stroke-width=\"1.5\"/>\n      <circle cx=\"0\" cy=\"0\" r=\"2\" fill=\"#F472B6\"/>\n      <path d=\"M -2 3 L -7 14 M 2 3 L 7 14\" stroke=\"#BE185D\" stroke-width=\"2\" stroke-linecap=\"round\"/>\n    </g>\n  </g>\n</svg>",
-    "quotes": {
-      "greetings": [
-        "Đừng đơ ra nữa, mau xoa đầu em đi! 🥰🐾",
-        "Mèo nhà khác toàn được người ta sờ! Hừ 😾",
-        "Meo meo~ Bé Na Na chào cô Nguyệt ạ! Chúc cô một ngày dạy học thật nhiều niềm vui! ✨🐾",
-        "Cô Nguyệt ơi, Na Na đợi cô từ sớm nè! Hôm nay cô có mệt không? 🥰"
-      ],
-      "feed": [
-        "Nham nham~ Bát hạt cá hồi thơm lừng giòn rụm! Na Na no căng bụng rồi, cảm ơn cô Nguyệt! 🍲💖",
-        "Meo~ Món này ngon tuyệt đỉnh cô ơi! Na Na yêu cô Nguyệt nhất trên đời! ✨"
-      ],
-      "pet": [
-        "Purrr... Tay cô Nguyệt xoa ấm quá đi à~ Na Na cọ cọ má vào tay cô nè! 🥰🌸",
-        "Meo meo~ Đang được cô vuốt ve thì bao nhiêu mệt mỏi tan biến hết luôn! 💕",
-        "Đừng dừng lại nha cô ơi, xoa thêm một xíu nữa đi ạ! 💖"
-      ],
-      "hungry": [
-        "Mèo nhà khác toàn được ăn ngon! Hừ... Na Na đói meo rồi cô Nguyệt ơi! 🥺🍲",
-        "Meo... bụng Na Na kêu rột rột rồi nè cô Nguyệt ơi! Cho Na Na xin chút hạt nha! 🥺🍲"
-      ]
-    }
-  },
-  "calico": {
-    "id": "calico",
-    "species": "Mèo Tam Thể Miu Miu",
-    "defaultName": "Miu Miu",
-    "foodIcon": "🐟",
-    "foodName": "Cá hồi tươi",
-    "description": "Mèo may mắn tam thể quý phái, mắt ngọc hổ phách long lanh, vòng cổ chuông vàng ngân vang.",
-    "svg": "<svg viewBox=\"0 0 180 200\" class=\"fullbody-pet-svg\" xmlns=\"http://www.w3.org/2000/svg\">\n  <defs>\n    <linearGradient id=\"calico-cream\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\"><stop offset=\"0%\" stop-color=\"#FFFFFF\"/><stop offset=\"100%\" stop-color=\"#FFF7ED\"/></linearGradient>\n    <linearGradient id=\"calico-orange\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\"><stop offset=\"0%\" stop-color=\"#FDBA74\"/><stop offset=\"100%\" stop-color=\"#EA580C\"/></linearGradient>\n    <linearGradient id=\"calico-dark\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\"><stop offset=\"0%\" stop-color=\"#374151\"/><stop offset=\"100%\" stop-color=\"#111827\"/></linearGradient>\n    <linearGradient id=\"calico-iris\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\"><stop offset=\"0%\" stop-color=\"#78350F\"/><stop offset=\"45%\" stop-color=\"#D97706\"/><stop offset=\"85%\" stop-color=\"#FBBF24\"/><stop offset=\"100%\" stop-color=\"#FEF08A\"/></linearGradient>\n    <linearGradient id=\"calico-ear\" x1=\"0\" y1=\"1\" x2=\"0\" y2=\"0\"><stop offset=\"0%\" stop-color=\"#F472B6\"/><stop offset=\"100%\" stop-color=\"#FCE7F3\"/></linearGradient>\n    <radialGradient id=\"calico-blush\" cx=\"50%\" cy=\"50%\" r=\"50%\"><stop offset=\"0%\" stop-color=\"#FB7185\" stop-opacity=\"0.55\"/><stop offset=\"100%\" stop-color=\"#FB7185\" stop-opacity=\"0\"/></radialGradient>\n    <linearGradient id=\"calico-bell\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"1\"><stop offset=\"0%\" stop-color=\"#FEF08A\"/><stop offset=\"60%\" stop-color=\"#F59E0B\"/><stop offset=\"100%\" stop-color=\"#B45309\"/></linearGradient>\n  </defs>\n  <ellipse cx=\"90\" cy=\"178\" rx=\"58\" ry=\"12\" fill=\"#374151\" opacity=\"0.15\"/>\n  <g class=\"pet-anim-tail\" style=\"transform-origin: 54px 156px;\">\n    <path d=\"M 54 152 C 32 142 16 112 22 84 C 25 66 40 64 45 76 C 48 86 38 102 42 120 C 45 135 50 146 56 156 Z\" fill=\"url(#calico-cream)\" stroke=\"#475569\" stroke-width=\"2\"/>\n    <path d=\"M 22 84 C 25 66 40 64 45 76 C 42 88 30 92 22 84 Z\" fill=\"url(#calico-dark)\"/>\n    <path d=\"M 36 102 C 44 112 40 126 44 136 C 40 134 32 120 36 102 Z\" fill=\"url(#calico-orange)\"/>\n  </g>\n  <g class=\"pet-hind-legs\">\n    <path d=\"M 38 140 C 34 120 54 116 62 136 C 66 146 64 162 48 162 C 38 162 36 150 38 140 Z\" fill=\"url(#calico-dark)\" stroke=\"#1F2937\" stroke-width=\"2\"/>\n    <ellipse cx=\"40\" cy=\"162\" rx=\"10\" ry=\"6\" fill=\"url(#calico-cream)\" stroke=\"#475569\" stroke-width=\"1.8\"/>\n    <path d=\"M 142 140 C 146 120 126 116 118 136 C 114 146 116 162 132 162 C 142 162 144 150 142 140 Z\" fill=\"url(#calico-orange)\" stroke=\"#C2410C\" stroke-width=\"2\"/>\n    <ellipse cx=\"140\" cy=\"162\" rx=\"10\" ry=\"6\" fill=\"url(#calico-cream)\" stroke=\"#475569\" stroke-width=\"1.8\"/>\n  </g>\n  <g class=\"pet-solid-body\">\n    <path d=\"M 58 106 C 54 94 68 90 90 90 C 112 90 126 94 122 106 C 120 122 126 142 126 162 C 126 169 118 171 112 171 C 105 171 101 166 101 156 L 101 126 C 101 120 97 116 90 116 C 83 116 79 120 79 126 L 79 156 C 79 166 75 171 68 171 C 62 171 54 169 54 162 C 54 142 60 122 58 106 Z\" fill=\"url(#calico-cream)\" stroke=\"#64748B\" stroke-width=\"2.2\" stroke-linejoin=\"round\"/>\n    <path d=\"M 56 116 C 54 136 62 144 68 146 C 70 134 66 118 56 116 Z\" fill=\"url(#calico-orange)\"/>\n    <path d=\"M 124 116 C 126 136 118 144 112 146 C 110 134 114 118 124 116 Z\" fill=\"url(#calico-dark)\"/>\n    <path d=\"M 60 122 C 58 138 59 154 59 164 C 59 169 64 171 70 171 C 76 171 80 167 80 158 L 80 124\" fill=\"url(#calico-cream)\" stroke=\"#64748B\" stroke-width=\"2\" stroke-linecap=\"round\"/>\n    <path d=\"M 120 122 C 122 138 121 154 121 164 C 121 169 116 171 110 171 C 104 171 100 167 100 158 L 100 124\" fill=\"url(#calico-cream)\" stroke=\"#64748B\" stroke-width=\"2\" stroke-linecap=\"round\"/>\n  </g>\n  <g class=\"pet-anim-head\">\n    <g class=\"pet-anim-ears\" style=\"transform-origin: 90px 65px;\">\n      <path d=\"M 52 64 L 34 22 C 48 24 68 38 74 52 Z\" fill=\"url(#calico-dark)\" stroke=\"#111827\" stroke-width=\"2.2\" stroke-linejoin=\"round\"/>\n      <path d=\"M 50 56 L 39 30 C 49 33 62 44 67 50 Z\" fill=\"url(#calico-ear)\"/>\n      <path d=\"M 128 64 L 146 22 C 132 24 112 38 106 52 Z\" fill=\"url(#calico-orange)\" stroke=\"#C2410C\" stroke-width=\"2.2\" stroke-linejoin=\"round\"/>\n      <path d=\"M 130 56 L 141 30 C 131 33 118 44 113 50 Z\" fill=\"url(#calico-ear)\"/>\n    </g>\n    <path d=\"M 44 82 C 40 60 62 44 90 44 C 118 44 140 60 136 82 C 142 96 138 114 120 118 C 104 122 76 122 60 118 C 42 114 38 96 44 82 Z\" fill=\"url(#calico-cream)\" stroke=\"#64748B\" stroke-width=\"2.2\"/>\n    <path d=\"M 44 76 C 42 56 62 46 76 46 C 72 64 60 84 44 76 Z\" fill=\"url(#calico-dark)\"/>\n    <path d=\"M 136 76 C 138 56 118 46 104 46 C 108 64 120 84 136 76 Z\" fill=\"url(#calico-orange)\"/>\n    <path d=\"M 43 82 L 35 88 L 44 92 L 37 98 L 48 102\" fill=\"none\" stroke=\"#64748B\" stroke-width=\"1.8\" stroke-linejoin=\"round\"/>\n    <path d=\"M 137 82 L 145 88 L 136 92 L 143 98 L 132 102\" fill=\"none\" stroke=\"#64748B\" stroke-width=\"1.8\" stroke-linejoin=\"round\"/>\n    <g class=\"pet-anim-eyes\" style=\"transform-origin: 90px 76px;\">\n      <ellipse cx=\"68\" cy=\"74\" rx=\"10\" ry=\"11.5\" fill=\"#1C1917\"/>\n      <ellipse cx=\"68\" cy=\"75.5\" rx=\"8.5\" ry=\"9.5\" fill=\"url(#calico-iris)\"/>\n      <ellipse cx=\"68\" cy=\"74.5\" rx=\"5\" ry=\"6.5\" fill=\"#451A03\"/>\n      <ellipse cx=\"68\" cy=\"78\" rx=\"6\" ry=\"3.5\" fill=\"#FEF08A\" opacity=\"0.6\"/>\n      <circle cx=\"65\" cy=\"71\" r=\"3.2\" fill=\"#FFFFFF\"/>\n      <circle cx=\"71\" cy=\"78\" r=\"1.6\" fill=\"#FFFFFF\"/>\n      <ellipse cx=\"112\" cy=\"74\" rx=\"10\" ry=\"11.5\" fill=\"#1C1917\"/>\n      <ellipse cx=\"112\" cy=\"75.5\" rx=\"8.5\" ry=\"9.5\" fill=\"url(#calico-iris)\"/>\n      <ellipse cx=\"112\" cy=\"74.5\" rx=\"5\" ry=\"6.5\" fill=\"#451A03\"/>\n      <ellipse cx=\"112\" cy=\"78\" rx=\"6\" ry=\"3.5\" fill=\"#FEF08A\" opacity=\"0.6\"/>\n      <circle cx=\"109\" cy=\"71\" r=\"3.2\" fill=\"#FFFFFF\"/>\n      <circle cx=\"115\" cy=\"78\" r=\"1.6\" fill=\"#FFFFFF\"/>\n    </g>\n    <circle cx=\"58\" cy=\"85\" r=\"9\" fill=\"url(#calico-blush)\"/>\n    <circle cx=\"122\" cy=\"85\" r=\"9\" fill=\"url(#calico-blush)\"/>\n    <polygon points=\"88,83 92,83 90,86\" fill=\"#F43F5E\"/>\n    <path d=\"M 85 87 Q 90 90 90 87 Q 90 90 95 87\" stroke=\"#475569\" stroke-width=\"2\" stroke-linecap=\"round\" fill=\"none\"/>\n    <path d=\"M 44 85 L 26 83 M 44 90 L 24 92 M 136 85 L 154 83 M 136 90 L 156 92\" stroke=\"#64748B\" stroke-width=\"1.6\" stroke-linecap=\"round\"/>\n    <path d=\"M 68 106 Q 90 114 112 106\" stroke=\"#DC2626\" stroke-width=\"5\" stroke-linecap=\"round\" fill=\"none\"/>\n    <g transform=\"translate(90, 114)\">\n      <circle cx=\"0\" cy=\"0\" r=\"6\" fill=\"url(#calico-bell)\" stroke=\"#B45309\" stroke-width=\"1.5\"/>\n      <circle cx=\"0\" cy=\"2\" r=\"1.5\" fill=\"#78350F\"/>\n    </g>\n  </g>\n</svg>",
-    "quotes": {
-      "greetings": [
-        "Miu Miu tam thể mang vạn điều may mắn và niềm vui đến lớp học của cô Nguyệt ạ! 🍀🐱",
-        "Chuông vàng leng keng mừng cô vào lớp! Cô Nguyệt nhớ giữ gìn sức khoẻ nhé! 🔔✨"
-      ],
-      "feed": [
-        "Ngon mê ly cô ơi! Cá hồi béo ngậy ngọt lịm luôn! Cảm ơn cô Nguyệt! 🐟🥰"
-      ],
-      "pet": [
-        "Ngọt ngào quá cô ơi~ Miu Miu nhắm mắt hưởng thụ cái xoa đầu ấm áp của cô nè! 💖"
-      ],
-      "hungry": [
-        "Cô Nguyệt ơi, đĩa cá hồi của Miu Miu hết sạch rồi, cô cho Miu Miu xin thêm miếng nữa nha! 🥺🐟"
-      ]
-    }
-  },
-  "siamese": {
-    "id": "siamese",
-    "species": "Mèo Xiêm Koko",
-    "defaultName": "Koko",
-    "foodIcon": "🍗",
-    "foodName": "Ức gà xé",
-    "description": "Quý tộc hoàng gia Thái Lan, lông kem mịn màng, mặt nạ sô cô la và mắt xanh ngọc bích sâu thẳm.",
-    "svg": "<svg viewBox=\"0 0 180 200\" class=\"fullbody-pet-svg\" xmlns=\"http://www.w3.org/2000/svg\">\n  <defs>\n    <linearGradient id=\"siamese-cream\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\"><stop offset=\"0%\" stop-color=\"#FAF5E8\"/><stop offset=\"100%\" stop-color=\"#E5D5C0\"/></linearGradient>\n    <linearGradient id=\"siamese-choco\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\"><stop offset=\"0%\" stop-color=\"#4A3728\"/><stop offset=\"100%\" stop-color=\"#261A12\"/></linearGradient>\n    <linearGradient id=\"siamese-blue\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\"><stop offset=\"0%\" stop-color=\"#0369A1\"/><stop offset=\"45%\" stop-color=\"#0284C7\"/><stop offset=\"85%\" stop-color=\"#38BDF8\"/><stop offset=\"100%\" stop-color=\"#BAE6FD\"/></linearGradient>\n    <linearGradient id=\"siamese-tie\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"1\"><stop offset=\"0%\" stop-color=\"#2DD4BF\"/><stop offset=\"100%\" stop-color=\"#0F766E\"/></linearGradient>\n    <radialGradient id=\"siamese-blush\" cx=\"50%\" cy=\"50%\" r=\"50%\"><stop offset=\"0%\" stop-color=\"#FB7185\" stop-opacity=\"0.45\"/><stop offset=\"100%\" stop-color=\"#FB7185\" stop-opacity=\"0\"/></radialGradient>\n  </defs>\n  <ellipse cx=\"90\" cy=\"178\" rx=\"58\" ry=\"12\" fill=\"#261A12\" opacity=\"0.15\"/>\n  <g class=\"pet-anim-tail\" style=\"transform-origin: 54px 156px;\">\n    <path d=\"M 54 152 C 32 142 16 112 22 84 C 25 66 40 64 45 76 C 48 86 38 102 42 120 C 45 135 50 146 56 156 Z\" fill=\"url(#siamese-choco)\" stroke=\"#1C1917\" stroke-width=\"2\"/>\n  </g>\n  <g class=\"pet-hind-legs\">\n    <path d=\"M 38 140 C 34 120 54 116 62 136 C 66 146 64 162 48 162 C 38 162 36 150 38 140 Z\" fill=\"url(#siamese-choco)\" stroke=\"#1C1917\" stroke-width=\"2\"/>\n    <ellipse cx=\"40\" cy=\"162\" rx=\"10\" ry=\"6\" fill=\"url(#siamese-choco)\" stroke=\"#1C1917\" stroke-width=\"1.8\"/>\n    <path d=\"M 142 140 C 146 120 126 116 118 136 C 114 146 116 162 132 162 C 142 162 144 150 142 140 Z\" fill=\"url(#siamese-choco)\" stroke=\"#1C1917\" stroke-width=\"2\"/>\n    <ellipse cx=\"140\" cy=\"162\" rx=\"10\" ry=\"6\" fill=\"url(#siamese-choco)\" stroke=\"#1C1917\" stroke-width=\"1.8\"/>\n  </g>\n  <g class=\"pet-solid-body\">\n    <path d=\"M 58 106 C 54 94 68 90 90 90 C 112 90 126 94 122 106 C 120 122 126 142 126 162 C 126 169 118 171 112 171 C 105 171 101 166 101 156 L 101 126 C 101 120 97 116 90 116 C 83 116 79 120 79 126 L 79 156 C 79 166 75 171 68 171 C 62 171 54 169 54 162 C 54 142 60 122 58 106 Z\" fill=\"url(#siamese-cream)\" stroke=\"#78350F\" stroke-width=\"2\" stroke-linejoin=\"round\"/>\n    <path d=\"M 60 134 C 58 146 59 156 59 164 C 59 169 64 171 70 171 C 76 171 80 167 80 158 L 80 138\" fill=\"url(#siamese-choco)\" stroke=\"#1C1917\" stroke-width=\"1.8\"/>\n    <path d=\"M 120 134 C 122 146 121 156 121 164 C 121 169 116 171 110 171 C 104 171 100 167 100 158 L 100 138\" fill=\"url(#siamese-choco)\" stroke=\"#1C1917\" stroke-width=\"1.8\"/>\n  </g>\n  <g class=\"pet-anim-head\">\n    <g class=\"pet-anim-ears\" style=\"transform-origin: 90px 65px;\">\n      <path d=\"M 52 64 L 30 18 C 46 22 66 38 74 52 Z\" fill=\"url(#siamese-choco)\" stroke=\"#1C1917\" stroke-width=\"2.2\"/>\n      <path d=\"M 128 64 L 150 18 C 134 22 114 38 106 52 Z\" fill=\"url(#siamese-choco)\" stroke=\"#1C1917\" stroke-width=\"2.2\"/>\n    </g>\n    <path d=\"M 44 82 C 40 60 62 44 90 44 C 118 44 140 60 136 82 C 142 96 138 114 120 118 C 104 122 76 122 60 118 C 42 114 38 96 44 82 Z\" fill=\"url(#siamese-cream)\" stroke=\"#78350F\" stroke-width=\"2.2\"/>\n    <!-- Chocolate Facial Mask -->\n    <path d=\"M 64 68 C 60 58 74 54 90 54 C 106 54 120 58 116 68 C 122 84 120 102 108 108 C 98 112 82 112 72 108 C 60 102 58 84 64 68 Z\" fill=\"url(#siamese-choco)\"/>\n    <circle cx=\"56\" cy=\"85\" r=\"8\" fill=\"url(#siamese-blush)\"/>\n    <circle cx=\"124\" cy=\"85\" r=\"8\" fill=\"url(#siamese-blush)\"/>\n    <g class=\"pet-anim-eyes\" style=\"transform-origin: 90px 76px;\">\n      <ellipse cx=\"68\" cy=\"74\" rx=\"10\" ry=\"11.5\" fill=\"#0C4A6E\"/>\n      <ellipse cx=\"68\" cy=\"75.5\" rx=\"8.5\" ry=\"9.5\" fill=\"url(#siamese-blue)\"/>\n      <ellipse cx=\"68\" cy=\"74.5\" rx=\"5\" ry=\"6.5\" fill=\"#082F49\"/>\n      <ellipse cx=\"68\" cy=\"78\" rx=\"6\" ry=\"3.5\" fill=\"#BAE6FD\" opacity=\"0.6\"/>\n      <circle cx=\"65\" cy=\"71\" r=\"3.2\" fill=\"#FFFFFF\"/>\n      <circle cx=\"71\" cy=\"78\" r=\"1.6\" fill=\"#FFFFFF\"/>\n      <ellipse cx=\"112\" cy=\"74\" rx=\"10\" ry=\"11.5\" fill=\"#0C4A6E\"/>\n      <ellipse cx=\"112\" cy=\"75.5\" rx=\"8.5\" ry=\"9.5\" fill=\"url(#siamese-blue)\"/>\n      <ellipse cx=\"112\" cy=\"74.5\" rx=\"5\" ry=\"6.5\" fill=\"#082F49\"/>\n      <ellipse cx=\"112\" cy=\"78\" rx=\"6\" ry=\"3.5\" fill=\"#BAE6FD\" opacity=\"0.6\"/>\n      <circle cx=\"109\" cy=\"71\" r=\"3.2\" fill=\"#FFFFFF\"/>\n      <circle cx=\"115\" cy=\"78\" r=\"1.6\" fill=\"#FFFFFF\"/>\n    </g>\n    <polygon points=\"88,83 92,83 90,86\" fill=\"#1C1917\"/>\n    <path d=\"M 85 87 Q 90 90 90 87 Q 90 90 95 87\" stroke=\"#1C1917\" stroke-width=\"2\" stroke-linecap=\"round\" fill=\"none\"/>\n    <path d=\"M 44 85 L 26 83 M 44 90 L 24 92 M 136 85 L 154 83 M 136 90 L 156 92\" stroke=\"#FAF5E8\" stroke-width=\"1.6\" stroke-linecap=\"round\"/>\n    <g class=\"pet-bowtie\" transform=\"translate(90, 108)\">\n      <path d=\"M 0 0 L -16 -7 C -20 -1 -20 1 -16 7 Z\" fill=\"url(#siamese-tie)\" stroke=\"#115E59\" stroke-width=\"1.5\"/>\n      <path d=\"M 0 0 L 16 -7 C 20 -1 20 1 16 7 Z\" fill=\"url(#siamese-tie)\" stroke=\"#115E59\" stroke-width=\"1.5\"/>\n      <circle cx=\"0\" cy=\"0\" r=\"4\" fill=\"#99F6E4\" stroke=\"#115E59\" stroke-width=\"1.5\"/>\n    </g>\n  </g>\n</svg>",
-    "quotes": {
-      "greetings": [
-        "Quý tộc Koko cung kính chào cô Nguyệt! Hôm nay trông cô quý phái và rạng rỡ quá! 👑✨",
-        "Đôi mắt sapphire của Koko luôn dõi theo từng bài giảng xuất sắc của cô! 💎"
-      ],
-      "feed": [
-        "Thơm ngọt đúng chuẩn hoàng gia luôn cô ơi! Koko mê đĩa ức gà này xỉu! Cảm ơn cô Nguyệt! 🍗😋"
-      ],
-      "pet": [
-        "Meo~ Cái xoa đầu nhẹ nhàng của cô làm lòng Koko ấm áp vô cùng! ✨"
-      ],
-      "hungry": [
-        "Cô Nguyệt ơi... Bữa xế hoàng gia của Koko đã tới rồi ạ, cô cho Koko xin chút ức gà nha! 🥺🍗"
-      ]
-    }
-  },
-  "corgi": {
-    "id": "corgi",
-    "species": "Cún Corgi Mochi",
-    "defaultName": "Mochi",
-    "foodIcon": "🥩",
-    "foodName": "Bò bít tết",
-    "description": "Chú cún mông tròn siêu cấp đáng yêu, tai to vểnh cao và chiếc khăn đỏ chấm bi tinh nghịch.",
-    "svg": "<svg viewBox=\"0 0 180 200\" class=\"fullbody-pet-svg\" xmlns=\"http://www.w3.org/2000/svg\">\n  <defs>\n    <linearGradient id=\"corgi-fur\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\"><stop offset=\"0%\" stop-color=\"#FED7AA\"/><stop offset=\"50%\" stop-color=\"#F59E0B\"/><stop offset=\"100%\" stop-color=\"#D97706\"/></linearGradient>\n    <linearGradient id=\"corgi-cream\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\"><stop offset=\"0%\" stop-color=\"#FFFFFF\"/><stop offset=\"100%\" stop-color=\"#FFFBEB\"/></linearGradient>\n    <radialGradient id=\"corgi-blush\" cx=\"50%\" cy=\"50%\" r=\"50%\"><stop offset=\"0%\" stop-color=\"#FB7185\" stop-opacity=\"0.6\"/><stop offset=\"100%\" stop-color=\"#FB7185\" stop-opacity=\"0\"/></radialGradient>\n    <linearGradient id=\"corgi-ear\" x1=\"0\" y1=\"1\" x2=\"0\" y2=\"0\"><stop offset=\"0%\" stop-color=\"#F472B6\"/><stop offset=\"100%\" stop-color=\"#FCE7F3\"/></linearGradient>\n    <linearGradient id=\"corgi-bandana\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"1\"><stop offset=\"0%\" stop-color=\"#EF4444\"/><stop offset=\"100%\" stop-color=\"#991B1B\"/></linearGradient>\n  </defs>\n  <ellipse cx=\"90\" cy=\"178\" rx=\"58\" ry=\"12\" fill=\"#B45309\" opacity=\"0.15\"/>\n  <g class=\"pet-anim-tail\" style=\"transform-origin: 52px 148px;\">\n    <ellipse cx=\"48\" cy=\"144\" rx=\"8\" ry=\"8\" fill=\"url(#corgi-fur)\" stroke=\"#B45309\" stroke-width=\"2\"/>\n    <ellipse cx=\"46\" cy=\"142\" rx=\"4\" ry=\"4\" fill=\"url(#corgi-cream)\"/>\n  </g>\n  <g class=\"pet-hind-legs\">\n    <ellipse cx=\"44\" cy=\"150\" rx=\"18\" ry=\"14\" fill=\"url(#corgi-fur)\" stroke=\"#B45309\" stroke-width=\"2\"/>\n    <ellipse cx=\"40\" cy=\"162\" rx=\"10\" ry=\"6\" fill=\"url(#corgi-cream)\" stroke=\"#B45309\" stroke-width=\"1.8\"/>\n    <ellipse cx=\"136\" cy=\"150\" rx=\"18\" ry=\"14\" fill=\"url(#corgi-fur)\" stroke=\"#B45309\" stroke-width=\"2\"/>\n    <ellipse cx=\"140\" cy=\"162\" rx=\"10\" ry=\"6\" fill=\"url(#corgi-cream)\" stroke=\"#B45309\" stroke-width=\"1.8\"/>\n  </g>\n  <g class=\"pet-solid-body\">\n    <path d=\"M 58 106 C 54 94 68 90 90 90 C 112 90 126 94 122 106 C 120 122 126 142 126 162 C 126 169 118 171 112 171 C 105 171 101 166 101 156 L 101 126 C 101 120 97 116 90 116 C 83 116 79 120 79 126 L 79 156 C 79 166 75 171 68 171 C 62 171 54 169 54 162 C 54 142 60 122 58 106 Z\" fill=\"url(#corgi-fur)\" stroke=\"#B45309\" stroke-width=\"2.2\" stroke-linejoin=\"round\"/>\n    <!-- Huge Fluffy White Chest -->\n    <path d=\"M 72 102 C 64 116 66 138 90 138 C 114 138 116 116 108 102 Z\" fill=\"url(#corgi-cream)\"/>\n    <path d=\"M 60 126 C 58 140 59 154 59 164 C 59 169 64 171 70 171 C 76 171 80 167 80 158 L 80 128\" fill=\"url(#corgi-cream)\" stroke=\"#B45309\" stroke-width=\"2\" stroke-linecap=\"round\"/>\n    <path d=\"M 120 126 C 122 140 121 154 121 164 C 121 169 116 171 110 171 C 104 171 100 167 100 158 L 100 128\" fill=\"url(#corgi-cream)\" stroke=\"#B45309\" stroke-width=\"2\" stroke-linecap=\"round\"/>\n  </g>\n  <g class=\"pet-anim-head\">\n    <g class=\"pet-anim-ears\" style=\"transform-origin: 90px 65px;\">\n      <ellipse cx=\"44\" cy=\"42\" rx=\"16\" ry=\"32\" fill=\"url(#corgi-fur)\" stroke=\"#B45309\" stroke-width=\"2.2\" transform=\"rotate(-20 44 42)\"/>\n      <ellipse cx=\"44\" cy=\"42\" rx=\"10\" ry=\"24\" fill=\"url(#corgi-ear)\" transform=\"rotate(-20 44 42)\"/>\n      <ellipse cx=\"136\" cy=\"42\" rx=\"16\" ry=\"32\" fill=\"url(#corgi-fur)\" stroke=\"#B45309\" stroke-width=\"2.2\" transform=\"rotate(20 136 42)\"/>\n      <ellipse cx=\"136\" cy=\"42\" rx=\"10\" ry=\"24\" fill=\"url(#corgi-ear)\" transform=\"rotate(20 136 42)\"/>\n    </g>\n    <path d=\"M 44 82 C 40 60 62 44 90 44 C 118 44 140 60 136 82 C 142 96 138 114 120 118 C 104 122 76 122 60 118 C 42 114 38 96 44 82 Z\" fill=\"url(#corgi-fur)\" stroke=\"#B45309\" stroke-width=\"2.2\"/>\n    <!-- Corgi Heart Face Blaze -->\n    <path d=\"M 90 46 C 88 56 82 66 74 72 C 68 76 66 86 70 94 C 76 104 84 106 90 106 C 96 106 104 104 110 94 C 114 86 112 76 106 72 C 98 66 92 56 90 46 Z\" fill=\"url(#corgi-cream)\"/>\n    <circle cx=\"56\" cy=\"86\" r=\"9\" fill=\"url(#corgi-blush)\"/>\n    <circle cx=\"124\" cy=\"86\" r=\"9\" fill=\"url(#corgi-blush)\"/>\n    <g class=\"pet-anim-eyes\" style=\"transform-origin: 90px 76px;\">\n      <ellipse cx=\"68\" cy=\"74\" rx=\"10\" ry=\"11.5\" fill=\"#1C1917\"/>\n      <ellipse cx=\"68\" cy=\"75.5\" rx=\"8.5\" ry=\"9.5\" fill=\"#78350F\"/>\n      <circle cx=\"65\" cy=\"71\" r=\"3.2\" fill=\"#FFFFFF\"/>\n      <circle cx=\"71\" cy=\"78\" r=\"1.6\" fill=\"#FFFFFF\"/>\n      <ellipse cx=\"112\" cy=\"74\" rx=\"10\" ry=\"11.5\" fill=\"#1C1917\"/>\n      <ellipse cx=\"112\" cy=\"75.5\" rx=\"8.5\" ry=\"9.5\" fill=\"#78350F\"/>\n      <circle cx=\"109\" cy=\"71\" r=\"3.2\" fill=\"#FFFFFF\"/>\n      <circle cx=\"115\" cy=\"78\" r=\"1.6\" fill=\"#FFFFFF\"/>\n    </g>\n    <!-- Cute Black Nose -->\n    <ellipse cx=\"90\" cy=\"82\" rx=\"6.5\" ry=\"4.5\" fill=\"#1C1917\"/>\n    <ellipse cx=\"88.5\" cy=\"80.5\" rx=\"2\" ry=\"1.2\" fill=\"#FFFFFF\"/>\n    <path d=\"M 85 88 Q 90 92 95 88\" stroke=\"#1C1917\" stroke-width=\"2\" stroke-linecap=\"round\" fill=\"none\"/>\n    <path d=\"M 87 90 Q 90 98 93 90 Z\" fill=\"#F43F5E\"/>\n    <!-- Red Bandana with Polka Dots -->\n    <path d=\"M 66 104 Q 90 114 114 104 L 90 128 Z\" fill=\"url(#corgi-bandana)\" stroke=\"#7F1D1D\" stroke-width=\"1.8\"/>\n    <circle cx=\"90\" cy=\"116\" r=\"2\" fill=\"#FFFFFF\"/>\n    <circle cx=\"82\" cy=\"110\" r=\"1.8\" fill=\"#FFFFFF\"/>\n    <circle cx=\"98\" cy=\"110\" r=\"1.8\" fill=\"#FFFFFF\"/>\n  </g>\n</svg>",
-    "quotes": {
-      "greetings": [
-        "Gâu gâu! Mochi lắc mông tròn xoe mừng cô Nguyệt đến lớp ạ! 🐶🐾",
-        "Cô Nguyệt ơi, hôm nay em ngoan lắm nè, cô nựng cằm em nha! 🥰✨"
-      ],
-      "feed": [
-        "Ngon bá cháy bọ chét cô ơi! Thịt bò bít tết mọng nước đỉnh chóp! Gâu gâu! 🥩😋"
-      ],
-      "pet": [
-        "Gâu gâu~ Mochi nằm ngửa bụng cho cô gãi nè! Thích quá đi à! 💕"
-      ],
-      "hungry": [
-        "Cô Nguyệt ơi... Bụng Mochi réo inh ỏi rồi nè, cho em xin miếng bít tết nha cô! 🥺🥩"
-      ]
-    }
-  },
-  "shiba": {
-    "id": "shiba",
-    "species": "Shiba Inu Hachiko",
-    "defaultName": "Hachiko",
-    "foodIcon": "🍖",
-    "foodName": "Xúc xích nướng",
-    "description": "Chú chó trung thành xứ mặt trời mọc, má bánh bao phúng phính và nụ cười rạng rỡ như ánh ban mai.",
-    "svg": "<svg viewBox=\"0 0 180 200\" class=\"fullbody-pet-svg\" xmlns=\"http://www.w3.org/2000/svg\">\n  <defs>\n    <linearGradient id=\"shiba-fur\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\"><stop offset=\"0%\" stop-color=\"#FDE68A\"/><stop offset=\"50%\" stop-color=\"#D97706\"/><stop offset=\"100%\" stop-color=\"#B45309\"/></linearGradient>\n    <linearGradient id=\"shiba-white\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\"><stop offset=\"0%\" stop-color=\"#FFFFFF\"/><stop offset=\"100%\" stop-color=\"#FFFBEB\"/></linearGradient>\n    <radialGradient id=\"shiba-blush\" cx=\"50%\" cy=\"50%\" r=\"50%\"><stop offset=\"0%\" stop-color=\"#FB7185\" stop-opacity=\"0.6\"/><stop offset=\"100%\" stop-color=\"#FB7185\" stop-opacity=\"0\"/></radialGradient>\n    <linearGradient id=\"shiba-collar\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"1\"><stop offset=\"0%\" stop-color=\"#DC2626\"/><stop offset=\"100%\" stop-color=\"#991B1B\"/></linearGradient>\n    <linearGradient id=\"shiba-bell\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"1\"><stop offset=\"0%\" stop-color=\"#FEF08A\"/><stop offset=\"100%\" stop-color=\"#D97706\"/></linearGradient>\n  </defs>\n  <ellipse cx=\"90\" cy=\"178\" rx=\"58\" ry=\"12\" fill=\"#B45309\" opacity=\"0.15\"/>\n  <g class=\"pet-anim-tail\" style=\"transform-origin: 52px 148px;\">\n    <!-- Shiba Cinnamon Curl Tail -->\n    <path d=\"M 52 148 C 30 138 24 108 44 96 C 58 88 68 104 56 114 C 48 120 44 134 52 148 Z\" fill=\"url(#shiba-fur)\" stroke=\"#B45309\" stroke-width=\"2\"/>\n    <path d=\"M 44 96 C 58 88 68 104 56 114 Z\" fill=\"url(#shiba-white)\"/>\n  </g>\n  <g class=\"pet-hind-legs\">\n    <ellipse cx=\"44\" cy=\"150\" rx=\"18\" ry=\"14\" fill=\"url(#shiba-fur)\" stroke=\"#B45309\" stroke-width=\"2\"/>\n    <ellipse cx=\"40\" cy=\"162\" rx=\"10\" ry=\"6\" fill=\"url(#shiba-white)\" stroke=\"#B45309\" stroke-width=\"1.8\"/>\n    <ellipse cx=\"136\" cy=\"150\" rx=\"18\" ry=\"14\" fill=\"url(#shiba-fur)\" stroke=\"#B45309\" stroke-width=\"2\"/>\n    <ellipse cx=\"140\" cy=\"162\" rx=\"10\" ry=\"6\" fill=\"url(#shiba-white)\" stroke=\"#B45309\" stroke-width=\"1.8\"/>\n  </g>\n  <g class=\"pet-solid-body\">\n    <path d=\"M 58 106 C 54 94 68 90 90 90 C 112 90 126 94 122 106 C 120 122 126 142 126 162 C 126 169 118 171 112 171 C 105 171 101 166 101 156 L 101 126 C 101 120 97 116 90 116 C 83 116 79 120 79 126 L 79 156 C 79 166 75 171 68 171 C 62 171 54 169 54 162 C 54 142 60 122 58 106 Z\" fill=\"url(#shiba-fur)\" stroke=\"#B45309\" stroke-width=\"2.2\" stroke-linejoin=\"round\"/>\n    <path d=\"M 72 102 C 64 116 66 138 90 138 C 114 138 116 116 108 102 Z\" fill=\"url(#shiba-white)\"/>\n    <path d=\"M 60 126 C 58 140 59 154 59 164 C 59 169 64 171 70 171 C 76 171 80 167 80 158 L 80 128\" fill=\"url(#shiba-white)\" stroke=\"#B45309\" stroke-width=\"2\" stroke-linecap=\"round\"/>\n    <path d=\"M 120 126 C 122 140 121 154 121 164 C 121 169 116 171 110 171 C 104 171 100 167 100 158 L 100 128\" fill=\"url(#shiba-white)\" stroke=\"#B45309\" stroke-width=\"2\" stroke-linecap=\"round\"/>\n  </g>\n  <g class=\"pet-anim-head\">\n    <g class=\"pet-anim-ears\" style=\"transform-origin: 90px 65px;\">\n      <path d=\"M 50 64 L 38 26 C 52 28 66 42 70 56 Z\" fill=\"url(#shiba-fur)\" stroke=\"#B45309\" stroke-width=\"2.2\"/>\n      <path d=\"M 50 56 L 42 34 C 50 36 60 46 64 52 Z\" fill=\"#FCE7F3\"/>\n      <path d=\"M 130 64 L 142 26 C 128 28 114 42 110 56 Z\" fill=\"url(#shiba-fur)\" stroke=\"#B45309\" stroke-width=\"2.2\"/>\n      <path d=\"M 130 56 L 138 34 C 130 36 120 46 116 52 Z\" fill=\"#FCE7F3\"/>\n    </g>\n    <path d=\"M 44 82 C 40 60 62 44 90 44 C 118 44 140 60 136 82 C 142 96 138 114 120 118 C 104 122 76 122 60 118 C 42 114 38 96 44 82 Z\" fill=\"url(#shiba-fur)\" stroke=\"#B45309\" stroke-width=\"2.2\"/>\n    <!-- Shiba Urajiro White Cheeks & Eyebrow Dots -->\n    <ellipse cx=\"72\" cy=\"56\" rx=\"3.5\" ry=\"2.5\" fill=\"url(#shiba-white)\"/>\n    <ellipse cx=\"108\" cy=\"56\" rx=\"3.5\" ry=\"2.5\" fill=\"url(#shiba-white)\"/>\n    <path d=\"M 54 84 C 50 102 70 114 90 114 C 110 114 130 102 126 84 C 122 72 108 72 90 76 C 72 72 58 72 54 84 Z\" fill=\"url(#shiba-white)\"/>\n    <circle cx=\"56\" cy=\"88\" r=\"8\" fill=\"url(#shiba-blush)\"/>\n    <circle cx=\"124\" cy=\"88\" r=\"8\" fill=\"url(#shiba-blush)\"/>\n    <g class=\"pet-anim-eyes\" style=\"transform-origin: 90px 76px;\">\n      <ellipse cx=\"68\" cy=\"74\" rx=\"9\" ry=\"8\" fill=\"#1C1917\"/>\n      <circle cx=\"66\" cy=\"72\" r=\"2.8\" fill=\"#FFFFFF\"/>\n      <circle cx=\"70\" cy=\"76\" r=\"1.4\" fill=\"#FFFFFF\"/>\n      <ellipse cx=\"112\" cy=\"74\" rx=\"9\" ry=\"8\" fill=\"#1C1917\"/>\n      <circle cx=\"110\" cy=\"72\" r=\"2.8\" fill=\"#FFFFFF\"/>\n      <circle cx=\"114\" cy=\"76\" r=\"1.4\" fill=\"#FFFFFF\"/>\n    </g>\n    <ellipse cx=\"90\" cy=\"82\" rx=\"6\" ry=\"4.5\" fill=\"#1C1917\"/>\n    <ellipse cx=\"88.5\" cy=\"80.5\" rx=\"1.8\" ry=\"1.2\" fill=\"#FFFFFF\"/>\n    <path d=\"M 85 88 Q 90 92 95 88\" stroke=\"#1C1917\" stroke-width=\"2\" stroke-linecap=\"round\" fill=\"none\"/>\n    <path d=\"M 86 90 Q 90 98 94 90 Z\" fill=\"#F43F5E\"/>\n    <path d=\"M 68 106 Q 90 114 112 106\" stroke=\"url(#shiba-collar)\" stroke-width=\"4.5\" stroke-linecap=\"round\" fill=\"none\"/>\n    <g transform=\"translate(90, 114)\">\n      <circle cx=\"0\" cy=\"0\" r=\"5\" fill=\"url(#shiba-bell)\" stroke=\"#B45309\" stroke-width=\"1.2\"/>\n    </g>\n  </g>\n</svg>",
-    "quotes": {
-      "greetings": [
-        "Woof! Hachiko trung thành vẫy đuôi tít mù chào đón cô Nguyệt ạ! 🐕✨",
-        "Cô Nguyệt là số 1 trong lòng Hachiko! Chúc cô buổi lên lớp ngập tràn niềm vui! 🌸"
-      ],
-      "feed": [
-        "Ngoạm một miếng xúc xích bốc khói thơm nức mũi! Hachiko cảm ơn cô Nguyệt nhiều lắm! 🍖😋"
-      ],
-      "pet": [
-        "Má Hachiko mềm như bánh bao nè, cô nắn bóp thoải mái nha cô Nguyệt ơi! 🥰"
-      ],
-      "hungry": [
-        "Hachiko đói rồi cô ơi... Cô cho Hachiko xin cây xúc xích để nạp năng lượng canh gác nha! 🥺🍖"
-      ]
-    }
-  },
-  "poodle": {
-    "id": "poodle",
-    "species": "Cún Poodle Nâu",
-    "defaultName": "Gấu Con",
-    "foodIcon": "🦴",
-    "foodName": "Bánh quy giòn",
-    "description": "Bộ lông xoăn bồng bềnh như kẹo bông sô cô la, chiếc nơ lụa hồng và đôi mắt hạt cườm ngây thơ.",
-    "svg": "<svg viewBox=\"0 0 180 200\" class=\"fullbody-pet-svg\" xmlns=\"http://www.w3.org/2000/svg\">\n  <defs>\n    <linearGradient id=\"poodle-fur\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\"><stop offset=\"0%\" stop-color=\"#A16207\"/><stop offset=\"50%\" stop-color=\"#854D0E\"/><stop offset=\"100%\" stop-color=\"#451A03\"/></linearGradient>\n    <linearGradient id=\"poodle-highlight\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\"><stop offset=\"0%\" stop-color=\"#CA8A04\"/><stop offset=\"100%\" stop-color=\"#A16207\"/></linearGradient>\n    <linearGradient id=\"poodle-iris\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\"><stop offset=\"0%\" stop-color=\"#1C1917\"/><stop offset=\"60%\" stop-color=\"#451A03\"/><stop offset=\"100%\" stop-color=\"#9A3412\"/></linearGradient>\n    <radialGradient id=\"poodle-blush\" cx=\"50%\" cy=\"50%\" r=\"50%\"><stop offset=\"0%\" stop-color=\"#FB7185\" stop-opacity=\"0.55\"/><stop offset=\"100%\" stop-color=\"#FB7185\" stop-opacity=\"0\"/></radialGradient>\n    <linearGradient id=\"poodle-bow\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"1\"><stop offset=\"0%\" stop-color=\"#F472B6\"/><stop offset=\"100%\" stop-color=\"#DB2777\"/></linearGradient>\n  </defs>\n  <ellipse cx=\"90\" cy=\"178\" rx=\"58\" ry=\"12\" fill=\"#451A03\" opacity=\"0.15\"/>\n  <g class=\"pet-anim-tail\" style=\"transform-origin: 48px 145px;\">\n    <line x1=\"48\" y1=\"145\" x2=\"36\" y2=\"128\" stroke=\"#451A03\" stroke-width=\"4\" stroke-linecap=\"round\"/>\n    <circle cx=\"34\" cy=\"124\" r=\"11\" fill=\"url(#poodle-highlight)\" stroke=\"#451A03\" stroke-width=\"2\"/>\n    <circle cx=\"33\" cy=\"122\" r=\"5\" fill=\"#FEF08A\" opacity=\"0.5\"/>\n  </g>\n  <g class=\"pet-hind-legs\">\n    <ellipse cx=\"44\" cy=\"150\" rx=\"18\" ry=\"14\" fill=\"url(#poodle-fur)\" stroke=\"#451A03\" stroke-width=\"2\"/>\n    <ellipse cx=\"40\" cy=\"162\" rx=\"11\" ry=\"7\" fill=\"url(#poodle-highlight)\" stroke=\"#451A03\" stroke-width=\"1.8\"/>\n    <ellipse cx=\"136\" cy=\"150\" rx=\"18\" ry=\"14\" fill=\"url(#poodle-fur)\" stroke=\"#451A03\" stroke-width=\"2\"/>\n    <ellipse cx=\"140\" cy=\"162\" rx=\"11\" ry=\"7\" fill=\"url(#poodle-highlight)\" stroke=\"#451A03\" stroke-width=\"1.8\"/>\n  </g>\n  <g class=\"pet-solid-body\">\n    <path d=\"M 58 106 C 54 94 68 90 90 90 C 112 90 126 94 122 106 C 120 122 126 142 126 162 C 126 169 118 171 112 171 C 105 171 101 166 101 156 L 101 126 C 101 120 97 116 90 116 C 83 116 79 120 79 126 L 79 156 C 79 166 75 171 68 171 C 62 171 54 169 54 162 C 54 142 60 122 58 106 Z\" fill=\"url(#poodle-fur)\" stroke=\"#451A03\" stroke-width=\"2.2\" stroke-linejoin=\"round\"/>\n    <!-- Fluffy Chest Curls -->\n    <circle cx=\"76\" cy=\"116\" r=\"11\" fill=\"url(#poodle-highlight)\"/>\n    <circle cx=\"104\" cy=\"116\" r=\"11\" fill=\"url(#poodle-highlight)\"/>\n    <circle cx=\"90\" cy=\"126\" r=\"12\" fill=\"url(#poodle-highlight)\"/>\n    <!-- Front Paws with Curly Tufts -->\n    <path d=\"M 60 124 C 58 140 59 154 59 164 C 59 169 64 171 70 171 C 76 171 80 167 80 158 L 80 126\" fill=\"url(#poodle-highlight)\" stroke=\"#451A03\" stroke-width=\"2\" stroke-linecap=\"round\"/>\n    <path d=\"M 120 124 C 122 140 121 154 121 164 C 121 169 116 171 110 171 C 104 171 100 167 100 158 L 100 126\" fill=\"url(#poodle-highlight)\" stroke=\"#451A03\" stroke-width=\"2\" stroke-linecap=\"round\"/>\n  </g>\n  <g class=\"pet-anim-head\">\n    <g class=\"pet-anim-ears\" style=\"transform-origin: 90px 65px;\">\n      <!-- Fluffy Cloud Ears -->\n      <path d=\"M 46 64 C 30 64 24 84 26 104 C 28 116 42 116 46 102 C 50 92 52 76 56 64 Z\" fill=\"url(#poodle-fur)\" stroke=\"#451A03\" stroke-width=\"2.2\"/>\n      <circle cx=\"34\" cy=\"98\" r=\"9\" fill=\"url(#poodle-highlight)\"/>\n      <circle cx=\"38\" cy=\"84\" r=\"8\" fill=\"url(#poodle-highlight)\"/>\n      <path d=\"M 134 64 C 150 64 156 84 154 104 C 152 116 138 116 134 102 C 130 92 128 76 124 64 Z\" fill=\"url(#poodle-fur)\" stroke=\"#451A03\" stroke-width=\"2.2\"/>\n      <circle cx=\"146\" cy=\"98\" r=\"9\" fill=\"url(#poodle-highlight)\"/>\n      <circle cx=\"142\" cy=\"84\" r=\"8\" fill=\"url(#poodle-highlight)\"/>\n    </g>\n    <!-- Head with Curly Crown -->\n    <path d=\"M 44 82 C 40 60 62 44 90 44 C 118 44 140 60 136 82 C 142 96 138 114 120 118 C 104 122 76 122 60 118 C 42 114 38 96 44 82 Z\" fill=\"url(#poodle-fur)\" stroke=\"#451A03\" stroke-width=\"2.2\"/>\n    <!-- Top Knot Fluff -->\n    <circle cx=\"74\" cy=\"46\" r=\"14\" fill=\"url(#poodle-highlight)\"/>\n    <circle cx=\"106\" cy=\"46\" r=\"14\" fill=\"url(#poodle-highlight)\"/>\n    <circle cx=\"90\" cy=\"40\" r=\"16\" fill=\"url(#poodle-highlight)\" stroke=\"#451A03\" stroke-width=\"1.8\"/>\n    <!-- Muzzle Fluff -->\n    <ellipse cx=\"90\" cy=\"88\" rx=\"20\" ry=\"16\" fill=\"url(#poodle-highlight)\"/>\n    <circle cx=\"56\" cy=\"88\" r=\"8\" fill=\"url(#poodle-blush)\"/>\n    <circle cx=\"124\" cy=\"88\" r=\"8\" fill=\"url(#poodle-blush)\"/>\n    <g class=\"pet-anim-eyes\" style=\"transform-origin: 90px 74px;\">\n      <ellipse cx=\"68\" cy=\"74\" rx=\"9\" ry=\"10\" fill=\"#1C1917\"/>\n      <ellipse cx=\"68\" cy=\"75\" rx=\"7.5\" ry=\"8\" fill=\"url(#poodle-iris)\"/>\n      <circle cx=\"65.5\" cy=\"71\" r=\"3.2\" fill=\"#FFFFFF\"/>\n      <circle cx=\"70.5\" cy=\"77\" r=\"1.6\" fill=\"#FFFFFF\"/>\n      <ellipse cx=\"112\" cy=\"74\" rx=\"9\" ry=\"10\" fill=\"#1C1917\"/>\n      <ellipse cx=\"112\" cy=\"75\" rx=\"7.5\" ry=\"8\" fill=\"url(#poodle-iris)\"/>\n      <circle cx=\"109.5\" cy=\"71\" r=\"3.2\" fill=\"#FFFFFF\"/>\n      <circle cx=\"114.5\" cy=\"77\" r=\"1.6\" fill=\"#FFFFFF\"/>\n    </g>\n    <!-- Shiny Button Nose -->\n    <ellipse cx=\"90\" cy=\"83\" rx=\"6\" ry=\"4.5\" fill=\"#1C1917\"/>\n    <ellipse cx=\"88.5\" cy=\"81.5\" rx=\"2\" ry=\"1.2\" fill=\"#FFFFFF\"/>\n    <path d=\"M 85 89 Q 90 92 95 89\" stroke=\"#1C1917\" stroke-width=\"2\" stroke-linecap=\"round\" fill=\"none\"/>\n    <!-- Cute Pink Ribbon on Crown -->\n    <g transform=\"translate(90, 42)\">\n      <path d=\"M 0 0 L -12 -5 C -15 0 -15 2 -12 6 Z\" fill=\"url(#poodle-bow)\"/>\n      <path d=\"M 0 0 L 12 -5 C 15 0 15 2 12 6 Z\" fill=\"url(#poodle-bow)\"/>\n      <circle cx=\"0\" cy=\"0\" r=\"3\" fill=\"#FDF2F8\"/>\n    </g>\n  </g>\n</svg>",
-    "quotes": {
-      "greetings": [
-        "Gâu gâu! Poodle Gấu Con lông xoăn tít chào cô Nguyệt ạ! 🐩✨",
-        "Bộ lông em mềm mại như kẹo bông, cô xoa đầu em trước khi dạy nha! 🥰"
-      ],
-      "feed": [
-        "Rôm rốp~ Bánh quy giòn tan thơm bơ béo ngậy! Gấu Con cảm ơn cô Nguyệt nhiều lắm ạ! 🦴😋"
-      ],
-      "pet": [
-        "Sướng mê ly cô ơi! Gấu Con cuộn tròn làm gấu bông của cô Nguyệt mãi thôi! ✨"
-      ],
-      "hungry": [
-        "Gâu... Cô Nguyệt ơi, cho em xin mẩu bánh quy giòn để em vẫy đuôi cho cô xem nha! 🥺🦴"
-      ]
-    }
-  },
-  "bunny": {
-    "id": "bunny",
-    "species": "Thỏ Tai Cụp Mochi",
-    "defaultName": "Mochi",
-    "foodIcon": "🥕",
-    "foodName": "Cà rốt giòn",
-    "description": "Bé thỏ trắng muốt mềm như bông tuyết, đôi mắt ngọc ruby long lanh và đôi tai cụp thắt hoa hồng.",
-    "svg": "<svg viewBox=\"0 0 180 200\" class=\"fullbody-pet-svg\" xmlns=\"http://www.w3.org/2000/svg\">\n  <defs>\n    <linearGradient id=\"bunny-white\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\"><stop offset=\"0%\" stop-color=\"#FFFFFF\"/><stop offset=\"100%\" stop-color=\"#F1F5F9\"/></linearGradient>\n    <linearGradient id=\"bunny-ruby\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\"><stop offset=\"0%\" stop-color=\"#831843\"/><stop offset=\"45%\" stop-color=\"#BE185D\"/><stop offset=\"85%\" stop-color=\"#F472B6\"/><stop offset=\"100%\" stop-color=\"#FBCFE8\"/></linearGradient>\n    <radialGradient id=\"bunny-blush\" cx=\"50%\" cy=\"50%\" r=\"50%\"><stop offset=\"0%\" stop-color=\"#FB7185\" stop-opacity=\"0.6\"/><stop offset=\"100%\" stop-color=\"#FB7185\" stop-opacity=\"0\"/></radialGradient>\n    <linearGradient id=\"bunny-ear\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\"><stop offset=\"0%\" stop-color=\"#FCE7F3\"/><stop offset=\"100%\" stop-color=\"#FBCFE8\"/></linearGradient>\n    <linearGradient id=\"bunny-carrot\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"1\"><stop offset=\"0%\" stop-color=\"#FB923C\"/><stop offset=\"100%\" stop-color=\"#EA580C\"/></linearGradient>\n  </defs>\n  <ellipse cx=\"90\" cy=\"178\" rx=\"58\" ry=\"12\" fill=\"#64748B\" opacity=\"0.15\"/>\n  <g class=\"pet-anim-tail\" style=\"transform-origin: 48px 145px;\">\n    <circle cx=\"44\" cy=\"144\" r=\"11\" fill=\"url(#bunny-white)\" stroke=\"#CBD5E1\" stroke-width=\"2\"/>\n  </g>\n  <g class=\"pet-hind-legs\">\n    <ellipse cx=\"44\" cy=\"150\" rx=\"18\" ry=\"14\" fill=\"url(#bunny-white)\" stroke=\"#CBD5E1\" stroke-width=\"2.2\" transform=\"rotate(-10 44 150)\"/>\n    <ellipse cx=\"40\" cy=\"162\" rx=\"10\" ry=\"6\" fill=\"#FFFFFF\" stroke=\"#CBD5E1\" stroke-width=\"1.8\"/>\n    <ellipse cx=\"136\" cy=\"150\" rx=\"18\" ry=\"14\" fill=\"url(#bunny-white)\" stroke=\"#CBD5E1\" stroke-width=\"2.2\" transform=\"rotate(10 136 150)\"/>\n    <ellipse cx=\"140\" cy=\"162\" rx=\"10\" ry=\"6\" fill=\"#FFFFFF\" stroke=\"#CBD5E1\" stroke-width=\"1.8\"/>\n  </g>\n  <g class=\"pet-solid-body\">\n    <path d=\"M 58 106 C 54 94 68 90 90 90 C 112 90 126 94 122 106 C 120 122 126 142 126 162 C 126 169 118 171 112 171 C 105 171 101 166 101 156 L 101 126 C 101 120 97 116 90 116 C 83 116 79 120 79 126 L 79 156 C 79 166 75 171 68 171 C 62 171 54 169 54 162 C 54 142 60 122 58 106 Z\" fill=\"url(#bunny-white)\" stroke=\"#CBD5E1\" stroke-width=\"2.2\" stroke-linejoin=\"round\"/>\n    <!-- Holding Juicy Baby Carrot -->\n    <g transform=\"translate(80, 122)\">\n      <path d=\"M 10 2 L 20 22 C 21 24 17 26 15 24 L 2 6 Z\" fill=\"url(#bunny-carrot)\" stroke=\"#C2410C\" stroke-width=\"1.5\"/>\n      <path d=\"M 5 10 L 12 11 M 9 16 L 15 17\" stroke=\"#EA580C\" stroke-width=\"1.2\" stroke-linecap=\"round\"/>\n      <path d=\"M 4 4 L -4 -2 M 6 3 L 4 -5 M 8 5 L 12 -3\" stroke=\"#16A34A\" stroke-width=\"2.2\" stroke-linecap=\"round\"/>\n    </g>\n    <!-- Front Paws holding carrot -->\n    <circle cx=\"80\" cy=\"130\" r=\"6\" fill=\"#FFFFFF\" stroke=\"#CBD5E1\" stroke-width=\"1.8\"/>\n    <circle cx=\"102\" cy=\"132\" r=\"6\" fill=\"#FFFFFF\" stroke=\"#CBD5E1\" stroke-width=\"1.8\"/>\n  </g>\n  <g class=\"pet-anim-head\">\n    <g class=\"pet-anim-ears\" style=\"transform-origin: 90px 65px;\">\n      <!-- Floppy Long Ears -->\n      <path d=\"M 52 56 C 36 56 26 78 28 108 C 30 122 42 122 48 106 C 52 92 54 68 58 56 Z\" fill=\"url(#bunny-white)\" stroke=\"#CBD5E1\" stroke-width=\"2.2\"/>\n      <path d=\"M 38 72 C 34 84 36 106 42 106 C 45 96 46 80 48 72 Z\" fill=\"url(#bunny-ear)\"/>\n      <path d=\"M 128 56 C 144 56 154 78 152 108 C 150 122 138 122 132 106 C 128 92 126 68 122 56 Z\" fill=\"url(#bunny-white)\" stroke=\"#CBD5E1\" stroke-width=\"2.2\"/>\n      <path d=\"M 142 72 C 146 84 144 106 138 106 C 135 96 134 80 132 72 Z\" fill=\"url(#bunny-ear)\"/>\n    </g>\n    <path d=\"M 44 82 C 40 60 62 44 90 44 C 118 44 140 60 136 82 C 142 96 138 114 120 118 C 104 122 76 122 60 118 C 42 114 38 96 44 82 Z\" fill=\"url(#bunny-white)\" stroke=\"#CBD5E1\" stroke-width=\"2.2\"/>\n    <circle cx=\"56\" cy=\"88\" r=\"9\" fill=\"url(#bunny-blush)\"/>\n    <circle cx=\"124\" cy=\"88\" r=\"9\" fill=\"url(#bunny-blush)\"/>\n    <!-- Ruby Anime Eyes -->\n    <g class=\"pet-anim-eyes\" style=\"transform-origin: 90px 76px;\">\n      <ellipse cx=\"68\" cy=\"74\" rx=\"10\" ry=\"11.5\" fill=\"#4C0519\"/>\n      <ellipse cx=\"68\" cy=\"75.5\" rx=\"8.5\" ry=\"9.5\" fill=\"url(#bunny-ruby)\"/>\n      <ellipse cx=\"68\" cy=\"74.5\" rx=\"5\" ry=\"6.5\" fill=\"#831843\"/>\n      <ellipse cx=\"68\" cy=\"78\" rx=\"6\" ry=\"3.5\" fill=\"#FBCFE8\" opacity=\"0.65\"/>\n      <circle cx=\"65\" cy=\"71\" r=\"3.2\" fill=\"#FFFFFF\"/>\n      <circle cx=\"71\" cy=\"78\" r=\"1.6\" fill=\"#FFFFFF\"/>\n      <ellipse cx=\"112\" cy=\"74\" rx=\"10\" ry=\"11.5\" fill=\"#4C0519\"/>\n      <ellipse cx=\"112\" cy=\"75.5\" rx=\"8.5\" ry=\"9.5\" fill=\"url(#bunny-ruby)\"/>\n      <ellipse cx=\"112\" cy=\"74.5\" rx=\"5\" ry=\"6.5\" fill=\"#831843\"/>\n      <ellipse cx=\"112\" cy=\"78\" rx=\"6\" ry=\"3.5\" fill=\"#FBCFE8\" opacity=\"0.65\"/>\n      <circle cx=\"109\" cy=\"71\" r=\"3.2\" fill=\"#FFFFFF\"/>\n      <circle cx=\"115\" cy=\"78\" r=\"1.6\" fill=\"#FFFFFF\"/>\n    </g>\n    <!-- Nose and Mouth -->\n    <polygon points=\"88,83 92,83 90,86\" fill=\"#FB7185\"/>\n    <path d=\"M 90 86 L 90 89 M 86 91 Q 90 89 94 91\" stroke=\"#64748B\" stroke-width=\"1.8\" stroke-linecap=\"round\"/>\n    <!-- Flower Hairpin on Ear -->\n    <g transform=\"translate(126, 52)\">\n      <circle cx=\"0\" cy=\"0\" r=\"5\" fill=\"#FB7185\"/>\n      <circle cx=\"0\" cy=\"0\" r=\"2.2\" fill=\"#FEF08A\"/>\n    </g>\n  </g>\n</svg>",
-    "quotes": {
-      "greetings": [
-        "Bé thỏ Mochi cúi chào cô Nguyệt ạ! Hôm nay trông cô tươi tắn như bông hoa xuân! 🐰🌸",
-        "Hai tai cụp của em đung đưa chào cô nè, chúc cô buổi dạy học tuyệt vời nhất! ✨"
-      ],
-      "feed": [
-        "Rộp rộp~ Cà rốt giòn ngọt mê ly luôn cô ơi! Cảm ơn cô Nguyệt nhiều ạ! 🥕😋"
-      ],
-      "pet": [
-        "Ôi~ Lông em mềm mượt được bàn tay ấm áp của cô vuốt ve thì sướng thích mê luôn! 🐰✨"
-      ],
-      "hungry": [
-        "Cô Nguyệt ơi... Em đói meo rồi nè, cho em xin củ cà rốt cam giòn ngọt nha cô! 🥺🥕"
-      ]
-    }
-  },
-  "panda": {
-    "id": "panda",
-    "species": "Gấu Trúc Bảo Bảo",
-    "defaultName": "Bảo Bảo",
-    "foodIcon": "🎋",
-    "foodName": "Măng trúc tươi",
-    "description": "Gấu trúc tròn xoe béo ú ôm măng trúc giòn rụm, quầng mắt đen lấp lánh và má hồng phúng phính.",
-    "svg": "<svg viewBox=\"0 0 180 200\" class=\"fullbody-pet-svg\" xmlns=\"http://www.w3.org/2000/svg\">\n  <defs>\n    <linearGradient id=\"panda-white\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\"><stop offset=\"0%\" stop-color=\"#FFFFFF\"/><stop offset=\"100%\" stop-color=\"#F1F5F9\"/></linearGradient>\n    <linearGradient id=\"panda-dark\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\"><stop offset=\"0%\" stop-color=\"#334155\"/><stop offset=\"100%\" stop-color=\"#0F172A\"/></linearGradient>\n    <linearGradient id=\"panda-bamboo\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\"><stop offset=\"0%\" stop-color=\"#4ADE80\"/><stop offset=\"50%\" stop-color=\"#22C55E\"/><stop offset=\"100%\" stop-color=\"#15803D\"/></linearGradient>\n    <radialGradient id=\"panda-blush\" cx=\"50%\" cy=\"50%\" r=\"50%\"><stop offset=\"0%\" stop-color=\"#FB7185\" stop-opacity=\"0.6\"/><stop offset=\"100%\" stop-color=\"#FB7185\" stop-opacity=\"0\"/></radialGradient>\n    <linearGradient id=\"panda-iris\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\"><stop offset=\"0%\" stop-color=\"#1C1917\"/><stop offset=\"60%\" stop-color=\"#451A03\"/><stop offset=\"100%\" stop-color=\"#9A3412\"/></linearGradient>\n  </defs>\n  <ellipse cx=\"90\" cy=\"178\" rx=\"58\" ry=\"12\" fill=\"#0F172A\" opacity=\"0.15\"/>\n  <g class=\"pet-hind-legs\">\n    <ellipse cx=\"44\" cy=\"152\" rx=\"19\" ry=\"15\" fill=\"url(#panda-dark)\" stroke=\"#0F172A\" stroke-width=\"2.2\" transform=\"rotate(-10 44 152)\"/>\n    <ellipse cx=\"40\" cy=\"162\" rx=\"10\" ry=\"6\" fill=\"#1E293B\" stroke=\"#0F172A\" stroke-width=\"1.8\"/>\n    <ellipse cx=\"136\" cy=\"152\" rx=\"19\" ry=\"15\" fill=\"url(#panda-dark)\" stroke=\"#0F172A\" stroke-width=\"2.2\" transform=\"rotate(10 136 152)\"/>\n    <ellipse cx=\"140\" cy=\"162\" rx=\"10\" ry=\"6\" fill=\"#1E293B\" stroke=\"#0F172A\" stroke-width=\"1.8\"/>\n  </g>\n  <g class=\"pet-solid-body\">\n    <path d=\"M 58 106 C 54 94 68 90 90 90 C 112 90 126 94 122 106 C 120 122 126 142 126 162 C 126 169 118 171 112 171 C 105 171 101 166 101 156 L 101 126 C 101 120 97 116 90 116 C 83 116 79 120 79 126 L 79 156 C 79 166 75 171 68 171 C 62 171 54 169 54 162 C 54 142 60 122 58 106 Z\" fill=\"url(#panda-white)\" stroke=\"#CBD5E1\" stroke-width=\"2.2\" stroke-linejoin=\"round\"/>\n    <!-- Panda Vest Shoulders -->\n    <path d=\"M 58 106 C 54 94 68 90 90 90 C 112 90 126 94 122 106 C 118 116 104 120 90 120 C 76 120 62 116 58 106 Z\" fill=\"url(#panda-dark)\"/>\n    <!-- Fresh Leafy Bamboo Stalk -->\n    <g transform=\"translate(94, 110)\">\n      <path d=\"M 4 0 L 8 46\" stroke=\"url(#panda-bamboo)\" stroke-width=\"6.5\" stroke-linecap=\"round\"/>\n      <path d=\"M 6 12 L 18 6 M 7 24 L 20 20 M 6 36 L 18 34\" stroke=\"#22C55E\" stroke-width=\"2.8\" stroke-linecap=\"round\"/>\n      <ellipse cx=\"19\" cy=\"5\" rx=\"5\" ry=\"2.5\" fill=\"#4ADE80\" transform=\"rotate(-20 19 5)\"/>\n      <ellipse cx=\"21\" cy=\"19\" rx=\"5\" ry=\"2.5\" fill=\"#4ADE80\" transform=\"rotate(-15 21 19)\"/>\n    </g>\n    <!-- Front Paws Hugging Bamboo -->\n    <circle cx=\"78\" cy=\"132\" r=\"10\" fill=\"url(#panda-dark)\" stroke=\"#0F172A\" stroke-width=\"2\"/>\n    <circle cx=\"106\" cy=\"135\" r=\"10\" fill=\"url(#panda-dark)\" stroke=\"#0F172A\" stroke-width=\"2\"/>\n  </g>\n  <g class=\"pet-anim-head\">\n    <g class=\"pet-anim-ears\" style=\"transform-origin: 90px 65px;\">\n      <circle cx=\"48\" cy=\"46\" r=\"15\" fill=\"url(#panda-dark)\" stroke=\"#0F172A\" stroke-width=\"2.2\"/>\n      <circle cx=\"132\" cy=\"46\" r=\"15\" fill=\"url(#panda-dark)\" stroke=\"#0F172A\" stroke-width=\"2.2\"/>\n    </g>\n    <path d=\"M 44 82 C 40 60 62 44 90 44 C 118 44 140 60 136 82 C 142 96 138 114 120 118 C 104 122 76 122 60 118 C 42 114 38 96 44 82 Z\" fill=\"url(#panda-white)\" stroke=\"#CBD5E1\" stroke-width=\"2.2\"/>\n    <!-- Iconic Dark Teardrop Eye Patches -->\n    <ellipse cx=\"68\" cy=\"76\" rx=\"14\" ry=\"12\" fill=\"url(#panda-dark)\" transform=\"rotate(-15 68 76)\"/>\n    <ellipse cx=\"112\" cy=\"76\" rx=\"14\" ry=\"12\" fill=\"url(#panda-dark)\" transform=\"rotate(15 112 76)\"/>\n    <circle cx=\"54\" cy=\"90\" r=\"9\" fill=\"url(#panda-blush)\"/>\n    <circle cx=\"126\" cy=\"90\" r=\"9\" fill=\"url(#panda-blush)\"/>\n    <!-- Sparkling Anime Eyes inside patches -->\n    <g class=\"pet-anim-eyes\" style=\"transform-origin: 90px 76px;\">\n      <ellipse cx=\"70\" cy=\"75\" rx=\"8\" ry=\"9\" fill=\"#1C1917\"/>\n      <ellipse cx=\"70\" cy=\"76\" rx=\"6.5\" ry=\"7\" fill=\"url(#panda-iris)\"/>\n      <circle cx=\"68\" cy=\"73\" r=\"2.8\" fill=\"#FFFFFF\"/>\n      <circle cx=\"72\" cy=\"78\" r=\"1.4\" fill=\"#FFFFFF\"/>\n      <ellipse cx=\"110\" cy=\"75\" rx=\"8\" ry=\"9\" fill=\"#1C1917\"/>\n      <ellipse cx=\"110\" cy=\"76\" rx=\"6.5\" ry=\"7\" fill=\"url(#panda-iris)\"/>\n      <circle cx=\"108\" cy=\"73\" r=\"2.8\" fill=\"#FFFFFF\"/>\n      <circle cx=\"112\" cy=\"78\" r=\"1.4\" fill=\"#FFFFFF\"/>\n    </g>\n    <ellipse cx=\"90\" cy=\"83\" rx=\"5.5\" ry=\"4\" fill=\"#0F172A\"/>\n    <path d=\"M 85 88 Q 90 91 95 88\" stroke=\"#0F172A\" stroke-width=\"2\" stroke-linecap=\"round\" fill=\"none\"/>\n  </g>\n</svg>",
-    "quotes": {
-      "greetings": [
-        "Chào cô Nguyệt! Em vừa ngủ trưa dậy nè, thấy cô là em tỉnh cả ngủ! 🐼✨",
-        "Gấu trúc Bảo Bảo đang ngồi khoanh chân đợi cô vào tiết dạy đây ạ! 🎋"
-      ],
-      "feed": [
-        "Rôm rốp~ Cành trúc non thơm ngọt giòn tan luôn cô ơi! Cảm ơn cô Nguyệt! 🎋😋"
-      ],
-      "pet": [
-        "Ôi~ Bàn tay cô Nguyệt ấm áp ghê! Em cuộn tròn cho cô xoa đầu nè! 🐼💕"
-      ],
-      "hungry": [
-        "Cô Nguyệt ơi... Em đói bụng rồi, cô cho em xin vài nhánh trúc giòn nha! 🥺🎋"
-      ]
-    }
-  },
-  "duck": {
-    "id": "duck",
-    "species": "Vịt Vàng Chíp Chíp",
-    "defaultName": "Chíp Chíp",
-    "foodIcon": "🌾",
-    "foodName": "Ngô ngọt vàng",
-    "description": "Chú vịt con tròn ủng lông vàng óng, mầm cây non trên đầu và đôi cánh nhỏ vỗ rộn ràng.",
-    "svg": "<svg viewBox=\"0 0 180 200\" class=\"fullbody-pet-svg\" xmlns=\"http://www.w3.org/2000/svg\">\n  <defs>\n    <linearGradient id=\"duck-fur\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\"><stop offset=\"0%\" stop-color=\"#FEF08A\"/><stop offset=\"50%\" stop-color=\"#FACC15\"/><stop offset=\"100%\" stop-color=\"#EAB308\"/></linearGradient>\n    <linearGradient id=\"duck-belly\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\"><stop offset=\"0%\" stop-color=\"#FFFFFF\"/><stop offset=\"100%\" stop-color=\"#FEF9C3\"/></linearGradient>\n    <linearGradient id=\"duck-beak\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\"><stop offset=\"0%\" stop-color=\"#FB923C\"/><stop offset=\"100%\" stop-color=\"#EA580C\"/></linearGradient>\n    <radialGradient id=\"duck-blush\" cx=\"50%\" cy=\"50%\" r=\"50%\"><stop offset=\"0%\" stop-color=\"#FB7185\" stop-opacity=\"0.6\"/><stop offset=\"100%\" stop-color=\"#FB7185\" stop-opacity=\"0\"/></radialGradient>\n    <linearGradient id=\"duck-sprout\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\"><stop offset=\"0%\" stop-color=\"#4ADE80\"/><stop offset=\"100%\" stop-color=\"#16A34A\"/></linearGradient>\n  </defs>\n  <ellipse cx=\"90\" cy=\"178\" rx=\"58\" ry=\"12\" fill=\"#CA8A04\" opacity=\"0.15\"/>\n  <!-- Webbed Orange Feet -->\n  <ellipse cx=\"68\" cy=\"164\" rx=\"15\" ry=\"7\" fill=\"url(#duck-beak)\" stroke=\"#C2410C\" stroke-width=\"1.8\"/>\n  <ellipse cx=\"112\" cy=\"164\" rx=\"15\" ry=\"7\" fill=\"url(#duck-beak)\" stroke=\"#C2410C\" stroke-width=\"1.8\"/>\n  <g class=\"pet-solid-body\">\n    <ellipse cx=\"90\" cy=\"132\" rx=\"42\" ry=\"38\" fill=\"url(#duck-fur)\" stroke=\"#CA8A04\" stroke-width=\"2.2\"/>\n    <ellipse cx=\"90\" cy=\"136\" rx=\"28\" ry=\"24\" fill=\"url(#duck-belly)\"/>\n  </g>\n  <!-- Animated Flapping Wings -->\n  <g class=\"pet-anim-wings-left\" style=\"transform-origin: 46px 125px;\">\n    <ellipse cx=\"46\" cy=\"125\" rx=\"11\" ry=\"20\" fill=\"url(#duck-fur)\" stroke=\"#CA8A04\" stroke-width=\"2\" transform=\"rotate(22 46 125)\"/>\n  </g>\n  <g class=\"pet-anim-wings-right\" style=\"transform-origin: 134px 125px;\">\n    <ellipse cx=\"134\" cy=\"125\" rx=\"11\" ry=\"20\" fill=\"url(#duck-fur)\" stroke=\"#CA8A04\" stroke-width=\"2\" transform=\"rotate(-22 134 125)\"/>\n  </g>\n  <g class=\"pet-anim-head\">\n    <!-- Cute Clover Sprout on Head -->\n    <path d=\"M 90 40 C 90 26 80 24 76 20 C 82 32 88 32 90 40 Z\" fill=\"url(#duck-sprout)\"/>\n    <path d=\"M 90 40 C 90 26 100 24 104 20 C 98 32 92 32 90 40 Z\" fill=\"url(#duck-sprout)\"/>\n    <circle cx=\"90\" cy=\"40\" r=\"2.5\" fill=\"#16A34A\"/>\n    <!-- Head -->\n    <ellipse cx=\"90\" cy=\"76\" rx=\"42\" ry=\"38\" fill=\"url(#duck-fur)\" stroke=\"#CA8A04\" stroke-width=\"2.2\"/>\n    <circle cx=\"56\" cy=\"86\" r=\"9\" fill=\"url(#duck-blush)\"/>\n    <circle cx=\"124\" cy=\"86\" r=\"9\" fill=\"url(#duck-blush)\"/>\n    <!-- Big Sparkling Anime Eyes -->\n    <g class=\"pet-anim-eyes\" style=\"transform-origin: 90px 72px;\">\n      <ellipse cx=\"70\" cy=\"72\" rx=\"9\" ry=\"10\" fill=\"#1E293B\"/>\n      <ellipse cx=\"70\" cy=\"73\" rx=\"7.5\" ry=\"8\" fill=\"#0F766E\"/>\n      <circle cx=\"67.5\" cy=\"69.5\" r=\"3.2\" fill=\"#FFFFFF\"/>\n      <circle cx=\"72.5\" cy=\"75.5\" r=\"1.6\" fill=\"#FFFFFF\"/>\n      <ellipse cx=\"110\" cy=\"72\" rx=\"9\" ry=\"10\" fill=\"#1E293B\"/>\n      <ellipse cx=\"110\" cy=\"73\" rx=\"7.5\" ry=\"8\" fill=\"#0F766E\"/>\n      <circle cx=\"107.5\" cy=\"69.5\" r=\"3.2\" fill=\"#FFFFFF\"/>\n      <circle cx=\"112.5\" cy=\"75.5\" r=\"1.6\" fill=\"#FFFFFF\"/>\n    </g>\n    <!-- Smooth Coral-Orange Beak -->\n    <ellipse cx=\"90\" cy=\"82\" rx=\"17\" ry=\"10\" fill=\"url(#duck-beak)\" stroke=\"#C2410C\" stroke-width=\"2\"/>\n    <circle cx=\"85\" cy=\"80\" r=\"1.4\" fill=\"#9A3412\"/>\n    <circle cx=\"95\" cy=\"80\" r=\"1.4\" fill=\"#9A3412\"/>\n  </g>\n</svg>",
-    "quotes": {
-      "greetings": [
-        "Quạc quạc! Bé Vịt Chíp Chíp vỗ cánh chúc cô Nguyệt một ngày vui vẻ tràn đầy năng lượng! 🐥✨",
-        "Mầm cây may mắn trên đầu em đang lắc lư đón cô nè! 🥰🌾"
-      ],
-      "feed": [
-        "Chíp chíp~ Hạt bắp ngọt thơm vàng ươm ngon tuyệt cú mèo cô ơi! Cảm ơn cô Nguyệt! 🌽😋"
-      ],
-      "pet": [
-        "Bộ lông tơ mịn màng của em được cô vuốt ve thì ấm áp không gì bằng luôn! 💕"
-      ],
-      "hungry": [
-        "Quạc quạc... Em đói meo rồi cô ơi, cô cho Chíp Chíp xin chút bắp ngọt nha! 🥺🌽"
-      ]
-    }
-  },
-  "hamster": {
-    "id": "hamster",
-    "species": "Chuột Hamster Béo Kiki",
-    "defaultName": "Kiki",
-    "foodIcon": "🌻",
-    "foodName": "Hạt hướng dương",
-    "description": "Bé chuột béo ú má phúng phính ôm hạt hướng dương khổng lồ, hai tai hồng rung rinh siêu đáng yêu.",
-    "svg": "<svg viewBox=\"0 0 180 200\" class=\"fullbody-pet-svg\" xmlns=\"http://www.w3.org/2000/svg\">\n  <defs>\n    <linearGradient id=\"ham-fur\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\"><stop offset=\"0%\" stop-color=\"#FDE68A\"/><stop offset=\"50%\" stop-color=\"#F59E0B\"/><stop offset=\"100%\" stop-color=\"#D97706\"/></linearGradient>\n    <linearGradient id=\"ham-cream\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\"><stop offset=\"0%\" stop-color=\"#FFFFFF\"/><stop offset=\"100%\" stop-color=\"#FFFBEB\"/></linearGradient>\n    <radialGradient id=\"ham-blush\" cx=\"50%\" cy=\"50%\" r=\"50%\"><stop offset=\"0%\" stop-color=\"#FB7185\" stop-opacity=\"0.65\"/><stop offset=\"100%\" stop-color=\"#FB7185\" stop-opacity=\"0\"/></radialGradient>\n    <linearGradient id=\"ham-seed\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"1\"><stop offset=\"0%\" stop-color=\"#4B5563\"/><stop offset=\"100%\" stop-color=\"#1F2937\"/></linearGradient>\n  </defs>\n  <ellipse cx=\"90\" cy=\"178\" rx=\"58\" ry=\"12\" fill=\"#B45309\" opacity=\"0.15\"/>\n  <ellipse cx=\"68\" cy=\"164\" rx=\"11\" ry=\"6\" fill=\"url(#ham-cream)\" stroke=\"#B45309\" stroke-width=\"1.8\"/>\n  <ellipse cx=\"112\" cy=\"164\" rx=\"11\" ry=\"6\" fill=\"url(#ham-cream)\" stroke=\"#B45309\" stroke-width=\"1.8\"/>\n  <g class=\"pet-solid-body\">\n    <ellipse cx=\"90\" cy=\"132\" rx=\"42\" ry=\"38\" fill=\"url(#ham-fur)\" stroke=\"#B45309\" stroke-width=\"2.2\"/>\n    <ellipse cx=\"90\" cy=\"136\" rx=\"30\" ry=\"26\" fill=\"url(#ham-cream)\"/>\n    <!-- Giant Roasted Sunflower Seed -->\n    <g transform=\"translate(90, 128) rotate(-15)\">\n      <ellipse cx=\"0\" cy=\"0\" rx=\"11\" ry=\"17\" fill=\"url(#ham-seed)\" stroke=\"#111827\" stroke-width=\"1.8\"/>\n      <path d=\"M 0 -15 L 0 15\" stroke=\"#FBBF24\" stroke-width=\"2\" stroke-linecap=\"round\"/>\n      <path d=\"M -5 -10 L -5 10 M 5 -10 L 5 10\" stroke=\"#9CA3AF\" stroke-width=\"1.2\" stroke-linecap=\"round\"/>\n    </g>\n    <!-- Tiny Front Paws Clutching Seed -->\n    <circle cx=\"78\" cy=\"126\" r=\"6\" fill=\"url(#ham-cream)\" stroke=\"#B45309\" stroke-width=\"1.5\"/>\n    <circle cx=\"102\" cy=\"130\" r=\"6\" fill=\"url(#ham-cream)\" stroke=\"#B45309\" stroke-width=\"1.5\"/>\n  </g>\n  <g class=\"pet-anim-head\">\n    <g class=\"pet-anim-ears\" style=\"transform-origin: 90px 60px;\">\n      <circle cx=\"48\" cy=\"52\" r=\"14\" fill=\"url(#ham-fur)\" stroke=\"#B45309\" stroke-width=\"2\"/>\n      <circle cx=\"48\" cy=\"52\" r=\"8\" fill=\"#FCE7F3\"/>\n      <circle cx=\"132\" cy=\"52\" r=\"14\" fill=\"url(#ham-fur)\" stroke=\"#B45309\" stroke-width=\"2\"/>\n      <circle cx=\"132\" cy=\"52\" r=\"8\" fill=\"#FCE7F3\"/>\n    </g>\n    <!-- Extra Chubby Stuffed Cheeks -->\n    <ellipse cx=\"90\" cy=\"80\" rx=\"44\" ry=\"36\" fill=\"url(#ham-fur)\" stroke=\"#B45309\" stroke-width=\"2.2\"/>\n    <ellipse cx=\"48\" cy=\"85\" rx=\"15\" ry=\"16\" fill=\"url(#ham-fur)\" stroke=\"#B45309\" stroke-width=\"2\"/>\n    <ellipse cx=\"132\" cy=\"85\" rx=\"15\" ry=\"16\" fill=\"url(#ham-fur)\" stroke=\"#B45309\" stroke-width=\"2\"/>\n    <ellipse cx=\"90\" cy=\"88\" rx=\"30\" ry=\"24\" fill=\"url(#ham-cream)\"/>\n    <circle cx=\"48\" cy=\"88\" r=\"10\" fill=\"url(#ham-blush)\"/>\n    <circle cx=\"132\" cy=\"88\" r=\"10\" fill=\"url(#ham-blush)\"/>\n    <!-- Big Sparkling Black Eyes -->\n    <g class=\"pet-anim-eyes\" style=\"transform-origin: 90px 74px;\">\n      <circle cx=\"68\" cy=\"74\" r=\"6.5\" fill=\"#1C1917\"/>\n      <circle cx=\"66\" cy=\"71.5\" r=\"2.8\" fill=\"#FFFFFF\"/>\n      <circle cx=\"70\" cy=\"76\" r=\"1.4\" fill=\"#FFFFFF\"/>\n      <circle cx=\"112\" cy=\"74\" r=\"6.5\" fill=\"#1C1917\"/>\n      <circle cx=\"110\" cy=\"71.5\" r=\"2.8\" fill=\"#FFFFFF\"/>\n      <circle cx=\"114\" cy=\"76\" r=\"1.4\" fill=\"#FFFFFF\"/>\n    </g>\n    <polygon points=\"88,81 92,81 90,84\" fill=\"#F43F5E\"/>\n    <path d=\"M 86 86 Q 90 89 94 86\" stroke=\"#78350F\" stroke-width=\"1.8\" stroke-linecap=\"round\" fill=\"none\"/>\n  </g>\n</svg>",
-    "quotes": {
-      "greetings": [
-        "Chít chít! Bé Hamster Kiki má bánh bao ngậm đầy hạt chúc cô Nguyệt ngày mới rạng ngời! 🐹✨",
-        "Cô Nguyệt ơi, xem hai cái má phúng phính của em này, cô véo nhẹ một cái lấy hên nha! 🥰"
-      ],
-      "feed": [
-        "Tách tách rôm rốp~ Hạt hướng dương bùi béo giòn thơm ngon tuyệt cú mèo cô ơi! Cảm ơn cô! 🌻😋"
-      ],
-      "pet": [
-        "Chít~ Em nằm ngoan trong lòng bàn tay cô Nguyệt nè, ấm áp và bình yên vô cùng! 💕"
-      ],
-      "hungry": [
-        "Chít chít... Hai má em rỗng tuếch rồi cô ơi, cô thưởng cho Kiki hạt hướng dương nha! 🥺🌻"
-      ]
-    }
-  },
-  "fennec": {
-    "id": "fennec",
-    "species": "Cáo Tuyết Yuki",
-    "defaultName": "Yuki",
-    "foodIcon": "🍓",
-    "foodName": "Dâu rừng ngọt",
-    "description": "Bạch hồ ly tuyết quý phái, đôi tai to thông tuệ, mắt thạch anh tím huyền ảo và chiếc đuôi bồng bềnh.",
-    "svg": "<svg viewBox=\"0 0 180 200\" class=\"fullbody-pet-svg\" xmlns=\"http://www.w3.org/2000/svg\">\n  <defs>\n    <linearGradient id=\"fox-snow\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\"><stop offset=\"0%\" stop-color=\"#FFFFFF\"/><stop offset=\"100%\" stop-color=\"#EEF2FF\"/></linearGradient>\n    <linearGradient id=\"fox-eye\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\"><stop offset=\"0%\" stop-color=\"#4C1D95\"/><stop offset=\"45%\" stop-color=\"#7C3AED\"/><stop offset=\"85%\" stop-color=\"#A78BFA\"/><stop offset=\"100%\" stop-color=\"#DDD6FE\"/></linearGradient>\n    <radialGradient id=\"fox-blush\" cx=\"50%\" cy=\"50%\" r=\"50%\"><stop offset=\"0%\" stop-color=\"#F472B6\" stop-opacity=\"0.55\"/><stop offset=\"100%\" stop-color=\"#F472B6\" stop-opacity=\"0\"/></radialGradient>\n    <linearGradient id=\"fox-ear-inner\" x1=\"0\" y1=\"1\" x2=\"0\" y2=\"0\"><stop offset=\"0%\" stop-color=\"#FBCFE8\"/><stop offset=\"100%\" stop-color=\"#FFFFFF\"/></linearGradient>\n  </defs>\n  <ellipse cx=\"90\" cy=\"178\" rx=\"58\" ry=\"12\" fill=\"#4338CA\" opacity=\"0.12\"/>\n  <!-- Grand Fluffy Fox Tail -->\n  <g class=\"pet-anim-tail\" style=\"transform-origin: 54px 156px;\">\n    <path d=\"M 54 152 C 28 132 10 92 28 66 C 40 54 58 64 52 82 C 44 100 46 122 56 152 Z\" fill=\"url(#fox-snow)\" stroke=\"#CBD5E1\" stroke-width=\"2.2\"/>\n    <path d=\"M 28 66 C 34 80 44 84 52 82 Z\" fill=\"#FBCFE8\"/>\n  </g>\n  <g class=\"pet-hind-legs\">\n    <ellipse cx=\"44\" cy=\"150\" rx=\"17\" ry=\"13\" fill=\"url(#fox-snow)\" stroke=\"#CBD5E1\" stroke-width=\"2.2\" transform=\"rotate(-8 44 150)\"/>\n    <ellipse cx=\"40\" cy=\"162\" rx=\"10\" ry=\"6\" fill=\"#FFFFFF\" stroke=\"#CBD5E1\" stroke-width=\"1.8\"/>\n    <ellipse cx=\"136\" cy=\"150\" rx=\"17\" ry=\"13\" fill=\"url(#fox-snow)\" stroke=\"#CBD5E1\" stroke-width=\"2.2\" transform=\"rotate(8 136 150)\"/>\n    <ellipse cx=\"140\" cy=\"162\" rx=\"10\" ry=\"6\" fill=\"#FFFFFF\" stroke=\"#CBD5E1\" stroke-width=\"1.8\"/>\n  </g>\n  <g class=\"pet-solid-body\">\n    <path d=\"M 58 106 C 54 94 68 90 90 90 C 112 90 126 94 122 106 C 120 122 126 142 126 162 C 126 169 118 171 112 171 C 105 171 101 166 101 156 L 101 126 C 101 120 97 116 90 116 C 83 116 79 120 79 126 L 79 156 C 79 166 75 171 68 171 C 62 171 54 169 54 162 C 54 142 60 122 58 106 Z\" fill=\"url(#fox-snow)\" stroke=\"#CBD5E1\" stroke-width=\"2.2\" stroke-linejoin=\"round\"/>\n    <!-- Elegant White Fluffy Chest -->\n    <path d=\"M 74 100 C 66 114 62 136 90 136 C 118 136 114 114 106 100 Z\" fill=\"#FFFFFF\"/>\n    <path d=\"M 60 124 C 58 140 59 154 59 164 C 59 169 64 171 70 171 C 76 171 80 167 80 158 L 80 126\" fill=\"#FFFFFF\" stroke=\"#CBD5E1\" stroke-width=\"2\" stroke-linecap=\"round\"/>\n    <path d=\"M 120 124 C 122 140 121 154 121 164 C 121 169 116 171 110 171 C 104 171 100 167 100 158 L 100 126\" fill=\"#FFFFFF\" stroke=\"#CBD5E1\" stroke-width=\"2\" stroke-linecap=\"round\"/>\n  </g>\n  <g class=\"pet-anim-head\">\n    <!-- Huge Magnificent Arctic Fox Ears -->\n    <g class=\"pet-anim-ears\" style=\"transform-origin: 90px 65px;\">\n      <path d=\"M 52 64 L 18 14 C 36 18 58 38 66 54 Z\" fill=\"url(#fox-snow)\" stroke=\"#CBD5E1\" stroke-width=\"2.2\"/>\n      <path d=\"M 50 56 L 28 26 C 42 28 54 42 58 50 Z\" fill=\"url(#fox-ear-inner)\"/>\n      <path d=\"M 128 64 L 162 14 C 144 18 122 38 114 54 Z\" fill=\"url(#fox-snow)\" stroke=\"#CBD5E1\" stroke-width=\"2.2\"/>\n      <path d=\"M 130 56 L 152 26 C 138 28 126 42 122 50 Z\" fill=\"url(#fox-ear-inner)\"/>\n    </g>\n    <path d=\"M 44 82 C 40 60 62 44 90 44 C 118 44 140 60 136 82 C 142 96 138 114 120 118 C 104 122 76 122 60 118 C 42 114 38 96 44 82 Z\" fill=\"url(#fox-snow)\" stroke=\"#CBD5E1\" stroke-width=\"2.2\"/>\n    <circle cx=\"56\" cy=\"88\" r=\"9\" fill=\"url(#fox-blush)\"/>\n    <circle cx=\"124\" cy=\"88\" r=\"9\" fill=\"url(#fox-blush)\"/>\n    <!-- Enchanting Amethyst Jewel Anime Eyes -->\n    <g class=\"pet-anim-eyes\" style=\"transform-origin: 90px 76px;\">\n      <ellipse cx=\"68\" cy=\"74\" rx=\"10\" ry=\"11.5\" fill=\"#2E1065\"/>\n      <ellipse cx=\"68\" cy=\"75.5\" rx=\"8.5\" ry=\"9.5\" fill=\"url(#fox-eye)\"/>\n      <ellipse cx=\"68\" cy=\"74.5\" rx=\"5\" ry=\"6.5\" fill=\"#1E1B4B\"/>\n      <ellipse cx=\"68\" cy=\"78\" rx=\"6\" ry=\"3.5\" fill=\"#DDD6FE\" opacity=\"0.7\"/>\n      <circle cx=\"65\" cy=\"71\" r=\"3.2\" fill=\"#FFFFFF\"/>\n      <circle cx=\"71\" cy=\"78\" r=\"1.6\" fill=\"#FFFFFF\"/>\n      <ellipse cx=\"112\" cy=\"74\" rx=\"10\" ry=\"11.5\" fill=\"#2E1065\"/>\n      <ellipse cx=\"112\" cy=\"75.5\" rx=\"8.5\" ry=\"9.5\" fill=\"url(#fox-eye)\"/>\n      <ellipse cx=\"112\" cy=\"74.5\" rx=\"5\" ry=\"6.5\" fill=\"#1E1B4B\"/>\n      <ellipse cx=\"112\" cy=\"78\" rx=\"6\" ry=\"3.5\" fill=\"#DDD6FE\" opacity=\"0.7\"/>\n      <circle cx=\"109\" cy=\"71\" r=\"3.2\" fill=\"#FFFFFF\"/>\n      <circle cx=\"115\" cy=\"78\" r=\"1.6\" fill=\"#FFFFFF\"/>\n    </g>\n    <!-- Cute Fox Nose and Mouth -->\n    <polygon points=\"88,81 92,81 90,84\" fill=\"#1E1B4B\"/>\n    <path d=\"M 86 86 Q 90 89 94 86\" stroke=\"#475569\" stroke-width=\"1.8\" stroke-linecap=\"round\" fill=\"none\"/>\n    <!-- Red Forehead Bindi Dot -->\n    <circle cx=\"90\" cy=\"56\" r=\"2.5\" fill=\"#DC2626\"/>\n  </g>\n</svg>",
-    "quotes": {
-      "greetings": [
-        "Yuki kính chào cô Nguyệt! Hôm nay một ngày tuyệt vời và tràn đầy may mắn đang chờ đón cô nè! 🦊✨",
-        "Đôi tai tuyết của em nghe thấy tiếng học bài rôm rả hào hứng từ lớp cô rồi đó! 🥰"
-      ],
-      "feed": [
-        "Dâu rừng chín mọng thơm ngọt mát lành ngon quá cô ơi! Yuki cảm ơn cô Nguyệt nhiều lắm! 🍓😋"
-      ],
-      "pet": [
-        "Chiếc đuôi tuyết bồng bềnh của em quấn quýt lấy tay cô nè! Sướng mê ly luôn! 💖"
-      ],
-      "hungry": [
-        "Cô Nguyệt ơi... Em đói meo rồi nè, cô cho Yuki xin vài quả dâu rừng đỏ mọng nha! 🥺🍓"
-      ]
-    }
-  },
-  "penguin": {
-    "id": "penguin",
-    "species": "Chim Cánh Cụt Pingu",
-    "defaultName": "Pingu",
-    "foodIcon": "🐟",
-    "foodName": "Cá tuyết tươi",
-    "description": "Bé cánh cụt hoàng đế mũm mĩm quàng khăn len đỏ ấm áp, đôi cánh vẫy rộn ràng và bước đi lạch bạch.",
-    "svg": "<svg viewBox=\"0 0 180 200\" class=\"fullbody-pet-svg\" xmlns=\"http://www.w3.org/2000/svg\">\n  <defs>\n    <linearGradient id=\"pen-dark\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\"><stop offset=\"0%\" stop-color=\"#334155\"/><stop offset=\"50%\" stop-color=\"#1E293B\"/><stop offset=\"100%\" stop-color=\"#0F172A\"/></linearGradient>\n    <linearGradient id=\"pen-belly\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\"><stop offset=\"0%\" stop-color=\"#FFFFFF\"/><stop offset=\"100%\" stop-color=\"#F1F5F9\"/></linearGradient>\n    <linearGradient id=\"pen-scarf\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"1\"><stop offset=\"0%\" stop-color=\"#EF4444\"/><stop offset=\"50%\" stop-color=\"#DC2626\"/><stop offset=\"100%\" stop-color=\"#991B1B\"/></linearGradient>\n    <radialGradient id=\"pen-blush\" cx=\"50%\" cy=\"50%\" r=\"50%\"><stop offset=\"0%\" stop-color=\"#FB7185\" stop-opacity=\"0.6\"/><stop offset=\"100%\" stop-color=\"#FB7185\" stop-opacity=\"0\"/></radialGradient>\n    <linearGradient id=\"pen-beak\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\"><stop offset=\"0%\" stop-color=\"#FB923C\"/><stop offset=\"100%\" stop-color=\"#EA580C\"/></linearGradient>\n  </defs>\n  <ellipse cx=\"90\" cy=\"178\" rx=\"58\" ry=\"12\" fill=\"#0F172A\" opacity=\"0.15\"/>\n  <!-- Webbed Coral Feet -->\n  <ellipse cx=\"68\" cy=\"164\" rx=\"15\" ry=\"7\" fill=\"url(#pen-beak)\" stroke=\"#C2410C\" stroke-width=\"1.8\"/>\n  <ellipse cx=\"112\" cy=\"164\" rx=\"15\" ry=\"7\" fill=\"url(#pen-beak)\" stroke=\"#C2410C\" stroke-width=\"1.8\"/>\n  <g class=\"pet-solid-body\">\n    <ellipse cx=\"90\" cy=\"130\" rx=\"42\" ry=\"40\" fill=\"url(#pen-dark)\" stroke=\"#0F172A\" stroke-width=\"2.5\"/>\n    <!-- Snow Heart Belly -->\n    <ellipse cx=\"90\" cy=\"134\" rx=\"30\" ry=\"30\" fill=\"url(#pen-belly)\"/>\n  </g>\n  <!-- Animated Flipper Wings -->\n  <g class=\"pet-anim-wings-left\" style=\"transform-origin: 44px 120px;\">\n    <ellipse cx=\"44\" cy=\"120\" rx=\"10\" ry=\"22\" fill=\"url(#pen-dark)\" stroke=\"#0F172A\" stroke-width=\"2\" transform=\"rotate(22 44 120)\"/>\n  </g>\n  <g class=\"pet-anim-wings-right\" style=\"transform-origin: 136px 120px;\">\n    <ellipse cx=\"136\" cy=\"120\" rx=\"10\" ry=\"22\" fill=\"url(#pen-dark)\" stroke=\"#0F172A\" stroke-width=\"2\" transform=\"rotate(-22 136 120)\"/>\n  </g>\n  <g class=\"pet-anim-head\">\n    <ellipse cx=\"90\" cy=\"80\" rx=\"40\" ry=\"36\" fill=\"url(#pen-dark)\" stroke=\"#0F172A\" stroke-width=\"2.5\"/>\n    <!-- Cute White Mask Rings -->\n    <ellipse cx=\"72\" cy=\"78\" rx=\"15\" ry=\"17\" fill=\"url(#pen-belly)\"/>\n    <ellipse cx=\"108\" cy=\"78\" rx=\"15\" ry=\"17\" fill=\"url(#pen-belly)\"/>\n    <circle cx=\"56\" cy=\"88\" r=\"8\" fill=\"url(#pen-blush)\"/>\n    <circle cx=\"124\" cy=\"88\" r=\"8\" fill=\"url(#pen-blush)\"/>\n    <!-- Deep Navy Anime Eyes with Stars -->\n    <g class=\"pet-anim-eyes\" style=\"transform-origin: 90px 78px;\">\n      <ellipse cx=\"72\" cy=\"78\" rx=\"9\" ry=\"10\" fill=\"#0F172A\"/>\n      <ellipse cx=\"72\" cy=\"79\" rx=\"7\" ry=\"8\" fill=\"#1E3A8A\"/>\n      <circle cx=\"69.5\" cy=\"75\" r=\"3.2\" fill=\"#FFFFFF\"/>\n      <circle cx=\"74.5\" cy=\"81\" r=\"1.6\" fill=\"#FFFFFF\"/>\n      <ellipse cx=\"108\" cy=\"78\" rx=\"9\" ry=\"10\" fill=\"#0F172A\"/>\n      <ellipse cx=\"108\" cy=\"79\" rx=\"7\" ry=\"8\" fill=\"#1E3A8A\"/>\n      <circle cx=\"105.5\" cy=\"75\" r=\"3.2\" fill=\"#FFFFFF\"/>\n      <circle cx=\"110.5\" cy=\"81\" r=\"1.6\" fill=\"#FFFFFF\"/>\n    </g>\n    <!-- Smooth Beak -->\n    <polygon points=\"84,81 96,81 90,92\" fill=\"url(#pen-beak)\" stroke=\"#C2410C\" stroke-width=\"1.8\"/>\n    <!-- Cozy Striped Knitted Winter Scarf -->\n    <path d=\"M 58 98 C 72 106 108 106 122 98 C 124 107 110 114 90 114 C 70 114 56 107 58 98 Z\" fill=\"url(#pen-scarf)\" stroke=\"#7F1D1D\" stroke-width=\"2\"/>\n    <path d=\"M 100 108 L 106 136 L 94 136 Z\" fill=\"url(#pen-scarf)\" stroke=\"#7F1D1D\" stroke-width=\"1.8\"/>\n    <!-- Scarf Golden Stripes -->\n    <line x1=\"74\" y1=\"102\" x2=\"74\" y2=\"108\" stroke=\"#FEF08A\" stroke-width=\"2\"/>\n    <line x1=\"88\" y1=\"105\" x2=\"88\" y2=\"112\" stroke=\"#FEF08A\" stroke-width=\"2\"/>\n    <line x1=\"104\" y1=\"103\" x2=\"104\" y2=\"109\" stroke=\"#FEF08A\" stroke-width=\"2\"/>\n    <line x1=\"96\" y1=\"126\" x2=\"104\" y2=\"126\" stroke=\"#FEF08A\" stroke-width=\"2\"/>\n  </g>\n</svg>",
-    "quotes": {
-      "greetings": [
-        "Noot noot! Cánh cụt Pingu lạch bạch chạy ra đón cô Nguyệt đây ạ! 🐧❄️",
-        "Khăn ấm đã quàng, bài vở đã sẵn sàng, chúc cô Nguyệt một tiết dạy đại thành công! ✨"
-      ],
-      "feed": [
-        "Nham nham~ Cá tuyết tươi rói ngọt lịm từ biển băng! Pingu cảm ơn cô Nguyệt nhiều lắm! 🐟😋"
-      ],
-      "pet": [
-        "Noot~ Được cô xoa đầu thì bao nhiêu giá lạnh băng tuyết đều tan biến hết! Ấm quá đi à! 💕"
-      ],
-      "hungry": [
-        "Noot noot... Pingu đói meo rồi cô Nguyệt ơi, cho em xin chú cá tuyết béo nha! 🥺🐟"
-      ]
-    }
-  }
-};
+// Modularly loaded from pet_definitions.js & pet_engine.js
+// ==========================================
+const PET_DATA = (typeof window !== 'undefined' && window.PET_REGISTRY) ? window.PET_REGISTRY : {};
 
 // DOM References for Pet
 const petStage = document.getElementById('pet-stage');
@@ -2272,8 +1977,6 @@ const btnOpenPetModal = document.getElementById('btn-open-pet-modal');
 const petSelectionGrid = document.getElementById('pet-selection-grid');
 const inputPetName = document.getElementById('input-pet-name');
 const btnConfirmPet = document.getElementById('btn-confirm-pet');
-
-let tempSelectedPetId = 'nana';
 
 function ensurePetState(state) {
     if (!state) return false;
@@ -2303,8 +2006,16 @@ function ensurePetState(state) {
         changed = true;
     }
 
-    if (!state.pet.id || !PET_DATA[state.pet.id]) { state.pet.id = 'nana'; changed = true; }
-    if (!state.pet.name) { state.pet.name = 'Na Na'; changed = true; }
+    const reg = (typeof window !== 'undefined' && window.PET_REGISTRY) ? window.PET_REGISTRY : PET_DATA;
+    if (!state.pet.id || (reg && Object.keys(reg).length > 0 && !reg[state.pet.id])) {
+        state.pet.id = 'nana';
+        changed = true;
+    }
+    if (!state.pet.name) {
+        const petDef = (reg && reg[state.pet.id]) || {};
+        state.pet.name = petDef.name || 'Na Na';
+        changed = true;
+    }
     if (typeof state.pet.hunger !== 'number') { state.pet.hunger = 80; changed = true; }
     if (typeof state.pet.happiness !== 'number') { state.pet.happiness = 90; changed = true; }
     if (typeof state.pet.level !== 'number') { state.pet.level = 1; changed = true; }
@@ -2336,277 +2047,39 @@ function ensurePetState(state) {
     return changed;
 }
 
-function updatePetStatusBars() {
-    if (!appState.pet) return;
-    const pet = appState.pet;
-
-    if (petHungerText) petHungerText.textContent = `${pet.hunger}`;
-    if (petHappinessText) petHappinessText.textContent = `${pet.happiness}`;
-    if (petLevelEl) petLevelEl.textContent = pet.level || 1;
-    if (petStreakEl) petStreakEl.textContent = pet.streak || 1;
-
-    // Segmented Hunger bar (10 blocks)
-    if (petHungerSegments) {
-        petHungerSegments.innerHTML = '';
-        const activeCount = Math.min(10, Math.max(0, Math.round(pet.hunger / 10)));
-        for (let i = 0; i < 10; i++) {
-            const block = document.createElement('div');
-            block.className = `segment-block ${i < activeCount ? 'active-hunger' : ''}`;
-            petHungerSegments.appendChild(block);
-        }
-    }
-
-    // Segmented Happiness bar (10 blocks)
-    if (petHappinessSegments) {
-        petHappinessSegments.innerHTML = '';
-        const activeCount = Math.min(10, Math.max(0, Math.round(pet.happiness / 10)));
-        for (let i = 0; i < 10; i++) {
-            const block = document.createElement('div');
-            block.className = `segment-block ${i < activeCount ? 'active-happiness' : ''}`;
-            petHappinessSegments.appendChild(block);
-        }
-    }
-
-    // Mood badge
-    if (petMoodBadge) {
-        if (pet.hunger < 30) {
-            petMoodBadge.textContent = 'Đang Đói Bụng 🥺';
-            petMoodBadge.style.color = '#c05621';
-            petMoodBadge.style.background = '#feebc8';
-            petMoodBadge.style.borderColor = '#fbd38d';
-        } else if (pet.happiness >= 80) {
-            petMoodBadge.textContent = 'Rất Vui Vẻ 🥰';
-            petMoodBadge.style.color = '#276749';
-            petMoodBadge.style.background = '#c6f6d5';
-            petMoodBadge.style.borderColor = '#9ae6b4';
-        } else if (pet.happiness >= 50) {
-            petMoodBadge.textContent = 'Thư Thái 🌸';
-            petMoodBadge.style.color = '#2b6cb0';
-            petMoodBadge.style.background = '#ebf8ff';
-            petMoodBadge.style.borderColor = '#bee3f8';
-        } else {
-            petMoodBadge.textContent = 'Cần Vuốt Ve 💕';
-            petMoodBadge.style.color = '#97266d';
-            petMoodBadge.style.background = '#fed7e2';
-            petMoodBadge.style.borderColor = '#fbb6ce';
-        }
-    }
-
-    if (foodBowlCount) {
-        foodBowlCount.textContent = pet.hunger;
-    }
-}
-
 function renderPetView() {
-    if (!petAvatarWrapper) return;
     ensurePetState(appState);
-
-    const pet = appState.pet;
-    const petData = PET_DATA[pet.id] || PET_DATA['nana'];
-    const petPawMat = document.querySelector('.pet-paw-mat');
-
-    if (petData.isAuthentic) {
-        if (petPawMat) petPawMat.style.display = 'none';
-        if (petFoodBowl) petFoodBowl.classList.add('authentic-mode');
-        if (petStage) petStage.classList.add('authentic-stage');
-        petAvatarWrapper.classList.add('authentic-mode');
-        petAvatarWrapper.innerHTML = `<img src="${petData.idleGif}" class="authentic-stage-img" id="authentic-stage-img" alt="${petData.species}">`;
-    } else {
-        if (petPawMat) petPawMat.style.display = 'block';
-        if (petFoodBowl) petFoodBowl.classList.remove('authentic-mode');
-        if (petStage) petStage.classList.remove('authentic-stage');
-        petAvatarWrapper.classList.remove('authentic-mode');
-        petAvatarWrapper.innerHTML = petData.svg;
-    }
-
-    if (petNameEl) petNameEl.textContent = pet.name;
-    if (petSpeciesEl) petSpeciesEl.textContent = petData.species;
-    if (petFeedIcon) petFeedIcon.textContent = petData.foodIcon;
-
-    updatePetStatusBars();
-
-    // Set speech bubble message
-    if (petSpeechEl) {
-        if (pet.hunger < 35 && petData.quotes.hungry && petData.quotes.hungry.length > 0) {
-            const randIdx = Math.floor(Math.random() * petData.quotes.hungry.length);
-            petSpeechEl.textContent = petData.quotes.hungry[randIdx];
-        } else if (petData.quotes.greetings && petData.quotes.greetings.length > 0) {
-            const randIdx = Math.floor(Math.random() * petData.quotes.greetings.length);
-            petSpeechEl.textContent = petData.quotes.greetings[randIdx];
-        }
-    }
-}
-
-function triggerAuthenticReaction(petData) {
-    if (!petData.isAuthentic) return;
-    const petImg = document.getElementById('authentic-stage-img');
-    if (petImg && petData.lickGif) {
-        petImg.src = petData.lickGif;
-        if (window._petLickTimer) clearTimeout(window._petLickTimer);
-        window._petLickTimer = setTimeout(() => {
-            const currentPet = appState.pet;
-            const currentData = PET_DATA[currentPet ? currentPet.id : 'nana'] || PET_DATA['nana'];
-            if (currentData.isAuthentic) {
-                const img = document.getElementById('authentic-stage-img');
-                if (img) img.src = currentData.idleGif;
-            }
-        }, 2400);
-    }
-}
-
-function spawnPetParticle(emoji) {
-    const container = document.getElementById('pet-floating-effects');
-    if (!container) return;
-    const particle = document.createElement('span');
-    particle.className = 'floating-particle';
-    particle.textContent = emoji;
-    const randomX = (Math.random() - 0.5) * 60;
-    particle.style.left = `calc(50% + ${randomX}px)`;
-    particle.style.bottom = '50px';
-    const driftX = (Math.random() - 0.5) * 50;
-    particle.style.setProperty('--tx', `${driftX}px`);
-    container.appendChild(particle);
-    setTimeout(() => {
-        particle.remove();
-    }, 1200);
-}
-
-function triggerPetAnimation(animClass) {
-    if (!petAvatarWrapper) return;
-    petAvatarWrapper.classList.remove('bouncing', 'wiggling');
-    void petAvatarWrapper.offsetWidth;
-    petAvatarWrapper.classList.add(animClass);
-    setTimeout(() => {
-        if (petAvatarWrapper) petAvatarWrapper.classList.remove(animClass);
-    }, 600);
-}
-
-function addPetExp(amount) {
-    const pet = appState.pet;
-    if (!pet) return;
-    pet.exp = (pet.exp || 0) + amount;
-    if (pet.exp >= 100) {
-        pet.level = (pet.level || 1) + 1;
-        pet.exp = pet.exp - 100;
-        showToast(`🎉 Tuyệt vời! Bé ${pet.name} đã thăng cấp lên Cấp ${pet.level}!`);
-        if (petSpeechEl) {
-            petSpeechEl.textContent = `WOOHOO! Em đã lên Cấp ${pet.level} rồi cô Nguyệt ơi! 🎉✨ Cảm ơn cô đã chăm sóc em thật tốt! 🥰`;
-        }
+    if (typeof window !== 'undefined' && window.PetEngine) {
+        window.PetEngine.render(appState.pet);
     }
 }
 
 function handleFeedPet() {
-    if (!appState.pet) return;
-    const pet = appState.pet;
-    const petData = PET_DATA[pet.id] || PET_DATA['nana'];
-
-    if (pet.hunger >= 100) {
-        if (petSpeechEl) {
-            petSpeechEl.textContent = `Em no căng tròn bụng rồi cô Nguyệt ơi! Lát nữa cô hãy cho em ăn tiếp nha! 😋`;
-        }
-        triggerPetAnimation('bouncing');
-        spawnPetParticle('😋');
-        return;
+    ensurePetState(appState);
+    if (typeof window !== 'undefined' && window.PetEngine) {
+        window.PetEngine.feed(appState.pet, saveState);
     }
-
-    pet.hunger = Math.min(100, pet.hunger + 25);
-    pet.happiness = Math.min(100, pet.happiness + 5);
-    pet.lastFedDate = new Date().toISOString();
-    addPetExp(15);
-
-    triggerPetAnimation('bouncing');
-    triggerAuthenticReaction(petData);
-    spawnPetParticle(petData.foodIcon);
-
-    if (petSpeechEl && petData.quotes.feed) {
-        const randIdx = Math.floor(Math.random() * petData.quotes.feed.length);
-        petSpeechEl.textContent = petData.quotes.feed[randIdx];
-    }
-
-    updatePetStatusBars();
-    saveState();
 }
 
 function handleStrokePet() {
-    if (!appState.pet) return;
-    const pet = appState.pet;
-    const petData = PET_DATA[pet.id] || PET_DATA['nana'];
-
-    pet.happiness = Math.min(100, pet.happiness + 20);
-    pet.lastPettedDate = new Date().toISOString();
-    addPetExp(10);
-
-    triggerPetAnimation('wiggling');
-    triggerAuthenticReaction(petData);
-    const heartEmojis = ['💖', '💕', '✨', '🥰', '🌸'];
-    spawnPetParticle(heartEmojis[Math.floor(Math.random() * heartEmojis.length)]);
-
-    if (petSpeechEl && petData.quotes.pet) {
-        const randIdx = Math.floor(Math.random() * petData.quotes.pet.length);
-        petSpeechEl.textContent = petData.quotes.pet[randIdx];
+    ensurePetState(appState);
+    if (typeof window !== 'undefined' && window.PetEngine) {
+        window.PetEngine.stroke(appState.pet, saveState);
     }
-
-    updatePetStatusBars();
-    saveState();
 }
 
 function openPetModal() {
-    if (!petModal || !petSelectionGrid) return;
     ensurePetState(appState);
-    tempSelectedPetId = appState.pet.id || 'nana';
-
-    if (inputPetName) {
-        inputPetName.value = appState.pet.name || PET_DATA[tempSelectedPetId].defaultName;
+    if (typeof window !== 'undefined' && window.PetEngine) {
+        window.PetEngine.openModal(appState.pet);
     }
-
-    petSelectionGrid.innerHTML = '';
-    Object.values(PET_DATA).forEach(p => {
-        const card = document.createElement('div');
-        card.className = `pet-select-card ${p.id === tempSelectedPetId ? 'active' : ''}`;
-        card.dataset.id = p.id;
-        const avatarHtml = p.isAuthentic
-            ? `<img src="${p.idleGif}" style="width:100%;height:100%;object-fit:cover;border-radius:12px;">`
-            : p.svg;
-        card.innerHTML = `
-            <div class="card-avatar">${avatarHtml}</div>
-            <h4>${p.species}</h4>
-            <p>${p.description}</p>
-            <div style="margin-top: 6px; font-size: 11px; color: #b45309; font-weight: 600;">
-                Khoái khẩu: ${p.foodIcon} ${p.foodName}
-            </div>
-        `;
-
-        card.addEventListener('click', () => {
-            tempSelectedPetId = p.id;
-            petSelectionGrid.querySelectorAll('.pet-select-card').forEach(c => c.classList.remove('active'));
-            card.classList.add('active');
-
-            // If name is default of another pet or empty, suggest new default name
-            const currentVal = inputPetName ? inputPetName.value.trim() : '';
-            const isAnyDefault = Object.values(PET_DATA).some(item => item.defaultName === currentVal);
-            if (!currentVal || isAnyDefault) {
-                if (inputPetName) inputPetName.value = p.defaultName;
-            }
-        });
-
-        petSelectionGrid.appendChild(card);
-    });
-
-    petModal.classList.add('active');
 }
 
 function confirmPetSelection() {
-    if (!appState.pet) return;
-    const chosenPetData = PET_DATA[tempSelectedPetId] || PET_DATA['nana'];
-    appState.pet.id = tempSelectedPetId;
-
-    const newName = inputPetName ? inputPetName.value.trim() : '';
-    appState.pet.name = newName || chosenPetData.defaultName;
-
-    if (petModal) petModal.classList.remove('active');
-    renderPetView();
-    saveState();
-    showToast(`Đã lưu bé ${appState.pet.name} (${chosenPetData.species})! 🐾`);
+    ensurePetState(appState);
+    if (typeof window !== 'undefined' && window.PetEngine) {
+        window.PetEngine.confirmSelection(appState.pet, saveState);
+    }
 }
 
 // Event Listeners for Pet

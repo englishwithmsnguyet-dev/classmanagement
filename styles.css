@@ -938,7 +938,7 @@ input:focus, textarea:focus { border-color: var(--primary); }
 }
 
 /* ==========================================
-   VIRTUAL PET COMPANION STYLES (FULL-BODY ANIMATED)
+   VIRTUAL PET COMPANION STYLES (13 CHARACTERS)
    ========================================== */
 .pet-container {
     background: linear-gradient(180deg, #ffffff 0%, #fffdfa 100%);
@@ -957,6 +957,28 @@ input:focus, textarea:focus { border-color: var(--primary); }
     margin: 0;
     font-size: 19px;
     font-weight: 700;
+}
+.pet-header-actions {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+}
+#btn-pet-sound {
+    padding: 6px 10px;
+    font-size: 14px;
+    border-radius: 12px;
+    background: #f1f5f9;
+    border: 1px solid #cbd5e1;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+#btn-pet-sound:hover {
+    background: #e2e8f0;
+    transform: scale(1.05);
+}
+#btn-pet-sound.is-muted {
+    opacity: 0.6;
+    background: #f8fafc;
 }
 
 .pet-badge-row {
@@ -985,7 +1007,7 @@ input:focus, textarea:focus { border-color: var(--primary); }
     border: 1px solid #fecaca;
 }
 
-/* Status Panel (Segmented Bars inspired by user photo) */
+/* Status Panel (Segmented Bars) */
 .pet-status-segments-container {
     width: 100%;
     max-width: 330px;
@@ -1078,7 +1100,7 @@ input:focus, textarea:focus { border-color: var(--primary); }
     width: 100%;
     max-width: 330px;
     box-shadow: 0 4px 14px rgba(217, 119, 6, 0.08);
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 .pet-speech-bubble::after {
     content: '';
@@ -1091,6 +1113,14 @@ input:focus, textarea:focus { border-color: var(--primary); }
     border-color: #fbd38d transparent;
     display: block;
     width: 0;
+}
+.pet-speech-bubble.bubble-pop {
+    animation: bubblePop 0.35s ease;
+}
+@keyframes bubblePop {
+    0% { transform: scale(0.92); opacity: 0.8; }
+    50% { transform: scale(1.04); opacity: 1; }
+    100% { transform: scale(1); opacity: 1; }
 }
 
 /* Pet Stage (Floor + Paw Mat + Full-body Pet + Food Bowl) */
@@ -1110,62 +1140,7 @@ input:focus, textarea:focus { border-color: var(--primary); }
     background: radial-gradient(ellipse at center 85%, rgba(254, 215, 215, 0.35) 0%, rgba(254, 243, 199, 0.25) 50%, transparent 80%);
 }
 
-/* Authentic Game Mode for Na Na */
-.pet-stage.authentic-stage {
-    background: #f7e6d2;
-    padding: 0;
-    overflow: hidden;
-    position: relative;
-    height: 230px;
-    box-shadow: 0 4px 16px rgba(180, 83, 9, 0.1);
-}
-
-.pet-avatar-wrapper.authentic-mode {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    margin-bottom: 0;
-    z-index: 2;
-    display: block;
-}
-
-.authentic-stage-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 20px;
-    display: block;
-    user-select: none;
-    -webkit-user-drag: none;
-}
-
-.pet-food-bowl-wrapper.authentic-mode {
-    position: absolute;
-    bottom: 0px;
-    left: 0px;
-    width: 115px;
-    height: 85px;
-    z-index: 10;
-    cursor: pointer;
-}
-
-.pet-food-bowl-wrapper.authentic-mode svg {
-    display: none;
-}
-
-.pet-food-bowl-wrapper.authentic-mode .food-bowl-badge {
-    position: absolute;
-    bottom: 8px;
-    left: 12px;
-    z-index: 11;
-    background: rgba(255, 255, 255, 0.95);
-    border: 1px solid #f97316;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.12);
-}
-
-/* Paw-shaped plush mat (Thảm bông đệm bàn chân) */
+/* Plush Paw-shaped Mat */
 .pet-paw-mat {
     position: absolute;
     bottom: 6px;
@@ -1189,65 +1164,215 @@ input:focus, textarea:focus { border-color: var(--primary); }
     display: flex;
     align-items: flex-end;
     justify-content: center;
-    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    margin-bottom: 14px;
+    transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    margin-bottom: 12px;
 }
-.fullbody-pet-svg {
+.pet-svg-character {
     width: 100%;
     height: 100%;
     filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.12));
 }
 
-/* Multi-layer SVG Animations (Zero limb detachment!) */
-@keyframes petTailWag {
+/* Expression Morphing System (.is-happy) */
+.pet-eyes-happy {
+    display: none;
+}
+.pet-mouth-happy {
+    display: none;
+}
+.pet-avatar-wrapper.is-happy .pet-eyes-open {
+    display: none !important;
+}
+.pet-avatar-wrapper.is-happy .pet-eyes-happy {
+    display: block !important;
+}
+.pet-avatar-wrapper.is-happy .pet-mouth-default {
+    display: none !important;
+}
+.pet-avatar-wrapper.is-happy .pet-mouth-happy {
+    display: block !important;
+}
+.pet-avatar-wrapper.is-happy .pet-blush {
+    transform: scale(1.18);
+    opacity: 0.95;
+    transition: transform 0.3s ease;
+}
+
+/* Universal Eye Blink Animation */
+@keyframes universalEyeBlink {
+    0%, 92%, 100% { transform: scaleY(1); }
+    95% { transform: scaleY(0.08); }
+}
+.pet-eyes-open {
+    transform-origin: center;
+    animation: universalEyeBlink 4s infinite ease-in-out;
+}
+
+/* Universal Ear Twitch Animation */
+@keyframes universalEarTwitch {
+    0%, 88%, 100% { transform: rotate(0deg); }
+    92% { transform: rotate(-5deg); }
+    96% { transform: rotate(5deg); }
+}
+.pet-ears {
+    animation: universalEarTwitch 5s infinite ease-in-out;
+}
+
+/* ==========================================
+   SPECIES-SPECIFIC ANIMATIONS
+   ========================================== */
+
+/* 1. Cats (Na Na, Snowball, Kuro, Calico, Persian) */
+@keyframes catTailSwish {
+    0%, 100% { transform: rotate(-10deg); }
+    50% { transform: rotate(14deg); }
+}
+.anim-cat-swish .pet-tail {
+    animation: catTailSwish 2.8s ease-in-out infinite;
+}
+.anim-cat-swish .pet-head {
+    animation: gentleBreathe 3.5s ease-in-out infinite;
+}
+
+/* 2. Corgi (Bánh Mì) */
+@keyframes corgiTailWag {
+    0%, 100% { transform: rotate(-18deg); }
+    50% { transform: rotate(18deg); }
+}
+@keyframes corgiBounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-3.5px); }
+}
+.anim-corgi-bounce .corgi-tail {
+    animation: corgiTailWag 0.35s ease-in-out infinite;
+}
+.anim-corgi-bounce {
+    animation: corgiBounce 1.2s ease-in-out infinite;
+}
+
+/* 3. Shiba Inu (Mochi) */
+@keyframes shibaTailWag {
+    0%, 100% { transform: rotate(-9deg); }
+    50% { transform: rotate(11deg); }
+}
+.anim-shiba-wag .shiba-tail {
+    animation: shibaTailWag 1.8s ease-in-out infinite;
+}
+.anim-shiba-wag .pet-head {
+    animation: gentleBreathe 3.2s ease-in-out infinite;
+}
+
+/* 4. Golden Retriever (Lucky) */
+@keyframes goldenTailSwish {
+    0%, 100% { transform: rotate(-14deg); }
+    50% { transform: rotate(16deg); }
+}
+@keyframes goldenEarsSway {
+    0%, 100% { transform: rotate(-2.5deg); }
+    50% { transform: rotate(2.5deg); }
+}
+.anim-golden-pant .golden-tail {
+    animation: goldenTailSwish 1.4s ease-in-out infinite;
+}
+.anim-golden-pant .golden-ears {
+    animation: goldenEarsSway 2.5s ease-in-out infinite;
+}
+
+/* 5. Rabbit (Mimi) */
+@keyframes rabbitEarL {
+    0%, 82%, 100% { transform: rotate(0deg); }
+    88% { transform: rotate(-6deg); }
+    94% { transform: rotate(3deg); }
+}
+@keyframes rabbitEarR {
+    0%, 85%, 100% { transform: rotate(0deg); }
+    90% { transform: rotate(7deg); }
+    96% { transform: rotate(-4deg); }
+}
+@keyframes rabbitNoseTwitch {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+}
+.anim-rabbit-twitch .rabbit-ear-l {
+    animation: rabbitEarL 3.2s infinite ease-in-out;
+}
+.anim-rabbit-twitch .rabbit-ear-r {
+    animation: rabbitEarR 3.8s infinite ease-in-out;
+}
+.anim-rabbit-twitch .rabbit-nose {
+    animation: rabbitNoseTwitch 0.9s infinite ease-in-out;
+}
+
+/* 6. Panda (Bảo Bảo) */
+@keyframes bambooSway {
     0%, 100% { transform: rotate(0deg); }
-    25% { transform: rotate(-13deg); }
-    75% { transform: rotate(13deg); }
+    50% { transform: rotate(3.5deg); }
 }
-.pet-anim-tail {
-    animation: petTailWag 2.5s ease-in-out infinite;
+.anim-panda-chew .pet-prop-bamboo {
+    transform-origin: 130px 175px;
+    animation: bambooSway 2.4s ease-in-out infinite;
 }
-
-@keyframes petHeadBob {
-    0%, 100% { transform: rotate(0deg) translateY(0); }
-    35% { transform: rotate(-2.2deg) translateY(-1px); }
-    70% { transform: rotate(1.8deg) translateY(0.5px); }
-}
-.pet-anim-head {
-    transform-origin: 80px 105px;
-    animation: petHeadBob 4s ease-in-out infinite;
+.anim-panda-chew {
+    animation: gentleBreathe 3s ease-in-out infinite;
 }
 
-@keyframes petEarTwitch {
-    0%, 86%, 100% { transform: rotate(0deg); }
-    90% { transform: rotate(-7deg) scale(1.02); }
-    94% { transform: rotate(7deg) scale(0.98); }
+/* 7. Fox (Kiki) */
+@keyframes foxPlumeWave {
+    0%, 100% { transform: rotate(-8deg) scale(1); }
+    50% { transform: rotate(14deg) scale(1.02); }
 }
-.pet-anim-ears {
-    animation: petEarTwitch 4.5s ease-in-out infinite;
-}
-
-@keyframes petEyeBlink {
-    0%, 93%, 100% { transform: scaleY(1); }
-    96.5% { transform: scaleY(0.08); }
-}
-.pet-anim-eyes {
-    animation: petEyeBlink 3.8s infinite;
+.anim-fox-tail .fox-tail {
+    animation: foxPlumeWave 3s ease-in-out infinite;
 }
 
-@keyframes petWingsFlap {
+/* 8. Penguin (Pingu) */
+@keyframes penguinWaddle {
+    0%, 100% { transform: rotate(-4deg) translateY(0); }
+    50% { transform: rotate(4deg) translateY(-2px); }
+}
+@keyframes penguinWingL {
     0%, 100% { transform: rotate(0deg); }
     50% { transform: rotate(15deg); }
 }
-.pet-anim-wings-left {
-    transform-origin: 36px 110px;
-    animation: petWingsFlap 2.2s ease-in-out infinite;
+@keyframes penguinWingR {
+    0%, 100% { transform: rotate(0deg); }
+    50% { transform: rotate(-15deg); }
 }
-.pet-anim-wings-right {
-    transform-origin: 124px 110px;
-    animation: petWingsFlap 2.2s ease-in-out infinite reverse;
+.anim-penguin-waddle {
+    transform-origin: 100px 185px;
+    animation: penguinWaddle 1.4s ease-in-out infinite;
+}
+.anim-penguin-waddle .penguin-flipper-l {
+    animation: penguinWingL 1.4s ease-in-out infinite;
+}
+.anim-penguin-waddle .penguin-flipper-r {
+    animation: penguinWingR 1.4s ease-in-out infinite;
 }
 
+/* 9. Capybara (Cà Phê) */
+@keyframes capyZenBreathe {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+}
+@keyframes yuzuBob {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-2.5px) rotate(3deg); }
+}
+.anim-capy-zen {
+    transform-origin: 100px 180px;
+    animation: capyZenBreathe 4.2s ease-in-out infinite;
+}
+.anim-capy-zen .capy-yuzu {
+    animation: yuzuBob 2.6s ease-in-out infinite;
+}
+
+/* Gentle Breathe Helper */
+@keyframes gentleBreathe {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-1.5px); }
+}
+
+/* Interactive Click Animations */
 @keyframes petBounceAnim {
     0%, 100% { transform: translateY(0) scale(1); }
     30% { transform: translateY(-24px) scale(1.12); }
@@ -1259,7 +1384,6 @@ input:focus, textarea:focus { border-color: var(--primary); }
     25% { transform: rotate(-10deg) scale(1.06); }
     75% { transform: rotate(10deg) scale(1.06); }
 }
-
 .pet-avatar-wrapper.bouncing {
     animation: petBounceAnim 0.6s ease;
 }
@@ -1267,7 +1391,7 @@ input:focus, textarea:focus { border-color: var(--primary); }
     animation: petWiggleAnim 0.5s ease;
 }
 
-/* Food Bowl on floor (Bát hạt thức ăn y hệt ảnh) */
+/* Food Bowl on Floor */
 .pet-food-bowl-wrapper {
     position: absolute;
     bottom: 10px;
@@ -1398,57 +1522,200 @@ input:focus, textarea:focus { border-color: var(--primary); }
     transform: scale(0.96);
 }
 
-/* Pet Selection Modal (For 12 Full-Body Pets) */
+/* ==========================================
+   CHARACTER GALLERY MODAL & TABS
+   ========================================== */
 .pet-modal-dialog {
-    max-width: 720px;
+    max-width: 780px;
 }
+.pet-category-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+}
+.pet-category-tab {
+    padding: 7px 14px;
+    border-radius: 20px;
+    border: 1.5px solid #e2e8f0;
+    background: #ffffff;
+    font-size: 13px;
+    font-weight: 600;
+    color: #4a5568;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+}
+.pet-category-tab:hover {
+    border-color: #cbd5e1;
+    background: #f8fafc;
+}
+.pet-category-tab.active {
+    background: #fef2f2;
+    border-color: var(--primary);
+    color: var(--primary);
+    box-shadow: 0 2px 8px rgba(229, 62, 62, 0.15);
+}
+.tab-count {
+    background: rgba(0,0,0,0.06);
+    font-size: 11px;
+    padding: 1px 7px;
+    border-radius: 10px;
+}
+.pet-category-tab.active .tab-count {
+    background: var(--primary);
+    color: #ffffff;
+}
+
 .pet-selection-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
-    gap: 12px;
+    grid-template-columns: repeat(auto-fill, minmax(165px, 1fr));
+    gap: 14px;
 }
 .pet-select-card {
     border: 2px solid #e2e8f0;
-    border-radius: 16px;
-    padding: 12px 8px;
+    border-radius: 18px;
+    padding: 12px 10px;
     text-align: center;
     cursor: pointer;
-    transition: all 0.25s ease;
+    transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     background: #ffffff;
     display: flex;
     flex-direction: column;
     align-items: center;
+    position: relative;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.03);
 }
 .pet-select-card:hover {
     border-color: var(--primary);
-    transform: translateY(-3px);
-    box-shadow: 0 6px 14px rgba(229, 62, 62, 0.12);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 18px rgba(229, 62, 62, 0.14);
 }
 .pet-select-card.active {
     border-color: var(--primary);
-    background: #fff5f5;
-    box-shadow: 0 0 0 3px rgba(229, 62, 62, 0.2);
+    background: #fffafa;
+    box-shadow: 0 0 0 3px rgba(229, 62, 62, 0.22);
 }
+
+.card-species-badge {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 10px;
+}
+.species-cat {
+    background: #fed7aa;
+    color: #9a3412;
+}
+.species-dog {
+    background: #fef08a;
+    color: #854d0e;
+}
+.species-other {
+    background: #e9d5ff;
+    color: #6b21a8;
+}
+
 .pet-select-card .card-avatar {
-    width: 85px;
-    height: 100px;
+    width: 100px;
+    height: 105px;
+    margin-top: 6px;
     margin-bottom: 6px;
     display: flex;
     align-items: center;
     justify-content: center;
+    pointer-events: none;
 }
 .pet-select-card .card-avatar svg {
     width: 100%;
     height: 100%;
 }
-.pet-select-card h4 {
-    font-size: 13px;
-    margin: 0 0 3px 0;
+.card-pet-name {
+    font-size: 14px;
+    font-weight: 700;
+    margin: 0 0 2px 0;
     color: var(--text-primary);
 }
-.pet-select-card p {
-    font-size: 10.5px;
+.card-pet-title {
+    font-size: 11px;
+    font-weight: 600;
     color: #718096;
-    margin: 0;
+    margin-bottom: 4px;
+}
+.card-pet-desc {
+    font-size: 11px;
+    color: #a0aec0;
+    margin: 0 0 6px 0;
     line-height: 1.35;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+.card-pet-food {
+    font-size: 11px;
+    color: #b45309;
+    background: #fffbeb;
+    border: 1px solid #fef3c7;
+    border-radius: 10px;
+    padding: 3px 8px;
+    margin-bottom: 8px;
+    width: 100%;
+    box-sizing: border-box;
+}
+.btn-card-select {
+    width: 100%;
+    padding: 6px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 700;
+    border: 1px solid #e2e8f0;
+    background: #f8fafc;
+    color: #4a5568;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.btn-card-select:hover {
+    background: #f1f5f9;
+}
+.btn-card-select.btn-selected {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: #ffffff;
+}
+
+/* Accessibility: Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+    .pet-avatar-wrapper,
+    .anim-cat-swish .pet-tail,
+    .anim-corgi-bounce,
+    .anim-corgi-bounce .corgi-tail,
+    .anim-shiba-wag .shiba-tail,
+    .anim-golden-pant .golden-tail,
+    .anim-golden-pant .golden-ears,
+    .anim-rabbit-twitch .rabbit-ear-l,
+    .anim-rabbit-twitch .rabbit-ear-r,
+    .anim-rabbit-twitch .rabbit-nose,
+    .anim-panda-chew .pet-prop-bamboo,
+    .anim-fox-tail .fox-tail,
+    .anim-penguin-waddle,
+    .anim-penguin-waddle .penguin-flipper-l,
+    .anim-penguin-waddle .penguin-flipper-r,
+    .anim-capy-zen,
+    .anim-capy-zen .capy-yuzu,
+    .pet-eyes-open,
+    .pet-ears,
+    .bouncing,
+    .wiggling {
+        animation: none !important;
+        transform: none !important;
+        transition: none !important;
+    }
 }

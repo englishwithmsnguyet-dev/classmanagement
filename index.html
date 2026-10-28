@@ -123,9 +123,14 @@
                     <div class="home-card pet-container">
                         <div class="pet-header-row">
                             <h3>🐾 Thú Cưng Của Cô Nguyệt</h3>
-                            <button class="btn btn-secondary btn-small" id="btn-open-pet-modal" title="Đổi thú cưng hoặc đổi tên">
-                                <i class="fa-solid fa-paw"></i> Đổi bé
-                            </button>
+                            <div class="pet-header-actions">
+                                <button class="btn btn-secondary btn-small" id="btn-pet-sound" title="Bật/Tắt âm thanh thú cưng">
+                                    <span id="pet-sound-icon">🔊</span>
+                                </button>
+                                <button class="btn btn-secondary btn-small" id="btn-open-pet-modal" title="Đổi thú cưng hoặc đổi tên">
+                                    <i class="fa-solid fa-paw"></i> Đổi bé
+                                </button>
+                            </div>
                         </div>
                         
                         <!-- Pet Level & Streak -->
@@ -501,6 +506,8 @@
     <!-- Notification Toast -->
     <div id="toast" class="toast"></div>
 
+    <script src="pet_definitions.js"></script>
+    <script src="pet_engine.js"></script>
     <script src="app.js"></script>
 </body>
 </html>
