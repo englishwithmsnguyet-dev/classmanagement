@@ -293,6 +293,38 @@
             });
             break;
           }
+
+          case 'quack': {
+            // Adorable cartoon duck quack ("Cạp! Cạp!")
+            function singleQuack(t, pitch, vol) {
+              const osc = ctx.createOscillator();
+              const bpf = ctx.createBiquadFilter();
+              const gain = ctx.createGain();
+
+              osc.type = 'sawtooth';
+              osc.frequency.setValueAtTime(pitch, t);
+              osc.frequency.exponentialRampToValueAtTime(pitch * 0.65, t + 0.16);
+
+              bpf.type = 'bandpass';
+              bpf.frequency.setValueAtTime(950, t);
+              bpf.frequency.exponentialRampToValueAtTime(550, t + 0.16);
+              bpf.Q.setValueAtTime(3.5, t);
+
+              gain.gain.setValueAtTime(0.0001, t);
+              gain.gain.linearRampToValueAtTime(vol, t + 0.02);
+              gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.18);
+
+              osc.connect(bpf);
+              bpf.connect(gain);
+              gain.connect(ctx.destination);
+
+              osc.start(t);
+              osc.stop(t + 0.2);
+            }
+            singleQuack(now, 440, 0.28);
+            singleQuack(now + 0.16, 380, 0.32);
+            break;
+          }
         }
       } catch (err) {
         console.warn('Audio play error:', err);
@@ -315,11 +347,19 @@
     tempSelectedPetId: 'nana',
     happyTimer: null,
     speechTimer: null,
+    blinkTimer: null,
+    idleTimer: null,
+    inactivityTimer: null,
+    sleepInterval: null,
+    isSleeping: false,
+    isGrooming: false,
 
     init() {
       PetSoundEngine.updateMuteButtonUI();
       this.bindSoundButton();
+      this.bindSleepButton();
       this.bindCategoryTabs();
+      this.resetInactivityTimer();
     },
 
     bindSoundButton() {
@@ -335,6 +375,16 @@
       }
     },
 
+    bindSleepButton() {
+      const btn = document.getElementById('btn-toggle-pet-sleep');
+      if (btn) {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          this.toggleSleep();
+        });
+      }
+    },
+
     bindCategoryTabs() {
       const modal = document.getElementById('pet-modal');
       if (modal) {
@@ -346,6 +396,200 @@
           }
         });
       }
+    },
+
+    clearAnimationCycles() {
+      if (this.blinkTimer) {
+        clearTimeout(this.blinkTimer);
+        this.blinkTimer = null;
+      }
+      if (this.idleTimer) {
+        clearTimeout(this.idleTimer);
+        this.idleTimer = null;
+      }
+    },
+
+    startAnimationCycles(petData) {
+      this.clearAnimationCycles();
+      if (this.isSleeping) return;
+      this.startBlinkCycle();
+      this.startIdleActionsCycle(petData);
+      this.resetInactivityTimer();
+    },
+
+    startBlinkCycle() {
+      if (this.blinkTimer) clearTimeout(this.blinkTimer);
+      if (this.isSleeping) return;
+
+      // Natural, irregular intervals between 2.2s and 5.8s
+      const delay = 2200 + Math.random() * 3600;
+      this.blinkTimer = setTimeout(() => {
+        if (this.isSleeping) return;
+        const wrapper = document.getElementById('pet-avatar-wrapper');
+        if (!wrapper) return;
+
+        // ~28% probability of double-blinking
+        const isDouble = Math.random() < 0.28;
+        wrapper.classList.add('is-blinking');
+
+        if (isDouble) {
+          setTimeout(() => {
+            wrapper.classList.remove('is-blinking');
+            setTimeout(() => {
+              if (this.isSleeping) return;
+              wrapper.classList.add('is-blinking');
+              setTimeout(() => {
+                wrapper.classList.remove('is-blinking');
+                this.startBlinkCycle();
+              }, 110);
+            }, 85);
+          }, 110);
+        } else {
+          setTimeout(() => {
+            wrapper.classList.remove('is-blinking');
+            this.startBlinkCycle();
+          }, 130);
+        }
+      }, delay);
+    },
+
+    startIdleActionsCycle(petData) {
+      if (this.idleTimer) clearTimeout(this.idleTimer);
+      if (this.isSleeping) return;
+
+      // Natural idle action interval between 22s and 38s
+      const delay = 22000 + Math.random() * 16000;
+      this.idleTimer = setTimeout(() => {
+        if (this.isSleeping) return;
+        if (petData && petData.canGroom) {
+          this.triggerGrooming(petData);
+        }
+        this.startIdleActionsCycle(petData);
+      }, delay);
+    },
+
+    triggerGrooming(petData) {
+      if (this.isSleeping || this.isGrooming) return;
+      const wrapper = document.getElementById('pet-avatar-wrapper');
+      if (!wrapper) return;
+
+      this.isGrooming = true;
+      wrapper.classList.add('is-grooming');
+
+      setTimeout(() => {
+        if (wrapper) wrapper.classList.remove('is-grooming');
+        this.isGrooming = false;
+      }, 2400);
+    },
+
+    resetInactivityTimer() {
+      if (this.inactivityTimer) clearTimeout(this.inactivityTimer);
+      // Automatically relax into sleep mode after 75s of idle inactivity
+      this.inactivityTimer = setTimeout(() => {
+        if (!this.isSleeping) {
+          this.setSleepMode(true, true);
+        }
+      }, 75000);
+    },
+
+    spawnSleepZzz() {
+      const container = document.getElementById('pet-floating-effects');
+      if (!container) return;
+
+      const zzz = document.createElement('span');
+      zzz.className = 'sleep-zzz-particle';
+      zzz.textContent = 'Zzz';
+
+      const randomX = (Math.random() - 0.5) * 26 + 32;
+      zzz.style.left = `calc(50% + ${randomX}px)`;
+      zzz.style.top = `${60 + Math.random() * 20}px`;
+      zzz.style.fontSize = `${14 + Math.random() * 8}px`;
+
+      container.appendChild(zzz);
+      setTimeout(() => {
+        if (typeof zzz.remove === 'function') {
+          zzz.remove();
+        } else if (zzz.parentNode) {
+          zzz.parentNode.removeChild(zzz);
+        }
+      }, 2400);
+    },
+
+    setSleepMode(sleeping, silent = false) {
+      this.isSleeping = !!sleeping;
+      const wrapper = document.getElementById('pet-avatar-wrapper');
+      const icon = document.getElementById('pet-sleep-btn-icon');
+      const text = document.getElementById('pet-sleep-btn-text');
+
+      if (icon) icon.textContent = this.isSleeping ? '☀️' : '💤';
+      if (text) text.textContent = this.isSleeping ? 'Đánh thức' : 'Cho ngủ';
+
+      const curPetId = this.tempSelectedPetId || (root.appState && root.appState.pet && root.appState.pet.id) || 'nana';
+      const petData = this.getPetData(curPetId) || this.getPetData('nana');
+
+      if (this.isSleeping) {
+        if (wrapper) {
+          wrapper.classList.remove('is-blinking', 'is-grooming', 'is-happy');
+          wrapper.classList.add('is-sleeping');
+        }
+        this.clearAnimationCycles();
+        if (this.sleepInterval) clearInterval(this.sleepInterval);
+
+        this.spawnSleepZzz();
+        this.sleepInterval = setInterval(() => {
+          if (this.isSleeping) {
+            this.spawnSleepZzz();
+          } else {
+            clearInterval(this.sleepInterval);
+          }
+        }, 2200);
+
+        if (!silent && petData && petData.quotes && petData.quotes.sleep && petData.quotes.sleep.length > 0) {
+          const quotes = petData.quotes.sleep;
+          const rand = quotes[Math.floor(Math.random() * quotes.length)];
+          this.speak(rand);
+        }
+      } else {
+        if (wrapper) {
+          wrapper.classList.remove('is-sleeping');
+        }
+        if (this.sleepInterval) {
+          clearInterval(this.sleepInterval);
+          this.sleepInterval = null;
+        }
+
+        // Spontaneous wake-up joyful bounce & double blink
+        this.triggerPhysicalMotion('bouncing');
+        if (wrapper) {
+          wrapper.classList.add('is-blinking');
+          setTimeout(() => {
+            wrapper.classList.remove('is-blinking');
+            setTimeout(() => {
+              wrapper.classList.add('is-blinking');
+              setTimeout(() => {
+                wrapper.classList.remove('is-blinking');
+              }, 110);
+            }, 80);
+          }, 110);
+        }
+
+        if (!silent && petData && petData.quotes) {
+          const quotes = (petData.quotes.wake && petData.quotes.wake.length > 0)
+            ? petData.quotes.wake
+            : petData.quotes.greetings;
+          if (quotes && quotes.length > 0) {
+            const rand = quotes[Math.floor(Math.random() * quotes.length)];
+            this.speak(rand);
+          }
+        }
+
+        PetSoundEngine.play(petData ? petData.soundType : 'happy');
+        this.startAnimationCycles(petData);
+      }
+    },
+
+    toggleSleep() {
+      this.setSleepMode(!this.isSleeping, false);
     },
 
     getPetData(id) {
@@ -367,7 +611,8 @@
       if (!petData) return;
 
       // Render the living, fully animated SVG character on stage
-      avatarWrapper.className = `pet-avatar-wrapper anim-${petData.idleType || 'cat-swish'}`;
+      const sleepClass = this.isSleeping ? ' is-sleeping' : '';
+      avatarWrapper.className = `pet-avatar-wrapper anim-${petData.idleType || 'cat-swish'}${sleepClass}`;
       avatarWrapper.style.setProperty('--pet-accent', petData.accentColor || '#EA580C');
       avatarWrapper.innerHTML = petData.svg;
 
@@ -381,6 +626,7 @@
 
       this.updateStatusBars(petState);
       this.speakGreeting(petData, petState);
+      this.startAnimationCycles(petData);
     },
 
     speak(text) {
@@ -521,6 +767,11 @@
 
     feed(petState, onSave) {
       if (!petState) return;
+      if (this.isSleeping) {
+        this.setSleepMode(false, true);
+      }
+      this.resetInactivityTimer();
+
       const petData = this.getPetData(petState.id) || this.getPetData('nana');
 
       if (petState.hunger >= 100) {
@@ -551,6 +802,12 @@
 
     stroke(petState, onSave) {
       if (!petState) return;
+      if (this.isSleeping) {
+        this.setSleepMode(false, false);
+        return;
+      }
+      this.resetInactivityTimer();
+
       const petData = this.getPetData(petState.id) || this.getPetData('nana');
 
       petState.happiness = Math.min(100, (petState.happiness || 0) + 18);
@@ -616,11 +873,16 @@
         modalBody.insertBefore(tabsContainer, document.getElementById('pet-selection-grid'));
       }
 
+      const allPets = root.PetDefinitions ? root.PetDefinitions.getAllPets() : Object.values(root.PET_REGISTRY || {});
+      const catCount = allPets.filter(p => p.category === 'cat').length;
+      const dogCount = allPets.filter(p => p.category === 'dog').length;
+      const otherCount = allPets.filter(p => p.category === 'other').length;
+
       const categories = [
-        { id: 'all', label: 'Tất Cả', icon: '🐾', count: 13 },
-        { id: 'cat', label: 'Mèo Cưng', icon: '🐱', count: 5 },
-        { id: 'dog', label: 'Cún Cưng', icon: '🐶', count: 3 },
-        { id: 'other', label: 'Muông Thú', icon: '🐰', count: 5 }
+        { id: 'all', label: 'Tất Cả', icon: '🐾', count: allPets.length },
+        { id: 'cat', label: 'Mèo Cưng', icon: '🐱', count: catCount },
+        { id: 'dog', label: 'Cún Cưng', icon: '🐶', count: dogCount },
+        { id: 'other', label: 'Muông Thú', icon: '🐰', count: otherCount }
       ];
 
       tabsContainer.innerHTML = categories.map(cat => `
@@ -723,6 +985,11 @@
 
     confirmSelection(petState, onSave) {
       if (!petState) return;
+      if (this.isSleeping) {
+        this.setSleepMode(false, true);
+      }
+      this.resetInactivityTimer();
+
       const chosenData = this.getPetData(this.tempSelectedPetId) || this.getPetData('nana');
       petState.id = this.tempSelectedPetId;
 
