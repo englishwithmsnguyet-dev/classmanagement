@@ -79,13 +79,120 @@ const SEED_STUDENTS = {
     ]
 };
 
+// ==========================================
+// INDEXEDDB PHOTO STORAGE (DUNG LƯỢNG LỚN, KHÔNG BỊ TRÀN BỘ NHỚ)
+// ==========================================
+const DB_NAME = 'AttendancePhotosDB';
+const DB_STORE = 'photos';
+let dbInstance = null;
+
+function getPhotoDB() {
+    if (dbInstance) return Promise.resolve(dbInstance);
+    return new Promise((resolve) => {
+        if (!window.indexedDB) {
+            console.warn('IndexedDB không được hỗ trợ trên trình duyệt này');
+            resolve(null);
+            return;
+        }
+        const req = indexedDB.open(DB_NAME, 1);
+        req.onupgradeneeded = (e) => {
+            const db = e.target.result;
+            if (!db.objectStoreNames.contains(DB_STORE)) {
+                db.createObjectStore(DB_STORE, { keyPath: 'key' });
+            }
+        };
+        req.onsuccess = (e) => {
+            dbInstance = e.target.result;
+            resolve(dbInstance);
+        };
+        req.onerror = (e) => {
+            console.error('IndexedDB open error:', e);
+            resolve(null);
+        };
+    });
+}
+
+async function savePhotosToStorage(classId, dateStr, photos) {
+    try {
+        const db = await getPhotoDB();
+        if (!db) return false;
+        return new Promise((resolve) => {
+            const tx = db.transaction(DB_STORE, 'readwrite');
+            const store = tx.objectStore(DB_STORE);
+            const key = `${classId}_${dateStr}`;
+            if (!photos || photos.length === 0) {
+                store.delete(key);
+            } else {
+                store.put({ key, photos, updatedAt: Date.now() });
+            }
+            tx.oncomplete = () => resolve(true);
+            tx.onerror = (err) => {
+                console.error('Save photos err:', err);
+                resolve(false);
+            };
+        });
+    } catch(err) {
+        console.error('savePhotosToStorage error:', err);
+        return false;
+    }
+}
+
+async function loadPhotosFromStorage(classId, dateStr) {
+    try {
+        const db = await getPhotoDB();
+        if (!db) return [];
+        return new Promise((resolve) => {
+            const tx = db.transaction(DB_STORE, 'readonly');
+            const store = tx.objectStore(DB_STORE);
+            const key = `${classId}_${dateStr}`;
+            const req = store.get(key);
+            req.onsuccess = () => {
+                if (req.result && req.result.photos) {
+                    resolve(req.result.photos);
+                } else {
+                    resolve([]);
+                }
+            };
+            req.onerror = () => resolve([]);
+        });
+    } catch(err) {
+        console.error('loadPhotosFromStorage error:', err);
+        return [];
+    }
+}
+
+function cleanHeavyDataFromState(state) {
+    if (!state || !state.classes) return false;
+    let cleaned = false;
+    state.classes.forEach(cls => {
+        if (!cls.attendance) return;
+        Object.keys(cls.attendance).forEach(dateStr => {
+            const rec = cls.attendance[dateStr];
+            if (rec && rec.images && Array.isArray(rec.images) && rec.images.length > 0) {
+                savePhotosToStorage(cls.id, dateStr, rec.images);
+                rec.photoCount = rec.images.length;
+                delete rec.images;
+                cleaned = true;
+            }
+        });
+    });
+    return cleaned;
+}
+
 function loadState() {
     const saved = localStorage.getItem('attendance_app_v2');
     if (saved) {
-        appState = JSON.parse(saved);
+        try {
+            appState = JSON.parse(saved);
+        } catch(e) {
+            console.error('Lỗi đọc dữ liệu cũ:', e);
+        }
     }
     
     let stateChanged = false;
+    if (cleanHeavyDataFromState(appState)) {
+        stateChanged = true;
+    }
     if (ensureAllSeedClassesExist(appState)) {
         stateChanged = true;
     }
@@ -182,7 +289,17 @@ function ensureAllSeedClassesExist(state) {
 
 function saveState() {
     appState.lastModified = Date.now();
-    localStorage.setItem('attendance_app_v2', JSON.stringify(appState));
+    try {
+        localStorage.setItem('attendance_app_v2', JSON.stringify(appState));
+    } catch (err) {
+        console.warn('Lỗi localStorage (có thể do ảnh cũ làm đầy bộ nhớ), đang dọn dẹp...', err);
+        cleanHeavyDataFromState(appState);
+        try {
+            localStorage.setItem('attendance_app_v2', JSON.stringify(appState));
+        } catch (retryErr) {
+            console.error('Không thể lưu localStorage:', retryErr);
+        }
+    }
     
     // Auto sync
     const scriptUrl = localStorage.getItem('googleAppsScriptUrl');
@@ -732,10 +849,10 @@ function renderMatrix() {
         
         // Notes cell
         const thNote = document.createElement('th');
-        const hasPhotos = record.images && record.images.length > 0;
-        const photoBadgeHtml = hasPhotos ? `
-            <button class="btn-photo-badge" onclick="event.stopPropagation(); openImageViewer('${dateStr}', ${globalLessonNum})" title="Xem ${record.images.length} ảnh điểm danh">
-                <i class="fa-solid fa-camera"></i> ${record.images.length} ảnh
+        const photoCount = record.photoCount || (record.images ? record.images.length : 0);
+        const photoBadgeHtml = photoCount > 0 ? `
+            <button class="btn-photo-badge" onclick="event.stopPropagation(); openImageViewer('${dateStr}', ${globalLessonNum})" title="Xem ${photoCount} ảnh điểm danh">
+                <i class="fa-solid fa-camera"></i> ${photoCount} ảnh
             </button>
         ` : '';
 
@@ -1123,7 +1240,7 @@ function formatEnglishDate(dateStr) {
 }
 
 // Image Compression (Resize & optimize JPEG)
-function compressImage(file, maxWidth = 1280, quality = 0.78) {
+function compressImage(file, maxWidth = 1000, quality = 0.72) {
     return new Promise((resolve, reject) => {
         const reader = new FileReader();
         reader.onload = (e) => {
@@ -1274,16 +1391,22 @@ window.addEventListener('paste', async (e) => {
 let currentViewerImages = [];
 let currentViewerIndex = 0;
 
-window.openImageViewer = function(dateStr, globalLessonNum) {
+window.openImageViewer = async function(dateStr, globalLessonNum) {
     const classObj = appState.classes.find(c => c.id === appState.selectedClassId);
     if (!classObj) return;
     const record = classObj.attendance[dateStr];
-    if (!record || !record.images || record.images.length === 0) {
+
+    let photos = await loadPhotosFromStorage(classObj.id, dateStr);
+    if ((!photos || photos.length === 0) && record && record.images && record.images.length > 0) {
+        photos = [...record.images];
+    }
+
+    if (!photos || photos.length === 0) {
         showToast('Buổi học này chưa có ảnh điểm danh.');
         return;
     }
 
-    currentViewerImages = [...record.images];
+    currentViewerImages = [...photos];
     currentViewerIndex = 0;
 
     const titleEl = document.getElementById('iv-title');
@@ -1327,9 +1450,41 @@ function renderImageViewer() {
     }
 }
 
-// Generate Announcement Logic
-window.openLessonDetails = function(dateStr, globalLessonNum) {
+// Helper: Save lesson details and photos to IndexedDB
+async function saveLessonDetailsData(dateStr, globalLessonNum) {
     const classObj = appState.classes.find(c => c.id === appState.selectedClassId);
+    if (!classObj) {
+        showToast('Không tìm thấy lớp học!');
+        return null;
+    }
+    if (!classObj.attendance[dateStr]) {
+        classObj.attendance[dateStr] = { absentIds: [], details: {} };
+    }
+    const record = classObj.attendance[dateStr];
+    
+    const topic = document.getElementById('ld-topic').value.trim();
+    const content = document.getElementById('ld-content').value.trim();
+    const homework = document.getElementById('ld-homework').value.trim();
+    const note = document.getElementById('ld-note').value.trim();
+    const next = document.getElementById('ld-next').value.trim();
+    
+    // Save details
+    record.details = { topic, content, homework, note, next };
+    
+    // Save photos to IndexedDB (unlimited capacity) and record photoCount
+    record.photoCount = currentEditingPhotos.length;
+    if (record.images) delete record.images; // Free up localStorage!
+    await savePhotosToStorage(classObj.id, dateStr, currentEditingPhotos);
+    
+    saveState();
+    renderMatrix();
+    return { classObj, record, topic, content, homework, note, next };
+}
+
+// Generate Announcement Logic
+window.openLessonDetails = async function(dateStr, globalLessonNum) {
+    const classObj = appState.classes.find(c => c.id === appState.selectedClassId);
+    if (!classObj) return;
     if (!classObj.attendance[dateStr]) {
         classObj.attendance[dateStr] = { absentIds: [], details: {} };
         saveState();
@@ -1347,31 +1502,40 @@ window.openLessonDetails = function(dateStr, globalLessonNum) {
     document.getElementById('ld-note').value = details.note || '';
     document.getElementById('ld-next').value = details.next || '';
     
-    // Load existing photos
-    currentEditingPhotos = [...(record.images || [])];
+    // Load existing photos from IndexedDB or fallback
+    let photos = await loadPhotosFromStorage(classObj.id, dateStr);
+    if ((!photos || photos.length === 0) && record && record.images && record.images.length > 0) {
+        photos = [...record.images];
+    }
+    currentEditingPhotos = photos ? [...photos] : [];
     renderEditingPhotoGrid();
     
     lessonDetailsModal.classList.add('active');
 };
 
-document.getElementById('btn-generate-structured').addEventListener('click', () => {
+// Button "Lưu" (chỉ lưu nội dung & ảnh, không mở khung thông báo)
+const btnSaveLessonOnly = document.getElementById('btn-save-lesson-only');
+if (btnSaveLessonOnly) {
+    btnSaveLessonOnly.addEventListener('click', async () => {
+        const dateStr = document.getElementById('ld-date').value;
+        const globalLessonNum = document.getElementById('ld-lesson-num').value;
+        const res = await saveLessonDetailsData(dateStr, globalLessonNum);
+        if (res) {
+            lessonDetailsModal.classList.remove('active');
+            showToast('Đã lưu nội dung buổi học thành công! 💾');
+        }
+    });
+}
+
+// Button "Lưu & Tạo Thông Báo"
+document.getElementById('btn-generate-structured').addEventListener('click', async () => {
     const dateStr = document.getElementById('ld-date').value;
     const globalLessonNum = document.getElementById('ld-lesson-num').value;
     
-    const classObj = appState.classes.find(c => c.id === appState.selectedClassId);
-    const record = classObj.attendance[dateStr];
+    const res = await saveLessonDetailsData(dateStr, globalLessonNum);
+    if (!res) return;
     
-    const topic = document.getElementById('ld-topic').value.trim();
-    const content = document.getElementById('ld-content').value.trim();
-    const homework = document.getElementById('ld-homework').value.trim();
-    const note = document.getElementById('ld-note').value.trim();
-    const next = document.getElementById('ld-next').value.trim();
-    
-    // Save details and photos
-    record.details = { topic, content, homework, note, next };
-    record.images = [...currentEditingPhotos];
-    saveState();
-    renderMatrix();
+    const { classObj, record, topic, content, homework, note, next } = res;
     
     // Format Date: Friday, June 19th, 2026
     const englishDate = formatEnglishDate(dateStr);
@@ -1408,6 +1572,7 @@ document.getElementById('btn-generate-structured').addEventListener('click', () 
     lessonDetailsModal.classList.remove('active');
     document.getElementById('announcement-preview').textContent = announcement;
     announcementModal.classList.add('active');
+    showToast('Đã lưu và tạo bài thông báo! ✨');
 });
 
 document.getElementById('btn-copy-announcement').addEventListener('click', () => {
