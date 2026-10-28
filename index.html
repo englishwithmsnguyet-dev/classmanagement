@@ -232,8 +232,104 @@
                             </div>
 
                             <!-- Full-Body Pet Avatar Wrapper -->
-                            <div class="pet-avatar-wrapper" id="pet-avatar-wrapper">
-                                <!-- SVG avatar rendered dynamically -->
+                            <div class="pet-avatar-wrapper anim-cat-swish" id="pet-avatar-wrapper">
+                                <svg viewBox="0 0 512 512" class="pet-svg-character" id="pet-svg-nana" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs>
+    <!-- Soft warm fur tone for eyelids -->
+    <linearGradient id="nana-eyelid-l" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FED7AA"/>
+      <stop offset="50%" stop-color="#FB923C"/>
+      <stop offset="100%" stop-color="#EA580C"/>
+    </linearGradient>
+    <linearGradient id="nana-eyelid-r" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FED7AA"/>
+      <stop offset="50%" stop-color="#FB923C"/>
+      <stop offset="100%" stop-color="#EA580C"/>
+    </linearGradient>
+    <!-- Ground Ambient Contact Shadow -->
+    <radialGradient id="nana-ground-shadow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#371E14" stop-opacity="0.22"/>
+      <stop offset="65%" stop-color="#371E14" stop-opacity="0.06"/>
+      <stop offset="100%" stop-color="#371E14" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Ground Ambient Contact Shadow beneath Paws -->
+  <ellipse cx="270" cy="460" rx="150" ry="22" fill="url(#nana-ground-shadow)"/>
+
+  <!-- ==================== TAIL LAYER ==================== -->
+  <g class="pet-tail cat-tail" style="transform-origin: 140px 380px;"></g>
+  <g class="pet-paw-right pet-paw-groom" style="transform-origin: 320px 420px;"></g>
+
+  <!-- ==================== BODY & MASTER ARTWORK LAYER ==================== -->
+  <g class="pet-body">
+    <image href="assets/pet/nana_master_2d.png" xlink:href="assets/pet/nana_master_2d.png" x="0" y="0" width="512" height="512"/>
+  </g>
+
+  <!-- ==================== HEAD & EXPRESSION OVERLAYS ==================== -->
+  <g class="pet-head" style="transform-origin: 290px 240px;">
+    <!-- Rosy Cheek Sparkles -->
+    <g class="pet-blush">
+      <circle cx="218" cy="222" r="2.2" fill="#FFFFFF" opacity="0.85"/>
+      <circle cx="225" cy="228" r="1.4" fill="#FFFFFF" opacity="0.85"/>
+      <circle cx="340" cy="192" r="2.2" fill="#FFFFFF" opacity="0.85"/>
+      <circle cx="347" cy="198" r="1.4" fill="#FFFFFF" opacity="0.85"/>
+    </g>
+
+    <!-- Eyes Expression States -->
+    <g class="pet-eyes-group">
+      <!-- State 1: Open Eyes (Default: glowing emerald anime eyes in master artwork) -->
+      <g class="pet-eyes-open"></g>
+
+      <!-- State 2: Natural Blinking Eyelids -->
+      <g class="pet-eyes-blink">
+        <ellipse cx="247" cy="204" rx="21" ry="18" fill="url(#nana-eyelid-l)" stroke="#C2410C" stroke-width="1.2"/>
+        <path d="M 226 205 Q 247 217 267 204" stroke="#3D1A10" stroke-width="4.5" stroke-linecap="round" fill="none"/>
+        <ellipse cx="332" cy="171" rx="19" ry="20" fill="url(#nana-eyelid-r)" stroke="#C2410C" stroke-width="1.2"/>
+        <path d="M 314 172 Q 332 184 350 171" stroke="#3D1A10" stroke-width="4.5" stroke-linecap="round" fill="none"/>
+      </g>
+
+      <!-- State 3: Happy / Excited Smiling Eyes (Joyous Upward Crescents ^_^) -->
+      <g class="pet-eyes-happy">
+        <ellipse cx="247" cy="204" rx="21" ry="18" fill="url(#nana-eyelid-l)"/>
+        <path d="M 225 210 Q 247 186 268 210" stroke="#3D1A10" stroke-width="4.8" stroke-linecap="round" fill="none"/>
+        <ellipse cx="332" cy="171" rx="19" ry="20" fill="url(#nana-eyelid-r)"/>
+        <path d="M 313 177 Q 332 153 351 177" stroke="#3D1A10" stroke-width="4.8" stroke-linecap="round" fill="none"/>
+      </g>
+
+      <!-- State 4: Peaceful Sleeping Eyes -->
+      <g class="pet-eyes-sleep">
+        <ellipse cx="247" cy="204" rx="21" ry="18" fill="url(#nana-eyelid-l)"/>
+        <path d="M 226 203 Q 247 217 267 203" stroke="#4A2818" stroke-width="4.2" stroke-linecap="round" fill="none"/>
+        <ellipse cx="332" cy="171" rx="19" ry="20" fill="url(#nana-eyelid-r)"/>
+        <path d="M 314 170 Q 332 184 350 170" stroke="#4A2818" stroke-width="4.2" stroke-linecap="round" fill="none"/>
+      </g>
+    </g>
+
+    <!-- Mouth Expression States -->
+    <g class="pet-mouth-group">
+      <!-- State 1: Neutral Sweet :3 Smile (in master artwork) -->
+      <g class="pet-mouth-neutral"></g>
+
+      <!-- State 2: Happy Smile with Open Mouth & Cute Rosy Tongue -->
+      <g class="pet-mouth-smile">
+        <path d="M 292 221 Q 303 240 314 221 Z" fill="#E11D48" stroke="#4A2818" stroke-width="2"/>
+        <ellipse cx="303" cy="231" rx="7" ry="5" fill="#FDA4AF"/>
+      </g>
+
+      <!-- State 3: Paw-Licking Grooming Mouth with Animated Tongue -->
+      <g class="pet-mouth-lick">
+        <path d="M 292 221 Q 303 226 314 221" stroke="#4A2818" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+        <path class="pet-tongue-lick" d="M 295 223 C 295 236 308 238 312 228 C 313 224 305 221 295 223 Z" fill="#FB7185" stroke="#BE123C" stroke-width="1.5"/>
+      </g>
+
+      <!-- State 4: Sleeping Mouth -->
+      <g class="pet-mouth-sleep">
+        <path d="M 296 223 Q 303 226 310 223" stroke="#714B36" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+      </g>
+    </g>
+  </g>
+</svg>
                             </div>
 
                             <!-- Interactive Food Bowl on Floor -->
