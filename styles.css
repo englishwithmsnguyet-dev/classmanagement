@@ -1143,14 +1143,24 @@ input:focus, textarea:focus { border-color: var(--primary); }
     filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.12));
 }
 
-/* Multi-layer SVG Animations */
+/* Multi-layer SVG Animations (Zero limb detachment!) */
 @keyframes petTailWag {
     0%, 100% { transform: rotate(0deg); }
-    25% { transform: rotate(-14deg); }
-    75% { transform: rotate(14deg); }
+    25% { transform: rotate(-13deg); }
+    75% { transform: rotate(13deg); }
 }
 .pet-anim-tail {
-    animation: petTailWag 2.4s ease-in-out infinite;
+    animation: petTailWag 2.5s ease-in-out infinite;
+}
+
+@keyframes petHeadBob {
+    0%, 100% { transform: rotate(0deg) translateY(0); }
+    35% { transform: rotate(-2.2deg) translateY(-1px); }
+    70% { transform: rotate(1.8deg) translateY(0.5px); }
+}
+.pet-anim-head {
+    transform-origin: 80px 105px;
+    animation: petHeadBob 4s ease-in-out infinite;
 }
 
 @keyframes petEarTwitch {
@@ -1170,22 +1180,16 @@ input:focus, textarea:focus { border-color: var(--primary); }
     animation: petEyeBlink 3.8s infinite;
 }
 
-@keyframes petBreathe {
-    0%, 100% { transform: scale(1, 1); }
-    50% { transform: scale(1.02, 0.985) translateY(-2px); }
-}
-.pet-anim-body {
-    animation: petBreathe 3.2s ease-in-out infinite;
-}
-
 @keyframes petWingsFlap {
     0%, 100% { transform: rotate(0deg); }
-    50% { transform: rotate(16deg); }
+    50% { transform: rotate(15deg); }
 }
 .pet-anim-wings-left {
+    transform-origin: 36px 110px;
     animation: petWingsFlap 2.2s ease-in-out infinite;
 }
 .pet-anim-wings-right {
+    transform-origin: 124px 110px;
     animation: petWingsFlap 2.2s ease-in-out infinite reverse;
 }
 
