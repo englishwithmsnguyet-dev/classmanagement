@@ -119,7 +119,7 @@
                         </div>
                     </div>
 
-                    <!-- Pet Companion Section -->
+                    <!-- Pet Companion Section (Full-Body Animated) -->
                     <div class="home-card pet-container">
                         <div class="pet-header-row">
                             <h3>🐾 Thú Cưng Của Cô Nguyệt</h3>
@@ -134,52 +134,92 @@
                             <span class="pet-badge pet-streak-badge"><i class="fa-solid fa-fire"></i> <b id="pet-streak">1</b> ngày bên nhau</span>
                         </div>
 
+                        <!-- Pet Status Panel (Segmented Indicators like photo) -->
+                        <div class="pet-status-segments-container">
+                            <div class="pet-stat-row">
+                                <span class="stat-name"><i class="fa-solid fa-cookie-bite" style="color: #ed8936;"></i> No Bụng:</span>
+                                <div class="segmented-bar hunger-segments" id="pet-hunger-segments">
+                                    <!-- 10 segments injected dynamically -->
+                                </div>
+                                <span class="stat-val" id="pet-hunger-text">80</span>
+                            </div>
+                            <div class="pet-stat-row">
+                                <span class="stat-name"><i class="fa-solid fa-heart" style="color: #e53e3e;"></i> Tâm Trạng:</span>
+                                <div class="segmented-bar happiness-segments" id="pet-happiness-segments">
+                                    <!-- 10 segments injected dynamically -->
+                                </div>
+                                <span class="stat-val" id="pet-happiness-text">90</span>
+                            </div>
+                            <div class="pet-mood-row">
+                                <span>🐾 Trạng Thái:</span>
+                                <span class="pet-mood-badge" id="pet-mood-badge">Vui Vẻ 🥰</span>
+                            </div>
+                        </div>
+
                         <!-- Pet Speech Bubble -->
                         <div class="pet-speech-bubble" id="pet-speech">
                             "Chào cô Nguyệt! Em đợi cô mãi thôi, hôm nay cô có mệt không? 🥰"
                         </div>
 
-                        <!-- Pet Stage Area -->
-                        <div class="pet-stage" id="pet-stage" title="Bấm vào để vuốt ve bé!">
+                        <!-- Pet Stage Area (Floor + Paw Mat + Full-Body Pet + Food Bowl) -->
+                        <div class="pet-stage" id="pet-stage" title="Bấm vào để vuốt ve bé cưng!">
                             <div class="pet-floating-effects" id="pet-floating-effects"></div>
+                            
+                            <!-- Plush Paw-shaped Mat (Thảm bông đệm bàn chân) -->
+                            <div class="pet-paw-mat">
+                                <svg viewBox="0 0 200 130" class="paw-mat-svg">
+                                    <ellipse cx="100" cy="78" rx="82" ry="46" fill="#f5ebe1" opacity="0.8"/>
+                                    <ellipse cx="100" cy="74" rx="78" ry="42" fill="#ffffff" stroke="#fce7e7" stroke-width="3"/>
+                                    <!-- 4 Toe Beans -->
+                                    <ellipse cx="46" cy="38" rx="18" ry="14" fill="#ffffff" stroke="#fce7e7" stroke-width="2.5" transform="rotate(-15 46 38)"/>
+                                    <ellipse cx="46" cy="38" rx="13" ry="9" fill="#fed7d7" transform="rotate(-15 46 38)"/>
+                                    <ellipse cx="80" cy="24" rx="19" ry="15" fill="#ffffff" stroke="#fce7e7" stroke-width="2.5" transform="rotate(-5 80 24)"/>
+                                    <ellipse cx="80" cy="24" rx="14" ry="10" fill="#fed7d7" transform="rotate(-5 80 24)"/>
+                                    <ellipse cx="120" cy="24" rx="19" ry="15" fill="#ffffff" stroke="#fce7e7" stroke-width="2.5" transform="rotate(5 120 24)"/>
+                                    <ellipse cx="120" cy="24" rx="14" ry="10" fill="#fed7d7" transform="rotate(5 120 24)"/>
+                                    <ellipse cx="154" cy="38" rx="18" ry="14" fill="#ffffff" stroke="#fce7e7" stroke-width="2.5" transform="rotate(15 154 38)"/>
+                                    <ellipse cx="154" cy="38" rx="13" ry="9" fill="#fed7d7" transform="rotate(15 154 38)"/>
+                                    <!-- Main Palm Pad -->
+                                    <path d="M60 76 C55 60 72 50 86 58 C92 50 108 50 114 58 C128 50 145 60 140 76 C136 94 118 100 100 100 C82 100 64 94 60 76 Z" fill="#fed7d7" opacity="0.85"/>
+                                </svg>
+                            </div>
+
+                            <!-- Full-Body Pet Avatar Wrapper -->
                             <div class="pet-avatar-wrapper" id="pet-avatar-wrapper">
                                 <!-- SVG avatar rendered dynamically -->
                             </div>
-                            <div class="pet-shadow"></div>
+
+                            <!-- Interactive Food Bowl on Floor -->
+                            <div class="pet-food-bowl-wrapper" id="pet-food-bowl" title="Bấm vào bát để cho bé ăn ngay!">
+                                <svg viewBox="0 0 70 45" class="food-bowl-svg">
+                                    <ellipse cx="35" cy="40" rx="30" ry="4" fill="rgba(0,0,0,0.1)"/>
+                                    <path d="M10 24 C10 37 20 40 35 40 C50 40 60 37 60 24 Z" fill="#fed7aa" stroke="#ea580c" stroke-width="2"/>
+                                    <circle cx="35" cy="32" r="3" fill="#ea580c" opacity="0.6"/>
+                                    <circle cx="31" cy="27" r="1.5" fill="#ea580c" opacity="0.6"/>
+                                    <circle cx="35" cy="25.5" r="1.5" fill="#ea580c" opacity="0.6"/>
+                                    <circle cx="39" cy="27" r="1.5" fill="#ea580c" opacity="0.6"/>
+                                    <ellipse cx="35" cy="24" rx="25" ry="9" fill="#ffffff" stroke="#ea580c" stroke-width="2"/>
+                                    <ellipse cx="35" cy="23" rx="21" ry="6.5" fill="#9a3412"/>
+                                    <circle cx="28" cy="22" r="2.2" fill="#c2410c"/>
+                                    <circle cx="35" cy="20.5" r="2.5" fill="#f97316"/>
+                                    <circle cx="42" cy="22" r="2.2" fill="#c2410c"/>
+                                    <circle cx="32" cy="24" r="2.3" fill="#ea580c"/>
+                                    <circle cx="38" cy="24" r="2.3" fill="#ea580c"/>
+                                </svg>
+                                <div class="food-bowl-badge" id="food-bowl-badge"><span id="food-bowl-count">40</span> 🍲</div>
+                            </div>
                         </div>
 
                         <!-- Pet Name Display -->
                         <div class="pet-name-tag">
-                            <span id="pet-name">Miu Miu</span>
-                            <span class="pet-species-badge" id="pet-species-name">Mèo Munchkin</span>
-                        </div>
-
-                        <!-- Pet Status Bars -->
-                        <div class="pet-status-container">
-                            <div class="pet-stat-item">
-                                <div class="pet-stat-label">
-                                    <span><i class="fa-solid fa-drumstick-bite" style="color: #ed8936;"></i> No bụng:</span>
-                                    <span id="pet-hunger-text">80%</span>
-                                </div>
-                                <div class="pet-progress-bar">
-                                    <div class="pet-progress-fill hunger-fill" id="pet-hunger-bar" style="width: 80%;"></div>
-                                </div>
-                            </div>
-                            <div class="pet-stat-item">
-                                <div class="pet-stat-label">
-                                    <span><i class="fa-solid fa-heart" style="color: #e53e3e;"></i> Hạnh phúc:</span>
-                                    <span id="pet-happiness-text">90%</span>
-                                </div>
-                                <div class="pet-progress-bar">
-                                    <div class="pet-progress-fill happiness-fill" id="pet-happiness-bar" style="width: 90%;"></div>
-                                </div>
-                            </div>
+                            <span id="pet-name">Na Na</span>
+                            <span class="pet-species-badge" id="pet-species-name">Mèo Vàng Đeo Nơ</span>
                         </div>
 
                         <!-- Interaction Buttons -->
                         <div class="pet-actions">
                             <button class="btn btn-pet-action btn-feed" id="btn-feed-pet">
-                                <span class="action-icon" id="pet-feed-icon">🐟</span> Cho ăn
+                                <span class="action-icon" id="pet-feed-icon">🍲</span> Cho ăn
                             </button>
                             <button class="btn btn-pet-action btn-pet" id="btn-stroke-pet">
                                 <span class="action-icon">✋</span> Vuốt ve

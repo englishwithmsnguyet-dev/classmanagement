@@ -1950,338 +1950,846 @@ btnRestartGame.addEventListener('click', () => initGame(true));
 
 // ==========================================
 // VIRTUAL PET COMPANION ("Nuôi thú cưng")
-// ==========================================
 const PET_DATA = {
-    cat: {
-        id: 'cat',
-        species: 'Mèo Munchkin',
-        defaultName: 'Miu Miu',
-        foodIcon: '🐟',
-        foodName: 'Cá hồi tươi',
-        description: 'Bé mèo chân ngắn tròn xoe, thích nằm lười và quấn quýt bên cô Nguyệt.',
-        svg: `<svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <path d="M28 48 L18 20 L44 32 Z" fill="#F6AD55" stroke="#DD6B20" stroke-width="2.5" stroke-linejoin="round"/>
-  <path d="M26 42 L21 24 L38 32 Z" fill="#FED7E2"/>
-  <path d="M92 48 L102 20 L76 32 Z" fill="#F6AD55" stroke="#DD6B20" stroke-width="2.5" stroke-linejoin="round"/>
-  <path d="M94 42 L99 24 L82 32 Z" fill="#FED7E2"/>
-  <ellipse cx="60" cy="65" rx="42" ry="38" fill="#FBD38D" stroke="#DD6B20" stroke-width="2.5"/>
-  <ellipse cx="60" cy="74" rx="26" ry="22" fill="#FFFAF0"/>
-  <circle cx="44" cy="58" r="6" fill="#2D3748"/>
-  <circle cx="76" cy="58" r="6" fill="#2D3748"/>
-  <circle cx="42" cy="56" r="2.2" fill="#FFFFFF"/>
-  <circle cx="74" cy="56" r="2.2" fill="#FFFFFF"/>
-  <circle cx="46" cy="60" r="1" fill="#FFFFFF"/>
-  <circle cx="78" cy="60" r="1" fill="#FFFFFF"/>
-  <ellipse cx="36" cy="67" rx="6" ry="3.5" fill="#FEB2B2" opacity="0.8"/>
-  <ellipse cx="84" cy="67" rx="6" ry="3.5" fill="#FEB2B2" opacity="0.8"/>
-  <polygon points="57,65 63,65 60,68" fill="#E53E3E"/>
-  <path d="M54 70 Q57 73 60 70 Q63 73 66 70" stroke="#744210" stroke-width="2" stroke-linecap="round" fill="none"/>
-  <path d="M24 62 L10 60 M24 67 L10 68" stroke="#DD6B20" stroke-width="1.8" stroke-linecap="round"/>
-  <path d="M96 62 L110 60 M96 67 L110 68" stroke="#DD6B20" stroke-width="1.8" stroke-linecap="round"/>
-  <ellipse cx="46" cy="95" rx="9" ry="6" fill="#FFFAF0" stroke="#DD6B20" stroke-width="2"/>
-  <ellipse cx="74" cy="95" rx="9" ry="6" fill="#FFFAF0" stroke="#DD6B20" stroke-width="2"/>
-  <circle cx="60" cy="87" r="4.5" fill="#ECC94B" stroke="#B7791F" stroke-width="1.5"/>
+  nana: {
+    id: 'nana',
+    species: 'Mèo Vàng Na Na',
+    defaultName: 'Na Na',
+    foodIcon: '🍲',
+    foodName: 'Hạt cá hồi',
+    description: 'Bé mèo cam sọc vằn đeo nơ hồng, mắt ngọc bích long lanh và đuôi vẫy duyên dáng.',
+    svg: `<svg viewBox="0 0 160 180" class="fullbody-pet-svg" xmlns="http://www.w3.org/2000/svg">
+  <g class="pet-anim-tail" style="transform-origin: 50px 140px;">
+    <path d="M52 135 C35 125 25 100 28 80 C30 65 42 62 46 72 C48 80 40 92 42 108 C44 120 50 130 55 138 Z" fill="#F6AD55" stroke="#DD6B20" stroke-width="2.5" stroke-linejoin="round"/>
+    <path d="M28 85 Q35 83 40 88" stroke="#DD6B20" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M30 98 Q38 96 42 102" stroke="#DD6B20" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M36 112 Q44 110 46 118" stroke="#DD6B20" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M28 80 C30 65 42 62 46 72 Z" fill="#FFF5EB"/>
+  </g>
+  <ellipse cx="50" cy="140" rx="18" ry="14" fill="#ED8936" stroke="#C05621" stroke-width="2.2" transform="rotate(-10 50 140)"/>
+  <ellipse cx="110" cy="140" rx="18" ry="14" fill="#ED8936" stroke="#C05621" stroke-width="2.2" transform="rotate(10 110 140)"/>
+  <ellipse cx="44" cy="148" rx="10" ry="7" fill="#FFFFFF" stroke="#C05621" stroke-width="2"/>
+  <ellipse cx="116" cy="148" rx="10" ry="7" fill="#FFFFFF" stroke="#C05621" stroke-width="2"/>
+  <g class="pet-anim-body" style="transform-origin: 80px 150px;">
+    <ellipse cx="80" cy="120" rx="34" ry="32" fill="#FBD38D" stroke="#DD6B20" stroke-width="2.5"/>
+    <path d="M68 95 C68 115 62 135 80 145 C98 135 92 115 92 95 Z" fill="#FFFBF5"/>
+    <path d="M52 112 Q60 114 62 118" stroke="#DD6B20" stroke-width="2" stroke-linecap="round"/>
+    <path d="M108 112 Q100 114 98 118" stroke="#DD6B20" stroke-width="2" stroke-linecap="round"/>
+    <path d="M50 126 Q58 128 60 132" stroke="#DD6B20" stroke-width="2" stroke-linecap="round"/>
+    <path d="M110 126 Q102 128 100 132" stroke="#DD6B20" stroke-width="2" stroke-linecap="round"/>
+    <rect x="62" y="112" width="14" height="38" rx="7" fill="#FFFFFF" stroke="#DD6B20" stroke-width="2"/>
+    <rect x="84" y="112" width="14" height="38" rx="7" fill="#FFFFFF" stroke="#DD6B20" stroke-width="2"/>
+    <line x1="66" y1="145" x2="66" y2="150" stroke="#DD6B20" stroke-width="1.8" stroke-linecap="round"/>
+    <line x1="71" y1="145" x2="71" y2="150" stroke="#DD6B20" stroke-width="1.8" stroke-linecap="round"/>
+    <line x1="88" y1="145" x2="88" y2="150" stroke="#DD6B20" stroke-width="1.8" stroke-linecap="round"/>
+    <line x1="93" y1="145" x2="93" y2="150" stroke="#DD6B20" stroke-width="1.8" stroke-linecap="round"/>
+  </g>
+  <g class="pet-anim-body" style="transform-origin: 80px 100px;">
+    <g class="pet-anim-ears" style="transform-origin: 80px 65px;">
+      <path d="M46 62 L32 26 L64 42 Z" fill="#ED8936" stroke="#C05621" stroke-width="2.5" stroke-linejoin="round"/>
+      <path d="M44 56 L37 32 L58 44 Z" fill="#FED7E2"/>
+      <path d="M114 62 L128 26 L96 42 Z" fill="#ED8936" stroke="#C05621" stroke-width="2.5" stroke-linejoin="round"/>
+      <path d="M116 56 L123 32 L102 44 Z" fill="#FED7E2"/>
+    </g>
+    <ellipse cx="80" cy="74" rx="42" ry="36" fill="#FBD38D" stroke="#DD6B20" stroke-width="2.5"/>
+    <path d="M80 44 L80 54" stroke="#DD6B20" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M72 46 L74 54" stroke="#DD6B20" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M88 46 L86 54" stroke="#DD6B20" stroke-width="2.5" stroke-linecap="round"/>
+    <ellipse cx="73" cy="84" rx="10" ry="7" fill="#FFFBF5"/>
+    <ellipse cx="87" cy="84" rx="10" ry="7" fill="#FFFBF5"/>
+    <g class="pet-anim-eyes" style="transform-origin: 80px 70px;">
+      <ellipse cx="62" cy="70" rx="8" ry="9" fill="#2E8540"/>
+      <ellipse cx="62" cy="70" rx="6.5" ry="7.5" fill="#38A169"/>
+      <circle cx="60" cy="67" r="3.2" fill="#FFFFFF"/>
+      <circle cx="64.5" cy="73" r="1.5" fill="#FFFFFF"/>
+      <ellipse cx="98" cy="70" rx="8" ry="9" fill="#2E8540"/>
+      <ellipse cx="98" cy="70" rx="6.5" ry="7.5" fill="#38A169"/>
+      <circle cx="96" cy="67" r="3.2" fill="#FFFFFF"/>
+      <circle cx="100.5" cy="73" r="1.5" fill="#FFFFFF"/>
+    </g>
+    <ellipse cx="50" cy="82" rx="6.5" ry="4" fill="#FEB2B2" opacity="0.8"/>
+    <ellipse cx="110" cy="82" rx="6.5" ry="4" fill="#FEB2B2" opacity="0.8"/>
+    <polygon points="77,80 83,80 80,83" fill="#E53E3E"/>
+    <path d="M74 84 Q80 87 86 84" stroke="#7B341E" stroke-width="1.8" fill="none"/>
+    <path d="M76 85 C76 91 84 91 84 85 Z" fill="#FC8181" stroke="#E53E3E" stroke-width="1.2"/>
+    <line x1="38" y1="78" x2="22" y2="76" stroke="#DD6B20" stroke-width="1.8" stroke-linecap="round"/>
+    <line x1="38" y1="84" x2="22" y2="86" stroke="#DD6B20" stroke-width="1.8" stroke-linecap="round"/>
+    <line x1="122" y1="78" x2="138" y2="76" stroke="#DD6B20" stroke-width="1.8" stroke-linecap="round"/>
+    <line x1="122" y1="84" x2="138" y2="86" stroke="#DD6B20" stroke-width="1.8" stroke-linecap="round"/>
+    <g transform="translate(80, 102)">
+      <path d="M0 0 C-14 -10 -18 10 0 4 Z" fill="#F687B3" stroke="#D53F8C" stroke-width="1.5"/>
+      <path d="M0 0 C14 -10 18 10 0 4 Z" fill="#F687B3" stroke="#D53F8C" stroke-width="1.5"/>
+      <circle cx="0" cy="2" r="4" fill="#ED64A6" stroke="#D53F8C" stroke-width="1.5"/>
+      <path d="M-2 4 L-6 13 M2 4 L6 13" stroke="#D53F8C" stroke-width="1.8" stroke-linecap="round"/>
+    </g>
+  </g>
 </svg>`,
-        quotes: {
-            greetings: [
-                "Chào cô Nguyệt ạ! Hôm nay cô có tiết dạy nào không nè? Chúc cô một ngày tràn ngập niềm vui! ✨",
-                "Cô Nguyệt ơi, em nhớ cô quá chừng! Hôm nay học viên có làm bài tập đầy đủ không cô? 🥰",
-                "Em đợi cô Nguyệt mãi thôi! Cô nhớ uống nước ấm giữ giọng dạy học nha cô! 🍵",
-                "Cô Nguyệt tuyệt vời nhất! Dạy học xong cô nhớ nghỉ ngơi đôi mắt xíu nha! 💕"
-            ],
-            feed: [
-                "Ngon tuyệt cú mèo luôn! Cảm ơn cô Nguyệt đã tẩm bổ món cá hồi cho em nha! 🐟😋",
-                "Măm măm~ No căng bụng rồi cô ơi, em được tiếp thêm 100% năng lượng! ⚡",
-                "Yum yum! Thức ăn cô cho là số một trần đời luôn á! 🎉",
-                "Bụng em tròn vo rồi nè cô ơi! Giờ em ngồi ngoan canh lớp cho cô dạy nghen! 🐾"
-            ],
-            pet: [
-                "Purr purr~ Thích quá à! Em yêu cô Nguyệt nhất trên đời! 💖",
-                "Được cô vuốt ve sướng mê ly luôn~ Em gửi cô ngàn nụ hôn nè! ✨",
-                "Meo meo~ Đã ghê cô ơi! Cô là cô giáo dịu dàng nhất quả đất! 🌸",
-                "Hí hí nhột quá cô ơi! Mà em thích lắm, cô xoa đầu em thêm miếng nữa đi! 🥰"
-            ],
-            hungry: [
-                "Cô Nguyệt ơi... bụng em đang sôi ùng ục nè, cô cho em xin chút cá hồi nha! 🥺🐟",
-                "Đói quá đói quá cô ơi... Cho em một miếng thôi cũng được ạ! 🐟"
-            ]
-        }
-    },
-    corgi: {
-        id: 'corgi',
-        species: 'Cún Corgi',
-        defaultName: 'Bơ Bơ',
-        foodIcon: '🍖',
-        foodName: 'Xương thơm ngon',
-        description: 'Chú cún mông trái tim siêu năng lượng, luôn vẫy đuôi mừng rỡ đón cô.',
-        svg: `<svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <path d="M24 50 L12 12 C24 16 38 28 42 42 Z" fill="#ED8936" stroke="#C05621" stroke-width="2.5" stroke-linejoin="round"/>
-  <path d="M22 44 L16 20 C24 23 33 30 36 38 Z" fill="#FED7E2"/>
-  <path d="M96 50 L108 12 C96 16 82 28 78 42 Z" fill="#ED8936" stroke="#C05621" stroke-width="2.5" stroke-linejoin="round"/>
-  <path d="M98 44 L104 20 C96 23 87 30 84 38 Z" fill="#FED7E2"/>
-  <ellipse cx="60" cy="65" rx="42" ry="38" fill="#ED8936" stroke="#C05621" stroke-width="2.5"/>
-  <path d="M52 35 C52 48 40 55 40 72 C40 85 50 92 60 92 C70 92 80 85 80 72 C80 55 68 48 68 35 Z" fill="#FFFFFF"/>
-  <circle cx="42" cy="58" r="5.5" fill="#2D3748"/>
-  <circle cx="78" cy="58" r="5.5" fill="#2D3748"/>
-  <circle cx="40.5" cy="56" r="2" fill="#FFFFFF"/>
-  <circle cx="76.5" cy="56" r="2" fill="#FFFFFF"/>
-  <ellipse cx="33" cy="68" rx="5" ry="3" fill="#FEB2B2" opacity="0.8"/>
-  <ellipse cx="87" cy="68" rx="5" ry="3" fill="#FEB2B2" opacity="0.8"/>
-  <ellipse cx="60" cy="66" rx="5" ry="3.5" fill="#2D3748"/>
-  <path d="M56 74 C56 81 64 81 64 74 Z" fill="#FC8181" stroke="#E53E3E" stroke-width="1.5"/>
-  <path d="M53 71 Q60 74 67 71" stroke="#2D3748" stroke-width="2" stroke-linecap="round" fill="none"/>
-  <ellipse cx="44" cy="96" rx="8" ry="5.5" fill="#FFFFFF" stroke="#C05621" stroke-width="2"/>
-  <ellipse cx="76" cy="96" rx="8" ry="5.5" fill="#FFFFFF" stroke="#C05621" stroke-width="2"/>
-</svg>`,
-        quotes: {
-            greetings: [
-                "Gâu gâu! Cô Nguyệt đã tới rồi! Em quẩy đuôi mừng cô muốn rụng luôn nè! 🐶✨",
-                "Cô Nguyệt ơi! Hôm nay cô có mang nguồn năng lượng vui tươi nào cho các bạn học viên hông? 🌟",
-                "Em đang ngồi đợi cô để cùng học bài đây! Cô sẵn sàng vào tiết chưa nè? 📚",
-                "Corgi chào cô giáo xinh xắn nhất trung tâm ạ! Chúc cô dạy học thật vui! 💖"
-            ],
-            feed: [
-                "Gâu! Khúc xương ngon đỉnh chóp luôn cô ơi! Cảm ơn cô Nguyệt nhiều lắm! 🍖🤤",
-                "Ngon bá cháy luôn! Em no căng cái bụng tròn vo rồi nè! 🐕",
-                "Măm măm~ Có đồ ăn của cô là em hăng hái trực lớp 10/10 luôn! ⚡",
-                "Thơm lừng luôn cô ơi! Em xin phép ăn sạch bách không chừa xíu nào! 🍗"
-            ],
-            pet: [
-                "Gâu gâu~ Được cô gãi cằm sướng ngất ngây luôn! 🐶💕",
-                "Thích quá à cô ơi! Cho em dựa vào chân cô một chút nhé! 🥰",
-                "Đuôi em đang lắc tít mù vì sung sướng nè! Yêu cô Nguyệt nhất! ✨",
-                "Cô cưng chiều em ghê! Em hứa sẽ làm chú cún ngoan nhất của cô! 💖"
-            ],
-            hungry: [
-                "Gâu... Cô Nguyệt ơi, bụng em reo như sấm rồi nè, cho em xin mẩu xương nha cô! 🥺🍖",
-                "Đói muốn xỉu luôn... Cô Nguyệt cứu đói cho em với ạ! 🦴"
-            ]
-        }
-    },
-    bunny: {
-        id: 'bunny',
-        species: 'Thỏ Mochi',
-        defaultName: 'Mochi',
-        foodIcon: '🥕',
-        foodName: 'Cà rốt giòn ngọt',
-        description: 'Bé thỏ trắng muốt mềm như bông tuyết, đeo nơ hoa điệu đà.',
-        svg: `<svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <ellipse cx="42" cy="30" rx="10" ry="24" fill="#FFFFFF" stroke="#CBD5E0" stroke-width="2.5" transform="rotate(-8 42 30)"/>
-  <ellipse cx="42" cy="30" rx="5.5" ry="17" fill="#FED7E2" transform="rotate(-8 42 30)"/>
-  <ellipse cx="78" cy="30" rx="10" ry="24" fill="#FFFFFF" stroke="#CBD5E0" stroke-width="2.5" transform="rotate(8 78 30)"/>
-  <ellipse cx="78" cy="30" rx="5.5" ry="17" fill="#FED7E2" transform="rotate(8 78 30)"/>
-  <circle cx="78" cy="46" r="4.5" fill="#FC8181"/>
-  <circle cx="78" cy="46" r="2" fill="#FEFCBF"/>
-  <ellipse cx="60" cy="72" rx="40" ry="35" fill="#FFFFFF" stroke="#CBD5E0" stroke-width="2.5"/>
-  <circle cx="44" cy="67" r="6" fill="#4A5568"/>
-  <circle cx="76" cy="67" r="6" fill="#4A5568"/>
-  <circle cx="42" cy="64.5" r="2.2" fill="#FFFFFF"/>
-  <circle cx="74" cy="64.5" r="2.2" fill="#FFFFFF"/>
-  <circle cx="46" cy="69" r="1.1" fill="#FFFFFF"/>
-  <circle cx="78" cy="69" r="1.1" fill="#FFFFFF"/>
-  <ellipse cx="34" cy="74" rx="6" ry="3.5" fill="#FED7E2" opacity="0.9"/>
-  <ellipse cx="86" cy="74" rx="6" ry="3.5" fill="#FED7E2" opacity="0.9"/>
-  <ellipse cx="60" cy="73" rx="3" ry="2" fill="#F687B3"/>
-  <path d="M60 75 L60 78 M57 80 L60 78 L63 80" stroke="#718096" stroke-width="1.8" stroke-linecap="round"/>
-  <ellipse cx="48" cy="98" rx="7" ry="5" fill="#FFFFFF" stroke="#CBD5E0" stroke-width="2"/>
-  <ellipse cx="72" cy="98" rx="7" ry="5" fill="#FFFFFF" stroke="#CBD5E0" stroke-width="2"/>
-</svg>`,
-        quotes: {
-            greetings: [
-                "Bé thỏ Mochi cúi chào cô Nguyệt ạ! Hôm nay trông cô tươi tắn quá! 🐰🌸",
-                "Cô Nguyệt ơi, em vừa nhảy nhót quanh lớp điểm danh học viên giúp cô nè! ✨",
-                "Chúc cô Nguyệt một buổi dạy học nhẹ nhàng, học sinh tiếp thu bài vèo vèo nha! 💕",
-                "Em ngoan ngoãn ngồi đây chờ cô rồi nè, hôm nay mình cùng cố gắng cô nha! 🌿"
-            ],
-            feed: [
-                "Rộp rộp~ Cà rốt giòn ngọt mê ly luôn cô ơi! Cảm ơn cô Nguyệt nhiều ạ! 🥕😋",
-                "Ngon quá nè cô! Bụng em phúng phính như chiếc bánh bao mochi rồi! 🥟",
-                "Măm măm~ Thỏ no bụng rồi, thỏ gửi cô một ngàn ngôi sao may mắn nha! ⭐",
-                "Cà rốt của cô là ngọt nhất quả đất luôn á cô Nguyệt ơi! 🥕💕"
-            ],
-            pet: [
-                "Ôi~ Lông em mềm mượt được cô vuốt thích mê luôn! 🐰✨",
-                "Em giật giật hai tai vì sung sướng nè! Cô xoa thêm tí nữa đi cô! 💕",
-                "Cô Nguyệt cưng em quá đi thôi, em yêu cô ngập tràn con tim! 💖",
-                "Êm ái như mây trôi vậy á cô ơi~ Cảm giác hạnh phúc ngập tràn luôn! 🌸"
-            ],
-            hungry: [
-                "Cô Nguyệt ơi... Em đói meo rồi nè, cho em xin củ cà rốt giòn giòn nha cô! 🥺🥕",
-                "Bụng bé thỏ teo tóp rồi nè cô... Cứu đói em với ạ! 🐰"
-            ]
-        }
-    },
-    panda: {
-        id: 'panda',
-        species: 'Gấu Trúc',
-        defaultName: 'Bánh Bao',
-        foodIcon: '🎋',
-        foodName: 'Trúc non tươi',
-        description: 'Chú gấu trúc béo ú đáng yêu, thích ăn trúc non và cuộn tròn ngủ trưa.',
-        svg: `<svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <circle cx="28" cy="34" r="15" fill="#2D3748" stroke="#1A202C" stroke-width="2"/>
-  <circle cx="92" cy="34" r="15" fill="#2D3748" stroke="#1A202C" stroke-width="2"/>
-  <ellipse cx="60" cy="68" rx="42" ry="38" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="2.5"/>
-  <ellipse cx="43" cy="62" rx="11" ry="9" fill="#2D3748" transform="rotate(-15 43 62)"/>
-  <ellipse cx="77" cy="62" rx="11" ry="9" fill="#2D3748" transform="rotate(15 77 62)"/>
-  <circle cx="44" cy="62" r="4.5" fill="#FFFFFF"/>
-  <circle cx="76" cy="62" r="4.5" fill="#FFFFFF"/>
-  <circle cx="45" cy="62" r="2.5" fill="#1A202C"/>
-  <circle cx="75" cy="62" r="2.5" fill="#1A202C"/>
-  <circle cx="44" cy="61" r="1" fill="#FFFFFF"/>
-  <circle cx="74" cy="61" r="1" fill="#FFFFFF"/>
-  <ellipse cx="32" cy="74" rx="5.5" ry="3.5" fill="#FED7E2" opacity="0.9"/>
-  <ellipse cx="88" cy="74" rx="5.5" ry="3.5" fill="#FED7E2" opacity="0.9"/>
-  <ellipse cx="60" cy="72" rx="4.5" ry="3" fill="#2D3748"/>
-  <path d="M55 77 Q60 80 65 77" stroke="#2D3748" stroke-width="2" stroke-linecap="round" fill="none"/>
-  <ellipse cx="36" cy="96" rx="9" ry="7" fill="#2D3748"/>
-  <ellipse cx="84" cy="96" rx="9" ry="7" fill="#2D3748"/>
-</svg>`,
-        quotes: {
-            greetings: [
-                "Chào cô Nguyệt! Em vừa thức dậy sau giấc ngủ ngắn nè, thấy cô là em tỉnh cả ngủ! 🐼✨",
-                "Cô Nguyệt ơi, hôm nay ai đi học trễ cô cứ giao cho em 'dọa' bằng sự đáng yêu này nha! 🐾",
-                "Chúc cô giáo một ngày làm việc siêu hiệu quả và tràn đầy tiếng cười! 💕",
-                "Em đang ngồi khoanh chân học bài chờ cô vào lớp nè! 🎋"
-            ],
-            feed: [
-                "Rôm rốp~ Cành trúc non thơm ngọt xịn sò luôn cô ơi! Cảm ơn cô Nguyệt! 🎋😋",
-                "Bụng gấu bự no căng rồi nè cô ơi! Giờ em chỉ muốn lăn tròn một vòng thôi! 🐼",
-                "Măm măm~ Thức ăn ngon làm em tăng 200% độ dễ thương rồi! ✨",
-                "No nê quá cô ơi! Em hứa sẽ ngồi trật tự không quậy phá lớp của cô đâu! 💖"
-            ],
-            pet: [
-                "Ôi~ Bàn tay cô Nguyệt ấm áp ghê! Em cuộn tròn cho cô xoa đầu nè! 🐼💕",
-                "Thích mê li luôn cô ơi! Em gửi cô một cái ôm gấu trúc siêu to khổng lồ nè! 🤗✨",
-                "Cô xoa má bánh bao của em mềm không nè? Em thương cô Nguyệt nhất luôn! 🥰",
-                "Ưm ưm~ Sướng quá đi! Được cô cưng thế này em không muốn rời nửa bước! 🌸"
-            ],
-            hungry: [
-                "Cô Nguyệt ơi... Em đói bụng rồi, cô cho em xin vài nhánh trúc non nha! 🥺🎋",
-                "Bụng gấu đang đánh trống múa lân rồi cô ơi... Cứu bé gấu với ạ! 🐼"
-            ]
-        }
-    },
-    duck: {
-        id: 'duck',
-        species: 'Vịt Ducky',
-        defaultName: 'Quack Quack',
-        foodIcon: '🍞',
-        foodName: 'Bánh mì mềm',
-        description: 'Chú vịt vàng lí lắc đội mầm cây may mắn trên đầu, đi lạch bạch đón cô.',
-        svg: `<svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <path d="M60 25 C60 16 52 14 50 12 C54 20 58 20 60 25 Z" fill="#48BB78"/>
-  <path d="M60 25 C60 16 68 14 70 12 C66 20 62 20 60 25 Z" fill="#38A169"/>
-  <ellipse cx="60" cy="68" rx="40" ry="37" fill="#FEEBC8" stroke="#DD6B20" stroke-width="2.5"/>
-  <ellipse cx="23" cy="72" rx="7" ry="14" fill="#FBD38D" stroke="#DD6B20" stroke-width="2" transform="rotate(15 23 72)"/>
-  <ellipse cx="97" cy="72" rx="7" ry="14" fill="#FBD38D" stroke="#DD6B20" stroke-width="2" transform="rotate(-15 97 72)"/>
-  <circle cx="44" cy="58" r="5.5" fill="#2D3748"/>
-  <circle cx="76" cy="58" r="5.5" fill="#2D3748"/>
-  <circle cx="42.5" cy="56" r="2" fill="#FFFFFF"/>
-  <circle cx="74.5" cy="56" r="2" fill="#FFFFFF"/>
-  <ellipse cx="35" cy="67" rx="5.5" ry="3" fill="#FEB2B2" opacity="0.8"/>
-  <ellipse cx="85" cy="67" rx="5.5" ry="3" fill="#FEB2B2" opacity="0.8"/>
-  <ellipse cx="60" cy="68" rx="14" ry="8" fill="#F6AD55" stroke="#DD6B20" stroke-width="2.2"/>
-  <circle cx="56" cy="66" r="1.2" fill="#C05621"/>
-  <circle cx="64" cy="66" r="1.2" fill="#C05621"/>
-  <ellipse cx="48" cy="99" rx="8" ry="4" fill="#F6AD55" stroke="#DD6B20" stroke-width="2"/>
-  <ellipse cx="72" cy="99" rx="8" ry="4" fill="#F6AD55" stroke="#DD6B20" stroke-width="2"/>
-</svg>`,
-        quotes: {
-            greetings: [
-                "Cạp cạp! Vịt Ducky xin chào cô Nguyệt thân thương! Chúc cô một ngày rực rỡ! 🦆✨",
-                "Mầm cây trên đầu em báo hiệu hôm nay cô sẽ có một ngày dạy học thật nhiều điều may mắn! 🌱💖",
-                "Cô Nguyệt ơi! Em đã chuẩn bị tinh thần cổ vũ cô nhiệt tình hôm nay rồi nè! 📣",
-                "Lạch bạch lạch bạch~ Em chạy ra đón cô đây, hôm nay cô có vui không nè? 🥰"
-            ],
-            feed: [
-                "Cạp cạp ngon quá cô ơi! Bánh mì mềm xốp thơm phức luôn! Cảm ơn cô Nguyệt! 🍞😋",
-                "Măm măm~ Bụng vịt tròn ủng rồi nè cô! Đã cái nư dễ sợ! 🦆",
-                "Được cô cho ăn bánh mì là năng lượng tràn trề luôn á cô ơi! ⚡",
-                "Ngon xỉu lên xỉu xuống luôn! Em yêu mến cô Nguyệt vô cùng! 💕"
-            ],
-            pet: [
-                "Cạp~ Được cô xoa chiếc đầu có mầm cây thích ơi là thích! 🌱✨",
-                "Em vỗ cánh phành phạch mừng cô nè! Cưng cô Nguyệt nhất trên đời! 🦆💖",
-                "Cảm giác được cô yêu thương ấm áp như ánh nắng mai vậy đó cô! ☀️",
-                "Hi hi! Bàn tay cô mềm mại quá, em muốn được vuốt ve cả ngày luôn! 🥰"
-            ],
-            hungry: [
-                "Cạp... Cô Nguyệt ơi, em đói xẹp bụng rồi nè, cho em xin mẩu bánh mì nha cô! 🥺🍞",
-                "Vịt đói muốn ngất xỉu rồi cô ơi... Cứu đói em với ạ! 🦆"
-            ]
-        }
-    },
-    hamster: {
-        id: 'hamster',
-        species: 'Bé Hamster',
-        defaultName: 'Hạt Dẻ',
-        foodIcon: '🌻',
-        foodName: 'Hạt hướng dương',
-        description: 'Chú chuột hamster 2 má phúng phính ôm hạt hướng dương, tò mò và lanh lợi.',
-        svg: `<svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <circle cx="28" cy="38" r="13" fill="#ED8936" stroke="#C05621" stroke-width="2"/>
-  <circle cx="28" cy="38" r="7" fill="#FED7E2"/>
-  <circle cx="92" cy="38" r="13" fill="#ED8936" stroke="#C05621" stroke-width="2"/>
-  <circle cx="92" cy="38" r="7" fill="#FED7E2"/>
-  <ellipse cx="60" cy="70" rx="42" ry="36" fill="#FBD38D" stroke="#C05621" stroke-width="2.5"/>
-  <ellipse cx="60" cy="76" rx="28" ry="24" fill="#FFFFFF"/>
-  <ellipse cx="26" cy="72" rx="10" ry="12" fill="#FBD38D" stroke="#C05621" stroke-width="2"/>
-  <ellipse cx="94" cy="72" rx="10" ry="12" fill="#FBD38D" stroke="#C05621" stroke-width="2"/>
-  <circle cx="43" cy="58" r="5.5" fill="#2D3748"/>
-  <circle cx="77" cy="58" r="5.5" fill="#2D3748"/>
-  <circle cx="41.5" cy="56" r="2" fill="#FFFFFF"/>
-  <circle cx="75.5" cy="56" r="2" fill="#FFFFFF"/>
-  <ellipse cx="34" cy="68" rx="5.5" ry="3.5" fill="#FEB2B2" opacity="0.8"/>
-  <ellipse cx="86" cy="68" rx="5.5" ry="3.5" fill="#FEB2B2" opacity="0.8"/>
-  <polygon points="58,66 62,66 60,69" fill="#E53E3E"/>
-  <path d="M56 71 Q60 74 64 71" stroke="#7B341E" stroke-width="1.8" stroke-linecap="round" fill="none"/>
-  <ellipse cx="60" cy="85" rx="7" ry="11" fill="#4A5568" stroke="#2D3748" stroke-width="1.5" transform="rotate(-15 60 85)"/>
-  <path d="M57 78 L63 92" stroke="#ED8936" stroke-width="1.2"/>
-  <circle cx="52" cy="84" r="4.5" fill="#FFFAF0" stroke="#C05621" stroke-width="1.5"/>
-  <circle cx="68" cy="84" r="4.5" fill="#FFFAF0" stroke="#C05621" stroke-width="1.5"/>
-  <ellipse cx="46" cy="99" rx="7" ry="4" fill="#FFFAF0" stroke="#C05621" stroke-width="1.8"/>
-  <ellipse cx="74" cy="99" rx="7" ry="4" fill="#FFFAF0" stroke="#C05621" stroke-width="1.8"/>
-</svg>`,
-        quotes: {
-            greetings: [
-                "Chít chít! Bé hamster ôm hạt hướng dương chào cô Nguyệt ạ! 🐹✨",
-                "Cô Nguyệt ơi! Em vừa giấu sẵn 1 bọc kẹo may mắn cho cô bắt đầu tiết dạy nè! 🍬",
-                "Nhìn hai cái má phúng phính của em có giúp cô xua tan mệt mỏi hông nè? 🥰",
-                "Chúc cô Nguyệt hôm nay dạy lớp nào cũng rôm rả và học sinh tiếp thu tốt nha! 🌻"
-            ],
-            feed: [
-                "Chít chít~ Hạt hướng dương bùi béo tuyệt hảo luôn cô ơi! 🌻😋",
-                "Nhồm nhoàm~ Em nhét đầy 2 túi má luôn rồi nè, cảm ơn cô Nguyệt nhiều lắm! 🐹",
-                "No nê quá xá luôn! Có năng lượng rồi em chạy bánh xe quay tít mù cho cô xem nha! ⚡",
-                "Hạt ngon xuất sắc luôn cô ơi! Cô chăm em khéo số một thiên hạ luôn! 💕"
-            ],
-            pet: [
-                "Chít chít~ Hai má em phồng to được cô nắn nhẹ thích mê luôn! 🐹💕",
-                "Người em tròn như cục bông được cô âu yếm sướng ghê! ✨",
-                "Cô Nguyệt là người nuôi tuyệt vời nhất trên đời luôn á! 🥰",
-                "Yêu cô Nguyệt quá đi thôi! Em dụi cái mũi nhỏ vào tay cô nè! 💖"
-            ],
-            hungry: [
-                "Cô Nguyệt ơi... Túi má em rỗng tuếch rồi nè, cô cho em xin vài hạt hướng dương nha! 🥺🌻",
-                "Đói quá chừng cô ơi... Cứu đói cho bé hamster tròn xoe với ạ! 🐹"
-            ]
-        }
+    quotes: {
+      greetings: [
+        "Lát nữa có ra ngoài chơi không meo...",
+        "Na Na tò mò nhìn ra ngoài cửa sổ, đợi cô Nguyệt mãi thôi! 🐾",
+        "Chào cô Nguyệt ạ! Hôm nay trông cô tươi tắn quá chừng! ✨",
+        "Cô nhớ uống nước ấm giữ giọng dạy học nha cô ơi! 🍵"
+      ],
+      feed: [
+        "Măm măm~ Hạt cá hồi giòn rụm ngon tuyệt đỉnh cô ơi! 🍲😋",
+        "No căng tròn bụng rồi cô ơi, Na Na được tiếp thêm 100% năng lượng! ⚡",
+        "Yum yum! Cảm ơn cô Nguyệt đã tẩm bổ cho em nha! 🎉"
+      ],
+      pet: [
+        "Purr purr~ Thích quá à! Na Na dụi đầu vào tay cô nè! 💖",
+        "Được cô vuốt ve sướng mê ly luôn~ Na Na gửi cô ngàn nụ hôn nè! ✨",
+        "Meo meo~ Đã ghê cô ơi! Cô là cô giáo dịu dàng nhất quả đất! 🌸"
+      ],
+      hungry: [
+        "Cô Nguyệt ơi... bụng em đang sôi ùng ục nè, cô cho em xin chút hạt nha! 🥺🍲",
+        "Đói quá đói quá cô ơi... Cho em một miếng thôi cũng được ạ! 🐾"
+      ]
     }
+  },
+  calico: {
+    id: 'calico',
+    species: 'Mèo Tam Thể',
+    defaultName: 'Miu Miu',
+    foodIcon: '🥫',
+    foodName: 'Pate cá ngừ',
+    description: 'Bộ lông 3 màu trắng cam đen may mắn, chuông vàng leng keng và đuôi vẫy điệu đà.',
+    svg: `<svg viewBox="0 0 160 180" class="fullbody-pet-svg" xmlns="http://www.w3.org/2000/svg">
+  <g class="pet-anim-tail" style="transform-origin: 50px 140px;">
+    <path d="M52 135 C35 125 25 100 28 80 C30 65 42 62 46 72 C48 80 40 92 42 108 C44 120 50 130 55 138 Z" fill="#FFFFFF" stroke="#4A5568" stroke-width="2.5" stroke-linejoin="round"/>
+    <path d="M28 85 C32 80 44 82 46 92 Z" fill="#ED8936"/>
+    <path d="M36 108 C40 102 46 108 48 118 Z" fill="#2D3748"/>
+  </g>
+  <ellipse cx="50" cy="140" rx="18" ry="14" fill="#ED8936" stroke="#C05621" stroke-width="2.2" transform="rotate(-10 50 140)"/>
+  <ellipse cx="110" cy="140" rx="18" ry="14" fill="#FFFFFF" stroke="#4A5568" stroke-width="2.2" transform="rotate(10 110 140)"/>
+  <ellipse cx="44" cy="148" rx="10" ry="7" fill="#FFFFFF" stroke="#4A5568" stroke-width="2"/>
+  <ellipse cx="116" cy="148" rx="10" ry="7" fill="#FFFFFF" stroke="#4A5568" stroke-width="2"/>
+  <g class="pet-anim-body" style="transform-origin: 80px 150px;">
+    <ellipse cx="80" cy="120" rx="34" ry="32" fill="#FFFFFF" stroke="#4A5568" stroke-width="2.5"/>
+    <path d="M50 105 C55 118 68 120 62 135 C52 130 48 115 50 105 Z" fill="#ED8936"/>
+    <path d="M102 102 C96 112 105 125 112 120 C114 110 108 100 102 102 Z" fill="#2D3748"/>
+    <rect x="62" y="112" width="14" height="38" rx="7" fill="#FFFFFF" stroke="#4A5568" stroke-width="2"/>
+    <rect x="84" y="112" width="14" height="38" rx="7" fill="#FFFFFF" stroke="#4A5568" stroke-width="2"/>
+    <line x1="66" y1="145" x2="66" y2="150" stroke="#718096" stroke-width="1.8" stroke-linecap="round"/>
+    <line x1="71" y1="145" x2="71" y2="150" stroke="#718096" stroke-width="1.8" stroke-linecap="round"/>
+    <line x1="88" y1="145" x2="88" y2="150" stroke="#718096" stroke-width="1.8" stroke-linecap="round"/>
+    <line x1="93" y1="145" x2="93" y2="150" stroke="#718096" stroke-width="1.8" stroke-linecap="round"/>
+  </g>
+  <g class="pet-anim-body" style="transform-origin: 80px 100px;">
+    <g class="pet-anim-ears" style="transform-origin: 80px 65px;">
+      <path d="M46 62 L32 26 L64 42 Z" fill="#ED8936" stroke="#C05621" stroke-width="2.5" stroke-linejoin="round"/>
+      <path d="M44 56 L37 32 L58 44 Z" fill="#FED7E2"/>
+      <path d="M114 62 L128 26 L96 42 Z" fill="#2D3748" stroke="#1A202C" stroke-width="2.5" stroke-linejoin="round"/>
+      <path d="M116 56 L123 32 L102 44 Z" fill="#FED7E2"/>
+    </g>
+    <ellipse cx="80" cy="74" rx="42" ry="36" fill="#FFFFFF" stroke="#4A5568" stroke-width="2.5"/>
+    <path d="M42 60 C52 48 70 52 65 72 C55 75 42 70 42 60 Z" fill="#ED8936"/>
+    <path d="M118 60 C108 48 95 52 98 70 C108 72 118 70 118 60 Z" fill="#2D3748"/>
+    <g class="pet-anim-eyes" style="transform-origin: 80px 70px;">
+      <circle cx="62" cy="70" r="7.5" fill="#D69E2E"/>
+      <circle cx="62" cy="70" r="4.5" fill="#1A202C"/>
+      <circle cx="60" cy="67" r="2.5" fill="#FFFFFF"/>
+      <circle cx="98" cy="70" r="7.5" fill="#D69E2E"/>
+      <circle cx="98" cy="70" r="4.5" fill="#1A202C"/>
+      <circle cx="96" cy="67" r="2.5" fill="#FFFFFF"/>
+    </g>
+    <ellipse cx="50" cy="82" rx="6" ry="4" fill="#FEB2B2" opacity="0.8"/>
+    <ellipse cx="110" cy="82" rx="6" ry="4" fill="#FEB2B2" opacity="0.8"/>
+    <polygon points="77,80 83,80 80,83" fill="#E53E3E"/>
+    <path d="M74 84 Q80 87 86 84" stroke="#4A5568" stroke-width="1.8" fill="none"/>
+    <line x1="38" y1="78" x2="22" y2="76" stroke="#4A5568" stroke-width="1.8" stroke-linecap="round"/>
+    <line x1="38" y1="84" x2="22" y2="86" stroke="#4A5568" stroke-width="1.8" stroke-linecap="round"/>
+    <line x1="122" y1="78" x2="138" y2="76" stroke="#4A5568" stroke-width="1.8" stroke-linecap="round"/>
+    <line x1="122" y1="84" x2="138" y2="86" stroke="#4A5568" stroke-width="1.8" stroke-linecap="round"/>
+    <circle cx="80" cy="105" r="5" fill="#ECC94B" stroke="#B7791F" stroke-width="1.5"/>
+  </g>
+</svg>`,
+    quotes: {
+      greetings: [
+        "Miu Miu tam thể chúc cô Nguyệt một ngày đại cát đại lợi! 🌸✨",
+        "Cô Nguyệt ơi! Em vừa đuổi bắt chiếc lá vàng trong vườn nè, cô vào lớp chưa ạ? 🥰",
+        "Hôm nay cô Nguyệt nhớ cười thật nhiều để học viên hứng khởi nha cô! 💕"
+      ],
+      feed: [
+        "Pate cá ngừ thơm lừng luôn cô ơi! Ngon nhức nhối! 🥫🤤",
+        "Măm măm~ Bụng em tròn như cái bánh bao rồi! Cảm ơn cô Nguyệt! 🐾",
+        "Pate cô cho là số một trần đời! Em gửi cô vạn điều may mắn nhé! 🍀"
+      ],
+      pet: [
+        "Rừ rừ~ Chuông vàng kêu leng keng mừng cô nè! Yêu cô quá chừng! 🔔💖",
+        "Sướng tê người luôn cô ơi! Cô xoa thêm cái lưng cho em với! ✨",
+        "Tam thể mang lại may mắn cho cô giáo xinh xắn nhất quả đất nè! 🌸"
+      ],
+      hungry: [
+        "Meo meo... Bụng em lép xẹp rồi cô Nguyệt ơi, mở hộp pate giúp em nha! 🥺🥫",
+        "Đói meo râu rồi nè cô ơi... Cứu bé Miu Miu với ạ! 🐾"
+      ]
+    }
+  },
+  siamese: {
+    id: 'siamese',
+    species: 'Mèo Xiêm Quý Tộc',
+    defaultName: 'Bánh Tiêu',
+    foodIcon: '🦐',
+    foodName: 'Tôm hấp tươi',
+    description: 'Thân kem quý phái, mặt và tai sô cô la, mắt xanh sapphire kiêu sa và lanh lợi.',
+    svg: `<svg viewBox="0 0 160 180" class="fullbody-pet-svg" xmlns="http://www.w3.org/2000/svg">
+  <g class="pet-anim-tail" style="transform-origin: 50px 140px;">
+    <path d="M52 135 C35 125 25 100 28 80 C30 65 42 62 46 72 C48 80 40 92 42 108 C44 120 50 130 55 138 Z" fill="#4A3B32" stroke="#2C211B" stroke-width="2.5" stroke-linejoin="round"/>
+  </g>
+  <ellipse cx="50" cy="140" rx="18" ry="14" fill="#4A3B32" stroke="#2C211B" stroke-width="2.2" transform="rotate(-10 50 140)"/>
+  <ellipse cx="110" cy="140" rx="18" ry="14" fill="#4A3B32" stroke="#2C211B" stroke-width="2.2" transform="rotate(10 110 140)"/>
+  <ellipse cx="44" cy="148" rx="10" ry="7" fill="#2C211B" stroke="#2C211B" stroke-width="2"/>
+  <ellipse cx="116" cy="148" rx="10" ry="7" fill="#2C211B" stroke="#2C211B" stroke-width="2"/>
+  <g class="pet-anim-body" style="transform-origin: 80px 150px;">
+    <ellipse cx="80" cy="120" rx="34" ry="32" fill="#FAF5E8" stroke="#D6C6B2" stroke-width="2.5"/>
+    <rect x="62" y="112" width="14" height="38" rx="7" fill="#4A3B32" stroke="#2C211B" stroke-width="2"/>
+    <rect x="84" y="112" width="14" height="38" rx="7" fill="#4A3B32" stroke="#2C211B" stroke-width="2"/>
+    <line x1="66" y1="145" x2="66" y2="150" stroke="#2C211B" stroke-width="1.8" stroke-linecap="round"/>
+    <line x1="71" y1="145" x2="71" y2="150" stroke="#2C211B" stroke-width="1.8" stroke-linecap="round"/>
+    <line x1="88" y1="145" x2="88" y2="150" stroke="#2C211B" stroke-width="1.8" stroke-linecap="round"/>
+    <line x1="93" y1="145" x2="93" y2="150" stroke="#2C211B" stroke-width="1.8" stroke-linecap="round"/>
+  </g>
+  <g class="pet-anim-body" style="transform-origin: 80px 100px;">
+    <g class="pet-anim-ears" style="transform-origin: 80px 65px;">
+      <path d="M46 62 L32 26 L64 42 Z" fill="#4A3B32" stroke="#2C211B" stroke-width="2.5" stroke-linejoin="round"/>
+      <path d="M44 56 L37 32 L58 44 Z" fill="#6B5446"/>
+      <path d="M114 62 L128 26 L96 42 Z" fill="#4A3B32" stroke="#2C211B" stroke-width="2.5" stroke-linejoin="round"/>
+      <path d="M116 56 L123 32 L102 44 Z" fill="#6B5446"/>
+    </g>
+    <ellipse cx="80" cy="74" rx="42" ry="36" fill="#FAF5E8" stroke="#D6C6B2" stroke-width="2.5"/>
+    <path d="M60 58 C66 52 94 52 100 58 C108 68 106 88 94 92 C86 94 74 94 66 92 C54 88 52 68 60 58 Z" fill="#4A3B32"/>
+    <g class="pet-anim-eyes" style="transform-origin: 80px 70px;">
+      <ellipse cx="64" cy="70" rx="7.5" ry="8.5" fill="#2B6CB0"/>
+      <circle cx="64" cy="70" r="5" fill="#1A365D"/>
+      <circle cx="62" cy="67" r="2.5" fill="#FFFFFF"/>
+      <ellipse cx="96" cy="70" rx="7.5" ry="8.5" fill="#2B6CB0"/>
+      <circle cx="96" cy="70" r="5" fill="#1A365D"/>
+      <circle cx="94" cy="67" r="2.5" fill="#FFFFFF"/>
+    </g>
+    <ellipse cx="50" cy="82" rx="6" ry="4" fill="#FED7E2" opacity="0.6"/>
+    <ellipse cx="110" cy="82" rx="6" ry="4" fill="#FED7E2" opacity="0.6"/>
+    <polygon points="77,80 83,80 80,83" fill="#2C211B"/>
+    <path d="M74 84 Q80 87 86 84" stroke="#2C211B" stroke-width="1.8" fill="none"/>
+    <line x1="38" y1="78" x2="22" y2="76" stroke="#718096" stroke-width="1.8" stroke-linecap="round"/>
+    <line x1="38" y1="84" x2="22" y2="86" stroke="#718096" stroke-width="1.8" stroke-linecap="round"/>
+    <line x1="122" y1="78" x2="138" y2="76" stroke="#718096" stroke-width="1.8" stroke-linecap="round"/>
+    <line x1="122" y1="84" x2="138" y2="86" stroke="#718096" stroke-width="1.8" stroke-linecap="round"/>
+    <circle cx="80" cy="105" r="4.5" fill="#E53E3E" stroke="#C53030" stroke-width="1.5"/>
+  </g>
+</svg>`,
+    quotes: {
+      greetings: [
+        "Meo~ Chào cô Nguyệt quý phái! Hôm nay cô vào lớp với tinh thần đỉnh cao nhé! 💎",
+        "Mèo Xiêm Bánh Tiêu xin kính chào cô giáo yêu dấu! 🥰",
+        "Đôi mắt xanh biếc của em luôn ngắm nhìn cô dạy học hăng say nè! ✨"
+      ],
+      feed: [
+        "Tôm hấp ngọt lịm luôn cô ơi! Đúng là món khoái khẩu của hoàng tộc! 🦐😋",
+        "Măm măm~ Ngon xuất sắc cô ơi! Bánh Tiêu cảm ơn cô Nguyệt nhiều ạ! 💕"
+      ],
+      pet: [
+        "Purr purr~ Thích quá à cô ơi! Lông em mịn màng cô vuốt hoài không chán đâu nè! 💖",
+        "Dụi đầu vào tay cô giáo xinh đẹp là niềm hạnh phúc nhất trần đời! 🌸"
+      ],
+      hungry: [
+        "Meo... Cô Nguyệt ơi, đĩa tôm của em đâu rồi nè, em đói xỉu rồi đó cô! 🥺🦐"
+      ]
+    }
+  },
+  corgi: {
+    id: 'corgi',
+    species: 'Cún Corgi Chân Ngắn',
+    defaultName: 'Bơ Bơ',
+    foodIcon: '🍖',
+    foodName: 'Khúc xương thơm',
+    description: 'Bé cún mông trái tim siêu năng lượng, 4 chân ngắn củn và đuôi lắc tít mù.',
+    svg: `<svg viewBox="0 0 160 180" class="fullbody-pet-svg" xmlns="http://www.w3.org/2000/svg">
+  <g class="pet-anim-tail" style="transform-origin: 50px 145px;">
+    <ellipse cx="44" cy="138" rx="9" ry="12" fill="#ED8936" stroke="#C05621" stroke-width="2" transform="rotate(-30 44 138)"/>
+    <circle cx="40" cy="130" r="5" fill="#FFFFFF"/>
+  </g>
+  <ellipse cx="50" cy="142" rx="19" ry="15" fill="#ED8936" stroke="#C05621" stroke-width="2.2" transform="rotate(-8 50 142)"/>
+  <ellipse cx="110" cy="142" rx="19" ry="15" fill="#ED8936" stroke="#C05621" stroke-width="2.2" transform="rotate(8 110 142)"/>
+  <ellipse cx="44" cy="150" rx="9" ry="6" fill="#FFFFFF" stroke="#C05621" stroke-width="2"/>
+  <ellipse cx="116" cy="150" rx="9" ry="6" fill="#FFFFFF" stroke="#C05621" stroke-width="2"/>
+  <g class="pet-anim-body" style="transform-origin: 80px 150px;">
+    <ellipse cx="80" cy="122" rx="36" ry="34" fill="#ED8936" stroke="#C05621" stroke-width="2.5"/>
+    <path d="M66 94 C66 115 58 136 80 146 C102 136 94 115 94 94 Z" fill="#FFFFFF"/>
+    <rect x="63" y="118" width="13" height="34" rx="6.5" fill="#FFFFFF" stroke="#C05621" stroke-width="2"/>
+    <rect x="84" y="118" width="13" height="34" rx="6.5" fill="#FFFFFF" stroke="#C05621" stroke-width="2"/>
+    <line x1="67" y1="146" x2="67" y2="151" stroke="#C05621" stroke-width="1.8" stroke-linecap="round"/>
+    <line x1="89" y1="146" x2="89" y2="151" stroke="#C05621" stroke-width="1.8" stroke-linecap="round"/>
+  </g>
+  <g class="pet-anim-body" style="transform-origin: 80px 100px;">
+    <g class="pet-anim-ears" style="transform-origin: 80px 65px;">
+      <path d="M42 60 L24 16 C38 20 54 36 60 50 Z" fill="#ED8936" stroke="#C05621" stroke-width="2.5" stroke-linejoin="round"/>
+      <path d="M40 52 L30 26 C40 30 50 40 54 48 Z" fill="#FED7E2"/>
+      <path d="M118 60 L136 16 C122 20 106 36 100 50 Z" fill="#ED8936" stroke="#C05621" stroke-width="2.5" stroke-linejoin="round"/>
+      <path d="M120 52 L130 26 C120 30 110 40 106 48 Z" fill="#FED7E2"/>
+    </g>
+    <ellipse cx="80" cy="74" rx="42" ry="36" fill="#ED8936" stroke="#C05621" stroke-width="2.5"/>
+    <path d="M72 40 C72 54 58 64 58 80 C58 92 68 96 80 96 C92 96 102 92 102 80 C102 64 88 54 88 40 Z" fill="#FFFFFF"/>
+    <g class="pet-anim-eyes" style="transform-origin: 80px 70px;">
+      <circle cx="62" cy="70" r="6" fill="#2D3748"/>
+      <circle cx="60.5" cy="68" r="2.2" fill="#FFFFFF"/>
+      <circle cx="98" cy="70" r="6" fill="#2D3748"/>
+      <circle cx="96.5" cy="68" r="2.2" fill="#FFFFFF"/>
+    </g>
+    <ellipse cx="48" cy="82" rx="6" ry="4" fill="#FEB2B2" opacity="0.8"/>
+    <ellipse cx="112" cy="82" rx="6" ry="4" fill="#FEB2B2" opacity="0.8"/>
+    <ellipse cx="80" cy="78" rx="5.5" ry="4" fill="#2D3748"/>
+    <path d="M75 85 C75 93 85 93 85 85 Z" fill="#FC8181" stroke="#E53E3E" stroke-width="1.5"/>
+    <path d="M72 82 Q80 85 88 82" stroke="#2D3748" stroke-width="2" stroke-linecap="round" fill="none"/>
+  </g>
+</svg>`,
+    quotes: {
+      greetings: [
+        "Gâu gâu! Bơ Bơ mừng cô Nguyệt đến lớp nè! Em quẩy đuôi tít mù luôn! 🐶✨",
+        "Cô Nguyệt ơi, hôm nay tiết học có đông vui hông cô? Corgi cổ vũ cô hết mình! 🌟",
+        "Em ngồi ngoan chờ cô đây! Chúc cô Nguyệt một buổi tối tràn đầy năng lượng! 💖"
+      ],
+      feed: [
+        "Khúc xương ngon đỉnh chóp luôn cô ơi! Cảm ơn cô Nguyệt nhiều lắm! 🍖🤤",
+        "Gâu! Em no căng cái bụng tròn vo rồi nè! Giờ em ngồi canh lớp cho cô nghen! 🐕"
+      ],
+      pet: [
+        "Gâu gâu~ Được cô gãi cằm sướng ngất ngây luôn! 🐶💕",
+        "Đuôi ngắn của em đang lắc lia lịa vì hạnh phúc nè! Yêu cô Nguyệt nhất! ✨"
+      ],
+      hungry: [
+        "Gâu... Bụng em reo ùng ục rồi cô Nguyệt ơi, cho em xin mẩu xương nha cô! 🥺🍖"
+      ]
+    }
+  },
+  shiba: {
+    id: 'shiba',
+    species: 'Cún Shiba Inu',
+    defaultName: 'Kuma',
+    foodIcon: '🥩',
+    foodName: 'Bò viên nướng',
+    description: 'Bộ lông vàng kem, má bánh bao xoa cực thích, đuôi cuộn tròn và khăn quàng đỏ.',
+    svg: `<svg viewBox="0 0 160 180" class="fullbody-pet-svg" xmlns="http://www.w3.org/2000/svg">
+  <g class="pet-anim-tail" style="transform-origin: 45px 135px;">
+    <path d="M48 135 C32 120 30 95 46 92 C58 90 60 105 48 112 C40 116 38 126 48 135 Z" fill="#D69E2E" stroke="#B7791F" stroke-width="2.5"/>
+    <circle cx="48" cy="94" r="5" fill="#FFFBF5"/>
+  </g>
+  <ellipse cx="50" cy="142" rx="19" ry="15" fill="#D69E2E" stroke="#B7791F" stroke-width="2.2" transform="rotate(-8 50 142)"/>
+  <ellipse cx="110" cy="142" rx="19" ry="15" fill="#D69E2E" stroke="#B7791F" stroke-width="2.2" transform="rotate(8 110 142)"/>
+  <ellipse cx="44" cy="150" rx="9" ry="6" fill="#FFFBF5" stroke="#B7791F" stroke-width="2"/>
+  <ellipse cx="116" cy="150" rx="9" ry="6" fill="#FFFBF5" stroke="#B7791F" stroke-width="2"/>
+  <g class="pet-anim-body" style="transform-origin: 80px 150px;">
+    <ellipse cx="80" cy="122" rx="35" ry="33" fill="#D69E2E" stroke="#B7791F" stroke-width="2.5"/>
+    <path d="M66 96 C66 116 60 136 80 146 C100 136 94 116 94 96 Z" fill="#FFFBF5"/>
+    <rect x="63" y="118" width="13" height="34" rx="6.5" fill="#FFFBF5" stroke="#B7791F" stroke-width="2"/>
+    <rect x="84" y="118" width="13" height="34" rx="6.5" fill="#FFFBF5" stroke="#B7791F" stroke-width="2"/>
+    <line x1="67" y1="146" x2="67" y2="151" stroke="#B7791F" stroke-width="1.8" stroke-linecap="round"/>
+    <line x1="89" y1="146" x2="89" y2="151" stroke="#B7791F" stroke-width="1.8" stroke-linecap="round"/>
+  </g>
+  <g class="pet-anim-body" style="transform-origin: 80px 100px;">
+    <g class="pet-anim-ears" style="transform-origin: 80px 65px;">
+      <polygon points="44,60 36,24 62,44" fill="#D69E2E" stroke="#B7791F" stroke-width="2.5" stroke-linejoin="round"/>
+      <polygon points="45,54 40,32 58,45" fill="#FED7E2"/>
+      <polygon points="116,60 124,24 98,44" fill="#D69E2E" stroke="#B7791F" stroke-width="2.5" stroke-linejoin="round"/>
+      <polygon points="115,54 120,32 102,45" fill="#FED7E2"/>
+    </g>
+    <ellipse cx="80" cy="74" rx="42" ry="36" fill="#D69E2E" stroke="#B7791F" stroke-width="2.5"/>
+    <!-- Shiba white cheeks/eyebrows -->
+    <ellipse cx="65" cy="56" rx="4" ry="3" fill="#FFFBF5"/>
+    <ellipse cx="95" cy="56" rx="4" ry="3" fill="#FFFBF5"/>
+    <path d="M52 74 C50 88 64 96 80 96 C96 96 110 88 108 74 C106 66 96 66 80 66 C64 66 54 66 52 74 Z" fill="#FFFBF5"/>
+    <g class="pet-anim-eyes" style="transform-origin: 80px 70px;">
+      <ellipse cx="64" cy="68" rx="5.5" ry="6" fill="#2D3748"/>
+      <circle cx="63" cy="66" r="2" fill="#FFFFFF"/>
+      <ellipse cx="96" cy="68" rx="5.5" ry="6" fill="#2D3748"/>
+      <circle cx="95" cy="66" r="2" fill="#FFFFFF"/>
+    </g>
+    <ellipse cx="48" cy="80" rx="6" ry="4" fill="#FEB2B2" opacity="0.8"/>
+    <ellipse cx="112" cy="80" rx="6" ry="4" fill="#FEB2B2" opacity="0.8"/>
+    <ellipse cx="80" cy="76" rx="5" ry="3.5" fill="#2D3748"/>
+    <path d="M74 81 Q80 84 86 81" stroke="#2D3748" stroke-width="2" stroke-linecap="round" fill="none"/>
+    <!-- Red Bandana -->
+    <path d="M62 98 L80 114 L98 98 Z" fill="#E53E3E" stroke="#C53030" stroke-width="1.5"/>
+    <circle cx="80" cy="105" r="2" fill="#FFFFFF"/>
+  </g>
+</svg>`,
+    quotes: {
+      greetings: [
+        "Gâu! Shiba Kuma tươi cười chào đón cô Nguyệt ạ! 🐕✨",
+        "Hai má bánh bao của em hôm nay đã sẵn sàng cho cô véo rồi nè! 🥰",
+        "Chúc cô giáo một ngày làm việc tuyệt vời, học sinh chăm ngoan hết nấc! 💖"
+      ],
+      feed: [
+        "Thịt bò viên nướng thơm phức luôn cô ơi! Ngon chảy nước miếng! 🥩😋",
+        "Măm măm~ Shiba no căng bụng rồi! Cảm ơn cô Nguyệt nhiều lắm! ⚡"
+      ],
+      pet: [
+        "Gâu gâu~ Má em mềm xèo xoa đã tay lắm đúng không cô? 💕",
+        "Được cô nắn má là thích nhất trần đời! Yêu cô Nguyệt quá đi thôi! ✨"
+      ],
+      hungry: [
+        "Gâu... Cô Nguyệt ơi, cho bé Shiba xin viên bò nướng nha cô, đói meo rồi! 🥺🥩"
+      ]
+    }
+  },
+  poodle: {
+    id: 'poodle',
+    species: 'Cún Poodle Nâu',
+    defaultName: 'Gấu Con',
+    foodIcon: '🦴',
+    foodName: 'Bánh quy giòn',
+    description: 'Lông xoăn mềm mại như kẹo bông sô cô la, nơ đỏ điệu đà và tai lắc lư.',
+    svg: `<svg viewBox="0 0 160 180" class="fullbody-pet-svg" xmlns="http://www.w3.org/2000/svg">
+  <g class="pet-anim-tail" style="transform-origin: 45px 140px;">
+    <line x1="45" y1="138" x2="35" y2="120" stroke="#6B46C1" stroke-width="3" stroke-linecap="round"/>
+    <circle cx="33" cy="116" r="10" fill="#7B341E" stroke="#521B0D" stroke-width="2"/>
+  </g>
+  <ellipse cx="50" cy="142" rx="18" ry="14" fill="#7B341E" stroke="#521B0D" stroke-width="2"/>
+  <ellipse cx="110" cy="142" rx="18" ry="14" fill="#7B341E" stroke="#521B0D" stroke-width="2"/>
+  <circle cx="44" cy="148" r="8" fill="#9C4221"/>
+  <circle cx="116" cy="148" r="8" fill="#9C4221"/>
+  <g class="pet-anim-body" style="transform-origin: 80px 150px;">
+    <ellipse cx="80" cy="122" rx="35" ry="33" fill="#7B341E" stroke="#521B0D" stroke-width="2.5"/>
+    <circle cx="68" cy="115" r="10" fill="#9C4221" opacity="0.6"/>
+    <circle cx="92" cy="115" r="10" fill="#9C4221" opacity="0.6"/>
+    <circle cx="80" cy="128" r="11" fill="#9C4221" opacity="0.6"/>
+    <rect x="63" y="118" width="13" height="34" rx="6.5" fill="#7B341E" stroke="#521B0D" stroke-width="2"/>
+    <rect x="84" y="118" width="13" height="34" rx="6.5" fill="#7B341E" stroke="#521B0D" stroke-width="2"/>
+  </g>
+  <g class="pet-anim-body" style="transform-origin: 80px 100px;">
+    <g class="pet-anim-ears" style="transform-origin: 80px 65px;">
+      <ellipse cx="38" cy="72" rx="12" ry="22" fill="#7B341E" stroke="#521B0D" stroke-width="2.5" transform="rotate(10 38 72)"/>
+      <ellipse cx="122" cy="72" rx="12" ry="22" fill="#7B341E" stroke="#521B0D" stroke-width="2.5" transform="rotate(-10 122 72)"/>
+    </g>
+    <ellipse cx="80" cy="74" rx="40" ry="35" fill="#7B341E" stroke="#521B0D" stroke-width="2.5"/>
+    <!-- Fluffy Topknot -->
+    <circle cx="80" cy="42" r="16" fill="#9C4221" stroke="#521B0D" stroke-width="2"/>
+    <circle cx="70" cy="46" r="12" fill="#9C4221"/>
+    <circle cx="90" cy="46" r="12" fill="#9C4221"/>
+    <!-- Red Bow on Head -->
+    <path d="M72 32 L88 32 L80 38 Z" fill="#E53E3E"/>
+    <circle cx="80" cy="35" r="3" fill="#C53030"/>
+    <g class="pet-anim-eyes" style="transform-origin: 80px 70px;">
+      <circle cx="64" cy="70" r="5.5" fill="#1A202C"/>
+      <circle cx="63" cy="68" r="2" fill="#FFFFFF"/>
+      <circle cx="96" cy="70" r="5.5" fill="#1A202C"/>
+      <circle cx="95" cy="68" r="2" fill="#FFFFFF"/>
+    </g>
+    <ellipse cx="50" cy="80" rx="6" ry="4" fill="#FED7E2" opacity="0.6"/>
+    <ellipse cx="110" cy="80" rx="6" ry="4" fill="#FED7E2" opacity="0.6"/>
+    <ellipse cx="80" cy="78" rx="5" ry="3.5" fill="#1A202C"/>
+    <path d="M75 83 Q80 86 85 83" stroke="#1A202C" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+  </g>
+</svg>`,
+    quotes: {
+      greetings: [
+        "Gâu gâu! Poodle Gấu Con lông xoăn tít chào cô Nguyệt ạ! 🐩✨",
+        "Bộ lông em mềm mại như nhung, cô xoa đầu em trước khi dạy nha! 🥰",
+        "Chúc cô Nguyệt một buổi tối vui tươi và ngập tràn niềm vui! 💖"
+      ],
+      feed: [
+        "Rôm rốp~ Bánh quy giòn tan ngon quá cô ơi! Cảm ơn cô Nguyệt! 🦴😋",
+        "Măm măm~ Có bánh cô cho là em ngồi ngoan nhất xóm luôn! 🐩"
+      ],
+      pet: [
+        "Sướng mê ly cô ơi! Lông xoăn của em được cô vuốt bồng bềnh thích ghê! 💕",
+        "Gấu Con yêu cô Nguyệt vô cùng! Em gửi cô vạn nụ hôn nè! ✨"
+      ],
+      hungry: [
+        "Gâu... Cô Nguyệt ơi, cho em xin mẩu bánh quy nha, bụng em đói meo rồi! 🥺🦴"
+      ]
+    }
+  },
+  bunny: {
+    id: 'bunny',
+    species: 'Thỏ Tai Cụp Mochi',
+    defaultName: 'Mochi',
+    foodIcon: '🥕',
+    foodName: 'Cà rốt giòn',
+    description: 'Bé thỏ trắng muốt mềm như bông tuyết, hai tai cụp dài đung đưa cài hoa hồng.',
+    svg: `<svg viewBox="0 0 160 180" class="fullbody-pet-svg" xmlns="http://www.w3.org/2000/svg">
+  <g class="pet-anim-tail" style="transform-origin: 45px 145px;">
+    <circle cx="44" cy="142" r="10" fill="#FFFFFF" stroke="#CBD5E0" stroke-width="2"/>
+  </g>
+  <ellipse cx="50" cy="144" rx="18" ry="14" fill="#FFFFFF" stroke="#CBD5E0" stroke-width="2.2" transform="rotate(-8 50 144)"/>
+  <ellipse cx="110" cy="144" rx="18" ry="14" fill="#FFFFFF" stroke="#CBD5E0" stroke-width="2.2" transform="rotate(8 110 144)"/>
+  <ellipse cx="44" cy="150" rx="9" ry="6" fill="#FFFFFF" stroke="#CBD5E0" stroke-width="2"/>
+  <ellipse cx="116" cy="150" rx="9" ry="6" fill="#FFFFFF" stroke="#CBD5E0" stroke-width="2"/>
+  <g class="pet-anim-body" style="transform-origin: 80px 150px;">
+    <ellipse cx="80" cy="124" rx="36" ry="34" fill="#FFFFFF" stroke="#CBD5E0" stroke-width="2.5"/>
+    <!-- Carrot held by paws -->
+    <path d="M72 120 L88 136 L78 140 Z" fill="#ED8936" stroke="#C05621" stroke-width="1.5"/>
+    <path d="M68 116 L74 122 M70 114 L76 120" stroke="#38A169" stroke-width="2" stroke-linecap="round"/>
+    <circle cx="72" cy="126" r="5" fill="#FFFFFF" stroke="#CBD5E0" stroke-width="1.8"/>
+    <circle cx="86" cy="132" r="5" fill="#FFFFFF" stroke="#CBD5E0" stroke-width="1.8"/>
+  </g>
+  <g class="pet-anim-body" style="transform-origin: 80px 100px;">
+    <g class="pet-anim-ears" style="transform-origin: 80px 65px;">
+      <!-- Droopy Lop Ears -->
+      <path d="M46 54 C34 54 26 74 28 100 C30 112 40 112 44 98 C46 84 48 64 52 54 Z" fill="#FFFFFF" stroke="#CBD5E0" stroke-width="2.5"/>
+      <path d="M36 68 C32 80 34 98 40 98 C42 88 42 74 44 68 Z" fill="#FED7E2"/>
+      <path d="M114 54 C126 54 134 74 132 100 C130 112 120 112 116 98 C114 84 112 64 108 54 Z" fill="#FFFFFF" stroke="#CBD5E0" stroke-width="2.5"/>
+      <path d="M124 68 C128 80 126 98 120 98 C118 88 118 74 116 68 Z" fill="#FED7E2"/>
+    </g>
+    <ellipse cx="80" cy="74" rx="42" ry="36" fill="#FFFFFF" stroke="#CBD5E0" stroke-width="2.5"/>
+    <circle cx="112" cy="54" r="5" fill="#FC8181"/>
+    <circle cx="112" cy="54" r="2" fill="#FEFCBF"/>
+    <g class="pet-anim-eyes" style="transform-origin: 80px 70px;">
+      <circle cx="62" cy="70" r="6" fill="#4A5568"/>
+      <circle cx="60.5" cy="68" r="2.2" fill="#FFFFFF"/>
+      <circle cx="98" cy="70" r="6" fill="#4A5568"/>
+      <circle cx="96.5" cy="68" r="2.2" fill="#FFFFFF"/>
+    </g>
+    <ellipse cx="48" cy="80" rx="6" ry="4" fill="#FED7E2" opacity="0.9"/>
+    <ellipse cx="112" cy="80" rx="6" ry="4" fill="#FED7E2" opacity="0.9"/>
+    <ellipse cx="80" cy="76" rx="3.5" ry="2.5" fill="#F687B3"/>
+    <path d="M80 78 L80 81 M77 83 L80 81 L83 83" stroke="#718096" stroke-width="1.8" stroke-linecap="round"/>
+  </g>
+</svg>`,
+    quotes: {
+      greetings: [
+        "Bé thỏ Mochi cúi chào cô Nguyệt ạ! Hôm nay trông cô tươi tắn quá! 🐰🌸",
+        "Hai tai cụp của em đung đưa chào cô nè, chúc cô buổi dạy học tuyệt vời! ✨",
+        "Cô Nguyệt tuyệt vời nhất! Dạy học xong cô nhớ nghỉ ngơi đôi mắt xíu nha! 💕"
+      ],
+      feed: [
+        "Rộp rộp~ Cà rốt giòn ngọt mê ly luôn cô ơi! Cảm ơn cô Nguyệt nhiều ạ! 🥕😋",
+        "Măm măm~ Bụng em phúng phính như chiếc bánh bao rồi nè! 🥟"
+      ],
+      pet: [
+        "Ôi~ Lông em mềm mượt được cô vuốt thích mê luôn! 🐰✨",
+        "Cô Nguyệt cưng em quá đi thôi, em yêu cô ngập tràn con tim! 💖"
+      ],
+      hungry: [
+        "Cô Nguyệt ơi... Em đói meo rồi nè, cho em xin củ cà rốt nha cô! 🥺🥕"
+      ]
+    }
+  },
+  panda: {
+    id: 'panda',
+    species: 'Gấu Trúc Bảo Bảo',
+    defaultName: 'Bảo Bảo',
+    foodIcon: '🎋',
+    foodName: 'Măng trúc tươi',
+    description: 'Chú gấu trúc béo ú ngồi bệt ôm măng trúc, hai tai nhấp nhô tròn xoe ngộ nghĩnh.',
+    svg: `<svg viewBox="0 0 160 180" class="fullbody-pet-svg" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="45" cy="144" r="10" fill="#2D3748"/>
+  <ellipse cx="50" cy="142" rx="19" ry="15" fill="#2D3748" stroke="#1A202C" stroke-width="2.2" transform="rotate(-8 50 142)"/>
+  <ellipse cx="110" cy="142" rx="19" ry="15" fill="#2D3748" stroke="#1A202C" stroke-width="2.2" transform="rotate(8 110 142)"/>
+  <g class="pet-anim-body" style="transform-origin: 80px 150px;">
+    <ellipse cx="80" cy="122" rx="38" ry="35" fill="#FFFFFF" stroke="#CBD5E0" stroke-width="2.5"/>
+    <path d="M46 102 C60 114 100 114 114 102 C118 116 114 130 112 140 C100 148 60 148 48 140 Z" fill="#2D3748" opacity="0.15"/>
+    <!-- Bamboo shoot held in paws -->
+    <path d="M88 100 L94 145" stroke="#38A169" stroke-width="6" stroke-linecap="round"/>
+    <path d="M92 110 L102 104 M90 125 L104 120" stroke="#48BB78" stroke-width="2.5" stroke-linecap="round"/>
+    <circle cx="70" cy="125" r="9" fill="#2D3748"/>
+    <circle cx="94" cy="128" r="9" fill="#2D3748"/>
+  </g>
+  <g class="pet-anim-body" style="transform-origin: 80px 100px;">
+    <g class="pet-anim-ears" style="transform-origin: 80px 65px;">
+      <circle cx="44" cy="46" r="14" fill="#2D3748" stroke="#1A202C" stroke-width="2"/>
+      <circle cx="116" cy="46" r="14" fill="#2D3748" stroke="#1A202C" stroke-width="2"/>
+    </g>
+    <ellipse cx="80" cy="74" rx="42" ry="36" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="2.5"/>
+    <ellipse cx="62" cy="70" rx="11" ry="9" fill="#2D3748" transform="rotate(-15 62 70)"/>
+    <ellipse cx="98" cy="70" rx="11" ry="9" fill="#2D3748" transform="rotate(15 98 70)"/>
+    <g class="pet-anim-eyes" style="transform-origin: 80px 70px;">
+      <circle cx="63" cy="70" r="4.5" fill="#FFFFFF"/>
+      <circle cx="64" cy="70" r="2.5" fill="#1A202C"/>
+      <circle cx="63" cy="69" r="1" fill="#FFFFFF"/>
+      <circle cx="97" cy="70" r="4.5" fill="#FFFFFF"/>
+      <circle cx="96" cy="70" r="2.5" fill="#1A202C"/>
+      <circle cx="97" cy="69" r="1" fill="#FFFFFF"/>
+    </g>
+    <ellipse cx="48" cy="80" rx="6" ry="4" fill="#FED7E2" opacity="0.9"/>
+    <ellipse cx="112" cy="80" rx="6" ry="4" fill="#FED7E2" opacity="0.9"/>
+    <ellipse cx="80" cy="78" rx="4.5" ry="3" fill="#2D3748"/>
+    <path d="M75 83 Q80 86 85 83" stroke="#2D3748" stroke-width="2" stroke-linecap="round" fill="none"/>
+  </g>
+</svg>`,
+    quotes: {
+      greetings: [
+        "Chào cô Nguyệt! Em vừa ngủ trưa dậy nè, thấy cô là em tỉnh cả ngủ! 🐼✨",
+        "Gấu trúc Bảo Bảo đang ngồi khoanh chân đợi cô vào tiết đây ạ! 🎋",
+        "Chúc cô giáo một ngày làm việc siêu hiệu quả và tràn đầy tiếng cười! 💕"
+      ],
+      feed: [
+        "Rôm rốp~ Cành trúc non thơm ngọt xịn sò luôn cô ơi! Cảm ơn cô Nguyệt! 🎋😋",
+        "Bụng gấu bự no căng tròn rồi cô ơi! Thích mê li luôn! 🐼"
+      ],
+      pet: [
+        "Ôi~ Bàn tay cô Nguyệt ấm áp ghê! Em cuộn tròn cho cô xoa đầu nè! 🐼💕",
+        "Thích mê li luôn cô ơi! Em gửi cô một cái ôm gấu trúc siêu to khổng lồ nè! 🤗✨"
+      ],
+      hungry: [
+        "Cô Nguyệt ơi... Em đói bụng rồi, cô cho em xin vài nhánh trúc nha! 🥺🎋"
+      ]
+    }
+  },
+  duck: {
+    id: 'duck',
+    species: 'Vịt Vàng Ducky',
+    defaultName: 'Chíp Chíp',
+    foodIcon: '🍞',
+    foodName: 'Bánh mì mềm',
+    description: 'Vịt vàng tròn lẳn đội mầm cây may mắn trên đầu, hai cánh nhỏ vỗ lí lắc đón cô.',
+    svg: `<svg viewBox="0 0 160 180" class="fullbody-pet-svg" xmlns="http://www.w3.org/2000/svg">
+  <!-- Webbed feet sitting on mat -->
+  <ellipse cx="60" cy="150" rx="14" ry="7" fill="#F6AD55" stroke="#DD6B20" stroke-width="2"/>
+  <ellipse cx="100" cy="150" rx="14" ry="7" fill="#F6AD55" stroke="#DD6B20" stroke-width="2"/>
+  <g class="pet-anim-body" style="transform-origin: 80px 150px;">
+    <ellipse cx="80" cy="120" rx="38" ry="34" fill="#FEEBC8" stroke="#DD6B20" stroke-width="2.5"/>
+    <ellipse cx="80" cy="124" rx="28" ry="24" fill="#FFFAF0"/>
+  </g>
+  <!-- Wings flapping -->
+  <g class="pet-anim-wings-left">
+    <ellipse cx="38" cy="115" rx="10" ry="18" fill="#FBD38D" stroke="#DD6B20" stroke-width="2" transform="rotate(20 38 115)"/>
+  </g>
+  <g class="pet-anim-wings-right">
+    <ellipse cx="122" cy="115" rx="10" ry="18" fill="#FBD38D" stroke="#DD6B20" stroke-width="2" transform="rotate(-20 122 115)"/>
+  </g>
+  <g class="pet-anim-body" style="transform-origin: 80px 90px;">
+    <!-- Sprout leaf on head -->
+    <path d="M80 34 C80 22 70 20 66 18 C72 28 78 28 80 34 Z" fill="#48BB78"/>
+    <path d="M80 34 C80 22 90 20 94 18 C88 28 82 28 80 34 Z" fill="#38A169"/>
+    <ellipse cx="80" cy="70" rx="38" ry="34" fill="#FEEBC8" stroke="#DD6B20" stroke-width="2.5"/>
+    <g class="pet-anim-eyes" style="transform-origin: 80px 65px;">
+      <circle cx="64" cy="65" r="5.5" fill="#2D3748"/>
+      <circle cx="62.5" cy="63" r="2" fill="#FFFFFF"/>
+      <circle cx="96" cy="65" r="5.5" fill="#2D3748"/>
+      <circle cx="94.5" cy="63" r="2" fill="#FFFFFF"/>
+    </g>
+    <ellipse cx="50" cy="74" rx="5.5" ry="3.5" fill="#FEB2B2" opacity="0.8"/>
+    <ellipse cx="110" cy="74" rx="5.5" ry="3.5" fill="#FEB2B2" opacity="0.8"/>
+    <!-- Cute Rounded Orange Bill -->
+    <ellipse cx="80" cy="76" rx="16" ry="9" fill="#F6AD55" stroke="#DD6B20" stroke-width="2.2"/>
+    <circle cx="75" cy="74" r="1.3" fill="#C05621"/>
+    <circle cx="85" cy="74" r="1.3" fill="#C05621"/>
+  </g>
+</svg>`,
+    quotes: {
+      greetings: [
+        "Cạp cạp! Vịt Chíp Chíp vẫy cánh chào cô Nguyệt thân thương! 🦆✨",
+        "Mầm cây may mắn trên đầu em chúc cô một buổi dạy tràn đầy năng lượng! 🌱💖",
+        "Lạch bạch lạch bạch~ Em chạy ra đón cô đây, hôm nay cô có vui không nè? 🥰"
+      ],
+      feed: [
+        "Cạp cạp ngon quá cô ơi! Bánh mì mềm xốp thơm phức luôn! 🍞😋",
+        "Măm măm~ Bụng vịt tròn ủng rồi nè cô! Đã cái nư dễ sợ! 🦆"
+      ],
+      pet: [
+        "Cạp~ Được cô xoa chiếc đầu có mầm cây thích ơi là thích! 🌱✨",
+        "Em vỗ cánh phành phạch mừng cô nè! Cưng cô Nguyệt nhất trên đời! 💖"
+      ],
+      hungry: [
+        "Cạp... Cô Nguyệt ơi, em đói xẹp bụng rồi nè, cho em xin mẩu bánh mì nha cô! 🥺🍞"
+      ]
+    }
+  },
+  hamster: {
+    id: 'hamster',
+    species: 'Hamster Hạt Dẻ',
+    defaultName: 'Hạt Dẻ',
+    foodIcon: '🌻',
+    foodName: 'Hạt hướng dương',
+    description: 'Bé hamster hai má phúng phính phồng to, hai tay nhỏ xíu ôm chặt hạt hướng dương.',
+    svg: `<svg viewBox="0 0 160 180" class="fullbody-pet-svg" xmlns="http://www.w3.org/2000/svg">
+  <ellipse cx="60" cy="150" rx="10" ry="6" fill="#FFFAF0" stroke="#C05621" stroke-width="2"/>
+  <ellipse cx="100" cy="150" rx="10" ry="6" fill="#FFFAF0" stroke="#C05621" stroke-width="2"/>
+  <g class="pet-anim-body" style="transform-origin: 80px 150px;">
+    <ellipse cx="80" cy="120" rx="38" ry="34" fill="#FBD38D" stroke="#C05621" stroke-width="2.5"/>
+    <ellipse cx="80" cy="124" rx="26" ry="24" fill="#FFFFFF"/>
+    <!-- Giant sunflower seed held by paws -->
+    <ellipse cx="80" cy="116" rx="11" ry="16" fill="#4A5568" stroke="#2D3748" stroke-width="2" transform="rotate(-15 80 116)"/>
+    <path d="M76 104 L84 128" stroke="#ED8936" stroke-width="1.8"/>
+    <circle cx="70" cy="115" r="5" fill="#FFFAF0" stroke="#C05621" stroke-width="1.5"/>
+    <circle cx="90" cy="118" r="5" fill="#FFFAF0" stroke="#C05621" stroke-width="1.5"/>
+  </g>
+  <g class="pet-anim-body" style="transform-origin: 80px 90px;">
+    <g class="pet-anim-ears" style="transform-origin: 80px 55px;">
+      <circle cx="44" cy="46" r="13" fill="#ED8936" stroke="#C05621" stroke-width="2"/>
+      <circle cx="44" cy="46" r="7" fill="#FED7E2"/>
+      <circle cx="116" cy="46" r="13" fill="#ED8936" stroke="#C05621" stroke-width="2"/>
+      <circle cx="116" cy="46" r="7" fill="#FED7E2"/>
+    </g>
+    <ellipse cx="80" cy="74" rx="42" ry="35" fill="#FBD38D" stroke="#C05621" stroke-width="2.5"/>
+    <!-- Giant puffed cheeks -->
+    <ellipse cx="44" cy="78" rx="13" ry="14" fill="#FBD38D" stroke="#C05621" stroke-width="2"/>
+    <ellipse cx="116" cy="78" rx="13" ry="14" fill="#FBD38D" stroke="#C05621" stroke-width="2"/>
+    <ellipse cx="80" cy="80" rx="26" ry="22" fill="#FFFFFF"/>
+    <g class="pet-anim-eyes" style="transform-origin: 80px 68px;">
+      <circle cx="62" cy="68" r="5.5" fill="#2D3748"/>
+      <circle cx="60.5" cy="66" r="2" fill="#FFFFFF"/>
+      <circle cx="98" cy="68" r="5.5" fill="#2D3748"/>
+      <circle cx="96.5" cy="66" r="2" fill="#FFFFFF"/>
+    </g>
+    <ellipse cx="46" cy="78" rx="6" ry="4" fill="#FEB2B2" opacity="0.8"/>
+    <ellipse cx="114" cy="78" rx="6" ry="4" fill="#FEB2B2" opacity="0.8"/>
+    <polygon points="78,74 82,74 80,77" fill="#E53E3E"/>
+    <path d="M76 79 Q80 82 84 79" stroke="#7B341E" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+  </g>
+</svg>`,
+    quotes: {
+      greetings: [
+        "Chít chít! Bé hamster ôm hạt hướng dương chào cô Nguyệt ạ! 🐹✨",
+        "Hai cái má phúng phính của em chúc cô Nguyệt một ngày ngọt ngào! 🥰",
+        "Em vừa giấu sẵn 1 bọc kẹo may mắn cho cô bắt đầu tiết dạy nè! 🍬"
+      ],
+      feed: [
+        "Chít chít~ Hạt hướng dương béo bùi tuyệt hảo luôn cô ơi! 🌻😋",
+        "Nhồm nhoàm~ Em nhét đầy 2 túi má luôn rồi, cảm ơn cô Nguyệt! 🐹"
+      ],
+      pet: [
+        "Chít chít~ Hai má em phồng to được cô nắn nhẹ thích mê luôn! 🐹💕",
+        "Người em tròn xoe được cô âu yếm sướng ghê! Yêu cô Nguyệt nhất! 💖"
+      ],
+      hungry: [
+        "Cô Nguyệt ơi... Túi má em rỗng tuếch rồi nè, cô cho em xin vài hạt nha! 🥺🌻"
+      ]
+    }
+  },
+  fennec: {
+    id: 'fennec',
+    species: 'Cáo Tuyết Kitsune',
+    defaultName: 'Kitsune',
+    foodIcon: '🍓',
+    foodName: 'Dâu rừng ngọt',
+    description: 'Cáo trắng tuyết quý phái, đôi tai to thông minh và chiếc đuôi xù dài tha thướt.',
+    svg: `<svg viewBox="0 0 160 180" class="fullbody-pet-svg" xmlns="http://www.w3.org/2000/svg">
+  <g class="pet-anim-tail" style="transform-origin: 50px 135px;">
+    <path d="M54 135 C30 115 15 80 32 60 C42 50 56 60 48 76 C40 92 46 112 56 135 Z" fill="#FFFFFF" stroke="#CBD5E0" stroke-width="2.5"/>
+    <path d="M32 60 C36 72 44 76 48 76 Z" fill="#FED7E2"/>
+  </g>
+  <ellipse cx="50" cy="142" rx="18" ry="13" fill="#FFFFFF" stroke="#CBD5E0" stroke-width="2.2" transform="rotate(-8 50 142)"/>
+  <ellipse cx="110" cy="142" rx="18" ry="13" fill="#FFFFFF" stroke="#CBD5E0" stroke-width="2.2" transform="rotate(8 110 142)"/>
+  <ellipse cx="44" cy="148" rx="8" ry="6" fill="#FFFFFF" stroke="#CBD5E0" stroke-width="2"/>
+  <ellipse cx="116" cy="148" rx="8" ry="6" fill="#FFFFFF" stroke="#CBD5E0" stroke-width="2"/>
+  <g class="pet-anim-body" style="transform-origin: 80px 150px;">
+    <ellipse cx="80" cy="122" rx="34" ry="32" fill="#FFFFFF" stroke="#CBD5E0" stroke-width="2.5"/>
+    <path d="M68 96 C68 116 62 136 80 146 C98 136 92 116 92 96 Z" fill="#FFF5F7"/>
+    <rect x="64" y="116" width="12" height="34" rx="6" fill="#FFFFFF" stroke="#CBD5E0" stroke-width="2"/>
+    <rect x="84" y="116" width="12" height="34" rx="6" fill="#FFFFFF" stroke="#CBD5E0" stroke-width="2"/>
+  </g>
+  <g class="pet-anim-body" style="transform-origin: 80px 100px;">
+    <g class="pet-anim-ears" style="transform-origin: 80px 65px;">
+      <!-- Huge graceful fennec ears -->
+      <path d="M46 62 L18 16 C34 18 52 36 60 52 Z" fill="#FFFFFF" stroke="#CBD5E0" stroke-width="2.5"/>
+      <path d="M44 54 L26 26 C38 28 50 40 54 48 Z" fill="#FED7E2"/>
+      <path d="M114 62 L142 16 C126 18 108 36 100 52 Z" fill="#FFFFFF" stroke="#CBD5E0" stroke-width="2.5"/>
+      <path d="M116 54 L134 26 C122 28 110 40 106 48 Z" fill="#FED7E2"/>
+    </g>
+    <ellipse cx="80" cy="74" rx="40" ry="34" fill="#FFFFFF" stroke="#CBD5E0" stroke-width="2.5"/>
+    <g class="pet-anim-eyes" style="transform-origin: 80px 70px;">
+      <!-- Gentle smiling closed/half eyes -->
+      <path d="M58 70 Q64 64 70 70" stroke="#4A5568" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+      <circle cx="64" cy="71" r="1.5" fill="#E53E3E"/>
+      <path d="M90 70 Q96 64 102 70" stroke="#4A5568" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+      <circle cx="96" cy="71" r="1.5" fill="#E53E3E"/>
+    </g>
+    <ellipse cx="50" cy="78" rx="6" ry="4" fill="#FED7E2" opacity="0.9"/>
+    <ellipse cx="110" cy="78" rx="6" ry="4" fill="#FED7E2" opacity="0.9"/>
+    <polygon points="78,77 82,77 80,80" fill="#2D3748"/>
+    <path d="M76 82 Q80 85 84 82" stroke="#4A5568" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+  </g>
+</svg>`,
+    quotes: {
+      greetings: [
+        "Kitsune kính chào cô Nguyệt! Hôm nay một ngày tuyệt vời đang chờ đón cô nè! 🦊✨",
+        "Đôi tai tuyết của em nghe thấy tiếng học bài rôm rả từ lớp cô rồi đó! 🥰",
+        "Chúc cô giáo luôn xinh đẹp, dịu dàng và ngập tràn hạnh phúc! 🌸"
+      ],
+      feed: [
+        "Dâu rừng chín mọng ngọt thơm ngon quá cô ơi! Cảm ơn cô Nguyệt! 🍓😋",
+        "Măm măm~ Vị ngọt mát làm Kitsune yêu đời tăng vọt 200% luôn! ✨"
+      ],
+      pet: [
+        "Chiếc đuôi xù của em quấn quýt lấy tay cô nè! Sướng mê ly luôn! 💖",
+        "Được cô Nguyệt cưng nựng là phúc lành lớn nhất của Kitsune! 🌸"
+      ],
+      hungry: [
+        "Cô Nguyệt ơi... Em đói meo rồi nè, cô cho Kitsune xin vài quả dâu nha! 🥺🍓"
+      ]
+    }
+  },
+  penguin: {
+    id: 'penguin',
+    species: 'Cánh Cụt Pingu',
+    defaultName: 'Pingu',
+    foodIcon: '🐟',
+    foodName: 'Cá tuyết giòn',
+    description: 'Bé chim cánh cụt mập tròn bụng trắng quàng khăn len đỏ, hai cánh lắc lư lạch bạch.',
+    svg: `<svg viewBox="0 0 160 180" class="fullbody-pet-svg" xmlns="http://www.w3.org/2000/svg">
+  <!-- Orange flipper feet -->
+  <ellipse cx="62" cy="150" rx="14" ry="7" fill="#F6AD55" stroke="#DD6B20" stroke-width="2"/>
+  <ellipse cx="98" cy="150" rx="14" ry="7" fill="#F6AD55" stroke="#DD6B20" stroke-width="2"/>
+  <g class="pet-anim-body" style="transform-origin: 80px 150px;">
+    <!-- Chubby body -->
+    <ellipse cx="80" cy="116" rx="40" ry="38" fill="#2D3748" stroke="#1A202C" stroke-width="2.5"/>
+    <ellipse cx="80" cy="120" rx="28" ry="28" fill="#FFFFFF"/>
+  </g>
+  <!-- Flipper wings waving -->
+  <g class="pet-anim-wings-left">
+    <ellipse cx="36" cy="110" rx="9" ry="20" fill="#2D3748" stroke="#1A202C" stroke-width="2" transform="rotate(20 36 110)"/>
+  </g>
+  <g class="pet-anim-wings-right">
+    <ellipse cx="124" cy="110" rx="9" ry="20" fill="#2D3748" stroke="#1A202C" stroke-width="2" transform="rotate(-20 124 110)"/>
+  </g>
+  <g class="pet-anim-body" style="transform-origin: 80px 80px;">
+    <ellipse cx="80" cy="72" rx="36" ry="32" fill="#2D3748" stroke="#1A202C" stroke-width="2.5"/>
+    <!-- White eye mask -->
+    <circle cx="64" cy="70" r="14" fill="#FFFFFF"/>
+    <circle cx="96" cy="70" r="14" fill="#FFFFFF"/>
+    <g class="pet-anim-eyes" style="transform-origin: 80px 70px;">
+      <circle cx="64" cy="70" r="5" fill="#1A202C"/>
+      <circle cx="62.5" cy="68" r="2" fill="#FFFFFF"/>
+      <circle cx="96" cy="70" r="5" fill="#1A202C"/>
+      <circle cx="94.5" cy="68" r="2" fill="#FFFFFF"/>
+    </g>
+    <ellipse cx="50" cy="78" rx="5" ry="3.5" fill="#FED7E2" opacity="0.8"/>
+    <ellipse cx="110" cy="78" rx="5" ry="3.5" fill="#FED7E2" opacity="0.8"/>
+    <!-- Orange Beak -->
+    <polygon points="74,75 86,75 80,84" fill="#F6AD55" stroke="#DD6B20" stroke-width="1.8"/>
+    <!-- Red Winter Scarf -->
+    <path d="M52 86 C64 92 96 92 108 86 C110 94 98 100 80 100 C62 100 50 94 52 86 Z" fill="#E53E3E" stroke="#C53030" stroke-width="1.8"/>
+    <path d="M92 96 L96 118 L86 118 Z" fill="#E53E3E" stroke="#C53030" stroke-width="1.5"/>
+  </g>
+</svg>`,
+    quotes: {
+      greetings: [
+        "Noot noot! Cánh cụt Pingu quàng khăn len đỏ chào cô Nguyệt ạ! 🐧✨",
+        "Em lạch bạch chạy ra đón cô vào tiết dạy đây! Hôm nay cô có vui hông nè? 🥰",
+        "Bé Pingu chúc cô một ngày ấm áp và tràn ngập tiếng cười! 💖"
+      ],
+      feed: [
+        "Cá tuyết giòn tan ngon bá cháy luôn cô ơi! Cảm ơn cô Nguyệt nhiều lắm! 🐟😋",
+        "Noot noot~ Pingu no căng bụng rồi! Vỗ cánh mừng cô nè! ⚡"
+      ],
+      pet: [
+        "Khăn len ấm mà bàn tay cô còn ấm áp hơn nhiều! Em thương cô nhất! 💕",
+        "Pingu lắc lư sung sướng được cô xoa đầu nè! Yêu cô Nguyệt ngập tràn! ✨"
+      ],
+      hungry: [
+        "Pingu đói bụng rồi cô Nguyệt ơi... Cho em xin con cá tuyết nha cô! 🥺🐟"
+      ]
+    }
+  }
 };
 
 // DOM References for Pet
 const petStage = document.getElementById('pet-stage');
 const petAvatarWrapper = document.getElementById('pet-avatar-wrapper');
+const petFoodBowl = document.getElementById('pet-food-bowl');
+const foodBowlCount = document.getElementById('food-bowl-count');
 const petNameEl = document.getElementById('pet-name');
 const petSpeciesEl = document.getElementById('pet-species-name');
 const petLevelEl = document.getElementById('pet-level');
 const petStreakEl = document.getElementById('pet-streak');
 const petSpeechEl = document.getElementById('pet-speech');
+const petHungerSegments = document.getElementById('pet-hunger-segments');
+const petHappinessSegments = document.getElementById('pet-happiness-segments');
 const petHungerText = document.getElementById('pet-hunger-text');
-const petHungerBar = document.getElementById('pet-hunger-bar');
 const petHappinessText = document.getElementById('pet-happiness-text');
-const petHappinessBar = document.getElementById('pet-happiness-bar');
+const petMoodBadge = document.getElementById('pet-mood-badge');
 const petFeedIcon = document.getElementById('pet-feed-icon');
 const btnFeedPet = document.getElementById('btn-feed-pet');
 const btnStrokePet = document.getElementById('btn-stroke-pet');
@@ -2290,7 +2798,7 @@ const petSelectionGrid = document.getElementById('pet-selection-grid');
 const inputPetName = document.getElementById('input-pet-name');
 const btnConfirmPet = document.getElementById('btn-confirm-pet');
 
-let tempSelectedPetId = 'cat';
+let tempSelectedPetId = 'nana';
 
 function ensurePetState(state) {
     if (!state) return false;
@@ -2299,8 +2807,8 @@ function ensurePetState(state) {
 
     if (!state.pet) {
         state.pet = {
-            id: 'cat',
-            name: 'Miu Miu',
+            id: 'nana',
+            name: 'Na Na',
             hunger: 80,
             happiness: 90,
             level: 1,
@@ -2313,8 +2821,15 @@ function ensurePetState(state) {
         return true;
     }
 
-    if (!state.pet.id || !PET_DATA[state.pet.id]) { state.pet.id = 'cat'; changed = true; }
-    if (!state.pet.name) { state.pet.name = 'Miu Miu'; changed = true; }
+    // Migrate old 'cat' ID to 'nana'
+    if (state.pet.id === 'cat') {
+        state.pet.id = 'nana';
+        if (state.pet.name === 'Miu Miu') state.pet.name = 'Na Na';
+        changed = true;
+    }
+
+    if (!state.pet.id || !PET_DATA[state.pet.id]) { state.pet.id = 'nana'; changed = true; }
+    if (!state.pet.name) { state.pet.name = 'Na Na'; changed = true; }
     if (typeof state.pet.hunger !== 'number') { state.pet.hunger = 80; changed = true; }
     if (typeof state.pet.happiness !== 'number') { state.pet.happiness = 90; changed = true; }
     if (typeof state.pet.level !== 'number') { state.pet.level = 1; changed = true; }
@@ -2348,12 +2863,63 @@ function ensurePetState(state) {
 
 function updatePetStatusBars() {
     if (!appState.pet) return;
-    if (petHungerText) petHungerText.textContent = `${appState.pet.hunger}%`;
-    if (petHungerBar) petHungerBar.style.width = `${appState.pet.hunger}%`;
-    if (petHappinessText) petHappinessText.textContent = `${appState.pet.happiness}%`;
-    if (petHappinessBar) petHappinessBar.style.width = `${appState.pet.happiness}%`;
-    if (petLevelEl) petLevelEl.textContent = appState.pet.level || 1;
-    if (petStreakEl) petStreakEl.textContent = appState.pet.streak || 1;
+    const pet = appState.pet;
+
+    if (petHungerText) petHungerText.textContent = `${pet.hunger}`;
+    if (petHappinessText) petHappinessText.textContent = `${pet.happiness}`;
+    if (petLevelEl) petLevelEl.textContent = pet.level || 1;
+    if (petStreakEl) petStreakEl.textContent = pet.streak || 1;
+
+    // Segmented Hunger bar (10 blocks)
+    if (petHungerSegments) {
+        petHungerSegments.innerHTML = '';
+        const activeCount = Math.min(10, Math.max(0, Math.round(pet.hunger / 10)));
+        for (let i = 0; i < 10; i++) {
+            const block = document.createElement('div');
+            block.className = `segment-block ${i < activeCount ? 'active-hunger' : ''}`;
+            petHungerSegments.appendChild(block);
+        }
+    }
+
+    // Segmented Happiness bar (10 blocks)
+    if (petHappinessSegments) {
+        petHappinessSegments.innerHTML = '';
+        const activeCount = Math.min(10, Math.max(0, Math.round(pet.happiness / 10)));
+        for (let i = 0; i < 10; i++) {
+            const block = document.createElement('div');
+            block.className = `segment-block ${i < activeCount ? 'active-happiness' : ''}`;
+            petHappinessSegments.appendChild(block);
+        }
+    }
+
+    // Mood badge
+    if (petMoodBadge) {
+        if (pet.hunger < 30) {
+            petMoodBadge.textContent = 'Đang Đói Bụng 🥺';
+            petMoodBadge.style.color = '#c05621';
+            petMoodBadge.style.background = '#feebc8';
+            petMoodBadge.style.borderColor = '#fbd38d';
+        } else if (pet.happiness >= 80) {
+            petMoodBadge.textContent = 'Rất Vui Vẻ 🥰';
+            petMoodBadge.style.color = '#276749';
+            petMoodBadge.style.background = '#c6f6d5';
+            petMoodBadge.style.borderColor = '#9ae6b4';
+        } else if (pet.happiness >= 50) {
+            petMoodBadge.textContent = 'Thư Thái 🌸';
+            petMoodBadge.style.color = '#2b6cb0';
+            petMoodBadge.style.background = '#ebf8ff';
+            petMoodBadge.style.borderColor = '#bee3f8';
+        } else {
+            petMoodBadge.textContent = 'Cần Vuốt Ve 💕';
+            petMoodBadge.style.color = '#97266d';
+            petMoodBadge.style.background = '#fed7e2';
+            petMoodBadge.style.borderColor = '#fbb6ce';
+        }
+    }
+
+    if (foodBowlCount) {
+        foodBowlCount.textContent = pet.hunger;
+    }
 }
 
 function renderPetView() {
@@ -2361,7 +2927,7 @@ function renderPetView() {
     ensurePetState(appState);
 
     const pet = appState.pet;
-    const petData = PET_DATA[pet.id] || PET_DATA['cat'];
+    const petData = PET_DATA[pet.id] || PET_DATA['nana'];
 
     petAvatarWrapper.innerHTML = petData.svg;
     if (petNameEl) petNameEl.textContent = pet.name;
@@ -2390,7 +2956,7 @@ function spawnPetParticle(emoji) {
     particle.textContent = emoji;
     const randomX = (Math.random() - 0.5) * 60;
     particle.style.left = `calc(50% + ${randomX}px)`;
-    particle.style.bottom = '40px';
+    particle.style.bottom = '50px';
     const driftX = (Math.random() - 0.5) * 50;
     particle.style.setProperty('--tx', `${driftX}px`);
     container.appendChild(particle);
@@ -2402,7 +2968,7 @@ function spawnPetParticle(emoji) {
 function triggerPetAnimation(animClass) {
     if (!petAvatarWrapper) return;
     petAvatarWrapper.classList.remove('bouncing', 'wiggling');
-    void petAvatarWrapper.offsetWidth; // Force reflow
+    void petAvatarWrapper.offsetWidth;
     petAvatarWrapper.classList.add(animClass);
     setTimeout(() => {
         if (petAvatarWrapper) petAvatarWrapper.classList.remove(animClass);
@@ -2426,7 +2992,7 @@ function addPetExp(amount) {
 function handleFeedPet() {
     if (!appState.pet) return;
     const pet = appState.pet;
-    const petData = PET_DATA[pet.id] || PET_DATA['cat'];
+    const petData = PET_DATA[pet.id] || PET_DATA['nana'];
 
     if (pet.hunger >= 100) {
         if (petSpeechEl) {
@@ -2457,7 +3023,7 @@ function handleFeedPet() {
 function handleStrokePet() {
     if (!appState.pet) return;
     const pet = appState.pet;
-    const petData = PET_DATA[pet.id] || PET_DATA['cat'];
+    const petData = PET_DATA[pet.id] || PET_DATA['nana'];
 
     pet.happiness = Math.min(100, pet.happiness + 20);
     pet.lastPettedDate = new Date().toISOString();
@@ -2479,7 +3045,7 @@ function handleStrokePet() {
 function openPetModal() {
     if (!petModal || !petSelectionGrid) return;
     ensurePetState(appState);
-    tempSelectedPetId = appState.pet.id || 'cat';
+    tempSelectedPetId = appState.pet.id || 'nana';
 
     if (inputPetName) {
         inputPetName.value = appState.pet.name || PET_DATA[tempSelectedPetId].defaultName;
@@ -2520,7 +3086,7 @@ function openPetModal() {
 
 function confirmPetSelection() {
     if (!appState.pet) return;
-    const chosenPetData = PET_DATA[tempSelectedPetId] || PET_DATA['cat'];
+    const chosenPetData = PET_DATA[tempSelectedPetId] || PET_DATA['nana'];
     appState.pet.id = tempSelectedPetId;
 
     const newName = inputPetName ? inputPetName.value.trim() : '';
@@ -2547,8 +3113,16 @@ if (btnStrokePet) {
     });
 }
 
+if (petFoodBowl) {
+    petFoodBowl.addEventListener('click', (e) => {
+        e.stopPropagation();
+        handleFeedPet();
+    });
+}
+
 if (petStage) {
-    petStage.addEventListener('click', () => {
+    petStage.addEventListener('click', (e) => {
+        if (e.target.closest('#pet-food-bowl')) return;
         handleStrokePet();
     });
 }
