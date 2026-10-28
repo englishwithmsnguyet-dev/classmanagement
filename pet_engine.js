@@ -1,7 +1,14 @@
 /**
- * VIRTUAL PET INTERACTION & ANIMATION ENGINE
+ * VIRTUAL PET INTERACTION & ANIMATION ENGINE (V2.0 REDESIGNED)
  * Handles:
- * 1. Procedural Web Audio API sound synthesis (meow, bark, squeak, crunch, chime, purr, happy)
+ * 1. Formant-based procedural Web Audio API sound synthesis:
+ *    - Meow: Oral & nasal formant filter synthesis for realistic kitten vocalization
+ *    - Bark: Acoustic double-bark ("Gâu! Gâu!") with breath transient & chest resonance
+ *    - Squeak: Sweet double chirp for rabbit & penguin
+ *    - Crunch: Triple crisp crunchy mastication bursts
+ *    - Chime: 432Hz Tibetan Singing Bowl with golden harmonics for Capybara
+ *    - Purr: Dual AM rhythmic purring for cats
+ *    - Happy: 5-note sparkling harp arpeggio
  * 2. Species-specific animations, facial expression morphs, and interactive gestures
  * 3. Character Gallery modal builder with category filters and instant live pet switching
  * 4. Stats management (hunger, happiness, streak, level, exp)
@@ -11,7 +18,7 @@
   'use strict';
 
   // ==========================================
-  // 1. PROCEDURAL WEB AUDIO SYNTHESIZER
+  // 1. ADVANCED PROCEDURAL WEB AUDIO SYNTHESIZER
   // ==========================================
   const PetSoundEngine = (function() {
     let audioCtx = null;
@@ -58,159 +65,242 @@
 
         switch (type) {
           case 'meow': {
-            // Sweet cat kitten meow with soft harmonic envelope
-            const osc = ctx.createOscillator();
+            // Realistic kitten meow with dual formant vocal tract filtering
+            const osc1 = ctx.createOscillator();
+            const osc2 = ctx.createOscillator();
+            osc1.type = 'sawtooth';
+            osc2.type = 'triangle';
+
+            osc1.frequency.setValueAtTime(460, now);
+            osc1.frequency.exponentialRampToValueAtTime(740, now + 0.18);
+            osc1.frequency.exponentialRampToValueAtTime(480, now + 0.55);
+
+            osc2.frequency.setValueAtTime(462, now);
+            osc2.frequency.exponentialRampToValueAtTime(744, now + 0.18);
+            osc2.frequency.exponentialRampToValueAtTime(482, now + 0.55);
+
+            // Formant 1: Oral cavity sweep [e] -> [o]
+            const formant1 = ctx.createBiquadFilter();
+            formant1.type = 'bandpass';
+            formant1.Q.setValueAtTime(4.0, now);
+            formant1.frequency.setValueAtTime(650, now);
+            formant1.frequency.exponentialRampToValueAtTime(1200, now + 0.18);
+            formant1.frequency.exponentialRampToValueAtTime(600, now + 0.55);
+
+            // Formant 2: Nasal peak ~1750Hz
+            const formant2 = ctx.createBiquadFilter();
+            formant2.type = 'peaking';
+            formant2.frequency.setValueAtTime(1750, now);
+            formant2.gain.setValueAtTime(6, now);
+
+            // Lowpass to soften saw edges
+            const lpf = ctx.createBiquadFilter();
+            lpf.type = 'lowpass';
+            lpf.frequency.setValueAtTime(2800, now);
+
             const gain = ctx.createGain();
-            osc.type = 'sine';
-            osc.frequency.setValueAtTime(640, now);
-            osc.frequency.exponentialRampToValueAtTime(860, now + 0.16);
-            osc.frequency.exponentialRampToValueAtTime(520, now + 0.48);
+            gain.gain.setValueAtTime(0.0001, now);
+            gain.gain.linearRampToValueAtTime(0.20, now + 0.08);
+            gain.gain.exponentialRampToValueAtTime(0.14, now + 0.25);
+            gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.58);
 
-            gain.gain.setValueAtTime(0.001, now);
-            gain.gain.linearRampToValueAtTime(0.18, now + 0.08);
-            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.5);
-
-            osc.connect(gain);
+            osc1.connect(formant1);
+            osc2.connect(formant1);
+            formant1.connect(formant2);
+            formant2.connect(lpf);
+            lpf.connect(gain);
             gain.connect(ctx.destination);
-            osc.start(now);
-            osc.stop(now + 0.52);
+
+            osc1.start(now);
+            osc2.start(now);
+            osc1.stop(now + 0.6);
+            osc2.stop(now + 0.6);
             break;
           }
 
           case 'bark': {
-            // Playful puppy woof: punchy downward sweep with warm triangle wave
-            const osc = ctx.createOscillator();
-            const gain = ctx.createGain();
-            osc.type = 'triangle';
-            osc.frequency.setValueAtTime(440, now);
-            osc.frequency.exponentialRampToValueAtTime(180, now + 0.18);
+            // Realistic energetic double bark ("Gâu! Gâu!")
+            function singleWoof(startTime, pitch, vol) {
+              // 1. Initial breath transient burst
+              const bufSize = Math.floor(ctx.sampleRate * 0.025);
+              const buf = ctx.createBuffer(1, bufSize, ctx.sampleRate);
+              const data = buf.getChannelData(0);
+              for (let i = 0; i < bufSize; i++) {
+                data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (bufSize * 0.2));
+              }
+              const noise = ctx.createBufferSource();
+              noise.buffer = buf;
+              const nFilter = ctx.createBiquadFilter();
+              nFilter.type = 'bandpass';
+              nFilter.frequency.setValueAtTime(800, startTime);
+              const nGain = ctx.createGain();
+              nGain.gain.setValueAtTime(vol * 0.35, startTime);
+              noise.connect(nFilter);
+              nFilter.connect(nGain);
+              nGain.connect(ctx.destination);
+              noise.start(startTime);
 
-            gain.gain.setValueAtTime(0.001, now);
-            gain.gain.linearRampToValueAtTime(0.24, now + 0.03);
-            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.22);
+              // 2. Chest resonance oscillator
+              const osc = ctx.createOscillator();
+              osc.type = 'sawtooth';
+              osc.frequency.setValueAtTime(pitch, startTime);
+              osc.frequency.exponentialRampToValueAtTime(pitch * 0.45, startTime + 0.14);
 
-            osc.connect(gain);
-            gain.connect(ctx.destination);
-            osc.start(now);
-            osc.stop(now + 0.25);
+              const bpf = ctx.createBiquadFilter();
+              bpf.type = 'bandpass';
+              bpf.frequency.setValueAtTime(pitch * 1.3, startTime);
+              bpf.Q.setValueAtTime(2.5, startTime);
+
+              const gain = ctx.createGain();
+              gain.gain.setValueAtTime(0.0001, startTime);
+              gain.gain.linearRampToValueAtTime(vol, startTime + 0.015);
+              gain.gain.exponentialRampToValueAtTime(0.0001, startTime + 0.16);
+
+              osc.connect(bpf);
+              bpf.connect(gain);
+              gain.connect(ctx.destination);
+
+              osc.start(startTime);
+              osc.stop(startTime + 0.18);
+            }
+
+            singleWoof(now, 380, 0.24);
+            singleWoof(now + 0.14, 320, 0.28);
             break;
           }
 
           case 'squeak': {
-            // High-pitched cute chirp for rabbit / fox / penguin
-            const osc = ctx.createOscillator();
-            const gain = ctx.createGain();
-            osc.type = 'sine';
-            osc.frequency.setValueAtTime(1100, now);
-            osc.frequency.exponentialRampToValueAtTime(1650, now + 0.09);
-            osc.frequency.exponentialRampToValueAtTime(950, now + 0.18);
+            // Cute melodic double chirp for rabbit & penguin
+            function chirp(startTime, f1, f2) {
+              const osc = ctx.createOscillator();
+              const gain = ctx.createGain();
+              osc.type = 'sine';
+              osc.frequency.setValueAtTime(f1, startTime);
+              osc.frequency.exponentialRampToValueAtTime(f2, startTime + 0.06);
+              osc.frequency.exponentialRampToValueAtTime(f1 * 0.9, startTime + 0.12);
 
-            gain.gain.setValueAtTime(0.001, now);
-            gain.gain.linearRampToValueAtTime(0.14, now + 0.03);
-            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.2);
+              gain.gain.setValueAtTime(0.0001, startTime);
+              gain.gain.linearRampToValueAtTime(0.18, startTime + 0.02);
+              gain.gain.exponentialRampToValueAtTime(0.0001, startTime + 0.14);
 
-            osc.connect(gain);
-            gain.connect(ctx.destination);
-            osc.start(now);
-            osc.stop(now + 0.22);
+              osc.connect(gain);
+              gain.connect(ctx.destination);
+              osc.start(startTime);
+              osc.stop(startTime + 0.15);
+            }
+
+            chirp(now, 1300, 1950);
+            chirp(now + 0.11, 1500, 2200);
             break;
           }
 
           case 'crunch': {
-            // Crisp bite / munching sound: filtered noise burst
-            const bufferSize = Math.floor(ctx.sampleRate * 0.12);
-            const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
-            const data = buffer.getChannelData(0);
-            for (let i = 0; i < bufferSize; i++) {
-              data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (bufferSize * 0.35));
+            // Triple crisp crunch bursts for eating bamboo / carrot
+            function oneCrunch(t, pitch) {
+              const bufSize = Math.floor(ctx.sampleRate * 0.07);
+              const buf = ctx.createBuffer(1, bufSize, ctx.sampleRate);
+              const data = buf.getChannelData(0);
+              for (let i = 0; i < bufSize; i++) {
+                data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (bufSize * 0.3));
+              }
+              const noise = ctx.createBufferSource();
+              noise.buffer = buf;
+
+              const bpf = ctx.createBiquadFilter();
+              bpf.type = 'bandpass';
+              bpf.frequency.setValueAtTime(pitch, t);
+              bpf.Q.setValueAtTime(2.2, t);
+
+              const gain = ctx.createGain();
+              gain.gain.setValueAtTime(0.32, t);
+              gain.gain.exponentialRampToValueAtTime(0.001, t + 0.07);
+
+              noise.connect(bpf);
+              bpf.connect(gain);
+              gain.connect(ctx.destination);
+              noise.start(t);
             }
-            const noise = ctx.createBufferSource();
-            noise.buffer = buffer;
-            const filter = ctx.createBiquadFilter();
-            filter.type = 'bandpass';
-            filter.frequency.setValueAtTime(1400, now);
-            filter.Q.setValueAtTime(1.8, now);
 
-            const gain = ctx.createGain();
-            gain.gain.setValueAtTime(0.28, now);
-            gain.gain.exponentialRampToValueAtTime(0.01, now + 0.12);
-
-            noise.connect(filter);
-            filter.connect(gain);
-            gain.connect(ctx.destination);
-            noise.start(now);
+            oneCrunch(now, 1600);
+            oneCrunch(now + 0.08, 1350);
+            oneCrunch(now + 0.17, 1800);
             break;
           }
 
           case 'chime': {
-            // Zen Capybara singing bowl chime: 528Hz + overtone
-            const osc1 = ctx.createOscillator();
-            const osc2 = ctx.createOscillator();
-            const gain = ctx.createGain();
+            // Tibetan Singing Bowl with 432Hz fundamental & golden harmonics
+            const harmonics = [
+              { freq: 432, gain: 0.20, decay: 2.2 },
+              { freq: 864, gain: 0.14, decay: 1.8 },
+              { freq: 1296, gain: 0.09, decay: 1.4 },
+              { freq: 2160, gain: 0.05, decay: 0.9 }
+            ];
 
-            osc1.type = 'sine';
-            osc1.frequency.setValueAtTime(528, now);
-            osc2.type = 'sine';
-            osc2.frequency.setValueAtTime(1056, now);
+            harmonics.forEach(h => {
+              const osc = ctx.createOscillator();
+              const g = ctx.createGain();
+              osc.type = 'sine';
+              osc.frequency.setValueAtTime(h.freq, now);
 
-            gain.gain.setValueAtTime(0.001, now);
-            gain.gain.linearRampToValueAtTime(0.2, now + 0.04);
-            gain.gain.exponentialRampToValueAtTime(0.0001, now + 1.2);
+              g.gain.setValueAtTime(0.0001, now);
+              g.gain.linearRampToValueAtTime(h.gain, now + 0.04);
+              g.gain.exponentialRampToValueAtTime(0.0001, now + h.decay);
 
-            osc1.connect(gain);
-            osc2.connect(gain);
-            gain.connect(ctx.destination);
-            osc1.start(now);
-            osc2.start(now);
-            osc1.stop(now + 1.25);
-            osc2.stop(now + 1.25);
+              osc.connect(g);
+              g.connect(ctx.destination);
+              osc.start(now);
+              osc.stop(now + h.decay + 0.1);
+            });
             break;
           }
 
           case 'purr': {
-            // Low rhythmic vibration for cats
-            const osc = ctx.createOscillator();
-            const lfo = ctx.createOscillator();
-            const lfoGain = ctx.createGain();
+            // Dual AM rhythmic purring for cats
+            const carrier = ctx.createOscillator();
+            const mod = ctx.createOscillator();
+            const modGain = ctx.createGain();
             const mainGain = ctx.createGain();
 
-            osc.type = 'triangle';
-            osc.frequency.setValueAtTime(75, now);
+            carrier.type = 'triangle';
+            carrier.frequency.setValueAtTime(78, now);
 
-            lfo.type = 'sine';
-            lfo.frequency.setValueAtTime(26, now);
-            lfoGain.gain.setValueAtTime(35, now);
-            lfo.connect(osc.frequency);
+            mod.type = 'sine';
+            mod.frequency.setValueAtTime(25, now);
+            modGain.gain.setValueAtTime(45, now);
+            mod.connect(carrier.frequency);
 
-            mainGain.gain.setValueAtTime(0.001, now);
-            mainGain.gain.linearRampToValueAtTime(0.2, now + 0.1);
-            mainGain.gain.exponentialRampToValueAtTime(0.001, now + 0.6);
+            mainGain.gain.setValueAtTime(0.0001, now);
+            mainGain.gain.linearRampToValueAtTime(0.24, now + 0.15);
+            mainGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.8);
 
-            osc.connect(mainGain);
+            carrier.connect(mainGain);
             mainGain.connect(ctx.destination);
-            lfo.start(now);
-            osc.start(now);
-            lfo.stop(now + 0.65);
-            osc.stop(now + 0.65);
+
+            carrier.start(now);
+            mod.start(now);
+            carrier.stop(now + 0.85);
+            mod.stop(now + 0.85);
             break;
           }
 
           case 'happy': {
-            // Level-up / celebration harp arpeggio: C5 -> E5 -> G5 -> C6
-            const freqs = [523.25, 659.25, 783.99, 1046.50];
-            freqs.forEach((freq, idx) => {
+            // 5-note sparkling harp arpeggio
+            const notes = [523.25, 659.25, 783.99, 1046.50, 1318.51];
+            notes.forEach((freq, idx) => {
               const osc = ctx.createOscillator();
-              const gain = ctx.createGain();
-              const start = now + idx * 0.07;
+              const g = ctx.createGain();
+              const t = now + idx * 0.06;
               osc.type = 'triangle';
-              osc.frequency.setValueAtTime(freq, start);
-              gain.gain.setValueAtTime(0.001, start);
-              gain.gain.linearRampToValueAtTime(0.12, start + 0.02);
-              gain.gain.exponentialRampToValueAtTime(0.001, start + 0.28);
-              osc.connect(gain);
-              gain.connect(ctx.destination);
-              osc.start(start);
-              osc.stop(start + 0.3);
+              osc.frequency.setValueAtTime(freq, t);
+
+              g.gain.setValueAtTime(0.0001, t);
+              g.gain.linearRampToValueAtTime(0.14, t + 0.02);
+              g.gain.exponentialRampToValueAtTime(0.0001, t + 0.35);
+
+              osc.connect(g);
+              g.connect(ctx.destination);
+              osc.start(t);
+              osc.stop(t + 0.38);
             });
             break;
           }
@@ -257,7 +347,6 @@
     },
 
     bindCategoryTabs() {
-      // Dynamic delegation in modal
       const modal = document.getElementById('pet-modal');
       if (modal) {
         modal.addEventListener('click', (e) => {
@@ -270,9 +359,6 @@
       }
     },
 
-    /**
-     * Get pet character data from registry
-     */
     getPetData(id) {
       if (root.PetDefinitions && typeof root.PetDefinitions.getPet === 'function') {
         return root.PetDefinitions.getPet(id);
@@ -283,9 +369,6 @@
       return null;
     },
 
-    /**
-     * Render the active pet onto the stage
-     */
     render(petState) {
       const avatarWrapper = document.getElementById('pet-avatar-wrapper');
       if (!avatarWrapper) return;
@@ -294,11 +377,9 @@
       const petData = this.getPetData(petId) || this.getPetData('nana');
       if (!petData) return;
 
-      // Ensure stage has correct species class
       avatarWrapper.className = `pet-avatar-wrapper anim-${petData.idleType || 'cat-swish'}`;
       avatarWrapper.innerHTML = petData.svg;
 
-      // Update name and species tag
       const nameEl = document.getElementById('pet-name');
       const speciesEl = document.getElementById('pet-species-name');
       const feedIcon = document.getElementById('pet-feed-icon');
@@ -307,22 +388,16 @@
       if (speciesEl) speciesEl.textContent = petData.species;
       if (feedIcon) feedIcon.textContent = petData.foodIcon;
 
-      // Update segment bars
       this.updateStatusBars(petState);
-
-      // Trigger greeting speech
       this.speakGreeting(petData, petState);
     },
 
-    /**
-     * Make pet speak a message with cute speech bubble
-     */
     speak(text) {
       const bubble = document.getElementById('pet-speech');
       if (!bubble) return;
       bubble.textContent = `"${text}"`;
       bubble.classList.remove('bubble-pop');
-      void bubble.offsetWidth; // force reflow
+      void bubble.offsetWidth;
       bubble.classList.add('bubble-pop');
 
       if (this.speechTimer) clearTimeout(this.speechTimer);
@@ -343,9 +418,6 @@
       }
     },
 
-    /**
-     * Morph facial expressions to happy state
-     */
     triggerHappyReaction(petData, customSound) {
       const wrapper = document.getElementById('pet-avatar-wrapper');
       if (wrapper) {
@@ -356,14 +428,10 @@
         }, 2200);
       }
 
-      // Play sound
       const soundType = customSound || (petData ? petData.soundType : 'happy');
       PetSoundEngine.play(soundType);
     },
 
-    /**
-     * Floating heart / particle animation
-     */
     spawnParticle(emoji) {
       const container = document.getElementById('pet-floating-effects');
       if (!container) return;
@@ -383,9 +451,6 @@
       }, 1200);
     },
 
-    /**
-     * Bounce / Wiggle physical animation
-     */
     triggerPhysicalMotion(animClass) {
       const wrapper = document.getElementById('pet-avatar-wrapper');
       if (!wrapper) return;
@@ -397,9 +462,6 @@
       }, 600);
     },
 
-    /**
-     * Update Segmented Bars for hunger & happiness
-     */
     updateStatusBars(pet) {
       if (!pet) return;
       const hungerSegments = document.getElementById('pet-hunger-segments');
@@ -417,7 +479,6 @@
       if (happinessText) happinessText.textContent = pet.happiness;
       if (foodBowlCount) foodBowlCount.textContent = pet.hunger;
 
-      // Render 10 blocks for hunger
       if (hungerSegments) {
         hungerSegments.innerHTML = '';
         const activeHungerCount = Math.round((pet.hunger / 100) * 10);
@@ -428,7 +489,6 @@
         }
       }
 
-      // Render 10 blocks for happiness
       if (happinessSegments) {
         happinessSegments.innerHTML = '';
         const activeHappyCount = Math.round((pet.happiness / 100) * 10);
@@ -439,7 +499,6 @@
         }
       }
 
-      // Mood badge text & colors
       if (moodBadge) {
         if (pet.happiness >= 80 && pet.hunger >= 60) {
           moodBadge.textContent = 'Cực Kỳ Vui Vẻ 🥰';
@@ -460,9 +519,6 @@
       }
     },
 
-    /**
-     * Handle Feeding the Pet
-     */
     feed(petState, onSave) {
       if (!petState) return;
       const petData = this.getPetData(petState.id) || this.getPetData('nana');
@@ -493,9 +549,6 @@
       if (typeof onSave === 'function') onSave();
     },
 
-    /**
-     * Handle Stroking / Petting the Pet
-     */
     stroke(petState, onSave) {
       if (!petState) return;
       const petData = this.getPetData(petState.id) || this.getPetData('nana');
@@ -519,9 +572,6 @@
       if (typeof onSave === 'function') onSave();
     },
 
-    /**
-     * Add Experience and Level Up
-     */
     addExp(petState, amount) {
       if (!petState) return;
       petState.exp = (petState.exp || 0) + amount;
@@ -536,9 +586,6 @@
       }
     },
 
-    /**
-     * Open Character Gallery Modal
-     */
     openModal(petState) {
       const modal = document.getElementById('pet-modal');
       const grid = document.getElementById('pet-selection-grid');
@@ -641,7 +688,6 @@
             btn.textContent = '✓ Đang Chọn';
           }
 
-          // Suggest pet's default name if input has previous default or empty
           const inputName = document.getElementById('input-pet-name');
           if (inputName) {
             const curVal = inputName.value.trim();
@@ -651,7 +697,6 @@
             }
           }
 
-          // Play preview sound
           PetSoundEngine.play(p.soundType);
         });
 
