@@ -1,18 +1,9 @@
 /**
- * VIRTUAL PET INTERACTION & ANIMATION ENGINE (V2.0 REDESIGNED)
- * Handles:
- * 1. Formant-based procedural Web Audio API sound synthesis:
- *    - Meow: Oral & nasal formant filter synthesis for realistic kitten vocalization
- *    - Bark: Acoustic double-bark ("Gâu! Gâu!") with breath transient & chest resonance
- *    - Squeak: Sweet double chirp for rabbit & penguin
- *    - Crunch: Triple crisp crunchy mastication bursts
- *    - Chime: 432Hz Tibetan Singing Bowl with golden harmonics for Capybara
- *    - Purr: Dual AM rhythmic purring for cats
- *    - Happy: 5-note sparkling harp arpeggio
- * 2. Species-specific animations, facial expression morphs, and interactive gestures
- * 3. Character Gallery modal builder with category filters and instant live pet switching
- * 4. Stats management (hunger, happiness, streak, level, exp)
- * 5. Floating particle effects & cartoon speech bubbles
+ * VIRTUAL PET INTERACTION & ANIMATION ENGINE (V3.0 - MASTER ARTWORK ALIGNED)
+ * Exactly aligned with Cô Nguyệt's master illustration sheet:
+ * - 13 Original Characters with authentic artwork portraits & 3-state sprites (Idle, Action, Sleep)
+ * - Trait descriptions in both English & Vietnamese
+ * - Procedural acoustic formant audio synthesis
  */
 (function(root) {
   'use strict';
@@ -121,7 +112,6 @@
           case 'bark': {
             // Realistic energetic double bark ("Gâu! Gâu!")
             function singleWoof(startTime, pitch, vol) {
-              // 1. Initial breath transient burst
               const bufSize = Math.floor(ctx.sampleRate * 0.025);
               const buf = ctx.createBuffer(1, bufSize, ctx.sampleRate);
               const data = buf.getChannelData(0);
@@ -140,7 +130,6 @@
               nGain.connect(ctx.destination);
               noise.start(startTime);
 
-              // 2. Chest resonance oscillator
               const osc = ctx.createOscillator();
               osc.type = 'sawtooth';
               osc.frequency.setValueAtTime(pitch, startTime);
@@ -377,7 +366,9 @@
       const petData = this.getPetData(petId) || this.getPetData('nana');
       if (!petData) return;
 
+      // Render the living, fully animated SVG character on stage
       avatarWrapper.className = `pet-avatar-wrapper anim-${petData.idleType || 'cat-swish'}`;
+      avatarWrapper.style.setProperty('--pet-accent', petData.accentColor || '#EA580C');
       avatarWrapper.innerHTML = petData.svg;
 
       const nameEl = document.getElementById('pet-name');
@@ -385,7 +376,7 @@
       const feedIcon = document.getElementById('pet-feed-icon');
 
       if (nameEl) nameEl.textContent = (petState && petState.name) ? petState.name : petData.name;
-      if (speciesEl) speciesEl.textContent = petData.species;
+      if (speciesEl) speciesEl.textContent = `${petData.species} (${petData.enName || ''})`;
       if (feedIcon) feedIcon.textContent = petData.foodIcon;
 
       this.updateStatusBars(petState);
@@ -420,11 +411,16 @@
 
     triggerHappyReaction(petData, customSound) {
       const wrapper = document.getElementById('pet-avatar-wrapper');
+      const actionBadge = document.getElementById('pet-sprite-action-badge');
+
       if (wrapper) {
         wrapper.classList.add('is-happy');
+        if (actionBadge) actionBadge.style.display = 'block';
+
         if (this.happyTimer) clearTimeout(this.happyTimer);
         this.happyTimer = setTimeout(() => {
           if (wrapper) wrapper.classList.remove('is-happy');
+          if (actionBadge) actionBadge.style.display = 'none';
         }, 2200);
       }
 
@@ -447,7 +443,11 @@
 
       container.appendChild(particle);
       setTimeout(() => {
-        particle.remove();
+        if (typeof particle.remove === 'function') {
+          particle.remove();
+        } else if (particle.parentNode) {
+          particle.parentNode.removeChild(particle);
+        }
       }, 1200);
     },
 
@@ -657,12 +657,29 @@
           <div class="card-species-badge species-${p.category}">
             ${p.category === 'cat' ? '🐱 Mèo' : (p.category === 'dog' ? '🐶 Cún' : '✨ Thú Khác')}
           </div>
-          <div class="card-avatar">
-            ${p.svg}
+          <div class="card-master-portrait" style="background: ${p.bgColor || '#fef3c7'};">
+            <img src="${p.portraitImg}" alt="${p.name}">
           </div>
-          <h4 class="card-pet-name">${p.name}</h4>
-          <span class="card-pet-title">${p.title}</span>
-          <p class="card-pet-desc">${p.description}</p>
+          <h4 class="card-pet-name">${p.name} <small style="font-weight: normal; color: #64748b;">(${p.enName})</small></h4>
+          <span class="card-trait-tag">✨ ${p.traitVi}</span>
+          <p class="card-pet-desc" title="${p.description}">${p.description}</p>
+          
+          <!-- 3-Sprite Pose Showcase (Ngoan - Vui - Ngủ) -->
+          <div class="card-sprite-row" title="3 trạng thái: Đứng ngoan, Vui chơi, Ngủ ngon">
+            <div class="sprite-col">
+              <img src="${p.idleSprite}" alt="idle">
+              <small>Ngoan</small>
+            </div>
+            <div class="sprite-col">
+              <img src="${p.actionSprite}" alt="action">
+              <small>Vui</small>
+            </div>
+            <div class="sprite-col">
+              <img src="${p.sleepSprite}" alt="sleep">
+              <small>Ngủ</small>
+            </div>
+          </div>
+
           <div class="card-pet-food">
             <span>Khoái khẩu:</span> <b>${p.foodIcon} ${p.favoriteFood}</b>
           </div>
