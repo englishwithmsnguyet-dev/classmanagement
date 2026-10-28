@@ -31,6 +31,7 @@ const SEED_CLASSES = [
     { name: "CB211", startDate: "2026-06-17", daysOfWeek: [1, 3, 5], duration: 4.5 },
     { name: "CB213", startDate: "2026-06-27", daysOfWeek: [2, 4, 6], duration: 4.5 },
     { name: "CB219", startDate: "2026-10-02", daysOfWeek: [1, 3, 5], duration: 4.5, timeSlot: "20h15 - 21h45" },
+    { name: "CB220", startDate: "2026-10-26", daysOfWeek: [1, 3, 5], duration: 4.5, timeSlot: "18h30 - 20h" },
     { name: "ONB103", startDate: "2026-06-17", daysOfWeek: [1, 3, 5], duration: 4.5 },
     { name: "B212", startDate: "2026-07-07", daysOfWeek: [2, 4, 6], duration: 6 }
 ];
@@ -76,6 +77,12 @@ const SEED_STUDENTS = {
         "Trần Thị Xuân Hoa", "Nguyễn Phạm Khang", "Đặng Văn Khánh", "Chim Nhật Luân",
         "Lư Vĩnh Phúc", "Nguyễn Chí Thiện", "Trần Thị Ngọc Thơ", "Huỳnh Yến Trang",
         "Thị Thu Trinh", "Nguyễn Thị Mỹ Xuyên", "Nguyễn Như Ý"
+    ],
+    "CB220": [
+        "Lý Quốc Dũng", "Phan Minh Khôi", "Huỳnh Văn My", "Mai Thúy Ngân",
+        "Võ Huỳnh Thảo Nguyên", "Đặng Dũ Nguyên", "Nguyễn Gia Nguyễn", "Trương Thị Thảo Như",
+        "Huỳnh Nhật Phát", "Nguyễn Huỳnh Thanh Sơn", "Thái Nhựt Thịnh", "Trần Nguyễn Huỳnh Trâm",
+        "Nguyễn Thị Tường Vi", "Lê Tường Vy", "Bùi Ngọc Như Ý"
     ]
 };
 
@@ -407,7 +414,7 @@ function init() {
     }
     
     // Data Migration: Populate actual students and schedules for seeded classes
-    ["CB210", "CB211", "CB213", "B212", "CB219"].forEach(clsName => {
+    ["CB210", "CB211", "CB213", "B212", "CB219", "CB220"].forEach(clsName => {
         const cls = appState.classes.find(c => c.name === clsName);
         if (cls) {
             const seedInfo = SEED_CLASSES.find(s => s.name === clsName);
