@@ -187,6 +187,22 @@
     "traitVi": "Tò mò & Thông minh",
     "bgColor": "#E9D5FF",
     "accentColor": "#7E22CE",
+        "eyeConfig": {
+        "left": {
+            "top": "38.5%",
+            "left": "29.5%",
+            "width": "13.0%",
+            "height": "13.0%"
+        },
+        "right": {
+            "top": "38.0%",
+            "left": "55.0%",
+            "width": "13.0%",
+            "height": "13.0%"
+        },
+        "furColor": "#2a2826",
+        "lashColor": "#fde047"
+    },
     "portraitImg": "assets/pet_cards/kuro_portrait.png",
     "cardImg": "assets/pet_cards/kuro_card.png",
     "idleSprite": "assets/pet_cards/kuro_idle.png",
@@ -239,6 +255,22 @@
     "traitVi": "Vui tươi & Quấn quýt",
     "bgColor": "#FEF3C7",
     "accentColor": "#D97706",
+        "eyeConfig": {
+        "left": {
+            "top": "36.5%",
+            "left": "29.0%",
+            "width": "13.0%",
+            "height": "13.0%"
+        },
+        "right": {
+            "top": "42.5%",
+            "left": "56.5%",
+            "width": "13.0%",
+            "height": "13.0%"
+        },
+        "furColor": "#f3f1e7",
+        "lashColor": "#2b1d14"
+    },
     "portraitImg": "assets/pet_cards/calico_portrait.png",
     "cardImg": "assets/pet_cards/calico_card.png",
     "idleSprite": "assets/pet_cards/calico_idle.png",
@@ -288,6 +320,22 @@
     "traitVi": "Điềm tĩnh & Thanh lịch",
     "bgColor": "#E2E8F0",
     "accentColor": "#475569",
+        "eyeConfig": {
+        "left": {
+            "top": "38.5%",
+            "left": "30.0%",
+            "width": "13.0%",
+            "height": "13.0%"
+        },
+        "right": {
+            "top": "36.5%",
+            "left": "54.5%",
+            "width": "13.0%",
+            "height": "13.0%"
+        },
+        "furColor": "#c5c1ba",
+        "lashColor": "#2b1d14"
+    },
     "portraitImg": "assets/pet_cards/gray_cat_portrait.png",
     "cardImg": "assets/pet_cards/gray_cat_card.png",
     "idleSprite": "assets/pet_cards/gray_cat_idle.png",
@@ -340,6 +388,22 @@
     "traitVi": "Năng động & Thân thiện",
     "bgColor": "#FEF08A",
     "accentColor": "#CA8A04",
+        "eyeConfig": {
+        "left": {
+            "top": "41.5%",
+            "left": "38.0%",
+            "width": "13.0%",
+            "height": "13.0%"
+        },
+        "right": {
+            "top": "38.5%",
+            "left": "57.0%",
+            "width": "13.0%",
+            "height": "13.0%"
+        },
+        "furColor": "#fbb645",
+        "lashColor": "#2b1d14"
+    },
     "portraitImg": "assets/pet_cards/corgi_portrait.png",
     "cardImg": "assets/pet_cards/corgi_card.png",
     "idleSprite": "assets/pet_cards/corgi_idle.png",
@@ -389,6 +453,22 @@
     "traitVi": "Dũng cảm & Tự tin",
     "bgColor": "#FFEDD5",
     "accentColor": "#EA580C",
+        "eyeConfig": {
+        "left": {
+            "top": "34.5%",
+            "left": "33.5%",
+            "width": "13.0%",
+            "height": "13.0%"
+        },
+        "right": {
+            "top": "35.5%",
+            "left": "52.5%",
+            "width": "13.0%",
+            "height": "13.0%"
+        },
+        "furColor": "#fcb84d",
+        "lashColor": "#2b1d14"
+    },
     "portraitImg": "assets/pet_cards/shiba_portrait.png",
     "cardImg": "assets/pet_cards/shiba_card.png",
     "idleSprite": "assets/pet_cards/shiba_idle.png",
@@ -438,6 +518,22 @@
     "traitVi": "Hiền lành & Trung thành",
     "bgColor": "#FEF3C7",
     "accentColor": "#B45309",
+        "eyeConfig": {
+        "left": {
+            "top": "35.0%",
+            "left": "33.5%",
+            "width": "13.0%",
+            "height": "13.0%"
+        },
+        "right": {
+            "top": "36.0%",
+            "left": "50.5%",
+            "width": "13.0%",
+            "height": "13.0%"
+        },
+        "furColor": "#ea9d34",
+        "lashColor": "#2b1d14"
+    },
     "portraitImg": "assets/pet_cards/golden_portrait.png",
     "cardImg": "assets/pet_cards/golden_card.png",
     "idleSprite": "assets/pet_cards/golden_idle.png",
@@ -487,6 +583,22 @@
     "traitVi": "Hoạt bát & Dịu dàng",
     "bgColor": "#FCE7F3",
     "accentColor": "#DB2777",
+        "eyeConfig": {
+        "left": {
+            "top": "44.0%",
+            "left": "31.5%",
+            "width": "13.0%",
+            "height": "13.0%"
+        },
+        "right": {
+            "top": "42.5%",
+            "left": "51.0%",
+            "width": "13.0%",
+            "height": "13.0%"
+        },
+        "furColor": "#f8f8f8",
+        "lashColor": "#2b1d14"
+    },
     "portraitImg": "assets/pet_cards/rabbit_portrait.png",
     "cardImg": "assets/pet_cards/rabbit_card.png",
     "idleSprite": "assets/pet_cards/rabbit_idle.png",
@@ -536,6 +648,22 @@
     "traitVi": "Điềm đạm & Đáng yêu",
     "bgColor": "#D1FAE5",
     "accentColor": "#059669",
+        "eyeConfig": {
+        "left": {
+            "top": "40.5%",
+            "left": "28.5%",
+            "width": "13.0%",
+            "height": "13.0%"
+        },
+        "right": {
+            "top": "37.0%",
+            "left": "52.5%",
+            "width": "13.0%",
+            "height": "13.0%"
+        },
+        "furColor": "#222222",
+        "lashColor": "#ffffff"
+    },
     "portraitImg": "assets/pet_cards/panda_portrait.png",
     "cardImg": "assets/pet_cards/panda_card.png",
     "idleSprite": "assets/pet_cards/panda_idle.png",
@@ -585,6 +713,22 @@
     "traitVi": "Thông minh & Tinh nghịch",
     "bgColor": "#FFEDD5",
     "accentColor": "#EA580C",
+        "eyeConfig": {
+        "left": {
+            "top": "44.5%",
+            "left": "32.5%",
+            "width": "13.0%",
+            "height": "13.0%"
+        },
+        "right": {
+            "top": "48.5%",
+            "left": "57.0%",
+            "width": "13.0%",
+            "height": "13.0%"
+        },
+        "furColor": "#fc913b",
+        "lashColor": "#2b1d14"
+    },
     "portraitImg": "assets/pet_cards/fox_portrait.png",
     "cardImg": "assets/pet_cards/fox_card.png",
     "idleSprite": "assets/pet_cards/fox_idle.png",
@@ -634,6 +778,22 @@
     "traitVi": "Vui vẻ & Lạc quan",
     "bgColor": "#E0F2FE",
     "accentColor": "#0369A1",
+        "eyeConfig": {
+        "left": {
+            "top": "39.5%",
+            "left": "29.0%",
+            "width": "13.0%",
+            "height": "13.0%"
+        },
+        "right": {
+            "top": "40.0%",
+            "left": "55.5%",
+            "width": "13.0%",
+            "height": "13.0%"
+        },
+        "furColor": "#f5f5f7",
+        "lashColor": "#2b1d14"
+    },
     "portraitImg": "assets/pet_cards/penguin_portrait.png",
     "cardImg": "assets/pet_cards/penguin_card.png",
     "idleSprite": "assets/pet_cards/penguin_idle.png",
@@ -683,6 +843,22 @@
     "traitVi": "Thư thái & Vô tư",
     "bgColor": "#FEF08A",
     "accentColor": "#854D0E",
+        "eyeConfig": {
+        "left": {
+            "top": "36.5%",
+            "left": "27.0%",
+            "width": "13.0%",
+            "height": "13.0%"
+        },
+        "right": {
+            "top": "34.0%",
+            "left": "51.0%",
+            "width": "13.0%",
+            "height": "13.0%"
+        },
+        "furColor": "#bfa382",
+        "lashColor": "#2b1d14"
+    },
     "portraitImg": "assets/pet_cards/capybara_portrait.png",
     "cardImg": "assets/pet_cards/capybara_card.png",
     "idleSprite": "assets/pet_cards/capybara_idle.png",
@@ -702,10 +878,10 @@
     "foodIcon": "🌻",
     "personality": "Nhỏ nhắn, hiếu động, hai má phính lúc nào cũng phồng to chứa đầy hạt hướng dương.",
     "description": "Thân hình tròn vo như cục bột vàng, hai má phúng phính, ôm hạt hướng dương siêu to khổng lồ.",
-    "idleType": "corgi-bounce",
+    "idleType": "hamster-nibble",
     "canGroom": true,
     "animationConfig": {
-      "idleClass": "anim-corgi-bounce",
+      "idleClass": "anim-hamster-nibble",
       "tailOrigin": "100px 175px",
       "headOrigin": "100px 90px"
     },
@@ -732,6 +908,22 @@
     "traitVi": "Nhỏ nhắn & Hiếu động",
     "bgColor": "#FED7AA",
     "accentColor": "#D97706",
+        "eyeConfig": {
+        "left": {
+            "top": "38.5%",
+            "left": "30.0%",
+            "width": "13.0%",
+            "height": "13.0%"
+        },
+        "right": {
+            "top": "38.5%",
+            "left": "55.0%",
+            "width": "13.0%",
+            "height": "13.0%"
+        },
+        "furColor": "#dfa263",
+        "lashColor": "#2b1d14"
+    },
     "portraitImg": "assets/pet_cards/hamster_portrait.png",
     "cardImg": "assets/pet_cards/hamster_card.png",
     "idleSprite": "assets/pet_cards/hamster_idle.png",
@@ -781,6 +973,22 @@
     "traitVi": "Tinh nghịch & Tò mò",
     "bgColor": "#E2E8F0",
     "accentColor": "#334155",
+        "eyeConfig": {
+        "left": {
+            "top": "40.0%",
+            "left": "29.5%",
+            "width": "13.0%",
+            "height": "13.0%"
+        },
+        "right": {
+            "top": "43.5%",
+            "left": "51.0%",
+            "width": "13.0%",
+            "height": "13.0%"
+        },
+        "furColor": "#aa9f9d",
+        "lashColor": "#2b1d14"
+    },
     "portraitImg": "assets/pet_cards/raccoon_portrait.png",
     "cardImg": "assets/pet_cards/raccoon_card.png",
     "idleSprite": "assets/pet_cards/raccoon_idle.png",
@@ -800,10 +1008,10 @@
     "foodIcon": "🐟",
     "personality": "Nghịch ngợm, thân thiện, thích nằm ngửa thả trôi trên mặt nước và ôm chú cá nhỏ.",
     "description": "Bộ lông nâu bóng mượt, nằm ngửa bơi lội thảnh thơi, ôm chú cá xanh nhỏ trên bụng.",
-    "idleType": "corgi-bounce",
+    "idleType": "otter-rock",
     "canGroom": true,
     "animationConfig": {
-      "idleClass": "anim-corgi-bounce",
+      "idleClass": "anim-otter-rock",
       "tailOrigin": "155px 155px",
       "headOrigin": "100px 85px"
     },
@@ -830,6 +1038,22 @@
     "traitVi": "Vui vẻ & Thân thiện",
     "bgColor": "#BAE6FD",
     "accentColor": "#0284C7",
+        "eyeConfig": {
+        "left": {
+            "top": "37.5%",
+            "left": "30.5%",
+            "width": "13.0%",
+            "height": "13.0%"
+        },
+        "right": {
+            "top": "41.0%",
+            "left": "54.0%",
+            "width": "13.0%",
+            "height": "13.0%"
+        },
+        "furColor": "#d09670",
+        "lashColor": "#2b1d14"
+    },
     "portraitImg": "assets/pet_cards/otter_portrait.png",
     "cardImg": "assets/pet_cards/otter_card.png",
     "idleSprite": "assets/pet_cards/otter_idle.png",
@@ -849,10 +1073,10 @@
     "foodIcon": "🍎",
     "personality": "Hiền lành, nhút nhát nhưng cực kỳ tình cảm, khi vui sẽ xòe gai tròn xoe như quả bóng.",
     "description": "Vòm gai nâu tròn xoe mềm mại, gương mặt màu kem ngây thơ, chiếc mũi đen hếch hếch.",
-    "idleType": "cat-swish",
+    "idleType": "hedgehog-roll",
     "canGroom": false,
     "animationConfig": {
-      "idleClass": "anim-cat-swish",
+      "idleClass": "anim-hedgehog-roll",
       "tailOrigin": "100px 165px",
       "headOrigin": "100px 92px"
     },
@@ -879,6 +1103,22 @@
     "traitVi": "Điềm đạm & Hiền lành",
     "bgColor": "#FED7AA",
     "accentColor": "#9A3412",
+        "eyeConfig": {
+        "left": {
+            "top": "35.5%",
+            "left": "30.5%",
+            "width": "13.0%",
+            "height": "13.0%"
+        },
+        "right": {
+            "top": "47.5%",
+            "left": "54.0%",
+            "width": "13.0%",
+            "height": "13.0%"
+        },
+        "furColor": "#492d1e",
+        "lashColor": "#f8c896"
+    },
     "portraitImg": "assets/pet_cards/hedgehog_portrait.png",
     "cardImg": "assets/pet_cards/hedgehog_card.png",
     "idleSprite": "assets/pet_cards/hedgehog_idle.png",
@@ -928,6 +1168,22 @@
     "traitVi": "Vui vẻ & Hoạt bát",
     "bgColor": "#FEF08A",
     "accentColor": "#EAB308",
+        "eyeConfig": {
+        "left": {
+            "top": "37.5%",
+            "left": "33.0%",
+            "width": "13.0%",
+            "height": "13.0%"
+        },
+        "right": {
+            "top": "37.0%",
+            "left": "60.5%",
+            "width": "13.0%",
+            "height": "13.0%"
+        },
+        "furColor": "#ffe171",
+        "lashColor": "#2b1d14"
+    },
     "portraitImg": "assets/pet_cards/duck_portrait.png",
     "cardImg": "assets/pet_cards/duck_card.png",
     "idleSprite": "assets/pet_cards/duck_idle.png",

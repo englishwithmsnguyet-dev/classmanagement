@@ -1545,6 +1545,21 @@ input:focus, textarea:focus { border-color: var(--primary); }
     transform-origin: bottom center;
 }
 
+.pet-living-rig {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    transform-origin: bottom center;
+    transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), filter 0.25s ease;
+}
+
+.pet-living-rig .pet-living-art {
+    animation: none !important;
+}
+
 .pet-living-art {
     position: relative;
     width: 100%;
@@ -1557,34 +1572,6 @@ input:focus, textarea:focus { border-color: var(--primary); }
     user-select: none;
     -webkit-user-drag: none;
     z-index: 2;
-}
-
-.pet-avatar-wrapper.is-happy .pet-living-art {
-    animation: petJoyBounce 0.42s ease-in-out infinite alternate !important;
-}
-
-@keyframes petJoyBounce {
-    0% { transform: translateY(0) scale(1.02); }
-    100% { transform: translateY(-12px) scale(1.09); }
-}
-
-.pet-avatar-wrapper.is-grooming .pet-living-art {
-    animation: petGroomMotion 0.75s ease-in-out infinite alternate !important;
-}
-
-@keyframes petGroomMotion {
-    0% { transform: rotate(0deg) scale(1); }
-    100% { transform: rotate(2deg) scale(1.03); }
-}
-
-.pet-avatar-wrapper.is-sleeping .pet-living-art {
-    animation: petSleepBreathe 3.8s ease-in-out infinite alternate !important;
-    filter: drop-shadow(0 6px 14px rgba(30, 27, 75, 0.22)) brightness(0.95);
-}
-
-@keyframes petSleepBreathe {
-    0% { transform: scale(1); }
-    100% { transform: scale(1.03) translateY(-2px); }
 }
 
 .pet-master-character.authentic-gif-mode {
@@ -1624,9 +1611,10 @@ input:focus, textarea:focus { border-color: var(--primary); }
     pointer-events: none;
 }
 
-.pet-avatar-wrapper.is-happy .pet-face-overlay,
-.pet-avatar-wrapper.is-grooming .pet-face-overlay,
-.pet-avatar-wrapper.is-sleeping .pet-face-overlay {
+/* Only hide face overlay for pets with dedicated full-body artwork states (like Nana) */
+.pet-avatar-wrapper.has-dedicated-poses.is-happy .pet-face-overlay,
+.pet-avatar-wrapper.has-dedicated-poses.is-grooming .pet-face-overlay,
+.pet-avatar-wrapper.has-dedicated-poses.is-sleeping .pet-face-overlay {
     display: none !important;
 }
 
@@ -1724,129 +1712,174 @@ input:focus, textarea:focus { border-color: var(--primary); }
 }
 
 /* Hover Life: pet perks up happily */
+.pet-avatar-wrapper:hover .pet-living-rig,
 .pet-avatar-wrapper:hover .pet-living-art {
-    transform: translateY(-5px) scale(1.05);
-    filter: drop-shadow(0 14px 26px rgba(234, 88, 12, 0.25)) brightness(1.03);
+    transform: translateY(-6px) scale(1.05);
+    filter: drop-shadow(0 14px 26px rgba(234, 88, 12, 0.28)) brightness(1.03);
 }
 
 /* 1. Cats (Na Na, Bạch Tuyết, Kuro, Tam Thể, Mèo Xám, Persian) */
+.anim-cat-swish .pet-living-rig,
 .anim-cat-swish .pet-living-art {
-    animation: petLivingBreathe 3.4s ease-in-out infinite, catGentleTilt 4.6s ease-in-out infinite;
+    animation: catLivingMaster 3.2s ease-in-out infinite;
 }
-@keyframes catGentleTilt {
-    0%, 100% { transform: rotate(0deg); }
-    25% { transform: rotate(-2.5deg) translateY(-2px); }
-    75% { transform: rotate(2.5deg) translateY(-2px); }
+@keyframes catLivingMaster {
+    0%, 100% { transform: translateY(0) rotate(0deg) scale(1, 1); }
+    25% { transform: translateY(-5px) rotate(-3deg) scale(1.02, 1.025); }
+    50% { transform: translateY(-2px) rotate(0deg) scale(0.99, 1.01); }
+    75% { transform: translateY(-5px) rotate(3deg) scale(1.02, 1.025); }
 }
 
 /* 2. Corgi Bounce */
+.anim-corgi-bounce .pet-living-rig,
 .anim-corgi-bounce .pet-living-art {
-    animation: corgiLivingBounce 1.6s ease-in-out infinite;
+    animation: corgiLivingBounce 1.4s ease-in-out infinite;
 }
 @keyframes corgiLivingBounce {
-    0%, 100% { transform: translateY(0) scale(1, 1); }
-    40% { transform: translateY(-7px) scale(1.03, 0.97); }
-    60% { transform: translateY(-4px) scale(0.98, 1.02); }
+    0%, 100% { transform: translateY(0) scale(1, 1) rotate(0deg); }
+    22% { transform: translateY(2px) scale(1.05, 0.95) rotate(-1.5deg); }
+    48% { transform: translateY(-13px) scale(0.96, 1.06) rotate(2deg); }
+    72% { transform: translateY(-2px) scale(1.02, 0.98) rotate(-1deg); }
 }
 
 /* 3. Shiba Inu */
+.anim-shiba-wag .pet-living-rig,
 .anim-shiba-wag .pet-living-art {
-    animation: shibaLivingWag 2.2s ease-in-out infinite;
+    animation: shibaLivingWag 1.8s ease-in-out infinite;
 }
 @keyframes shibaLivingWag {
-    0%, 100% { transform: translateY(0) rotate(0deg); }
-    30% { transform: translateY(-4px) rotate(3deg); }
-    70% { transform: translateY(-4px) rotate(-3deg); }
+    0%, 100% { transform: translateY(0) rotate(0deg) scale(1, 1); }
+    25% { transform: translateY(-7px) rotate(4deg) scale(1.02, 0.99); }
+    50% { transform: translateY(-1px) rotate(0deg) scale(0.99, 1.01); }
+    75% { transform: translateY(-7px) rotate(-4deg) scale(1.02, 0.99); }
 }
 
 /* 4. Golden Retriever */
+.anim-golden-pant .pet-living-rig,
 .anim-golden-pant .pet-living-art {
-    animation: goldenLivingJoy 2.0s ease-in-out infinite;
+    animation: goldenLivingJoy 1.6s ease-in-out infinite;
 }
 @keyframes goldenLivingJoy {
-    0%, 100% { transform: translateY(0) scale(1, 1); }
-    50% { transform: translateY(-4px) scale(1.02, 1.02); }
+    0%, 100% { transform: translateY(0) scale(1, 1) rotate(0deg); }
+    25% { transform: translateY(-9px) scale(0.97, 1.04) rotate(1.5deg); }
+    50% { transform: translateY(-3px) scale(1.03, 0.98) rotate(-1.5deg); }
+    75% { transform: translateY(-7px) scale(0.98, 1.03) rotate(1deg); }
 }
 
 /* 5. Rabbit Twitch & Hop */
+.anim-rabbit-twitch .pet-living-rig,
 .anim-rabbit-twitch .pet-living-art {
-    animation: rabbitLivingHop 2.6s ease-in-out infinite;
+    animation: rabbitLivingHop 2.2s ease-in-out infinite;
 }
 @keyframes rabbitLivingHop {
-    0%, 80%, 100% { transform: translateY(0) scale(1); }
-    85% { transform: translateY(-6px) scale(1.02, 0.98); }
-    92% { transform: translateY(0) scale(0.98, 1.02); }
+    0%, 100% { transform: translateY(0) scale(1, 1) rotate(0deg); }
+    15% { transform: translateY(-3px) scale(0.98, 1.02) rotate(2.5deg); }
+    30% { transform: translateY(0) scale(1, 1) rotate(-2deg); }
+    52% { transform: translateY(2px) scale(1.05, 0.95) rotate(0deg); }
+    64% { transform: translateY(-15px) scale(0.93, 1.08) rotate(2deg); }
+    78% { transform: translateY(1px) scale(1.05, 0.95) rotate(0deg); }
+    88% { transform: translateY(-4px) scale(0.98, 1.02) rotate(-1deg); }
 }
 
 /* 6. Penguin & Duck Waddle */
+.anim-penguin-waddle .pet-living-rig,
 .anim-penguin-waddle .pet-living-art {
-    animation: penguinLivingWaddle 1.6s ease-in-out infinite;
+    animation: penguinLivingWaddle 1.35s ease-in-out infinite;
 }
 @keyframes penguinLivingWaddle {
-    0%, 100% { transform: rotate(-3.5deg) translateY(0); }
-    50% { transform: rotate(3.5deg) translateY(-2px); }
+    0%, 100% { transform: translateY(0) rotate(-6.5deg) scale(1, 1); }
+    25% { transform: translateY(-7px) rotate(-2deg) scale(0.98, 1.02); }
+    50% { transform: translateY(0) rotate(6.5deg) scale(1, 1); }
+    75% { transform: translateY(-7px) rotate(2deg) scale(0.98, 1.02); }
 }
 
 /* 7. Capybara Zen */
+.anim-capy-zen .pet-living-rig,
 .anim-capy-zen .pet-living-art {
-    animation: capyLivingZen 4.5s ease-in-out infinite;
+    animation: capyLivingZen 2.8s ease-in-out infinite;
 }
 @keyframes capyLivingZen {
-    0%, 100% { transform: translateY(0) scale(1, 1); }
-    50% { transform: translateY(-2px) scale(1.015, 1.02); }
+    0%, 100% { transform: translateY(0) rotate(0deg) scale(1, 1); }
+    35% { transform: translateY(-8px) rotate(1.5deg) scale(1.015, 1.025); }
+    70% { transform: translateY(-2px) rotate(-1.5deg) scale(0.99, 1.01); }
 }
 
 /* 8. Panda Bamboo Munch */
+.anim-panda-chew .pet-living-rig,
 .anim-panda-chew .pet-living-art {
-    animation: pandaLivingMunch 2.2s ease-in-out infinite;
+    animation: pandaLivingMunch 2.0s ease-in-out infinite;
 }
 @keyframes pandaLivingMunch {
-    0%, 100% { transform: rotate(0deg) scale(1); }
-    25% { transform: rotate(-1.5deg) scale(1.01); }
-    75% { transform: rotate(1.5deg) scale(1.01); }
+    0%, 100% { transform: translateY(0) rotate(0deg) scale(1, 1); }
+    25% { transform: translateY(-5px) rotate(-4deg) scale(1.03, 0.98); }
+    50% { transform: translateY(-1px) rotate(0deg) scale(0.98, 1.02); }
+    75% { transform: translateY(-5px) rotate(4deg) scale(1.03, 0.98); }
 }
 
-/* 9. Fox Tail Wave */
+/* 9. Fox & Raccoon Tail Wave */
+.anim-fox-tail .pet-living-rig,
 .anim-fox-tail .pet-living-art {
-    animation: foxLivingWave 3.2s ease-in-out infinite;
+    animation: foxLivingWave 2.4s ease-in-out infinite;
 }
 @keyframes foxLivingWave {
-    0%, 100% { transform: rotate(0deg); }
-    50% { transform: rotate(2.5deg) translateY(-3px); }
+    0%, 100% { transform: translateY(0) rotate(0deg) scale(1, 1); }
+    25% { transform: translateY(-7px) rotate(3.5deg) scale(1.02, 1.01); }
+    50% { transform: translateY(-2px) rotate(0deg) scale(0.99, 1.01); }
+    75% { transform: translateY(-6px) rotate(-3.5deg) scale(1.01, 1.02); }
 }
 
 /* 10. Otter Rocking */
+.anim-otter-rock .pet-living-rig,
 .anim-otter-rock .pet-living-art {
-    animation: otterLivingRock 2.4s ease-in-out infinite;
+    animation: otterLivingRock 1.8s ease-in-out infinite;
 }
 @keyframes otterLivingRock {
-    0%, 100% { transform: rotate(-2deg); }
-    50% { transform: rotate(2deg) translateY(-2px); }
+    0%, 100% { transform: translateY(0) rotate(-5deg) scale(1, 1); }
+    25% { transform: translateY(-8px) rotate(-1.5deg) scale(0.98, 1.03); }
+    50% { transform: translateY(0) rotate(5deg) scale(1, 1); }
+    75% { transform: translateY(-8px) rotate(1.5deg) scale(0.98, 1.03); }
 }
 
 /* 11. Hamster Nibble */
+.anim-hamster-nibble .pet-living-rig,
 .anim-hamster-nibble .pet-living-art {
-    animation: hamsterLivingNibble 1.6s ease-in-out infinite;
+    animation: hamsterLivingNibble 1.3s ease-in-out infinite;
 }
 @keyframes hamsterLivingNibble {
-    0%, 100% { transform: translateY(0) scale(1); }
-    50% { transform: translateY(-3px) scale(1.02); }
+    0%, 100% { transform: translateY(0) scale(1, 1) rotate(0deg); }
+    20% { transform: translateY(-5px) scale(1.04, 0.97) rotate(2deg); }
+    40% { transform: translateY(-1px) scale(0.98, 1.02) rotate(-2deg); }
+    60% { transform: translateY(-6px) scale(1.05, 0.96) rotate(1.5deg); }
+    80% { transform: translateY(0) scale(1, 1) rotate(0deg); }
 }
 
-/* General Living Breathe */
+/* 12. Hedgehog Round Snuffle */
+.anim-hedgehog-roll .pet-living-rig,
+.anim-hedgehog-roll .pet-living-art {
+    animation: hedgehogLivingRoll 1.6s ease-in-out infinite;
+}
+@keyframes hedgehogLivingRoll {
+    0%, 100% { transform: translateY(0) scale(1, 1) rotate(0deg); }
+    25% { transform: translateY(2px) scale(1.05, 0.95) rotate(-2.5deg); }
+    50% { transform: translateY(-8px) scale(0.96, 1.04) rotate(2.5deg); }
+    75% { transform: translateY(-2px) scale(1.02, 0.99) rotate(0deg); }
+}
+
+/* General Living Breathe Fallback */
 @keyframes petLivingBreathe {
     0%, 100% { transform: translateY(0) scale(1, 1); }
-    50% { transform: translateY(-3px) scale(1.015, 1.03); }
+    50% { transform: translateY(-5px) scale(1.02, 1.03); }
 }
 
 /* Happy / Stroked / Clicked Reaction */
+.pet-avatar-wrapper.is-happy .pet-living-rig,
 .pet-avatar-wrapper.is-happy .pet-living-art {
-    animation: petHappyLivingPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) infinite alternate !important;
+    animation: petHappyLivingPop 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275) infinite alternate !important;
     filter: drop-shadow(0 14px 28px rgba(251, 146, 60, 0.45)) brightness(1.06);
 }
 @keyframes petHappyLivingPop {
-    0% { transform: translateY(0) scale(1); }
-    100% { transform: translateY(-16px) scale(1.08) rotate(2deg); }
+    0% { transform: translateY(0) scale(1) rotate(0deg); }
+    100% { transform: translateY(-18px) scale(1.09) rotate(2.5deg); }
 }
 .pet-avatar-wrapper.is-happy .pet-mood-halo {
     background: radial-gradient(ellipse at center, rgba(251, 146, 60, 0.65) 0%, rgba(251, 146, 60, 0) 75%);
@@ -1854,20 +1887,22 @@ input:focus, textarea:focus { border-color: var(--primary); }
 }
 
 /* Sleeping State */
+.pet-avatar-wrapper.is-sleeping .pet-living-rig,
 .pet-avatar-wrapper.is-sleeping .pet-living-art {
-    animation: petSleepLivingBreathe 4.6s ease-in-out infinite !important;
+    animation: petSleepLivingBreathe 4.2s ease-in-out infinite !important;
     transform-origin: bottom center;
     filter: drop-shadow(0 6px 12px rgba(30, 27, 75, 0.25)) brightness(0.9) saturate(0.85);
 }
 @keyframes petSleepLivingBreathe {
     0%, 100% { transform: translateY(7px) scale(0.97, 0.94); }
-    50% { transform: translateY(3px) scale(1.005, 0.98); }
+    50% { transform: translateY(3px) scale(1.01, 0.98); }
 }
 .pet-avatar-wrapper.is-sleeping .pet-mood-halo {
     background: radial-gradient(ellipse at center, rgba(165, 180, 252, 0.4) 0%, rgba(165, 180, 252, 0) 70%);
 }
 
 /* Interactive click bounce */
+.pet-avatar-wrapper.bouncing .pet-living-rig,
 .pet-avatar-wrapper.bouncing .pet-living-art {
     animation: petBounceLivingClick 0.55s ease !important;
 }
@@ -1878,6 +1913,7 @@ input:focus, textarea:focus { border-color: var(--primary); }
     75% { transform: translateY(-8px) scale(1.03); }
 }
 
+.pet-avatar-wrapper.wiggling .pet-living-rig,
 .pet-avatar-wrapper.wiggling .pet-living-art {
     animation: petWiggleLivingClick 0.5s ease !important;
 }
@@ -1888,6 +1924,7 @@ input:focus, textarea:focus { border-color: var(--primary); }
 }
 
 /* Grooming Animation */
+.pet-avatar-wrapper.is-grooming .pet-living-rig,
 .pet-avatar-wrapper.is-grooming .pet-living-art {
     animation: petGroomLivingAction 2.2s ease-in-out !important;
 }

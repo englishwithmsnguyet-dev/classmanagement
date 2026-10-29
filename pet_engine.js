@@ -651,8 +651,10 @@
         activeImgSrc = petData.happyImg;
       }
 
+      const hasDedicatedPoses = !!(petData.happyImg && petData.sleepImg);
       const sleepClass = this.isSleeping ? ' is-sleeping' : '';
-      avatarWrapper.className = `pet-avatar-wrapper anim-${petData.idleType || 'cat-swish'}${sleepClass}`;
+      const dedicatedClass = hasDedicatedPoses ? ' has-dedicated-poses' : '';
+      avatarWrapper.className = `pet-avatar-wrapper anim-${petData.idleType || 'cat-swish'}${sleepClass}${dedicatedClass}`;
       avatarWrapper.style.setProperty('--pet-accent', petData.accentColor || '#EA580C');
 
       const eye = petData.eyeConfig || {
@@ -665,11 +667,29 @@
 
       const innerCharacterHtml = `
         <div class="pet-master-character" id="pet-character-container">
-          ${tailHtml}
-          <img src="${activeImgSrc}" alt="${petData.name}" class="pet-living-art" id="pet-stage-img">
-          <div class="pet-face-overlay" id="pet-face-overlay">
-            <div class="pet-eyelid eyelid-l" style="top:${eye.left.top}; left:${eye.left.left}; width:${eye.left.width}; height:${eye.left.height}; background:${eye.furColor || '#ffffff'};"></div>
-            <div class="pet-eyelid eyelid-r" style="top:${eye.right.top}; left:${eye.right.left}; width:${eye.right.width}; height:${eye.right.height}; background:${eye.furColor || '#ffffff'};"></div>
+          <div class="pet-living-rig" id="pet-living-rig">
+            ${tailHtml}
+            <img src="${activeImgSrc}" alt="${petData.name}" class="pet-living-art" id="pet-stage-img">
+            <div class="pet-face-overlay" id="pet-face-overlay">
+              <div class="pet-eyelid eyelid-l" style="top:${eye.left.top}; left:${eye.left.left}; width:${eye.left.width}; height:${eye.left.height}; background:${eye.furColor || '#ffffff'};"></div>
+              <div class="pet-eyelid eyelid-r" style="top:${eye.right.top}; left:${eye.right.left}; width:${eye.right.width}; height:${eye.right.height}; background:${eye.furColor || '#ffffff'};"></div>
+              ${!petData.happyImg ? `
+              <div class="pet-happy-smile smile-l" style="top:${eye.left.top}; left:${eye.left.left}; width:${eye.left.width}; height:${eye.left.height}; background:${eye.furColor || '#ffffff'};">
+                <svg viewBox="0 0 30 30" style="width:100%;height:100%;"><path d="M 4 18 Q 15 6 26 18" fill="none" stroke="${eye.lashColor || '#2b1d14'}" stroke-width="3.6" stroke-linecap="round"/></svg>
+              </div>
+              <div class="pet-happy-smile smile-r" style="top:${eye.right.top}; left:${eye.right.left}; width:${eye.right.width}; height:${eye.right.height}; background:${eye.furColor || '#ffffff'};">
+                <svg viewBox="0 0 30 30" style="width:100%;height:100%;"><path d="M 4 18 Q 15 6 26 18" fill="none" stroke="${eye.lashColor || '#2b1d14'}" stroke-width="3.6" stroke-linecap="round"/></svg>
+              </div>
+              ` : ''}
+              ${!petData.sleepImg ? `
+              <div class="pet-sleep-lines sleep-l" style="top:${(eye.sleepLeft || eye.left).top}; left:${(eye.sleepLeft || eye.left).left}; width:${(eye.sleepLeft || eye.left).width}; height:${(eye.sleepLeft || eye.left).height}; background:${eye.furColor || '#ffffff'};">
+                <svg viewBox="0 0 30 20" style="width:100%;height:100%;"><path d="M 5 8 Q 15 15 25 8" fill="none" stroke="${eye.lashColor || '#475569'}" stroke-width="3.2" stroke-linecap="round"/></svg>
+              </div>
+              <div class="pet-sleep-lines sleep-r" style="top:${(eye.sleepRight || eye.right).top}; left:${(eye.sleepRight || eye.right).left}; width:${(eye.sleepRight || eye.right).width}; height:${(eye.sleepRight || eye.right).height}; background:${eye.furColor || '#ffffff'};">
+                <svg viewBox="0 0 30 20" style="width:100%;height:100%;"><path d="M 5 8 Q 15 15 25 8" fill="none" stroke="${eye.lashColor || '#475569'}" stroke-width="3.2" stroke-linecap="round"/></svg>
+              </div>
+              ` : ''}
+            </div>
           </div>
           <div class="pet-mood-halo"></div>
           ${this.isSleeping ? '<div class="pet-sleep-zzz" id="pet-live-zzz">Zzz...</div>' : ''}
