@@ -532,6 +532,15 @@
           wrapper.classList.remove('is-blinking', 'is-grooming', 'is-happy');
           wrapper.classList.add('is-sleeping');
         }
+        let zzz = document.getElementById('pet-live-zzz');
+        const container = document.getElementById('pet-character-container');
+        if (!zzz && container) {
+          zzz = document.createElement('div');
+          zzz.id = 'pet-live-zzz';
+          zzz.className = 'pet-sleep-zzz';
+          zzz.textContent = 'Zzz...';
+          container.appendChild(zzz);
+        }
         this.clearAnimationCycles();
         if (this.sleepInterval) clearInterval(this.sleepInterval);
 
@@ -552,6 +561,10 @@
       } else {
         if (wrapper) {
           wrapper.classList.remove('is-sleeping');
+        }
+        const zzz = document.getElementById('pet-live-zzz');
+        if (zzz && zzz.parentNode) {
+          zzz.parentNode.removeChild(zzz);
         }
         if (this.sleepInterval) {
           clearInterval(this.sleepInterval);
@@ -615,12 +628,57 @@
       const sleepClass = this.isSleeping ? ' is-sleeping' : '';
       avatarWrapper.className = `pet-avatar-wrapper anim-${petData.idleType || 'cat-swish'}${sleepClass}`;
       avatarWrapper.style.setProperty('--pet-accent', petData.accentColor || '#EA580C');
-      avatarWrapper.innerHTML = `
-        <div class="pet-master-character" id="pet-character-container">
-          <img src="${stageImgSrc}" alt="${petData.name}" class="pet-living-art" id="pet-stage-img">
-          <div class="pet-mood-halo"></div>
-        </div>
-      `;
+
+      const isNanaAuthentic = (petData.id === 'nana' || petData.isAuthentic) && petData.idleGif;
+      let innerCharacterHtml = '';
+
+      if (isNanaAuthentic) {
+        innerCharacterHtml = `
+          <div class="pet-master-character authentic-gif-mode" id="pet-character-container">
+            <img src="${this.isGrooming && petData.lickGif ? petData.lickGif : petData.idleGif}" 
+                 alt="${petData.name}" class="pet-living-art pet-authentic-gif" id="pet-stage-img">
+            <div class="pet-mood-halo"></div>
+            ${this.isSleeping ? '<div class="pet-sleep-zzz" id="pet-live-zzz">Zzz...</div>' : ''}
+          </div>
+        `;
+      } else {
+        const eye = petData.eyeConfig || {
+          left: { top: '46.5%', left: '13.5%', width: '25.0%', height: '25.0%' },
+          right: { top: '42.0%', left: '59.0%', width: '25.0%', height: '25.0%' },
+          sleepLeft: { top: '48.0%', left: '13.5%', width: '25.0%', height: '22.0%' },
+          sleepRight: { top: '43.5%', left: '59.0%', width: '25.0%', height: '22.0%' },
+          furColor: '#ffffff',
+          lashColor: '#2b1d14'
+        };
+        const tailHtml = (petData.eyeConfig && petData.eyeConfig.tailSvg) ? petData.eyeConfig.tailSvg : '';
+
+        innerCharacterHtml = `
+          <div class="pet-master-character" id="pet-character-container">
+            ${tailHtml}
+            <img src="${stageImgSrc}" alt="${petData.name}" class="pet-living-art" id="pet-stage-img">
+            <div class="pet-face-overlay" id="pet-face-overlay">
+              <div class="pet-eyelid eyelid-l" style="top:${eye.left.top}; left:${eye.left.left}; width:${eye.left.width}; height:${eye.left.height}; background:${eye.furColor || '#ffffff'};"></div>
+              <div class="pet-eyelid eyelid-r" style="top:${eye.right.top}; left:${eye.right.left}; width:${eye.right.width}; height:${eye.right.height}; background:${eye.furColor || '#ffffff'};"></div>
+              <div class="pet-happy-smile smile-l" style="top:${eye.left.top}; left:${eye.left.left}; width:${eye.left.width}; height:${eye.left.height}; background:${eye.furColor || '#ffffff'};">
+                <svg viewBox="0 0 30 30" style="width:100%;height:100%;"><path d="M 4 18 Q 15 6 26 18" fill="none" stroke="${eye.lashColor || '#2b1d14'}" stroke-width="3.2" stroke-linecap="round"/></svg>
+              </div>
+              <div class="pet-happy-smile smile-r" style="top:${eye.right.top}; left:${eye.right.left}; width:${eye.right.width}; height:${eye.right.height}; background:${eye.furColor || '#ffffff'};">
+                <svg viewBox="0 0 30 30" style="width:100%;height:100%;"><path d="M 4 18 Q 15 6 26 18" fill="none" stroke="${eye.lashColor || '#2b1d14'}" stroke-width="3.2" stroke-linecap="round"/></svg>
+              </div>
+              <div class="pet-sleep-lines sleep-l" style="top:${(eye.sleepLeft || eye.left).top}; left:${(eye.sleepLeft || eye.left).left}; width:${(eye.sleepLeft || eye.left).width}; height:${(eye.sleepLeft || eye.left).height}; background:${eye.furColor || '#ffffff'};">
+                <svg viewBox="0 0 30 20" style="width:100%;height:100%;"><path d="M 5 8 Q 15 15 25 8" fill="none" stroke="#475569" stroke-width="2.8" stroke-linecap="round"/></svg>
+              </div>
+              <div class="pet-sleep-lines sleep-r" style="top:${(eye.sleepRight || eye.right).top}; left:${(eye.sleepRight || eye.right).left}; width:${(eye.sleepRight || eye.right).width}; height:${(eye.sleepRight || eye.right).height}; background:${eye.furColor || '#ffffff'};">
+                <svg viewBox="0 0 30 20" style="width:100%;height:100%;"><path d="M 5 8 Q 15 15 25 8" fill="none" stroke="#475569" stroke-width="2.8" stroke-linecap="round"/></svg>
+              </div>
+            </div>
+            <div class="pet-mood-halo"></div>
+            ${this.isSleeping ? '<div class="pet-sleep-zzz" id="pet-live-zzz">Zzz...</div>' : ''}
+          </div>
+        `;
+      }
+
+      avatarWrapper.innerHTML = innerCharacterHtml;
 
       const nameEl = document.getElementById('pet-name');
       const speciesEl = document.getElementById('pet-species-name');
@@ -669,11 +727,20 @@
         wrapper.classList.add('is-happy');
         if (actionBadge) actionBadge.style.display = 'block';
 
+        if (petData && petData.lickGif) {
+          const stageImg = document.getElementById('pet-stage-img');
+          if (stageImg) stageImg.src = petData.lickGif;
+        }
+
         if (this.happyTimer) clearTimeout(this.happyTimer);
         this.happyTimer = setTimeout(() => {
           if (wrapper) wrapper.classList.remove('is-happy');
           if (actionBadge) actionBadge.style.display = 'none';
-        }, 2200);
+          if (petData && petData.lickGif && petData.idleGif) {
+            const stageImg = document.getElementById('pet-stage-img');
+            if (stageImg) stageImg.src = petData.idleGif;
+          }
+        }, 2400);
       }
 
       const soundType = customSound || (petData ? petData.soundType : 'happy');
