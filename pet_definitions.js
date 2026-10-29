@@ -920,7 +920,11 @@
       return Object.values(PET_REGISTRY);
     },
     getPet(id) {
-      return PET_REGISTRY[id] || null;
+      const p = PET_REGISTRY[id] || null;
+      if (p && !p.stageImg) {
+        p.stageImg = "assets/pet_stage/" + p.id + "_stage.png";
+      }
+      return p;
     },
     getRegistry() {
       return PET_REGISTRY;

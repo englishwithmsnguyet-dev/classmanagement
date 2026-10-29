@@ -610,11 +610,17 @@
       const petData = this.getPetData(petId) || this.getPetData('nana');
       if (!petData) return;
 
-      // Render the living, fully animated SVG character on stage
+      // Render the living, fully animated authentic character on stage (100% match with card)
+      const stageImgSrc = petData.stageImg || `assets/pet_stage/${petData.id}_stage.png`;
       const sleepClass = this.isSleeping ? ' is-sleeping' : '';
       avatarWrapper.className = `pet-avatar-wrapper anim-${petData.idleType || 'cat-swish'}${sleepClass}`;
       avatarWrapper.style.setProperty('--pet-accent', petData.accentColor || '#EA580C');
-      avatarWrapper.innerHTML = petData.svg;
+      avatarWrapper.innerHTML = `
+        <div class="pet-master-character" id="pet-character-container">
+          <img src="${stageImgSrc}" alt="${petData.name}" class="pet-living-art" id="pet-stage-img">
+          <div class="pet-mood-halo"></div>
+        </div>
+      `;
 
       const nameEl = document.getElementById('pet-name');
       const speciesEl = document.getElementById('pet-species-name');
