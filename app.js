@@ -385,10 +385,7 @@ const luckyWheelCanvas = document.getElementById('lucky-wheel');
 const btnSpinWheel = document.getElementById('btn-spin-wheel');
 const wheelResultCenter = document.getElementById('wheel-result-center');
 
-const memoryBoard = document.getElementById('memory-board');
-const btnRestartGame = document.getElementById('btn-restart-game');
-const gameMovesEl = document.getElementById('game-moves');
-const gameLevelEl = document.getElementById('game-level');
+// Flower Garden is initialized via flower_garden.js
 
 const btnPrevWeek = document.getElementById('btn-prev-week');
 const btnNextWeek = document.getElementById('btn-next-week');
@@ -681,7 +678,7 @@ function showHomeView() {
         randomClassSelect.appendChild(option);
     });
     
-    initGame();
+    if (typeof window !== "undefined" && window.FlowerGarden) window.FlowerGarden.init();
     if (typeof window !== "undefined" && window.PetEngine) window.PetEngine.init();
     renderPetView();
 }
@@ -1820,134 +1817,13 @@ btnSpinWheel.addEventListener('click', () => {
     }, 3000); // 3 seconds matching the CSS transition
 });
 
-// Run Init
-// --- MEMORY GAME LOGIC ---
-const levelEmojis = [
-    ['🐼', '🍓', '🚀', '🌻', '🐶', '🍎', '🎸', '🌟'], // Vòng 1
-    ['🍔', '🍕', '🍩', '🍦', '🍟', '🍭', '🌭', '🍬'], // Vòng 2
-    ['🚗', '✈️', '🚲', '⛵', '🚁', '🚂', '🏍️', '🛸'], // Vòng 3
-    ['🐯', '🦁', '🐸', '🐙', '🐵', '🦉', '🐧', '🐢'], // Vòng 4
-    ['⚽', '🏀', '🏈', '⚾', '🎾', '🏐', '🎱', '🏓']  // Vòng 5
-];
-
-let currentLevel = 0;
-let gameCards = [];
-let flippedCards = [];
-let matchedCount = 0;
-let moves = 0;
-
-const matchSound = new Audio('https://assets.mixkit.co/active_storage/sfx/2019/2019-preview.mp3');
-const wrongSound = new Audio('https://assets.mixkit.co/active_storage/sfx/2003/2003-preview.mp3');
-const winSound = new Audio('https://assets.mixkit.co/active_storage/sfx/2018/2018-preview.mp3');
-
-function unlockAudio(audioObj) {
-    audioObj.volume = 0;
-    audioObj.play().then(() => {
-        audioObj.pause();
-        audioObj.currentTime = 0;
-        audioObj.volume = 1;
-    }).catch(e => {});
+// ==========================================
+// FLOWER GARDEN ("VƯỜN HOA CỦA CÔ NGUYỆT")
+// Modularly loaded from flower_definitions.js & flower_garden.js
+// ==========================================
+if (typeof window !== 'undefined' && window.FlowerGarden) {
+    window.FlowerGarden.init();
 }
-
-function initGame(resetLevel = false) {
-    if (resetLevel) {
-        currentLevel = 0;
-    }
-    
-    // Safety check if they beat all levels
-    if (currentLevel >= levelEmojis.length) {
-        currentLevel = 0;
-    }
-    
-    memoryBoard.innerHTML = '';
-    const emojis = levelEmojis[currentLevel];
-    gameCards = [...emojis, ...emojis].sort(() => Math.random() - 0.5);
-    flippedCards = [];
-    matchedCount = 0;
-    moves = 0;
-    
-    gameMovesEl.textContent = moves;
-    gameLevelEl.textContent = currentLevel + 1;
-
-    gameCards.forEach((emoji, index) => {
-        const card = document.createElement('div');
-        card.className = 'memory-card';
-        card.dataset.emoji = emoji;
-        card.dataset.index = index;
-        
-        card.innerHTML = `
-            <div class="card-inner">
-                <div class="card-front"></div>
-                <div class="card-back">${emoji}</div>
-            </div>
-        `;
-        
-        card.addEventListener('click', () => flipCard(card));
-        memoryBoard.appendChild(card);
-    });
-}
-
-function flipCard(card) {
-    if (flippedCards.length === 2 || card.classList.contains('flipped') || card.classList.contains('matched')) return;
-
-    if (moves === 0 && flippedCards.length === 0) {
-        unlockAudio(matchSound);
-        unlockAudio(wrongSound);
-        unlockAudio(winSound);
-    }
-
-    card.classList.add('flipped');
-    flippedCards.push(card);
-
-    if (flippedCards.length === 2) {
-        moves++;
-        gameMovesEl.textContent = moves;
-        checkMatch();
-    }
-}
-
-function checkMatch() {
-    const [card1, card2] = flippedCards;
-    const match = card1.dataset.emoji === card2.dataset.emoji;
-
-    if (match) {
-        card1.classList.add('matched');
-        card2.classList.add('matched');
-        matchedCount += 2;
-        flippedCards = [];
-        
-        matchSound.currentTime = 0;
-        matchSound.play().catch(e=>{});
-        
-        if (matchedCount === gameCards.length) {
-            setTimeout(() => {
-                winSound.currentTime = 0;
-                winSound.play().catch(e=>{});
-                
-                if (currentLevel < levelEmojis.length - 1) {
-                    if (confirm(`Tuyệt vời! Cô đã qua Vòng ${currentLevel + 1} với ${moves} lượt lật. Cô có muốn sang Vòng tiếp theo không?`)) {
-                        currentLevel++;
-                        initGame();
-                    }
-                } else {
-                    alert(`CHÚC MỪNG PHÁ ĐẢO! Cô đã xuất sắc vượt qua tất cả ${levelEmojis.length} vòng chơi! 🎉`);
-                    initGame(true); // Reset to level 1
-                }
-            }, 600);
-        }
-    } else {
-        wrongSound.currentTime = 0;
-        wrongSound.play().catch(e=>{});
-        
-        setTimeout(() => {
-            card1.classList.remove('flipped');
-            card2.classList.remove('flipped');
-            flippedCards = [];
-        }, 800); // Slightly faster flip back to make it snappy
-    }
-}
-
-btnRestartGame.addEventListener('click', () => initGame(true));
 
 // ==========================================
 // VIRTUAL PET COMPANION ("Nuôi thú cưng")
