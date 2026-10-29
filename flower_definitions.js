@@ -1,300 +1,14 @@
 /**
- * FLOWER GARDEN DEFINITIONS ("VƯỜN HOA CỦA CÔ NGUYỆT")
- * Rich collection of 10 lovable flowers with distinct growth stages,
- * uplifting meanings, SVG petal art, and harmonic color palettes.
+ * LUCKY CLOVER GARDEN DEFINITIONS ("CHẬU CỎ 4 LÁ MAY MẮN CỦA CÔ NGUYỆT")
+ * Dedicated exclusively to the magical 4-Leaf Lucky Clover (Cỏ 4 Lá May Mắn 🍀).
+ * Features 4 handcrafted botanical SVG growth stages with emerald gradients,
+ * twin-lobe M-curve chevrons, crystalline dewdrops, lucky ladybug (🐞),
+ * fluttering fairy butterfly (🦋), and pure CSS animations.
  */
 (function(root) {
   'use strict';
 
   const FLOWER_CATALOG = {
-    "sunflower": {
-      "id": "sunflower",
-      "name": "Hoa Hướng Dương",
-      "scientific": "Helianthus annuus",
-      "icon": "🌻",
-      "rarity": "Phổ biến",
-      "color": "#F59E0B",
-      "accentColor": "#D97706",
-      "bgGlow": "rgba(245, 158, 11, 0.25)",
-      "meaning": "Luôn hướng về ánh mặt trời, rực rỡ, kiên cường và tràn đầy năng lượng tích cực!",
-      "quote": "Mỗi ngày mới là một cơ hội để cô Nguyệt tỏa sáng rực rỡ như hoa hướng dương! ☀️✨",
-      "petals": 12,
-      "growthDifficulty": "Dễ trồng",
-      "bloomSvg": function() {
-        return `
-          <!-- Sunflower Bloom -->
-          <g class="flower-bloom-head" style="transform-origin: 100px 75px;">
-            <!-- Outer Golden Petals (12 petals radiating) -->
-            <g class="sunflower-petals">
-              ${[0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330].map(deg => `
-                <path d="M 100 75 C 93 50 96 30 100 22 C 104 30 107 50 100 75 Z"
-                      fill="#FBBF24" stroke="#D97706" stroke-width="1.2"
-                      transform="rotate(${deg} 100 75)"/>
-              `).join('')}
-              ${[15, 45, 75, 105, 135, 165, 195, 225, 255, 285, 315, 345].map(deg => `
-                <path d="M 100 75 C 95 55 97 38 100 32 C 103 38 105 55 100 75 Z"
-                      fill="#F59E0B" opacity="0.9"
-                      transform="rotate(${deg} 100 75)"/>
-              `).join('')}
-            </g>
-            <!-- Center Seed Disc with Cute Kawaii Face -->
-            <circle cx="100" cy="75" r="22" fill="#78350F" stroke="#451A03" stroke-width="2"/>
-            <circle cx="100" cy="75" r="18" fill="#92400E"/>
-            <!-- Texture dots -->
-            <circle cx="93" cy="68" r="1.5" fill="#B45309"/>
-            <circle cx="107" cy="68" r="1.5" fill="#B45309"/>
-            <circle cx="100" cy="82" r="1.5" fill="#B45309"/>
-            <circle cx="94" cy="78" r="1.2" fill="#B45309"/>
-            <circle cx="106" cy="78" r="1.2" fill="#B45309"/>
-            <!-- Cute Kawaii Eyes and Smile -->
-            <circle cx="93" cy="73" r="2.8" fill="#FFFFFF"/>
-            <circle cx="93" cy="73" r="1.8" fill="#1C1917"/>
-            <circle cx="92" cy="72" r="0.8" fill="#FFFFFF"/>
-            <circle cx="107" cy="73" r="2.8" fill="#FFFFFF"/>
-            <circle cx="107" cy="73" r="1.8" fill="#1C1917"/>
-            <circle cx="106" cy="72" r="0.8" fill="#FFFFFF"/>
-            <!-- Rosy Cheeks -->
-            <ellipse cx="88" cy="77" rx="2.5" ry="1.5" fill="#FB7185" opacity="0.8"/>
-            <ellipse cx="112" cy="77" rx="2.5" ry="1.5" fill="#FB7185" opacity="0.8"/>
-            <!-- Sweet Smile -->
-            <path d="M 97 78 Q 100 81 103 78" stroke="#FFFFFF" stroke-width="1.4" stroke-linecap="round" fill="none"/>
-          </g>
-        `;
-      }
-    },
-
-    "tulip": {
-      "id": "tulip",
-      "name": "Hoa Tulip Hồng",
-      "scientific": "Tulipa gesneriana",
-      "icon": "🌷",
-      "rarity": "Phổ biến",
-      "color": "#EC4899",
-      "accentColor": "#DB2777",
-      "bgGlow": "rgba(236, 72, 153, 0.25)",
-      "meaning": "Dịu dàng, thanh khiết, tượng trưng cho tình yêu thương và sự gắn kết chân thành.",
-      "quote": "Bông tulip dịu dàng như nụ cười ngọt ngào của cô Nguyệt mỗi khi vào lớp! 💖🌷",
-      "growthDifficulty": "Dễ trồng",
-      "bloomSvg": function() {
-        return `
-          <!-- Tulip Bloom -->
-          <g class="flower-bloom-head" style="transform-origin: 100px 75px;">
-            <!-- Outer Cup Petals -->
-            <path d="M 100 90 C 70 85 65 50 82 35 C 92 48 98 70 100 90 Z"
-                  fill="#F472B6" stroke="#BE123C" stroke-width="1.5"/>
-            <path d="M 100 90 C 130 85 135 50 118 35 C 108 48 102 70 100 90 Z"
-                  fill="#F472B6" stroke="#BE123C" stroke-width="1.5"/>
-            <!-- Center Main Petal -->
-            <path d="M 82 45 C 90 30 110 30 118 45 C 115 75 100 92 100 92 C 100 92 85 75 82 45 Z"
-                  fill="#FB7185" stroke="#BE123C" stroke-width="1.5"/>
-            <!-- Front Petal Overlay with Highlights -->
-            <path d="M 88 52 C 94 40 106 40 112 52 C 108 78 100 90 100 90 C 100 90 92 78 88 52 Z"
-                  fill="#FDA4AF" opacity="0.85"/>
-            <!-- Kawaii Face on Tulip -->
-            <circle cx="95" cy="65" r="2.2" fill="#881337"/>
-            <circle cx="94" cy="64" r="0.7" fill="#FFFFFF"/>
-            <circle cx="105" cy="65" r="2.2" fill="#881337"/>
-            <circle cx="104" cy="64" r="0.7" fill="#FFFFFF"/>
-            <ellipse cx="91" cy="68" rx="2" ry="1.2" fill="#F43F5E" opacity="0.7"/>
-            <ellipse cx="109" cy="68" rx="2" ry="1.2" fill="#F43F5E" opacity="0.7"/>
-            <path d="M 98 68 Q 100 70.5 102 68" stroke="#881337" stroke-width="1.2" stroke-linecap="round" fill="none"/>
-          </g>
-        `;
-      }
-    },
-
-    "rose": {
-      "id": "rose",
-      "name": "Hoa Hồng Đỏ",
-      "scientific": "Rosa rubiginosa",
-      "icon": "🌹",
-      "rarity": "Đặc biệt",
-      "color": "#E11D48",
-      "accentColor": "#BE123C",
-      "bgGlow": "rgba(225, 29, 72, 0.25)",
-      "meaning": "Kiêu sa, nhiệt huyết, nồng thắm và niềm say mê bất tận trong công việc giảng dạy.",
-      "quote": "Hoa hồng rực rỡ tôn vinh tâm huyết và tình cảm ấm áp cô dành cho từng thế hệ học trò! 🌹✨",
-      "growthDifficulty": "Vừa phải",
-      "bloomSvg": function() {
-        return `
-          <!-- Rose Bloom -->
-          <g class="flower-bloom-head" style="transform-origin: 100px 75px;">
-            <!-- Outer Velvet Petals -->
-            <path d="M 100 92 C 60 90 55 58 75 42 C 85 58 95 80 100 92 Z" fill="#BE123C" stroke="#881337" stroke-width="1.5"/>
-            <path d="M 100 92 C 140 90 145 58 125 42 C 115 58 105 80 100 92 Z" fill="#BE123C" stroke="#881337" stroke-width="1.5"/>
-            <!-- Mid Petals -->
-            <path d="M 72 56 C 75 38 125 38 128 56 C 122 84 100 92 100 92 C 100 92 78 84 72 56 Z" fill="#E11D48" stroke="#9F1239" stroke-width="1.5"/>
-            <!-- Inner Spiral Core -->
-            <path d="M 85 50 C 90 40 110 40 115 50 C 112 68 100 75 100 75 C 100 75 88 68 85 50 Z" fill="#F43F5E"/>
-            <path d="M 92 48 Q 100 42 108 48 Q 104 56 100 56 Q 96 56 92 48" fill="#FDA4AF" stroke="#BE123C" stroke-width="1"/>
-            <!-- Morning Dewdrop -->
-            <ellipse cx="112" cy="62" rx="2.5" ry="3.5" fill="#E0F2FE" opacity="0.9"/>
-            <circle cx="111" cy="61" r="1" fill="#FFFFFF"/>
-            <!-- Happy Smiling Face -->
-            <path d="M 94 62 Q 97 59 100 62" stroke="#FFFFFF" stroke-width="1.4" stroke-linecap="round" fill="none"/>
-            <path d="M 100 62 Q 103 59 106 62" stroke="#FFFFFF" stroke-width="1.4" stroke-linecap="round" fill="none"/>
-            <ellipse cx="91" cy="65" rx="1.8" ry="1" fill="#FFE4E6"/>
-            <ellipse cx="109" cy="65" rx="1.8" ry="1" fill="#FFE4E6"/>
-          </g>
-        `;
-      }
-    },
-
-    "lotus": {
-      "id": "lotus",
-      "name": "Hoa Sen Hồng",
-      "scientific": "Nelumbo nucifera",
-      "icon": "🪷",
-      "rarity": "Đặc biệt",
-      "color": "#F472B6",
-      "accentColor": "#EC4899",
-      "bgGlow": "rgba(244, 114, 182, 0.25)",
-      "meaning": "Thanh cao, an yên, tâm hồn tĩnh lặng và lan tỏa sự bình an đến mọi người xung quanh.",
-      "quote": "Gần bùn mà chẳng hôi tanh mùi bùn — thanh tao, an yên và thuần khiết như hoa sen! 🪷🍃",
-      "growthDifficulty": "Vừa phải",
-      "bloomSvg": function() {
-        return `
-          <!-- Lotus Bloom -->
-          <g class="flower-bloom-head" style="transform-origin: 100px 75px;">
-            <!-- Outer Lateral Petals -->
-            <path d="M 100 88 C 65 85 45 65 52 48 C 68 55 85 75 100 88 Z" fill="#FBCFE8" stroke="#DB2777" stroke-width="1.4"/>
-            <path d="M 100 88 C 135 85 155 65 148 48 C 132 55 115 75 100 88 Z" fill="#FBCFE8" stroke="#DB2777" stroke-width="1.4"/>
-            <!-- Mid Petals -->
-            <path d="M 100 88 C 75 80 62 55 74 38 C 88 50 96 72 100 88 Z" fill="#F472B6" stroke="#BE123C" stroke-width="1.4"/>
-            <path d="M 100 88 C 125 80 138 55 126 38 C 112 50 104 72 100 88 Z" fill="#F472B6" stroke="#BE123C" stroke-width="1.4"/>
-            <!-- Center Standing Petal -->
-            <path d="M 100 24 C 92 45 90 75 100 88 C 110 75 108 45 100 24 Z" fill="#FFFFFF" stroke="#DB2777" stroke-width="1.4"/>
-            <path d="M 100 32 C 95 48 94 72 100 85 C 106 72 105 48 100 32 Z" fill="#FDF2F8"/>
-            <!-- Golden Stamen Radiance -->
-            <ellipse cx="100" cy="72" rx="9" ry="5" fill="#FBBF24" stroke="#D97706" stroke-width="1"/>
-            <!-- Cute Peaceful Face -->
-            <path d="M 95 62 Q 97 60 99 62" stroke="#831843" stroke-width="1.2" stroke-linecap="round" fill="none"/>
-            <path d="M 101 62 Q 103 60 105 62" stroke="#831843" stroke-width="1.2" stroke-linecap="round" fill="none"/>
-            <circle cx="100" cy="66" r="1.2" fill="#F43F5E"/>
-          </g>
-        `;
-      }
-    },
-
-    "daisy": {
-      "id": "daisy",
-      "name": "Hoa Cúc Họa Mi",
-      "scientific": "Bellis perennis",
-      "icon": "🌼",
-      "rarity": "Phổ biến",
-      "color": "#FBBF24",
-      "accentColor": "#E2E8F0",
-      "bgGlow": "rgba(251, 191, 36, 0.25)",
-      "meaning": "Nhẹ nhàng, trong sáng, ngây thơ và mang lại niềm vui giản dị mỗi ngày.",
-      "quote": "Bé cúc họa mi trắng trong xinh xắn như lời chúc đầu ngày bình yên gửi đến cô Nguyệt! 🌼🤍",
-      "growthDifficulty": "Dễ trồng",
-      "bloomSvg": function() {
-        return `
-          <!-- Daisy Bloom -->
-          <g class="flower-bloom-head" style="transform-origin: 100px 75px;">
-            <!-- Pure White Radiating Petals (16 petals) -->
-            <g class="daisy-petals">
-              ${[0, 22.5, 45, 67.5, 90, 112.5, 135, 157.5, 180, 202.5, 225, 247.5, 270, 292.5, 315, 337.5].map(deg => `
-                <path d="M 100 75 C 96 55 97 32 100 24 C 103 32 104 55 100 75 Z"
-                      fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1"
-                      transform="rotate(${deg} 100 75)"/>
-              `).join('')}
-            </g>
-            <!-- Sunny Yellow Center -->
-            <circle cx="100" cy="75" r="17" fill="#FBBF24" stroke="#D97706" stroke-width="1.8"/>
-            <circle cx="100" cy="75" r="14" fill="#F59E0B"/>
-            <!-- Sparkly Anime Eyes -->
-            <circle cx="94" cy="73" r="2.5" fill="#1C1917"/>
-            <circle cx="93.5" cy="72" r="1" fill="#FFFFFF"/>
-            <circle cx="106" cy="73" r="2.5" fill="#1C1917"/>
-            <circle cx="105.5" cy="72" r="1" fill="#FFFFFF"/>
-            <!-- Rosy Cheeks -->
-            <ellipse cx="90" cy="77" rx="2.5" ry="1.5" fill="#FB7185" opacity="0.8"/>
-            <ellipse cx="110" cy="77" rx="2.5" ry="1.5" fill="#FB7185" opacity="0.8"/>
-            <!-- Cute Open Smile :D -->
-            <path d="M 97 76 Q 100 81 103 76 Z" fill="#DC2626"/>
-            <ellipse cx="100" cy="78" rx="1.5" ry="1" fill="#FDA4AF"/>
-          </g>
-        `;
-      }
-    },
-
-    "cherry": {
-      "id": "cherry",
-      "name": "Hoa Anh Đào",
-      "scientific": "Prunus serrulata",
-      "icon": "🌸",
-      "rarity": "Hiếm",
-      "color": "#F472B6",
-      "accentColor": "#EC4899",
-      "bgGlow": "rgba(244, 114, 182, 0.3)",
-      "meaning": "Ngọt ngào, khởi đầu may mắn, thanh xuân tươi đẹp và ước mơ nở hoa.",
-      "quote": "Mùa xuân luôn ở lại trong tim cô với sắc hoa anh đào rạng rỡ và dịu ngọt! 🌸✨",
-      "growthDifficulty": "Cần chăm chút",
-      "bloomSvg": function() {
-        return `
-          <!-- Cherry Blossom Sakura -->
-          <g class="flower-bloom-head" style="transform-origin: 100px 75px;">
-            <!-- 5 Heart-notched Petals -->
-            <g class="sakura-petals">
-              ${[0, 72, 144, 216, 288].map(deg => `
-                <path d="M 100 75 C 80 50 82 28 94 24 C 98 28 100 32 100 32 C 100 32 102 28 106 24 C 118 28 120 50 100 75 Z"
-                      fill="#FCE7F3" stroke="#F472B6" stroke-width="1.3"
-                      transform="rotate(${deg} 100 75)"/>
-              `).join('')}
-            </g>
-            <!-- Center Star and Stamens -->
-            <circle cx="100" cy="75" r="8" fill="#F43F5E" opacity="0.8"/>
-            ${[0, 45, 90, 135, 180, 225, 270, 315].map(deg => `
-              <line x1="100" y1="75" x2="100" y2="63" stroke="#BE123C" stroke-width="1" transform="rotate(${deg} 100 75)"/>
-              <circle cx="100" cy="62" r="1.2" fill="#FBBF24" transform="rotate(${deg} 100 75)"/>
-            `).join('')}
-            <!-- Cute Face -->
-            <circle cx="97" cy="74" r="1.5" fill="#4C0519"/>
-            <circle cx="103" cy="74" r="1.5" fill="#4C0519"/>
-            <path d="M 98 77 Q 100 79 102 77" stroke="#4C0519" stroke-width="1" stroke-linecap="round" fill="none"/>
-          </g>
-        `;
-      }
-    },
-
-    "lavender": {
-      "id": "lavender",
-      "name": "Hoa Oải Hương",
-      "scientific": "Lavandula angustifolia",
-      "icon": "🌾",
-      "rarity": "Hiếm",
-      "color": "#8B5CF6",
-      "accentColor": "#7C3AED",
-      "bgGlow": "rgba(139, 92, 246, 0.25)",
-      "meaning": "Thư giãn, xoa dịu mệt mỏi, hương thơm thanh khiết mang lại giấc ngủ ngon và bình yên.",
-      "quote": "Hương hoa oải hương dịu nhẹ xua tan mọi âu lo, giúp cô giáo luôn thư thái và nhẹ lòng! 💜🌾",
-      "growthDifficulty": "Cần chăm chút",
-      "bloomSvg": function() {
-        return `
-          <!-- Lavender Bloom Spike -->
-          <g class="flower-bloom-head" style="transform-origin: 100px 75px;">
-            <!-- Vertical Spikes of Purple Florets -->
-            <path d="M 100 95 L 100 25" stroke="#15803D" stroke-width="2.5" stroke-linecap="round"/>
-            <!-- Tiered Florets -->
-            ${[30, 42, 54, 66, 78, 90].map((y, i) => `
-              <g transform="translate(0, 0)">
-                <ellipse cx="91" cy="${y}" rx="6" ry="4" fill="#A78BFA" stroke="#6D28D9" stroke-width="1" transform="rotate(-20 91 ${y})"/>
-                <ellipse cx="109" cy="${y}" rx="6" ry="4" fill="#A78BFA" stroke="#6D28D9" stroke-width="1" transform="rotate(20 109 ${y})"/>
-                <circle cx="100" cy="${y - 3}" r="4" fill="#C4B5FD" stroke="#7C3AED" stroke-width="1"/>
-              </g>
-            `).join('')}
-            <!-- Top bud crown -->
-            <ellipse cx="100" cy="22" rx="4" ry="5" fill="#DDD6FE" stroke="#7C3AED" stroke-width="1"/>
-            <!-- Cute Face on central tier -->
-            <circle cx="98" cy="53" r="1.4" fill="#4C1D95"/>
-            <circle cx="102" cy="53" r="1.4" fill="#4C1D95"/>
-            <path d="M 98 56 Q 100 58 102 56" stroke="#4C1D95" stroke-width="1" stroke-linecap="round" fill="none"/>
-          </g>
-        `;
-      }
-    },
-
     "clover": {
       "id": "clover",
       "name": "Cỏ 4 Lá May Mắn",
@@ -303,222 +17,394 @@
       "rarity": "Thần kỳ",
       "color": "#10B981",
       "accentColor": "#059669",
-      "bgGlow": "rgba(16, 185, 129, 0.3)",
-      "meaning": "May mắn, niềm tin, hy vọng và tình yêu vĩnh cửu. Báu vật diệu kỳ của thiên nhiên!",
+      "bgGlow": "radial-gradient(circle, rgba(16, 185, 129, 0.35) 0%, rgba(52, 211, 153, 0.15) 50%, transparent 75%)",
+      "meaning": "May mắn ngập tràn, niềm tin, hy vọng và tình yêu vĩnh cửu. Món quà diệu kỳ của thiên nhiên ban tặng cho cô Nguyệt!",
       "quote": "Bé cỏ 4 lá mang đến vạn sự may mắn và mọi điều ước thành hiện thực cho cô Nguyệt! 🍀🌟",
-      "growthDifficulty": "Hiếm có",
-      "bloomSvg": function() {
-        return `
-          <!-- 4-Leaf Lucky Clover -->
-          <g class="flower-bloom-head" style="transform-origin: 100px 75px;">
-            <!-- 4 Heart Shaped Emerald Leaves -->
-            ${[0, 90, 180, 270].map(deg => `
-              <path d="M 100 75 C 80 55 75 35 90 28 C 96 25 100 32 100 35 C 100 32 104 25 110 28 C 125 35 120 55 100 75 Z"
-                    fill="#34D399" stroke="#047857" stroke-width="1.5"
-                    transform="rotate(${deg} 100 75)"/>
-              <!-- Inner Chevron Stripe -->
-              <path d="M 94 48 Q 100 42 106 48" stroke="#A7F3D0" stroke-width="1.5" stroke-linecap="round" fill="none"
-                    transform="rotate(${deg} 100 75)"/>
-            `).join('')}
-            <!-- Center Lucky Sparkle -->
-            <circle cx="100" cy="75" r="4" fill="#FBBF24" stroke="#D97706" stroke-width="1"/>
-            <circle cx="100" cy="75" r="2" fill="#FFFFFF"/>
-            <!-- Winking Cute Face -->
-            <path d="M 96 73 Q 98 71 100 73" stroke="#064E3B" stroke-width="1.2" stroke-linecap="round" fill="none"/>
-            <circle cx="104" cy="73" r="1.2" fill="#064E3B"/>
-            <path d="M 99 76 Q 100 77.5 102 76" stroke="#064E3B" stroke-width="1" stroke-linecap="round" fill="none"/>
-          </g>
-        `;
-      }
+      "growthDifficulty": "Hiếm có"
     }
   };
 
   /**
-   * Universal Pot & Stem Renderer
-   * Generates complete SVG for any flower at any of the 4 stages.
+   * Universal Pot & Clover Plant Renderer
+   * Generates complete SVG for Cỏ 4 Lá May Mắn across all 4 stages:
+   * Stage 1 (0-24%): Mầm Ước Nguyện (Golden Seed & Fresh Emerald Shoot)
+   * Stage 2 (25-59%): Cây Con 2 Lá Non (S-Curve Stem & 2 Welcoming Heart Leaves + Ladybug)
+   * Stage 3 (60-99%): Cỏ 3 Lá Phát Triển (Tri-Leaf Shamrock with Glowing Golden Magic Bud)
+   * Stage 4 (100%): Cỏ 4 Lá May Mắn Diệu Kỳ (Full 4-Leaf Bloom, Anime Sunburst Smile, Ladybug & Butterfly)
    */
   function renderFlowerPotSvg(flowerId, progress) {
-    const flower = FLOWER_CATALOG[flowerId] || FLOWER_CATALOG.sunflower;
     const p = Math.max(0, Math.min(100, progress || 0));
 
-    // Determine Stage
     let stage = 1;
     if (p >= 100) stage = 4;
     else if (p >= 60) stage = 3;
     else if (p >= 25) stage = 2;
 
-    // Stem height calculation based on progress
-    const stemTopY = 145 - (p * 0.7); // from 145 down to 75
-
     return `
-<svg viewBox="0 0 200 200" class="garden-pot-svg" xmlns="http://www.w3.org/2000/svg">
+<svg viewBox="0 0 240 240" class="clover-pot-svg" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <!-- Ceramic Terracotta Pot Gradients -->
-    <linearGradient id="pot-body-grad" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#FB923C"/>
-      <stop offset="35%" stop-color="#FDBA74"/>
-      <stop offset="70%" stop-color="#FB923C"/>
+    <!-- Soft Drop Shadows -->
+    <filter id="soft-shadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="2.5" stdDeviation="2" flood-color="#064E3B" flood-opacity="0.16"/>
+    </filter>
+    <filter id="pot-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="3.5" flood-color="#7C2D12" flood-opacity="0.18"/>
+    </filter>
+    <filter id="glow-aura" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+
+    <!-- Emerald Leaf Gradients -->
+    <linearGradient id="leaf-grad-main" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#065F46"/>
+      <stop offset="25%" stop-color="#047857"/>
+      <stop offset="60%" stop-color="#10B981"/>
+      <stop offset="90%" stop-color="#34D399"/>
+      <stop offset="100%" stop-color="#6EE7B7"/>
+    </linearGradient>
+
+    <!-- Stem Gradient -->
+    <linearGradient id="stem-grad-v2" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#047857"/>
+      <stop offset="30%" stop-color="#059669"/>
+      <stop offset="70%" stop-color="#10B981"/>
+      <stop offset="100%" stop-color="#34D399"/>
+    </linearGradient>
+
+    <!-- Terracotta-Peach Pot Gradient -->
+    <linearGradient id="pot-body-peach" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#EA580C"/>
+      <stop offset="20%" stop-color="#F97316"/>
+      <stop offset="55%" stop-color="#FB923C"/>
+      <stop offset="85%" stop-color="#FDBA74"/>
       <stop offset="100%" stop-color="#EA580C"/>
     </linearGradient>
-    <linearGradient id="pot-rim-grad" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#FDBA74"/>
-      <stop offset="50%" stop-color="#FED7AA"/>
+    <linearGradient id="pot-rim-porcelain" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#F97316"/>
+      <stop offset="25%" stop-color="#FED7AA"/>
+      <stop offset="55%" stop-color="#FFFFFF"/>
+      <stop offset="85%" stop-color="#FED7AA"/>
       <stop offset="100%" stop-color="#FB923C"/>
     </linearGradient>
-    <!-- Potting Soil Gradient -->
-    <radialGradient id="soil-grad" cx="50%" cy="50%" r="50%">
+
+    <!-- Rich Soil Gradient -->
+    <radialGradient id="soil-dark-v2" cx="50%" cy="50%" r="50%">
       <stop offset="0%" stop-color="#78350F"/>
       <stop offset="70%" stop-color="#451A03"/>
-      <stop offset="100%" stop-color="#271003"/>
+      <stop offset="100%" stop-color="#1F0A02"/>
     </radialGradient>
-    <!-- Soft Contact Shadow -->
-    <radialGradient id="pot-ground-shadow" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#371E14" stop-opacity="0.25"/>
-      <stop offset="65%" stop-color="#371E14" stop-opacity="0.08"/>
+
+    <!-- Ground Contact Shadow -->
+    <radialGradient id="ground-shadow-v2" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#371E14" stop-opacity="0.32"/>
+      <stop offset="60%" stop-color="#371E14" stop-opacity="0.1"/>
       <stop offset="100%" stop-color="#371E14" stop-opacity="0"/>
     </radialGradient>
-    <!-- Plant Stem Gradient -->
-    <linearGradient id="stem-grad" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#16A34A"/>
-      <stop offset="50%" stop-color="#4ADE80"/>
-      <stop offset="100%" stop-color="#15803D"/>
-    </linearGradient>
+
+    <!-- Golden Lucky Core -->
+    <radialGradient id="gold-core-v2" cx="50%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#FEF08A"/>
+      <stop offset="50%" stop-color="#FBBF24"/>
+      <stop offset="85%" stop-color="#F59E0B"/>
+      <stop offset="100%" stop-color="#D97706"/>
+    </radialGradient>
+
+    <!-- Botanical Heart Clover Leaflet Unit -->
+    <g id="leaf-unit">
+      <!-- Outer Heart Shape -->
+      <path d="M 0 0 C -22 -22 -35 -45 -20 -60 C -11 -67 -2 -60 0 -54 C 2 -60 11 -67 20 -60 C 35 -45 22 -22 0 0 Z"
+            fill="url(#leaf-grad-main)" stroke="#047857" stroke-width="1.6" stroke-linejoin="round"/>
+      <!-- Soft Depth Shading on Left Lobe -->
+      <path d="M 0 0 C -15 -17 -25 -35 -20 -60 C -11 -67 -2 -60 0 -54 Z"
+            fill="#064E3B" opacity="0.22"/>
+      <!-- Botanical Chevron Watermark: Twin M-Curve following both lobes -->
+      <path d="M -13 -32 Q -7 -40 0 -36 Q 7 -40 13 -32"
+            stroke="#D1FAE5" stroke-width="2.6" stroke-linecap="round" fill="none" opacity="0.9"/>
+      <path d="M -11 -32 Q -6 -39 0 -35.5 Q 6 -39 11 -32"
+            stroke="#FFFFFF" stroke-width="1.2" stroke-linecap="round" fill="none" opacity="0.95"/>
+      <!-- Subtle Center Vein Line -->
+      <line x1="0" y1="0" x2="0" y2="-50" stroke="#047857" stroke-width="1.1" stroke-linecap="round" opacity="0.45"/>
+      <!-- Specular Dewdrop with Light Highlight and Drop Shadow -->
+      <ellipse cx="-10" cy="-45" rx="3" ry="3.8" fill="#FFFFFF" opacity="0.82"/>
+      <circle cx="-11" cy="-46.5" r="1.2" fill="#FFFFFF"/>
+      <ellipse cx="-10" cy="-42" rx="2.2" ry="1.1" fill="#047857" opacity="0.25"/>
+    </g>
   </defs>
 
-  <!-- Ground Ambient Contact Shadow beneath Pot -->
-  <ellipse cx="100" cy="188" rx="55" ry="9" fill="url(#pot-ground-shadow)"/>
+  <!-- Ground Contact Shadow beneath Pot -->
+  <ellipse cx="120" cy="216" rx="68" ry="11" fill="url(#ground-shadow-v2)"/>
 
-  <!-- ==================== STAGE-DEPENDENT PLANT LAYER ==================== -->
-  <g class="garden-plant-stage stage-${stage}">
-    ${stage === 1 ? `
-      <!-- STAGE 1: SEED IN SOIL (0% - 24%) -->
-      <g class="plant-stage-seed" style="transform-origin: 100px 145px;">
-        <!-- Little mound of fresh soil -->
-        <ellipse cx="100" cy="144" rx="14" ry="5" fill="#92400E"/>
-        <!-- Golden Seed sprouting -->
-        <ellipse cx="100" cy="142" rx="4.5" ry="6" fill="#D97706" stroke="#78350F" stroke-width="1"/>
-        <path d="M 98 140 Q 100 137 102 140" stroke="#FEF08A" stroke-width="1.2" fill="none"/>
-        <!-- Tiny Green Micro-Sprout Tip -->
-        <path d="M 100 137 C 98 132 101 129 103 128 C 103 131 101 135 100 137 Z"
-              fill="#4ADE80" stroke="#16A34A" stroke-width="0.8" class="seed-sprout-pulse"/>
-        <!-- Sparkle of life -->
-        <circle cx="106" cy="130" r="1.2" fill="#FBBF24" opacity="0.9"/>
-      </g>
-    ` : ''}
+  <!-- ==================== PLANT STAGE LAYER ==================== -->
+  <g transform="translate(120, 165)">
+    <g class="${stage >= 2 ? 'anim-sway' : ''}">
 
-    ${stage === 2 ? `
-      <!-- STAGE 2: FRESH SPROUT (25% - 59%) -->
-      <g class="plant-stage-sprout anim-sprout-sway" style="transform-origin: 100px 145px;">
-        <!-- Growing Young Stem -->
-        <path d="M 100 145 C 99 135 101 120 100 108"
-              stroke="url(#stem-grad)" stroke-width="3.5" stroke-linecap="round" fill="none"/>
-        <!-- Left Baby Leaf -->
-        <path d="M 99 122 C 82 120 78 108 84 104 C 92 108 97 116 99 122 Z"
-              fill="#22C55E" stroke="#15803D" stroke-width="1.2"/>
-        <path d="M 85 107 Q 92 114 98 120" stroke="#86EFAC" stroke-width="0.8" fill="none"/>
-        <!-- Right Baby Leaf -->
-        <path d="M 101 116 C 118 114 122 102 116 98 C 108 102 103 110 101 116 Z"
-              fill="#22C55E" stroke="#15803D" stroke-width="1.2"/>
-        <path d="M 115 101 Q 108 108 102 114" stroke="#86EFAC" stroke-width="0.8" fill="none"/>
-        <!-- Tiny Top Leaflet -->
-        <ellipse cx="100" cy="106" rx="3.5" ry="5.5" fill="#4ADE80" stroke="#16A34A" stroke-width="1"/>
-      </g>
-    ` : ''}
-
-    ${stage === 3 ? `
-      <!-- STAGE 3: TALL BUDDING PLANT (60% - 99%) -->
-      <g class="plant-stage-bud anim-bud-breathe" style="transform-origin: 100px 145px;">
-        <!-- Main Strong Stem -->
-        <path d="M 100 145 C 98 125 102 105 100 82"
-              stroke="url(#stem-grad)" stroke-width="4.5" stroke-linecap="round" fill="none"/>
-        <!-- Lower Left Leaf -->
-        <path d="M 99 130 C 72 128 66 112 76 106 C 88 112 96 122 99 130 Z"
-              fill="#16A34A" stroke="#14532D" stroke-width="1.3"/>
-        <!-- Lower Right Leaf -->
-        <path d="M 101 122 C 128 120 134 104 124 98 C 112 104 104 114 101 122 Z"
-              fill="#16A34A" stroke="#14532D" stroke-width="1.3"/>
-        <!-- Upper Leaf Pair -->
-        <path d="M 99 104 C 84 98 80 88 88 84 C 95 88 98 96 99 104 Z"
-              fill="#22C55E" stroke="#15803D" stroke-width="1.2"/>
-        <path d="M 101 98 C 116 92 120 82 112 78 C 105 82 102 90 101 98 Z"
-              fill="#22C55E" stroke="#15803D" stroke-width="1.2"/>
-        <!-- Swelling Colorful Flower Bud -->
-        <g class="flower-bud-wrapper" style="transform-origin: 100px 80px;">
-          <!-- Green Calyx Sepals wrapping bud -->
-          <path d="M 100 85 C 90 82 92 68 96 64 C 97 72 99 80 100 85 Z" fill="#15803D"/>
-          <path d="M 100 85 C 110 82 108 68 104 64 C 103 72 101 80 100 85 Z" fill="#15803D"/>
-          <!-- Peeking Petal Color -->
-          <ellipse cx="100" cy="72" rx="8" ry="11" fill="${flower.color}" stroke="${flower.accentColor}" stroke-width="1.2"/>
-          <path d="M 96 74 Q 100 66 104 74" fill="${flower.accentColor}" opacity="0.6"/>
-          <!-- Calyx Base Cup -->
-          <path d="M 94 80 C 94 85 106 85 106 80 C 104 84 96 84 94 80 Z" fill="#14532D"/>
+      ${stage === 1 ? `
+        <!-- STAGE 1: MẦM ƯỚC NGUYỆN (Seed & Fresh Green Sprout) -->
+        <g>
+          <!-- Soil Mound Base -->
+          <ellipse cx="0" cy="0" rx="18" ry="6" fill="#5A280B"/>
+          <!-- Golden Seed Cracking Open -->
+          <ellipse cx="0" cy="-3" rx="7" ry="9" fill="url(#gold-core-v2)" stroke="#92400E" stroke-width="1.2"/>
+          <path d="M -3 -6 Q 0 -10 3 -6" stroke="#FEF08A" stroke-width="1.5" fill="none"/>
+          
+          <!-- Twinkling Energy Rings -->
+          <circle cx="0" cy="-12" r="14" fill="none" stroke="#FBBF24" stroke-width="1.2" stroke-dasharray="3 3" opacity="0.8" class="anim-star"/>
+          
+          <!-- Curved Emerald Baby Shoot -->
+          <path d="M 0 -8 C -5 -24 3 -40 7 -54" stroke="url(#stem-grad-v2)" stroke-width="4.2" stroke-linecap="round" fill="none"/>
+          
+          <!-- Unfurling Baby Heart Leaflet -->
+          <g transform="translate(7, -54)" filter="url(#soft-shadow)">
+            <path d="M 0 0 C -13 -13 -20 -28 -11 -37 C -5 -42 -1 -37 0 -33 C 1 -37 5 -42 11 -37 C 20 -28 13 -13 0 0 Z"
+                  fill="url(#leaf-grad-main)" stroke="#047857" stroke-width="1.5"/>
+            <path d="M -7 -22 Q 0 -16 7 -22" stroke="#D1FAE5" stroke-width="2" stroke-linecap="round" fill="none"/>
+            <circle cx="4" cy="-26" r="2" fill="#FFFFFF"/>
+          </g>
+          
+          <!-- Sparkles -->
+          <path d="M -16 -32 L -14 -28 L -10 -26 L -14 -24 L -16 -20 L -18 -24 L -22 -26 L -18 -28 Z" fill="#FBBF24" class="anim-star"/>
+          <path d="M 20 -46 L 21.5 -43 L 25 -41.5 L 21.5 -40 L 20 -37 L 18.5 -40 L 15 -41.5 L 18.5 -43 Z" fill="#34D399" class="anim-star"/>
         </g>
-      </g>
-    ` : ''}
+      ` : ''}
 
-    ${stage === 4 ? `
-      <!-- STAGE 4: FULL BLOOM MASTERPIECE (100%) -->
-      <g class="plant-stage-bloom anim-bloom-sway" style="transform-origin: 100px 145px;">
-        <!-- Tall Stately Stem -->
-        <path d="M 100 145 C 98 125 102 100 100 75"
-              stroke="url(#stem-grad)" stroke-width="5" stroke-linecap="round" fill="none"/>
-        <!-- Lush Foliage Leaves -->
-        <path d="M 98 132 C 68 128 62 110 74 104 C 86 110 95 122 98 132 Z"
-              fill="#16A34A" stroke="#14532D" stroke-width="1.4"/>
-        <path d="M 102 120 C 132 116 138 98 126 92 C 114 98 105 110 102 120 Z"
-              fill="#16A34A" stroke="#14532D" stroke-width="1.4"/>
-        <!-- Full Bloom Flower Head -->
-        ${flower.bloomSvg()}
+      ${stage === 2 ? `
+        <!-- STAGE 2: CÂY CON 2 LÁ NON (S-Curved Stem & 2 Heart Leaves) -->
+        <g>
+          <!-- Elegant S-Curve Stem -->
+          <path d="M 0 0 C -8 -26 6 -56 0 -82"
+                stroke="url(#stem-grad-v2)" stroke-width="5" stroke-linecap="round" fill="none"/>
+          
+          <g transform="translate(0, -82)">
+            <!-- Left Heart Leaf -->
+            <g transform="rotate(-38)" filter="url(#soft-shadow)">
+              <use href="#leaf-unit"/>
+            </g>
+            <!-- Right Heart Leaf -->
+            <g transform="rotate(38)" filter="url(#soft-shadow)">
+              <use href="#leaf-unit"/>
+            </g>
 
-        <!-- Friendly Hovering Butterfly / Bumblebee -->
-        <g class="garden-creature anim-creature-flutter" style="transform-origin: 135px 45px;">
-          <!-- Butterfly Wing Left -->
-          <ellipse cx="130" cy="40" rx="6" ry="8" fill="#F472B6" stroke="#BE123C" stroke-width="0.8" transform="rotate(-25 130 40)"/>
-          <!-- Butterfly Wing Right -->
-          <ellipse cx="140" cy="40" rx="6" ry="8" fill="#F472B6" stroke="#BE123C" stroke-width="0.8" transform="rotate(25 140 40)"/>
-          <!-- Little Body -->
-          <ellipse cx="135" cy="42" rx="1.5" ry="5" fill="#4C0519"/>
-          <!-- Antennae -->
-          <path d="M 134 38 Q 132 34 130 35 M 136 38 Q 138 34 140 35" stroke="#4C0519" stroke-width="0.8" fill="none"/>
+            <!-- Center Golden Node -->
+            <circle cx="0" cy="0" r="5.5" fill="url(#gold-core-v2)" stroke="#92400E" stroke-width="1.3"/>
+            <circle cx="0" cy="0" r="2.8" fill="#FEF08A"/>
+          </g>
+
+          <!-- Little Baby Ladybug sitting on Pot Rim -->
+          <g transform="translate(38, -3) scale(0.95)">
+            <ellipse cx="0" cy="0" rx="4.5" ry="5.5" fill="#EF4444" stroke="#991B1B" stroke-width="0.8"/>
+            <circle cx="0" cy="-4.2" r="2.4" fill="#18181B"/>
+            <circle cx="-1.6" cy="-0.6" r="1" fill="#18181B"/>
+            <circle cx="1.6" cy="-0.6" r="1" fill="#18181B"/>
+            <circle cx="-1.3" cy="2.6" r="0.8" fill="#18181B"/>
+            <circle cx="1.3" cy="2.6" r="0.8" fill="#18181B"/>
+            <ellipse cx="-1.6" cy="-1.8" rx="0.9" ry="1.4" fill="#FFFFFF" opacity="0.7"/>
+          </g>
         </g>
-      </g>
-    ` : ''}
+      ` : ''}
+
+      ${stage === 3 ? `
+        <!-- STAGE 3: CỎ 3 LÁ PHÁT TRIỂN (Tri-Leaf Shamrock with Magic Bud) -->
+        <g>
+          <!-- Strong Tall Main Stem -->
+          <path d="M 0 0 C -6 -32 4 -68 0 -98"
+                stroke="url(#stem-grad-v2)" stroke-width="5.5" stroke-linecap="round" fill="none"/>
+
+          <!-- Lower Side Foliage Leaf for Depth -->
+          <g transform="translate(-2, -45) rotate(-60) scale(0.68)" filter="url(#soft-shadow)">
+            <use href="#leaf-unit"/>
+          </g>
+
+          <!-- 3 Crown Leaves Cluster -->
+          <g transform="translate(0, -98)">
+            <g class="anim-breathe">
+              <!-- Top Leaf (0 deg) -->
+              <g transform="rotate(0)" filter="url(#soft-shadow)">
+                <use href="#leaf-unit"/>
+              </g>
+              <!-- Left Leaf (-120 deg) -->
+              <g transform="rotate(-120)" filter="url(#soft-shadow)">
+                <use href="#leaf-unit"/>
+              </g>
+              <!-- Right Leaf (120 deg) -->
+              <g transform="rotate(120)" filter="url(#soft-shadow)">
+                <use href="#leaf-unit"/>
+              </g>
+
+              <!-- Swelling Golden Magic Bud in Center (Teasing 4th Leaf) -->
+              <g class="anim-aura">
+                <circle cx="0" cy="0" r="17" fill="rgba(251, 191, 36, 0.3)"/>
+              </g>
+              <circle cx="0" cy="0" r="9.5" fill="url(#gold-core-v2)" stroke="#B45309" stroke-width="1.6"/>
+              <circle cx="0" cy="0" r="5.5" fill="#FEF08A"/>
+              <!-- Star Sparkle on Bud -->
+              <path d="M 0 -12 L 2.5 -4.5 L 9.5 -2.5 L 2.5 0 L 0 7.5 L -2.5 0 L -9.5 -2.5 L -2.5 -4.5 Z" fill="#FDE047" class="anim-star"/>
+            </g>
+          </g>
+        </g>
+      ` : ''}
+
+      ${stage === 4 ? `
+        <!-- STAGE 4: CỎ 4 LÁ MAY MẮN DIỆU KỲ (Masterpiece 4-Leaf Bloom) -->
+        <g>
+          <!-- Stately Strong Stem -->
+          <path d="M 0 0 C -5 -35 4 -75 0 -106"
+                stroke="url(#stem-grad-v2)" stroke-width="6" stroke-linecap="round" fill="none"/>
+          
+          <!-- Lower Foliage Leaves -->
+          <g transform="translate(-3, -50) rotate(-65) scale(0.72)" filter="url(#soft-shadow)">
+            <use href="#leaf-unit"/>
+          </g>
+          <g transform="translate(3, -35) rotate(65) scale(0.68)" filter="url(#soft-shadow)">
+            <use href="#leaf-unit"/>
+          </g>
+
+          <!-- 4-Leaf Master Crown -->
+          <g transform="translate(0, -106)">
+            <g class="anim-breathe">
+              <!-- Radial Aura Glow behind Leaves -->
+              <g class="anim-aura">
+                <circle cx="0" cy="0" r="62" fill="rgba(52, 211, 153, 0.24)" filter="url(#glow-aura)"/>
+                <circle cx="0" cy="0" r="46" fill="rgba(254, 240, 138, 0.32)"/>
+              </g>
+
+              <!-- 4 Perfect Heart Leaves at 0, 90, 180, 270 deg -->
+              <!-- Top Leaf -->
+              <g transform="rotate(0)" filter="url(#soft-shadow)">
+                <use href="#leaf-unit"/>
+              </g>
+              <!-- Right Leaf -->
+              <g transform="rotate(90)" filter="url(#soft-shadow)">
+                <use href="#leaf-unit"/>
+              </g>
+              <!-- Bottom Leaf -->
+              <g transform="rotate(180)" filter="url(#soft-shadow)">
+                <use href="#leaf-unit"/>
+              </g>
+              <!-- Left Leaf -->
+              <g transform="rotate(270)" filter="url(#soft-shadow)">
+                <use href="#leaf-unit"/>
+              </g>
+
+              <!-- Golden Core Sunburst Base -->
+              <circle cx="0" cy="0" r="14" fill="url(#gold-core-v2)" stroke="#92400E" stroke-width="1.8"/>
+              <circle cx="0" cy="0" r="10" fill="#FEF08A"/>
+
+              <!-- Golden Mini Petal Ray Ring -->
+              ${[0, 45, 90, 135, 180, 225, 270, 315].map(deg => `
+                <circle cx="0" cy="-13" r="2.2" fill="#FBBF24" transform="rotate(${deg} 0 0)"/>
+              `).join('')}
+
+              <!-- Kawaii Anime Face -->
+              <!-- Big Anime Sparkling Eyes -->
+              <ellipse cx="-4.5" cy="-1.5" rx="2" ry="2.8" fill="#1C1917"/>
+              <circle cx="-5.2" cy="-2.5" r="0.9" fill="#FFFFFF"/>
+              <circle cx="-3.8" cy="-0.6" r="0.5" fill="#FFFFFF"/>
+
+              <ellipse cx="4.5" cy="-1.5" rx="2" ry="2.8" fill="#1C1917"/>
+              <circle cx="3.8" cy="-2.5" r="0.9" fill="#FFFFFF"/>
+              <circle cx="5.2" cy="-0.6" r="0.5" fill="#FFFFFF"/>
+
+              <!-- Soft Blushing Rosy Cheeks -->
+              <ellipse cx="-7.2" cy="1.8" rx="2.6" ry="1.5" fill="#FB7185" opacity="0.85"/>
+              <ellipse cx="7.2" cy="1.8" rx="2.6" ry="1.5" fill="#FB7185" opacity="0.85"/>
+
+              <!-- Sweet Kawaii Cat Smile :3 -->
+              <path d="M -3.2 2 Q 0 4.8 3.2 2" stroke="#1C1917" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+
+              <!-- Lucky Ladybug on Bottom-Left Leaf -->
+              <g transform="translate(-25, 21) rotate(-35) scale(1.15)">
+                <ellipse cx="0" cy="0" rx="5" ry="6.2" fill="#EF4444" stroke="#7F1D1D" stroke-width="0.9"/>
+                <circle cx="0" cy="-5" r="2.6" fill="#18181B"/>
+                <circle cx="-1.8" cy="-0.8" r="1.1" fill="#18181B"/>
+                <circle cx="1.8" cy="-0.8" r="1.1" fill="#18181B"/>
+                <circle cx="-1.5" cy="2.8" r="0.9" fill="#18181B"/>
+                <circle cx="1.5" cy="2.8" r="0.9" fill="#18181B"/>
+                <!-- Specular Highlight -->
+                <ellipse cx="-2" cy="-2" rx="1" ry="1.6" fill="#FFFFFF" opacity="0.7"/>
+                <!-- Antennae -->
+                <path d="M -1 -7 Q -2.5 -9 -4 -8 M 1 -7 Q 2.5 -9 4 -8" stroke="#18181B" stroke-width="0.7" fill="none"/>
+              </g>
+            </g>
+          </g>
+
+          <!-- Fluttering Fairy Butterfly -->
+          <g transform="translate(58, -120)">
+            <g class="anim-butterfly-group">
+              <!-- Left Wing -->
+              <g class="anim-wing-left">
+                <path d="M 0 0 C -12 -14 -18 0 -4 7 C -14 15 -4 19 0 5 Z"
+                      fill="#F472B6" stroke="#9D174D" stroke-width="0.9"/>
+                <circle cx="-6" cy="3" r="2" fill="#FCE7F3" opacity="0.8"/>
+              </g>
+              <!-- Right Wing -->
+              <g class="anim-wing-right">
+                <path d="M 0 0 C 12 -14 18 0 4 7 C 14 15 4 19 0 5 Z"
+                      fill="#F472B6" stroke="#9D174D" stroke-width="0.9"/>
+                <circle cx="6" cy="3" r="2" fill="#FCE7F3" opacity="0.8"/>
+              </g>
+              <!-- Body -->
+              <ellipse cx="0" cy="3" rx="1.6" ry="6" fill="#4A044E"/>
+              <circle cx="0" cy="-3.5" r="1.5" fill="#4A044E"/>
+              <!-- Antennae -->
+              <path d="M -0.5 -4.5 Q -2 -7 -3 -6 M 0.5 -4.5 Q 2 -7 3 -6" stroke="#4A044E" stroke-width="0.7" fill="none"/>
+              <!-- Stardust -->
+              <circle cx="-4" cy="14" r="1.1" fill="#FDE047" opacity="0.85" class="anim-star"/>
+              <circle cx="3" cy="18" r="0.9" fill="#FDE047" opacity="0.75" class="anim-star"/>
+            </g>
+          </g>
+        </g>
+      ` : ''}
+
+    </g>
   </g>
 
-  <!-- ==================== CERAMIC FLOWER POT LAYER ==================== -->
-  <g class="garden-pot-body" id="pot-body">
-    <!-- Inner Dark Soil Surface (Oval) -->
-    <ellipse cx="100" cy="145" rx="44" ry="11" fill="url(#soil-grad)"/>
+  <!-- ==================== PREMIUM CERAMIC POT ==================== -->
+  <g class="clover-pot-body" filter="url(#pot-shadow)">
+    <!-- Soil Oval -->
+    <ellipse cx="120" cy="165" rx="52" ry="13" fill="url(#soil-dark-v2)"/>
 
-    <!-- Pot Trapezoid Main Body -->
-    <path d="M 58 145 L 68 182 C 70 185 130 185 132 182 L 142 145 Z"
-          fill="url(#pot-body-grad)" stroke="#C2410C" stroke-width="2" stroke-linejoin="round"/>
+    <!-- Fresh Green Moss Accents on Soil -->
+    <ellipse cx="100" cy="166" rx="8" ry="3.5" fill="#16A34A" opacity="0.9"/>
+    <ellipse cx="140" cy="166" rx="7" ry="3" fill="#22C55E" opacity="0.9"/>
+    <circle cx="110" cy="168" r="1.8" fill="#FBBF24" opacity="0.75"/>
 
-    <!-- Subtle Pot Volume Shading Highlight -->
-    <path d="M 72 146 L 78 181 C 82 183 95 183 96 183 L 94 146 Z"
-          fill="#FED7AA" opacity="0.45"/>
+    <!-- Pot Body -->
+    <path d="M 68 165 L 80 208 C 82 212 158 212 160 208 L 172 165 Z"
+          fill="url(#pot-body-peach)" stroke="#C2410C" stroke-width="2.2" stroke-linejoin="round"/>
 
-    <!-- Cute Kawaii Pot Smiling Face -->
-    <g class="pot-kawaii-face">
-      <!-- Left Eye -->
-      <ellipse cx="91" cy="164" rx="2.4" ry="3.2" fill="#7C2D12"/>
-      <circle cx="90" cy="163" r="1" fill="#FFFFFF"/>
-      <!-- Right Eye -->
-      <ellipse cx="109" cy="164" rx="2.4" ry="3.2" fill="#7C2D12"/>
-      <circle cx="108" cy="163" r="1" fill="#FFFFFF"/>
-      <!-- Soft Rosy Cheeks -->
-      <ellipse cx="85" cy="168" rx="3.5" ry="2" fill="#FB7185" opacity="0.75"/>
-      <ellipse cx="115" cy="168" rx="3.5" ry="2" fill="#FB7185" opacity="0.75"/>
-      <!-- Sweet Smile :3 -->
-      <path d="M 97 167 Q 100 170.5 103 167"
-            stroke="#7C2D12" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+    <!-- Shading Highlight on Pot -->
+    <path d="M 85 166 L 94 207 C 102 209 116 209 118 209 L 115 166 Z"
+          fill="#FED7AA" opacity="0.38"/>
+
+    <!-- Embossed Golden 4-Leaf Clover Emblem on Pot -->
+    <g transform="translate(120, 191) scale(0.48)">
+      ${[0, 90, 180, 270].map(deg => `
+        <path d="M 0 0 C -8 -8 -14 -16 -8 -21 C -4 -24 0 -21 0 -19 C 0 -21 4 -24 8 -21 C 14 -16 8 -8 0 0 Z"
+              fill="#FEF08A" stroke="#B45309" stroke-width="1.2" transform="rotate(${deg} 0 0)"/>
+      `).join('')}
+      <circle cx="0" cy="0" r="3" fill="#F59E0B" stroke="#B45309" stroke-width="0.8"/>
     </g>
 
-    <!-- Pot Top Overhanging Rim (Rounded Lip) -->
-    <rect x="52" y="137" width="96" height="13" rx="6.5"
-          fill="url(#pot-rim-grad)" stroke="#C2410C" stroke-width="2"/>
-    <!-- Rim Top Highlight -->
-    <line x1="60" y1="140" x2="140" y2="140" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round" opacity="0.7"/>
+    <!-- Sweet Smiling Eyes & Rosy Cheeks on Pot -->
+    <g class="pot-face">
+      <!-- Left Eye -->
+      <ellipse cx="104" cy="186" rx="2.5" ry="3.4" fill="#451A03"/>
+      <circle cx="103" cy="185" r="1.1" fill="#FFFFFF"/>
+      <!-- Right Eye -->
+      <ellipse cx="136" cy="186" rx="2.5" ry="3.4" fill="#451A03"/>
+      <circle cx="135" cy="185" r="1.1" fill="#FFFFFF"/>
+      <!-- Soft Rosy Cheeks -->
+      <ellipse cx="96" cy="190" rx="3.5" ry="2" fill="#FB7185" opacity="0.75"/>
+      <ellipse cx="144" cy="190" rx="3.5" ry="2" fill="#FB7185" opacity="0.75"/>
+      <!-- Sweet Smile -->
+      <path d="M 117 189 Q 120 192.5 123 189" stroke="#451A03" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+    </g>
+
+    <!-- Glossy Rounded Rim with White/Cream Porcelain Edge -->
+    <rect x="62" y="156" width="116" height="15" rx="7.5"
+          fill="url(#pot-rim-porcelain)" stroke="#C2410C" stroke-width="2.2"/>
+    <line x1="72" y1="160" x2="168" y2="160" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" opacity="0.85"/>
   </g>
 </svg>
     `;

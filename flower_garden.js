@@ -1,14 +1,15 @@
 /**
- * FLOWER GARDEN INTERACTION & ANIMATION ENGINE ("VƯỜN HOA CỦA CÔ NGUYỆT")
- * Features interactive flower care (water, sun, fertilize, music),
- * procedural Web Audio synthesis, 4 visual growth stages, flower harvest,
- * and a persistent flower basket collection.
+ * LUCKY CLOVER GARDEN INTERACTION & ANIMATION ENGINE ("CHẬU CỎ 4 LÁ MAY MẮN CỦA CÔ NGUYỆT")
+ * Dedicated exclusively to growing and caring for Cỏ 4 Lá May Mắn (🍀).
+ * Features interactive plant care (water, sun, fertilize, touch),
+ * procedural Web Audio synthesis, 4 visual growth stages, lucky harvest celebration,
+ * and persistent clover harvest records.
  */
 (function(root) {
   'use strict';
 
   // ==========================================
-  // 1. PROCEDURAL WEB AUDIO SYNTHESIZER FOR GARDEN
+  // 1. PROCEDURAL WEB AUDIO SYNTHESIZER
   // ==========================================
   const GardenAudio = (function() {
     let ctx = null;
@@ -30,7 +31,6 @@
       if (!c) return;
       const now = c.currentTime;
 
-      // 4 tiny bubbling drops
       [0, 0.08, 0.16, 0.24].forEach((delay, idx) => {
         const osc = c.createOscillator();
         const gain = c.createGain();
@@ -56,7 +56,6 @@
       if (!c) return;
       const now = c.currentTime;
 
-      // Warm harp triad: C5, E5, G5, B5, C6
       const freqs = [523.25, 659.25, 783.99, 987.77, 1046.50];
       freqs.forEach((freq, i) => {
         const osc = c.createOscillator();
@@ -97,13 +96,12 @@
       osc.stop(now + 0.25);
     }
 
-    // Bloom & Harvest Joyous Fanfare
+    // Joyous Lucky Harvest Fanfare
     function playHarvest() {
       const c = getCtx();
       if (!c) return;
       const now = c.currentTime;
 
-      // Joyous chime sequence: G5, C6, E6, G6 (Major chord arpeggio)
       const notes = [
         { f: 783.99, t: 0 },
         { f: 1046.50, t: 0.1 },
@@ -133,24 +131,17 @@
   })();
 
   // ==========================================
-  // 2. FLOWER GARDEN ENGINE STATE & LOGIC
+  // 2. LUCKY CLOVER GARDEN ENGINE
   // ==========================================
   const FlowerGarden = {
     STORAGE_KEY: 'flower_garden_data_v1',
     state: {
-      currentFlowerId: 'sunflower',
+      currentFlowerId: 'clover',
       progress: 30, // 0 to 100
       moisture: 75,
       sunlight: 80,
       harvestCount: 0,
       basket: {
-        'sunflower': 1,
-        'tulip': 0,
-        'rose': 0,
-        'lotus': 0,
-        'daisy': 0,
-        'cherry': 0,
-        'lavender': 0,
         'clover': 0
       },
       history: []
@@ -172,6 +163,13 @@
         }
       } catch (e) {
         console.warn('Could not load garden state from localStorage', e);
+      }
+      // Guarantee single plant is always clover
+      this.state.currentFlowerId = 'clover';
+      const cloverCount = (this.state.basket && (this.state.basket.clover || this.state.basket.sunflower || this.state.harvestCount)) || 0;
+      this.state.basket = { clover: cloverCount };
+      if (!this.state.harvestCount) {
+        this.state.harvestCount = cloverCount;
       }
     },
 
@@ -195,18 +193,14 @@
       if (btnFertilize) btnFertilize.addEventListener('click', () => this.fertilize());
       if (btnHarvest) btnHarvest.addEventListener('click', () => this.harvest());
 
-      // Header modal buttons
+      // Header modal button for clover basket
       const btnOpenBasket = document.getElementById('btn-open-flower-basket');
-      const btnChangeSeed = document.getElementById('btn-change-flower-seed');
-
       if (btnOpenBasket) btnOpenBasket.addEventListener('click', () => this.openBasketModal());
-      if (btnChangeSeed) btnChangeSeed.addEventListener('click', () => this.openSeedModal());
 
       // Stage click for petting plant
       const stage = document.getElementById('garden-stage');
       if (stage) {
         stage.addEventListener('click', (e) => {
-          // If clicking pot directly, give a little love
           if (!e.target.closest('button')) {
             this.petPlant();
           }
@@ -225,10 +219,10 @@
       this.state.moisture = Math.min(100, this.state.moisture + 35);
       this.addProgress(25);
 
-      // Trigger watering can animation
+      this.triggerPlantBounce();
       this.triggerWateringAnimation();
       this.spawnParticles('💧', 5);
-      this.updateSpeechBubble('Cây được uống nước mát lành, đang lớn nhanh vùn vụt! 💧✨');
+      this.updateSpeechBubble('Bé cỏ được uống nước mát lành, đang vươn mình lớn nhanh! 💧🍀');
       this.saveState();
       this.render();
     },
@@ -244,10 +238,10 @@
       this.state.sunlight = Math.min(100, this.state.sunlight + 30);
       this.addProgress(20);
 
-      // Trigger sunshine rays animation
+      this.triggerPlantBounce();
       this.triggerSunAnimation();
       this.spawnParticles('✨', 6);
-      this.updateSpeechBubble('Ánh nắng ấm áp rọi xuống, mầm hoa quang hợp tràn đầy sức sống! ☀️🌸');
+      this.updateSpeechBubble('Ánh nắng ấm áp rọi xuống, lá cỏ 4 lá thêm xanh mướt! ☀️✨');
       this.saveState();
       this.render();
     },
@@ -262,31 +256,44 @@
       GardenAudio.playFertilize();
       this.addProgress(30);
 
+      this.triggerPlantBounce();
       this.spawnParticles('🧴', 4);
       this.spawnParticles('🌱', 4);
-      this.updateSpeechBubble('Bón thêm dinh dưỡng hữu cơ, rễ cây bám chắc và lá xanh mơn mởn! 🪴✨');
+      this.updateSpeechBubble('Bón thêm dinh dưỡng hữu cơ, rễ bám chắc và mầm xanh bung tỏa! 🪴✨');
       this.saveState();
       this.render();
     },
 
     // 4. Pet Plant
     petPlant() {
+      GardenAudio.playSun();
+      this.triggerPlantBounce();
       this.spawnParticles('💚', 3);
+      this.spawnParticles('✨', 3);
       if (this.state.progress < 100) {
         this.addProgress(5);
-        this.updateSpeechBubble('Cô Nguyệt nhẹ nhàng vuốt ve mầm cây, cây hoa vui mừng đung đưa! 🥰🌿');
+        this.updateSpeechBubble('Cô Nguyệt nhẹ nhàng vuốt ve mầm cây, bé cỏ rung rinh thích thú! 🥰🌿');
       } else {
-        this.updateSpeechBubble('Hoa đã nở rộ thơm ngát rồi! Mau bấm "Thu hoạch" để cất vào giỏ nha cô! 💐✨');
+        this.updateSpeechBubble('Cỏ 4 lá may mắn đã nở trọn vẹn rồi! Mau bấm "Thu hoạch" để đón may mắn nha cô! 🍀✨');
       }
       this.saveState();
       this.render();
+    },
+
+    triggerPlantBounce() {
+      const pot = document.getElementById('garden-pot-wrapper');
+      if (pot) {
+        pot.classList.remove('plant-bouncing');
+        void pot.offsetWidth;
+        pot.classList.add('plant-bouncing');
+        setTimeout(() => pot.classList.remove('plant-bouncing'), 650);
+      }
     },
 
     addProgress(amount) {
       const prev = this.state.progress;
       this.state.progress = Math.min(100, this.state.progress + amount);
 
-      // Check if newly reached 100%
       if (prev < 100 && this.state.progress >= 100) {
         GardenAudio.playHarvest();
         this.triggerBloomCelebration();
@@ -294,25 +301,29 @@
     },
 
     triggerReadyToHarvest() {
-      this.updateSpeechBubble('Bông hoa đã nở rộ tuyệt đẹp rồi cô ơi! Hãy bấm "Thu hoạch" để đón bé vào giỏ nhé! 💐✨');
+      this.updateSpeechBubble('Cỏ 4 Lá May Mắn đã bung nở tuyệt đẹp! Hãy bấm "Thu hoạch" để đón may mắn nhé cô Nguyệt! 🍀✨');
       if (typeof showToast === 'function') {
-        showToast('🌸 Hoa đã nở rộ! Bấm nút "Thu hoạch" để cất vào giỏ hoa của cô!');
+        showToast('🍀 Cỏ 4 Lá đã nở rộ! Bấm nút "Thu hoạch" để nhận may mắn!');
       }
     },
 
     // 5. Harvest Action
     harvest() {
-      const flower = root.FLOWER_CATALOG[this.state.currentFlowerId] || root.FLOWER_CATALOG.sunflower;
+      const flower = (root.FLOWER_CATALOG && root.FLOWER_CATALOG.clover) || {
+        name: 'Cỏ 4 Lá May Mắn',
+        icon: '🍀',
+        quote: 'Bé cỏ 4 lá mang đến vạn sự may mắn cho cô Nguyệt!'
+      };
 
       GardenAudio.playHarvest();
 
-      // Update basket
+      // Update count
       this.state.harvestCount = (this.state.harvestCount || 0) + 1;
-      this.state.basket[this.state.currentFlowerId] = (this.state.basket[this.state.currentFlowerId] || 0) + 1;
+      this.state.basket.clover = (this.state.basket.clover || 0) + 1;
 
       // Log history
       this.state.history.unshift({
-        flowerId: this.state.currentFlowerId,
+        flowerId: 'clover',
         flowerName: flower.name,
         icon: flower.icon,
         timestamp: new Date().toISOString()
@@ -321,51 +332,33 @@
       // Celebration effects
       this.triggerHarvestCelebration(flower);
 
-      // Reset for next seed
+      // Reset for next clover sprout
       this.state.progress = 0;
       this.state.moisture = 70;
       this.state.sunlight = 70;
-
-      // Choose next random seed or keep current
-      const allSeeds = Object.keys(root.FLOWER_CATALOG);
-      const nextSeed = allSeeds[Math.floor(Math.random() * allSeeds.length)];
-      this.state.currentFlowerId = nextSeed;
+      this.state.currentFlowerId = 'clover';
 
       this.saveState();
       this.render();
 
-      // Show toast
       if (typeof showToast === 'function') {
-        showToast(`🎉 Thu hoạch thành công ${flower.icon} ${flower.name}! Đã thêm vào giỏ hoa của cô Nguyệt! 🧺`);
-      }
-    },
-
-    selectSeed(flowerId) {
-      if (!root.FLOWER_CATALOG[flowerId]) return;
-      this.state.currentFlowerId = flowerId;
-      this.state.progress = 0;
-      this.state.moisture = 80;
-      this.state.sunlight = 80;
-
-      const flower = root.FLOWER_CATALOG[flowerId];
-      this.saveState();
-      this.render();
-      this.closeModal();
-
-      if (typeof showToast === 'function') {
-        showToast(`🌱 Đã gieo hạt giống ${flower.icon} ${flower.name}! Cùng chăm sóc để hoa sớm nở rộ nhé! ✨`);
+        showToast(`🎉 Thu hoạch thành công ${flower.icon} ${flower.name}! Chúc cô Nguyệt vạn sự như ý! 🍀✨`);
       }
     },
 
     // Visual Rendering
     render() {
-      const flower = root.FLOWER_CATALOG[this.state.currentFlowerId] || root.FLOWER_CATALOG.sunflower;
+      const flower = (root.FLOWER_CATALOG && root.FLOWER_CATALOG.clover) || {
+        name: 'Cỏ 4 Lá May Mắn',
+        icon: '🍀',
+        bgGlow: 'radial-gradient(circle, rgba(16, 185, 129, 0.35) 0%, transparent 70%)'
+      };
       const p = Math.round(this.state.progress || 0);
 
       // 1. Render Flower Pot SVG
       const potWrapper = document.getElementById('garden-pot-wrapper');
       if (potWrapper && typeof root.renderFlowerPotSvg === 'function') {
-        potWrapper.innerHTML = root.renderFlowerPotSvg(this.state.currentFlowerId, p);
+        potWrapper.innerHTML = root.renderFlowerPotSvg('clover', p);
       }
 
       // 2. Info elements
@@ -383,32 +376,28 @@
       if (textVal) textVal.textContent = `${p}%`;
       if (moistureVal) moistureVal.textContent = `${Math.round(this.state.moisture)}%`;
       if (sunlightVal) sunlightVal.textContent = `${Math.round(this.state.sunlight)}%`;
-      if (harvestVal) harvestVal.textContent = `${this.state.harvestCount} bông`;
+      if (harvestVal) harvestVal.textContent = `${this.state.harvestCount} cành`;
       if (harvestBadge) harvestBadge.textContent = this.state.harvestCount;
 
       // 3. Stage Badge Text & Styling
       if (stageBadge) {
         if (p >= 100) {
-          stageBadge.textContent = '🌸 Nở Rộ Rực Rỡ!';
+          stageBadge.textContent = '🍀 Bừng Nở 4 Lá May Mắn!';
           stageBadge.className = 'garden-stage-badge stage-blooming';
         } else if (p >= 60) {
-          stageBadge.textContent = '🪴 Đang E Ấp Nụ';
+          stageBadge.textContent = '☘️ Cỏ 3 Lá Đang Phát Triển';
           stageBadge.className = 'garden-stage-badge stage-budding';
         } else if (p >= 25) {
-          stageBadge.textContent = '🌿 Đang Nảy Mầm';
+          stageBadge.textContent = '🌿 Cây Con 2 Lá Non';
           stageBadge.className = 'garden-stage-badge stage-sprouting';
         } else {
-          stageBadge.textContent = '🌱 Vừa Gieo Hạt';
+          stageBadge.textContent = '🌱 Vừa Gieo Mầm Cỏ';
           stageBadge.className = 'garden-stage-badge stage-seeding';
         }
       }
 
       // 4. Action buttons: show/hide harvest vs care
       const btnHarvest = document.getElementById('btn-harvest-flower');
-      const btnWater = document.getElementById('btn-water-flower');
-      const btnSun = document.getElementById('btn-sun-flower');
-      const btnFertilize = document.getElementById('btn-fertilize-flower');
-
       if (btnHarvest) {
         if (p >= 100) {
           btnHarvest.classList.remove('hidden');
@@ -422,7 +411,7 @@
       // 5. Weather Background Glow
       const glow = document.getElementById('garden-weather-glow');
       if (glow) {
-        glow.style.background = p >= 100 ? flower.bgGlow : 'radial-gradient(circle, rgba(254, 243, 199, 0.4) 0%, transparent 70%)';
+        glow.style.background = p >= 100 ? flower.bgGlow : 'radial-gradient(circle, rgba(209, 250, 229, 0.45) 0%, transparent 70%)';
       }
     },
 
@@ -431,7 +420,7 @@
       if (bubble) {
         bubble.textContent = msg;
         bubble.classList.remove('pop-anim');
-        void bubble.offsetWidth; // trigger reflow
+        void bubble.offsetWidth;
         bubble.classList.add('pop-anim');
       }
     },
@@ -458,21 +447,20 @@
     },
 
     triggerBloomCelebration() {
-      const flower = root.FLOWER_CATALOG[this.state.currentFlowerId];
-      this.updateSpeechBubble(`WOOHOO! ${flower.icon} ${flower.name} đã bung nở tuyệt đẹp! Chúc cô một ngày thật rực rỡ! 🌸💖`);
-      this.spawnParticles('🌸', 8);
+      this.updateSpeechBubble('WOOHOO! 🍀 Cỏ 4 Lá May Mắn đã nở rộ tuyệt đẹp! Chúc cô Nguyệt luôn ngập tràn niềm vui và may mắn! 🌟💚');
+      this.spawnParticles('🍀', 8);
       this.spawnParticles('✨', 8);
+      this.spawnParticles('🌟', 6);
     },
 
     triggerHarvestCelebration(flower) {
-      // Confetti burst
-      const symbols = [flower.icon, '💐', '✨', '🎉', '🌟', '💖'];
+      const symbols = ['🍀', '✨', '🌟', '💚', '🎉', '🌸'];
       for (let i = 0; i < 15; i++) {
         setTimeout(() => {
           this.spawnParticles(symbols[Math.floor(Math.random() * symbols.length)], 2);
         }, i * 60);
       }
-      this.updateSpeechBubble(`Đã thu hoạch ${flower.icon} ${flower.name} vào giỏ! ${flower.quote}`);
+      this.updateSpeechBubble(`Đã thu hoạch ${flower.icon} ${flower.name}! ${flower.quote}`);
     },
 
     spawnParticles(symbol, count = 3) {
@@ -495,7 +483,6 @@
     },
 
     startAmbientDecay() {
-      // Very slow decay over hours so plant feels alive
       setInterval(() => {
         if (this.state.progress < 100) {
           this.state.moisture = Math.max(20, this.state.moisture - 0.5);
@@ -503,72 +490,12 @@
           this.render();
           this.saveState();
         }
-      }, 60000); // every minute
+      }, 60000);
     },
 
     // ==========================================
-    // 3. MODALS: SEED SELECTOR & FLOWER BASKET
+    // 3. LUCKY CLOVER BASKET MODAL
     // ==========================================
-    openSeedModal() {
-      let modal = document.getElementById('garden-seed-modal');
-      if (!modal) {
-        modal = this.createSeedModalDom();
-        document.body.appendChild(modal);
-      }
-      this.renderSeedGrid();
-      modal.classList.add('active');
-    },
-
-    createSeedModalDom() {
-      const modal = document.createElement('div');
-      modal.className = 'modal-overlay garden-modal';
-      modal.id = 'garden-seed-modal';
-      modal.innerHTML = `
-        <div class="modal-card garden-modal-card">
-          <div class="modal-header">
-            <h3>🌱 Chọn Hạt Giống Hoa Mới</h3>
-            <button class="modal-close-btn" id="btn-close-seed-modal">&times;</button>
-          </div>
-          <p class="modal-subtext">Hãy chọn một loài hoa mà cô Nguyệt muốn gieo trồng trong khu vườn hôm nay:</p>
-          <div class="garden-seed-grid" id="garden-seed-grid"></div>
-        </div>
-      `;
-      modal.querySelector('#btn-close-seed-modal').addEventListener('click', () => {
-        modal.classList.remove('active');
-      });
-      modal.addEventListener('click', (e) => {
-        if (e.target === modal) modal.classList.remove('active');
-      });
-      return modal;
-    },
-
-    renderSeedGrid() {
-      const grid = document.getElementById('garden-seed-grid');
-      if (!grid) return;
-      grid.innerHTML = '';
-
-      Object.values(root.FLOWER_CATALOG).forEach(f => {
-        const isCurrent = (f.id === this.state.currentFlowerId);
-        const card = document.createElement('div');
-        card.className = `garden-seed-card ${isCurrent ? 'selected' : ''}`;
-        card.innerHTML = `
-          <div class="seed-card-icon" style="background: ${f.bgGlow};">${f.icon}</div>
-          <div class="seed-card-info">
-            <h4 style="color: ${f.accentColor};">${f.name}</h4>
-            <span class="seed-scientific">${f.scientific}</span>
-            <p class="seed-meaning">"${f.meaning}"</p>
-          </div>
-          <button class="btn ${isCurrent ? 'btn-primary' : 'btn-secondary'} btn-small btn-plant-seed">
-            ${isCurrent ? '🌱 Đang trồng' : 'Gieo hạt'}
-          </button>
-        `;
-        card.querySelector('.btn-plant-seed').addEventListener('click', () => {
-          this.selectSeed(f.id);
-        });
-        grid.appendChild(card);
-      });
-    },
-
     openBasketModal() {
       let modal = document.getElementById('garden-basket-modal');
       if (!modal) {
@@ -586,14 +513,14 @@
       modal.innerHTML = `
         <div class="modal-card garden-modal-card">
           <div class="modal-header">
-            <h3>🧺 Giỏ Hoa Của Cô Nguyệt</h3>
+            <h3>🧺 Bộ Sưu Tập Cỏ 4 Lá May Mắn</h3>
             <button class="modal-close-btn" id="btn-close-basket-modal">&times;</button>
           </div>
           <div class="garden-title-badge-wrap">
-            <span class="gardener-title-badge" id="gardener-title-badge">🌸 Người Gieo Mầm Hạnh Phúc</span>
-            <span class="total-harvested-badge">Tổng: <b id="basket-total-count">0</b> bông hoa</span>
+            <span class="gardener-title-badge" id="gardener-title-badge">🌱 Người Gieo Mầm Hạnh Phúc</span>
+            <span class="total-harvested-badge">Tổng: <b id="basket-total-count">0</b> cành cỏ 4 lá</span>
           </div>
-          <p class="modal-subtext">Bộ sưu tập các loài hoa tuyệt đẹp mà cô giáo đã tự tay vun trồng:</p>
+          <p class="modal-subtext">Mỗi cành cỏ 4 lá may mắn được cô Nguyệt vun trồng là một điều ước tốt lành gửi đến lớp học:</p>
           <div class="garden-basket-grid" id="garden-basket-grid"></div>
         </div>
       `;
@@ -615,28 +542,32 @@
       const total = this.state.harvestCount || 0;
       if (totalCount) totalCount.textContent = total;
 
-      // Dynamic Title based on harvest count
       if (titleBadge) {
-        if (total >= 20) titleBadge.textContent = '👑 Nàng Thơ Vườn Địa Đàng';
-        else if (total >= 10) titleBadge.textContent = '🌟 Bàn Tay Xanh Kỳ Diệu';
-        else if (total >= 5) titleBadge.textContent = '🌷 Chuyên Gia Làm Vườn';
+        if (total >= 20) titleBadge.textContent = '👑 Nàng Tiên Cỏ May Mắn';
+        else if (total >= 10) titleBadge.textContent = '🌟 Bàn Tay Gieo Phép Màu';
+        else if (total >= 5) titleBadge.textContent = '🍀 Vườn Ươm May Mắn';
         else titleBadge.textContent = '🌱 Người Gieo Mầm Hạnh Phúc';
       }
 
       grid.innerHTML = '';
-      Object.values(root.FLOWER_CATALOG).forEach(f => {
-        const count = (this.state.basket && this.state.basket[f.id]) || 0;
-        const item = document.createElement('div');
-        item.className = `basket-item ${count > 0 ? 'collected' : 'locked'}`;
-        item.innerHTML = `
-          <div class="basket-item-icon" style="background: ${f.bgGlow};">${f.icon}</div>
-          <div class="basket-item-info">
-            <h4>${f.name}</h4>
-            <span class="basket-item-count">Đã thu hoạch: <b>${count}</b> bông</span>
-          </div>
-        `;
-        grid.appendChild(item);
-      });
+      const flower = (root.FLOWER_CATALOG && root.FLOWER_CATALOG.clover) || {
+        name: 'Cỏ 4 Lá May Mắn',
+        icon: '🍀',
+        meaning: 'May mắn ngập tràn, niềm tin, hy vọng và tình yêu vĩnh cửu.',
+        bgGlow: 'rgba(16, 185, 129, 0.25)'
+      };
+
+      const item = document.createElement('div');
+      item.className = 'basket-item collected';
+      item.innerHTML = `
+        <div class="basket-item-icon" style="background: ${flower.bgGlow}; font-size: 2.2rem;">${flower.icon}</div>
+        <div class="basket-item-info">
+          <h4>${flower.name}</h4>
+          <span class="basket-item-count">Đã thu hoạch: <b>${total}</b> cành may mắn</span>
+          <p style="font-size: 0.85rem; color: #047857; margin-top: 4px;">"${flower.meaning}"</p>
+        </div>
+      `;
+      grid.appendChild(item);
     },
 
     closeModal() {

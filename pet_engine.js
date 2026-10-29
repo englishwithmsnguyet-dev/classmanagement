@@ -358,7 +358,6 @@
       PetSoundEngine.updateMuteButtonUI();
       this.bindSoundButton();
       this.bindSleepButton();
-      this.bindCategoryTabs();
       this.resetInactivityTimer();
     },
 
@@ -381,19 +380,6 @@
         btn.addEventListener('click', (e) => {
           e.stopPropagation();
           this.toggleSleep();
-        });
-      }
-    },
-
-    bindCategoryTabs() {
-      const modal = document.getElementById('pet-modal');
-      if (modal) {
-        modal.addEventListener('click', (e) => {
-          const tab = e.target.closest('.pet-category-tab');
-          if (tab) {
-            const category = tab.dataset.category;
-            this.filterModalPets(category);
-          }
         });
       }
     },
@@ -932,172 +918,6 @@
           showToast(`🎉 Tuyệt vời! Bé ${petState.name} đã thăng cấp lên Cấp ${petState.level}!`);
         }
         this.speak(`WOOHOO! Em đã lên Cấp ${petState.level} rồi cô Nguyệt ơi! 🎉✨ Cảm ơn cô đã chăm sóc em thật tốt! 🥰`);
-      }
-    },
-
-    openModal(petState) {
-      const modal = document.getElementById('pet-modal');
-      const grid = document.getElementById('pet-selection-grid');
-      const inputName = document.getElementById('input-pet-name');
-      if (!modal || !grid) return;
-
-      this.tempSelectedPetId = (petState && petState.id) ? petState.id : 'nana';
-
-      if (inputName) {
-        const curPet = this.getPetData(this.tempSelectedPetId);
-        inputName.value = (petState && petState.name) ? petState.name : (curPet ? curPet.name : 'Na Na');
-      }
-
-      this.renderCategoryTabsHeader();
-      this.renderGalleryGrid(grid, this.currentCategory);
-
-      modal.classList.add('active');
-    },
-
-    renderCategoryTabsHeader() {
-      let tabsContainer = document.getElementById('pet-category-tabs');
-      if (!tabsContainer) {
-        const modalBody = document.querySelector('#pet-modal .modal-body');
-        if (!modalBody) return;
-        tabsContainer = document.createElement('div');
-        tabsContainer.id = 'pet-category-tabs';
-        tabsContainer.className = 'pet-category-tabs';
-        modalBody.insertBefore(tabsContainer, document.getElementById('pet-selection-grid'));
-      }
-
-      const allPets = root.PetDefinitions ? root.PetDefinitions.getAllPets() : Object.values(root.PET_REGISTRY || {});
-      const catCount = allPets.filter(p => p.category === 'cat').length;
-      const dogCount = allPets.filter(p => p.category === 'dog').length;
-      const otherCount = allPets.filter(p => p.category === 'other').length;
-
-      const categories = [
-        { id: 'all', label: 'Tất Cả', icon: '🐾', count: allPets.length },
-        { id: 'cat', label: 'Mèo Cưng', icon: '🐱', count: catCount },
-        { id: 'dog', label: 'Cún Cưng', icon: '🐶', count: dogCount },
-        { id: 'other', label: 'Muông Thú', icon: '🐰', count: otherCount }
-      ];
-
-      tabsContainer.innerHTML = categories.map(cat => `
-        <button type="button" class="btn pet-category-tab ${this.currentCategory === cat.id ? 'active' : ''}" data-category="${cat.id}">
-          <span>${cat.icon} ${cat.label}</span>
-          <span class="tab-count">${cat.count}</span>
-        </button>
-      `).join('');
-    },
-
-    filterModalPets(category) {
-      this.currentCategory = category || 'all';
-      this.renderCategoryTabsHeader();
-      const grid = document.getElementById('pet-selection-grid');
-      if (grid) {
-        this.renderGalleryGrid(grid, this.currentCategory);
-      }
-    },
-
-    renderGalleryGrid(grid, category) {
-      grid.innerHTML = '';
-      const allPets = root.PetDefinitions ? root.PetDefinitions.getAllPets() : Object.values(root.PET_REGISTRY || {});
-      const filtered = (category === 'all' || !category)
-        ? allPets
-        : allPets.filter(p => p.category === category);
-
-      filtered.forEach(p => {
-        const isSelected = p.id === this.tempSelectedPetId;
-        const card = document.createElement('div');
-        card.className = `pet-select-card ${isSelected ? 'active' : ''}`;
-        card.dataset.id = p.id;
-
-        card.innerHTML = `
-          <div class="card-species-badge species-${p.category}">
-            ${p.category === 'cat' ? '🐱 Mèo' : (p.category === 'dog' ? '🐶 Cún' : '✨ Thú Khác')}
-          </div>
-          <div class="card-master-portrait" style="background: ${p.bgColor || '#fef3c7'};">
-            <img src="${p.portraitImg}" alt="${p.name}">
-          </div>
-          <h4 class="card-pet-name">${p.name} <small style="font-weight: normal; color: #64748b;">(${p.enName})</small></h4>
-          <span class="card-trait-tag">✨ ${p.traitVi}</span>
-          <p class="card-pet-desc" title="${p.description}">${p.description}</p>
-          
-          <!-- 3-Sprite Pose Showcase (Ngoan - Vui - Ngủ) -->
-          <div class="card-sprite-row" title="3 trạng thái: Đứng ngoan, Vui chơi, Ngủ ngon">
-            <div class="sprite-col">
-              <img src="${p.idleSprite}" alt="idle">
-              <small>Ngoan</small>
-            </div>
-            <div class="sprite-col">
-              <img src="${p.actionSprite}" alt="action">
-              <small>Vui</small>
-            </div>
-            <div class="sprite-col">
-              <img src="${p.sleepSprite}" alt="sleep">
-              <small>Ngủ</small>
-            </div>
-          </div>
-
-          <div class="card-pet-food">
-            <span>Khoái khẩu:</span> <b>${p.foodIcon} ${p.favoriteFood}</b>
-          </div>
-          <button type="button" class="btn btn-card-select ${isSelected ? 'btn-selected' : ''}">
-            ${isSelected ? '✓ Đang Nuôi' : 'Chọn Bé Này'}
-          </button>
-        `;
-
-        card.addEventListener('click', () => {
-          this.tempSelectedPetId = p.id;
-          grid.querySelectorAll('.pet-select-card').forEach(c => {
-            c.classList.remove('active');
-            const btn = c.querySelector('.btn-card-select');
-            if (btn) {
-              btn.classList.remove('btn-selected');
-              btn.textContent = 'Chọn Bé Này';
-            }
-          });
-          card.classList.add('active');
-          const btn = card.querySelector('.btn-card-select');
-          if (btn) {
-            btn.classList.add('btn-selected');
-            btn.textContent = '✓ Đang Chọn';
-          }
-
-          const inputName = document.getElementById('input-pet-name');
-          if (inputName) {
-            const curVal = inputName.value.trim();
-            const isAnyDefault = allPets.some(item => item.name === curVal || item.defaultName === curVal);
-            if (!curVal || isAnyDefault) {
-              inputName.value = p.name;
-            }
-          }
-
-          PetSoundEngine.play(p.soundType);
-        });
-
-        grid.appendChild(card);
-      });
-    },
-
-    confirmSelection(petState, onSave) {
-      if (!petState) return;
-      if (this.isSleeping) {
-        this.setSleepMode(false, true);
-      }
-      this.resetInactivityTimer();
-
-      const chosenData = this.getPetData(this.tempSelectedPetId) || this.getPetData('nana');
-      petState.id = this.tempSelectedPetId;
-
-      const inputName = document.getElementById('input-pet-name');
-      const newName = inputName ? inputName.value.trim() : '';
-      petState.name = newName || chosenData.name;
-
-      const modal = document.getElementById('pet-modal');
-      if (modal) modal.classList.remove('active');
-
-      this.render(petState);
-      if (typeof onSave === 'function') onSave();
-
-      PetSoundEngine.play('happy');
-      if (typeof showToast === 'function') {
-        showToast(`🐾 Đã chọn bé ${petState.name} (${chosenData.species}) đồng hành cùng cô Nguyệt!`);
       }
     }
   };

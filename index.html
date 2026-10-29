@@ -108,17 +108,14 @@
                     <!-- Flower Garden Section ("Trồng Hoa") -->
                     <div class="home-card garden-container" id="garden-container">
                         <div class="garden-header-row">
-                            <h3>🌸 Vườn Hoa Của Cô Nguyệt</h3>
+                            <h3>🍀 Chậu Cỏ 4 Lá May Mắn Của Cô Nguyệt</h3>
                             <div class="garden-header-actions">
-                                <button class="btn btn-secondary btn-small" id="btn-open-flower-basket" title="Xem giỏ hoa đã thu hoạch">
-                                    🧺 <span id="garden-harvest-count">0</span>
-                                </button>
-                                <button class="btn btn-secondary btn-small" id="btn-change-flower-seed" title="Chọn hạt giống hoa mới">
-                                    🌱 Đổi hoa
+                                <button class="btn btn-secondary btn-small" id="btn-open-flower-basket" title="Xem giỏ cỏ 4 lá đã thu hoạch">
+                                    🍀 <span id="garden-harvest-count">0</span>
                                 </button>
                             </div>
                         </div>
-                        <p class="garden-subtitle" id="garden-subtitle">Chăm sóc mầm hoa để đón những bông hoa rực rỡ nở rộ!</p>
+                        <p class="garden-subtitle" id="garden-subtitle">Chăm sóc mầm cây mỗi ngày để đón nhận Cỏ 4 Lá May Mắn diệu kỳ! 🍀✨</p>
 
                         <!-- Garden Stage (Sunshine, Floating Petals, Interactive Flower Pot) -->
                         <div class="garden-stage" id="garden-stage" title="Bấm vào cây để truyền yêu thương!">
@@ -145,7 +142,7 @@
                         <!-- Flower Info & Growth Progress -->
                         <div class="garden-info-panel">
                             <div class="garden-flower-name-row">
-                                <span class="garden-flower-name" id="garden-flower-name">🌻 Hoa Hướng Dương</span>
+                                <span class="garden-flower-name" id="garden-flower-name">🍀 Cỏ 4 Lá May Mắn</span>
                                 <span class="garden-stage-badge" id="garden-stage-badge">🌱 Đang Nảy Mầm</span>
                             </div>
                             <div class="garden-progress-bar-wrap">
@@ -157,7 +154,7 @@
                             <div class="garden-stats-row">
                                 <span class="garden-stat" id="stat-moisture" title="Độ ẩm đất"><i class="fa-solid fa-droplet" style="color:#0284C7;"></i> <b id="garden-moisture-val">75%</b></span>
                                 <span class="garden-stat" id="stat-sunlight" title="Ánh sáng mặt trời"><i class="fa-solid fa-sun" style="color:#F59E0B;"></i> <b id="garden-sunlight-val">80%</b></span>
-                                <span class="garden-stat" id="stat-level" title="Số hoa đã nở"><i class="fa-solid fa-trophy" style="color:#10B981;"></i> <b id="garden-harvest-val">0 bông</b></span>
+                                <span class="garden-stat" id="stat-level" title="Số cỏ 4 lá đã thu hoạch"><i class="fa-solid fa-trophy" style="color:#10B981;"></i> <b id="garden-harvest-val">0 cành</b></span>
                             </div>
                         </div>
 
@@ -181,16 +178,13 @@
                     <!-- Pet Companion Section (Full-Body Animated) -->
                     <div class="home-card pet-container">
                         <div class="pet-header-row">
-                            <h3>🐾 Thú Cưng Của Cô Nguyệt</h3>
+                            <h3>🐾 Bé Mèo Na Na Của Cô Nguyệt</h3>
                             <div class="pet-header-actions">
                                 <button class="btn btn-secondary btn-small" id="btn-pet-sound" title="Bật/Tắt âm thanh thú cưng">
                                     <span id="pet-sound-icon">🔊</span>
                                 </button>
                                 <button class="btn btn-secondary btn-small" id="btn-toggle-pet-sleep" title="Cho bé ngủ hoặc đánh thức bé">
                                     <span id="pet-sleep-btn-icon">💤</span> <span id="pet-sleep-btn-text">Cho ngủ</span>
-                                </button>
-                                <button class="btn btn-secondary btn-small" id="btn-open-pet-modal" title="Đổi thú cưng hoặc đổi tên">
-                                    <i class="fa-solid fa-paw"></i> Đổi bé
                                 </button>
                             </div>
                         </div>
@@ -607,35 +601,6 @@
                     </a>
                     <button class="btn btn-primary btn-small close-modal">Đóng</button>
                 </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Pet Selection / Switcher Modal -->
-    <div class="modal-overlay" id="pet-modal">
-        <div class="modal pet-modal-dialog">
-            <div class="modal-header">
-                <h3><i class="fa-solid fa-paw" style="color: var(--primary);"></i> Chọn Bé Thú Cưng Của Cô</h3>
-                <button class="close-modal"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-            <div class="modal-body" style="max-height: 75vh; overflow-y: auto;">
-                <p class="text-secondary text-center" style="margin-bottom: 15px;">
-                    Cô chọn một bé yêu thích để đồng hành mỗi ngày nhé:
-                </p>
-                <div class="pet-selection-grid" id="pet-selection-grid">
-                    <!-- Pet cards rendered dynamically -->
-                </div>
-                
-                <div class="form-group" style="margin-top: 20px;">
-                    <label><strong>Đặt tên thân mật cho bé:</strong></label>
-                    <input type="text" id="input-pet-name" placeholder="Ví dụ: Miu Miu, Bơ Bơ, Mochi..." maxlength="20">
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary close-modal">Đóng</button>
-                <button class="btn btn-primary" id="btn-confirm-pet">
-                    <i class="fa-solid fa-check"></i> Xác Nhận Chọn Bé
-                </button>
             </div>
         </div>
     </div>

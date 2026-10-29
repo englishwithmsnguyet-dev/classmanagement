@@ -1944,20 +1944,6 @@ function handleStrokePet() {
     }
 }
 
-function openPetModal() {
-    ensurePetState(appState);
-    if (typeof window !== 'undefined' && window.PetEngine) {
-        window.PetEngine.openModal(appState.pet);
-    }
-}
-
-function confirmPetSelection() {
-    ensurePetState(appState);
-    if (typeof window !== 'undefined' && window.PetEngine) {
-        window.PetEngine.confirmSelection(appState.pet, saveState);
-    }
-}
-
 // Event Listeners for Pet
 if (btnFeedPet) {
     btnFeedPet.addEventListener('click', (e) => {
@@ -1985,14 +1971,6 @@ if (petStage) {
         if (e.target.closest('#pet-food-bowl')) return;
         handleStrokePet();
     });
-}
-
-if (btnOpenPetModal) {
-    btnOpenPetModal.addEventListener('click', openPetModal);
-}
-
-if (btnConfirmPet) {
-    btnConfirmPet.addEventListener('click', confirmPetSelection);
 }
 
 document.addEventListener('DOMContentLoaded', init);
