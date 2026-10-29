@@ -476,9 +476,19 @@
       this.isGrooming = true;
       wrapper.classList.add('is-grooming');
 
+      const stageImg = document.getElementById('pet-stage-img');
+      if (stageImg && petData && petData.lickImg) {
+        stageImg.src = petData.lickImg;
+      }
+
+      PetSoundEngine.play('purr');
+
       setTimeout(() => {
         if (wrapper) wrapper.classList.remove('is-grooming');
         this.isGrooming = false;
+        if (stageImg && petData && !this.isSleeping && !wrapper.classList.contains('is-happy')) {
+          stageImg.src = petData.idleImg || petData.stageImg || `assets/pet_stage/${petData.id}_stage.png`;
+        }
       }, 2400);
     },
 
@@ -532,6 +542,10 @@
           wrapper.classList.remove('is-blinking', 'is-grooming', 'is-happy');
           wrapper.classList.add('is-sleeping');
         }
+        const stageImg = document.getElementById('pet-stage-img');
+        if (stageImg && petData && petData.sleepImg) {
+          stageImg.src = petData.sleepImg;
+        }
         let zzz = document.getElementById('pet-live-zzz');
         const container = document.getElementById('pet-character-container');
         if (!zzz && container) {
@@ -561,6 +575,10 @@
       } else {
         if (wrapper) {
           wrapper.classList.remove('is-sleeping');
+        }
+        const stageImg = document.getElementById('pet-stage-img');
+        if (stageImg && petData) {
+          stageImg.src = petData.idleImg || petData.stageImg || `assets/pet_stage/${petData.id}_stage.png`;
         }
         const zzz = document.getElementById('pet-live-zzz');
         if (zzz && zzz.parentNode) {
@@ -624,59 +642,39 @@
       if (!petData) return;
 
       // Render the living, fully animated authentic character on stage (100% match with card)
-      const stageImgSrc = petData.stageImg || `assets/pet_stage/${petData.id}_stage.png`;
+      let activeImgSrc = petData.idleImg || petData.stageImg || `assets/pet_stage/${petData.id}_stage.png`;
+      if (this.isSleeping && petData.sleepImg) {
+        activeImgSrc = petData.sleepImg;
+      } else if (this.isGrooming && petData.lickImg) {
+        activeImgSrc = petData.lickImg;
+      } else if (this.happyTimer && petData.happyImg) {
+        activeImgSrc = petData.happyImg;
+      }
+
       const sleepClass = this.isSleeping ? ' is-sleeping' : '';
       avatarWrapper.className = `pet-avatar-wrapper anim-${petData.idleType || 'cat-swish'}${sleepClass}`;
       avatarWrapper.style.setProperty('--pet-accent', petData.accentColor || '#EA580C');
 
-      const isNanaAuthentic = (petData.id === 'nana' || petData.isAuthentic) && petData.idleGif;
-      let innerCharacterHtml = '';
+      const eye = petData.eyeConfig || {
+        left: { top: '34.6%', left: '43.6%', width: '8.5%', height: '8.2%' },
+        right: { top: '27.7%', left: '61.5%', width: '7.2%', height: '9.0%' },
+        furColor: '#f8c896',
+        lashColor: '#371e14'
+      };
+      const tailHtml = (petData.eyeConfig && petData.eyeConfig.tailSvg) ? petData.eyeConfig.tailSvg : '';
 
-      if (isNanaAuthentic) {
-        innerCharacterHtml = `
-          <div class="pet-master-character authentic-gif-mode" id="pet-character-container">
-            <img src="${this.isGrooming && petData.lickGif ? petData.lickGif : petData.idleGif}" 
-                 alt="${petData.name}" class="pet-living-art pet-authentic-gif" id="pet-stage-img">
-            <div class="pet-mood-halo"></div>
-            ${this.isSleeping ? '<div class="pet-sleep-zzz" id="pet-live-zzz">Zzz...</div>' : ''}
+      const innerCharacterHtml = `
+        <div class="pet-master-character" id="pet-character-container">
+          ${tailHtml}
+          <img src="${activeImgSrc}" alt="${petData.name}" class="pet-living-art" id="pet-stage-img">
+          <div class="pet-face-overlay" id="pet-face-overlay">
+            <div class="pet-eyelid eyelid-l" style="top:${eye.left.top}; left:${eye.left.left}; width:${eye.left.width}; height:${eye.left.height}; background:${eye.furColor || '#ffffff'};"></div>
+            <div class="pet-eyelid eyelid-r" style="top:${eye.right.top}; left:${eye.right.left}; width:${eye.right.width}; height:${eye.right.height}; background:${eye.furColor || '#ffffff'};"></div>
           </div>
-        `;
-      } else {
-        const eye = petData.eyeConfig || {
-          left: { top: '46.5%', left: '13.5%', width: '25.0%', height: '25.0%' },
-          right: { top: '42.0%', left: '59.0%', width: '25.0%', height: '25.0%' },
-          sleepLeft: { top: '48.0%', left: '13.5%', width: '25.0%', height: '22.0%' },
-          sleepRight: { top: '43.5%', left: '59.0%', width: '25.0%', height: '22.0%' },
-          furColor: '#ffffff',
-          lashColor: '#2b1d14'
-        };
-        const tailHtml = (petData.eyeConfig && petData.eyeConfig.tailSvg) ? petData.eyeConfig.tailSvg : '';
-
-        innerCharacterHtml = `
-          <div class="pet-master-character" id="pet-character-container">
-            ${tailHtml}
-            <img src="${stageImgSrc}" alt="${petData.name}" class="pet-living-art" id="pet-stage-img">
-            <div class="pet-face-overlay" id="pet-face-overlay">
-              <div class="pet-eyelid eyelid-l" style="top:${eye.left.top}; left:${eye.left.left}; width:${eye.left.width}; height:${eye.left.height}; background:${eye.furColor || '#ffffff'};"></div>
-              <div class="pet-eyelid eyelid-r" style="top:${eye.right.top}; left:${eye.right.left}; width:${eye.right.width}; height:${eye.right.height}; background:${eye.furColor || '#ffffff'};"></div>
-              <div class="pet-happy-smile smile-l" style="top:${eye.left.top}; left:${eye.left.left}; width:${eye.left.width}; height:${eye.left.height}; background:${eye.furColor || '#ffffff'};">
-                <svg viewBox="0 0 30 30" style="width:100%;height:100%;"><path d="M 4 18 Q 15 6 26 18" fill="none" stroke="${eye.lashColor || '#2b1d14'}" stroke-width="3.2" stroke-linecap="round"/></svg>
-              </div>
-              <div class="pet-happy-smile smile-r" style="top:${eye.right.top}; left:${eye.right.left}; width:${eye.right.width}; height:${eye.right.height}; background:${eye.furColor || '#ffffff'};">
-                <svg viewBox="0 0 30 30" style="width:100%;height:100%;"><path d="M 4 18 Q 15 6 26 18" fill="none" stroke="${eye.lashColor || '#2b1d14'}" stroke-width="3.2" stroke-linecap="round"/></svg>
-              </div>
-              <div class="pet-sleep-lines sleep-l" style="top:${(eye.sleepLeft || eye.left).top}; left:${(eye.sleepLeft || eye.left).left}; width:${(eye.sleepLeft || eye.left).width}; height:${(eye.sleepLeft || eye.left).height}; background:${eye.furColor || '#ffffff'};">
-                <svg viewBox="0 0 30 20" style="width:100%;height:100%;"><path d="M 5 8 Q 15 15 25 8" fill="none" stroke="#475569" stroke-width="2.8" stroke-linecap="round"/></svg>
-              </div>
-              <div class="pet-sleep-lines sleep-r" style="top:${(eye.sleepRight || eye.right).top}; left:${(eye.sleepRight || eye.right).left}; width:${(eye.sleepRight || eye.right).width}; height:${(eye.sleepRight || eye.right).height}; background:${eye.furColor || '#ffffff'};">
-                <svg viewBox="0 0 30 20" style="width:100%;height:100%;"><path d="M 5 8 Q 15 15 25 8" fill="none" stroke="#475569" stroke-width="2.8" stroke-linecap="round"/></svg>
-              </div>
-            </div>
-            <div class="pet-mood-halo"></div>
-            ${this.isSleeping ? '<div class="pet-sleep-zzz" id="pet-live-zzz">Zzz...</div>' : ''}
-          </div>
-        `;
-      }
+          <div class="pet-mood-halo"></div>
+          ${this.isSleeping ? '<div class="pet-sleep-zzz" id="pet-live-zzz">Zzz...</div>' : ''}
+        </div>
+      `;
 
       avatarWrapper.innerHTML = innerCharacterHtml;
 
@@ -727,18 +725,19 @@
         wrapper.classList.add('is-happy');
         if (actionBadge) actionBadge.style.display = 'block';
 
-        if (petData && petData.lickGif) {
-          const stageImg = document.getElementById('pet-stage-img');
-          if (stageImg) stageImg.src = petData.lickGif;
+        const stageImg = document.getElementById('pet-stage-img');
+        if (stageImg && petData && petData.happyImg) {
+          stageImg.src = petData.happyImg;
+        } else if (stageImg && petData && petData.lickGif) {
+          stageImg.src = petData.lickGif;
         }
 
         if (this.happyTimer) clearTimeout(this.happyTimer);
         this.happyTimer = setTimeout(() => {
           if (wrapper) wrapper.classList.remove('is-happy');
           if (actionBadge) actionBadge.style.display = 'none';
-          if (petData && petData.lickGif && petData.idleGif) {
-            const stageImg = document.getElementById('pet-stage-img');
-            if (stageImg) stageImg.src = petData.idleGif;
+          if (stageImg && petData && !this.isSleeping) {
+            stageImg.src = this.isGrooming && petData.lickImg ? petData.lickImg : (petData.idleImg || petData.stageImg || `assets/pet_stage/${petData.id}_stage.png`);
           }
         }, 2400);
       }

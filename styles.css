@@ -1537,8 +1537,8 @@ input:focus, textarea:focus { border-color: var(--primary); }
 /* Master Living Art Container on Stage (100% Identical to Card, Fully Animated) */
 .pet-master-character {
     position: relative;
-    width: 140px;
-    height: 145px;
+    width: 170px;
+    height: 170px;
     display: flex;
     align-items: flex-end;
     justify-content: center;
@@ -1559,13 +1559,41 @@ input:focus, textarea:focus { border-color: var(--primary); }
     z-index: 2;
 }
 
+.pet-avatar-wrapper.is-happy .pet-living-art {
+    animation: petJoyBounce 0.42s ease-in-out infinite alternate !important;
+}
+
+@keyframes petJoyBounce {
+    0% { transform: translateY(0) scale(1.02); }
+    100% { transform: translateY(-12px) scale(1.09); }
+}
+
+.pet-avatar-wrapper.is-grooming .pet-living-art {
+    animation: petGroomMotion 0.75s ease-in-out infinite alternate !important;
+}
+
+@keyframes petGroomMotion {
+    0% { transform: rotate(0deg) scale(1); }
+    100% { transform: rotate(2deg) scale(1.03); }
+}
+
+.pet-avatar-wrapper.is-sleeping .pet-living-art {
+    animation: petSleepBreathe 3.8s ease-in-out infinite alternate !important;
+    filter: drop-shadow(0 6px 14px rgba(30, 27, 75, 0.22)) brightness(0.95);
+}
+
+@keyframes petSleepBreathe {
+    0% { transform: scale(1); }
+    100% { transform: scale(1.03) translateY(-2px); }
+}
+
 .pet-master-character.authentic-gif-mode {
-    width: 175px;
-    height: 145px;
+    width: 170px;
+    height: 170px;
 }
 .pet-authentic-gif {
-    max-width: 175px !important;
-    max-height: 145px !important;
+    max-width: 170px !important;
+    max-height: 170px !important;
 }
 
 /* Fluffy Kinetic Tail Behind Body */
@@ -1596,6 +1624,12 @@ input:focus, textarea:focus { border-color: var(--primary); }
     pointer-events: none;
 }
 
+.pet-avatar-wrapper.is-happy .pet-face-overlay,
+.pet-avatar-wrapper.is-grooming .pet-face-overlay,
+.pet-avatar-wrapper.is-sleeping .pet-face-overlay {
+    display: none !important;
+}
+
 /* Eyelids & Auto-blinking */
 .pet-eyelid {
     position: absolute;
@@ -1603,7 +1637,7 @@ input:focus, textarea:focus { border-color: var(--primary); }
     transform: scaleY(0);
     transform-origin: top center;
     transition: transform 0.08s ease-in-out;
-    box-shadow: inset 0 -2px 0 #371e14;
+    box-shadow: inset 0 -2.5px 0 #371e14;
     pointer-events: none;
 }
 .pet-avatar-wrapper.is-blinking .pet-eyelid,
