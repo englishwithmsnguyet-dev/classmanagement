@@ -355,10 +355,24 @@
       };
       const p = Math.round(this.state.progress || 0);
 
-      // 1. Render Flower Pot SVG
+      // 1. Render Living Clover Pot Artwork (preserve DOM across minor progress updates so breeze never resets)
       const potWrapper = document.getElementById('garden-pot-wrapper');
+      const targetStage = typeof root.getCloverStage === 'function'
+        ? root.getCloverStage(p)
+        : (p >= 100 ? 4 : p >= 60 ? 3 : p >= 25 ? 2 : 1);
+
       if (potWrapper && typeof root.renderFlowerPotSvg === 'function') {
-        potWrapper.innerHTML = root.renderFlowerPotSvg('clover', p);
+        const prevStage = potWrapper.dataset.cloverStage;
+        if (prevStage !== String(targetStage) || !potWrapper.querySelector('.clover-living-stage')) {
+          potWrapper.innerHTML = root.renderFlowerPotSvg('clover', p);
+          potWrapper.dataset.cloverStage = String(targetStage);
+          if (prevStage && prevStage !== String(targetStage)) {
+            potWrapper.classList.remove('stage-evolving');
+            void potWrapper.offsetWidth;
+            potWrapper.classList.add('stage-evolving');
+            setTimeout(() => potWrapper.classList.remove('stage-evolving'), 800);
+          }
+        }
       }
 
       // 2. Info elements
@@ -388,7 +402,7 @@
           stageBadge.textContent = '☘️ Cỏ 3 Lá Đang Phát Triển';
           stageBadge.className = 'garden-stage-badge stage-budding';
         } else if (p >= 25) {
-          stageBadge.textContent = '🌿 Cây Con 2 Lá Non';
+          stageBadge.textContent = '🌿 Cây Cỏ Non Xanh Mướt';
           stageBadge.className = 'garden-stage-badge stage-sprouting';
         } else {
           stageBadge.textContent = '🌱 Vừa Gieo Mầm Cỏ';
@@ -434,6 +448,11 @@
         can.classList.add('active');
         setTimeout(() => can.classList.remove('active'), 1800);
       }
+      const pot = document.getElementById('garden-pot-wrapper');
+      if (pot) {
+        pot.classList.add('is-hydrated');
+        setTimeout(() => pot.classList.remove('is-hydrated'), 1800);
+      }
     },
 
     triggerSunAnimation() {
@@ -443,6 +462,11 @@
         void sun.offsetWidth;
         sun.classList.add('active');
         setTimeout(() => sun.classList.remove('active'), 1800);
+      }
+      const pot = document.getElementById('garden-pot-wrapper');
+      if (pot) {
+        pot.classList.add('is-sunlit');
+        setTimeout(() => pot.classList.remove('is-sunlit'), 1800);
       }
     },
 
