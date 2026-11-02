@@ -188,210 +188,34 @@
                             </div>
                         </div>
 
-                        <!-- Care Actions Row (Water, Sun, Quiz / Harvest) -->
-                        <div class="garden-actions-row" id="garden-actions-row">
-                            <button class="btn btn-secondary btn-small garden-btn" id="btn-water-flower" title="Tưới nước cho hoa (-10💧, +25% lớn)">
-                                <span class="action-icon">💧</span> Tưới nước <span class="action-cost-tag">10💧</span>
-                            </button>
-                            <button class="btn btn-secondary btn-small garden-btn" id="btn-sun-flower" title="Cho hoa tắm nắng (+20% lớn)">
-                                <span class="action-icon">☀️</span> Tắm nắng
-                            </button>
-                            <button class="btn btn-secondary btn-small garden-btn" id="btn-quiz-flower" title="Làm câu hỏi ôn thi ngắn nhận ngay +10💧 Nước Nỗ Lực">
-                                <span class="action-icon">🎯</span> Đố vui ôn thi <span class="action-gain-tag">+10💧</span>
-                            </button>
-                            <button class="btn btn-primary btn-small garden-btn hidden" id="btn-harvest-flower" title="Thu hoạch Cỏ 4 Lá May Mắn & Nhận thông điệp ôn thi!">
-                                <span class="action-icon">🍀</span> Thu hoạch & Nhận thông điệp! ✨
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Pet Companion Section (Full-Body Animated) -->
-                    <div class="home-card pet-container">
-                        <div class="pet-header-row">
-                            <h3>🐾 Bé Mèo Na Na Của Cô Nguyệt</h3>
-                            <div class="pet-header-actions">
-                                <button class="btn btn-secondary btn-small" id="btn-pet-sound" title="Bật/Tắt âm thanh thú cưng">
-                                    <span id="pet-sound-icon">🔊</span>
+                        <!-- Care Actions Container (Water, Sun, Quiz / Harvest) -->
+                        <div class="garden-actions-container" id="garden-actions-container">
+                            <!-- State 1: Growing Care Buttons (Shown when progress < 100) -->
+                            <div class="garden-care-row" id="garden-care-row">
+                                <button class="btn btn-secondary btn-small garden-btn" id="btn-water-flower" title="Tưới nước cho hoa (-10💧, +25% lớn)">
+                                    <span class="action-icon">💧</span> Tưới nước <span class="action-cost-tag">10💧</span>
                                 </button>
-                                <button class="btn btn-secondary btn-small" id="btn-toggle-pet-sleep" title="Cho bé ngủ hoặc đánh thức bé">
-                                    <span id="pet-sleep-btn-icon">💤</span> <span id="pet-sleep-btn-text">Cho ngủ</span>
+                                <button class="btn btn-secondary btn-small garden-btn" id="btn-sun-flower" title="Cho hoa tắm nắng (+20% lớn)">
+                                    <span class="action-icon">☀️</span> Tắm nắng <span class="action-gain-tag">+20%</span>
+                                </button>
+                            </div>
+
+                            <!-- State 2: Grand Harvest CTA Row (Shown when progress >= 100) -->
+                            <div class="garden-harvest-row hidden" id="garden-harvest-row">
+                                <button class="btn btn-primary garden-btn garden-btn-harvest-cta pulse-glow" id="btn-harvest-flower" title="Thu hoạch Cỏ 4 Lá May Mắn & Nhận thông điệp VSTEP!">
+                                    <span class="action-icon">🍀</span> THU HOẠCH & NHẬN THÔNG ĐIỆP VSTEP! ✨
+                                </button>
+                            </div>
+
+                            <!-- Row 2: VSTEP Quiz Button (Always accessible to earn effort water) -->
+                            <div class="garden-quiz-row" id="garden-quiz-row">
+                                <button class="btn btn-secondary btn-small garden-btn garden-btn-quiz" id="btn-quiz-flower" title="Làm câu hỏi ôn thi VSTEP nhận ngay +10💧 Nước Nỗ Lực">
+                                    <span class="action-icon">🎯</span> Đố Vui Ôn Thi VSTEP <span class="action-gain-tag">+10💧 Nước</span>
                                 </button>
                             </div>
                         </div>
-                        
-                        <!-- Pet Level & Streak -->
-                        <div class="pet-badge-row">
-                            <span class="pet-badge pet-level-badge"><i class="fa-solid fa-crown"></i> Cấp <b id="pet-level">1</b></span>
-                            <span class="pet-badge pet-streak-badge"><i class="fa-solid fa-fire"></i> <b id="pet-streak">1</b> ngày bên nhau</span>
-                        </div>
-
-                        <!-- Pet Status Panel (Segmented Indicators like photo) -->
-                        <div class="pet-status-segments-container">
-                            <div class="pet-stat-row">
-                                <span class="stat-name"><i class="fa-solid fa-cookie-bite" style="color: #ed8936;"></i> No Bụng:</span>
-                                <div class="segmented-bar hunger-segments" id="pet-hunger-segments">
-                                    <!-- 10 segments injected dynamically -->
-                                </div>
-                                <span class="stat-val" id="pet-hunger-text">80</span>
-                            </div>
-                            <div class="pet-stat-row">
-                                <span class="stat-name"><i class="fa-solid fa-heart" style="color: #e53e3e;"></i> Tâm Trạng:</span>
-                                <div class="segmented-bar happiness-segments" id="pet-happiness-segments">
-                                    <!-- 10 segments injected dynamically -->
-                                </div>
-                                <span class="stat-val" id="pet-happiness-text">90</span>
-                            </div>
-                            <div class="pet-mood-row">
-                                <span>🐾 Trạng Thái:</span>
-                                <span class="pet-mood-badge" id="pet-mood-badge">Vui Vẻ 🥰</span>
-                            </div>
-                        </div>
-
-                        <!-- Pet Speech Bubble -->
-                        <div class="pet-speech-bubble" id="pet-speech">
-                            "Chào cô Nguyệt! Em đợi cô mãi thôi, hôm nay cô có mệt không? 🥰"
-                        </div>
-
-                        <!-- Pet Stage Area (Floor + Paw Mat + Full-Body Pet + Food Bowl) -->
-                        <div class="pet-stage" id="pet-stage" title="Bấm vào để vuốt ve bé cưng!">
-                            <div class="pet-floating-effects" id="pet-floating-effects"></div>
-                            
-                            <!-- Plush Paw-shaped Mat (Thảm bông đệm bàn chân) -->
-                            <div class="pet-paw-mat">
-                                <svg viewBox="0 0 200 130" class="paw-mat-svg" xmlns="http://www.w3.org/2000/svg">
-                                    <defs>
-                                        <radialGradient id="mat-cushion-grad" cx="50%" cy="45%" r="55%">
-                                            <stop offset="0%" stop-color="#FFFFFF"/>
-                                            <stop offset="70%" stop-color="#FFFDF7"/>
-                                            <stop offset="100%" stop-color="#FDF2E9"/>
-                                        </radialGradient>
-                                        <linearGradient id="mat-pink-grad" x1="0%" y1="0%" x2="0%" y2="100%">
-                                            <stop offset="0%" stop-color="#FCE7F3"/>
-                                            <stop offset="50%" stop-color="#FBCFE8"/>
-                                            <stop offset="100%" stop-color="#F472B6"/>
-                                        </linearGradient>
-                                        <radialGradient id="mat-shadow" cx="50%" cy="50%" r="50%">
-                                            <stop offset="0%" stop-color="#371E14" stop-opacity="0.18"/>
-                                            <stop offset="75%" stop-color="#371E14" stop-opacity="0.06"/>
-                                            <stop offset="100%" stop-color="#371E14" stop-opacity="0"/>
-                                        </radialGradient>
-                                    </defs>
-                                    <!-- Mat Ground Shadow -->
-                                    <ellipse cx="100" cy="78" rx="86" ry="46" fill="url(#mat-shadow)"/>
-                                    <!-- Plush Cushion Base -->
-                                    <ellipse cx="100" cy="74" rx="78" ry="42" fill="url(#mat-cushion-grad)" stroke="#E8D5C8" stroke-width="2.5"/>
-                                    
-                                    <!-- 4 Velvety Toe Beans -->
-                                    <!-- Toe 1 -->
-                                    <g transform="rotate(-15 46 38)">
-                                        <ellipse cx="46" cy="38" rx="17" ry="13" fill="url(#mat-cushion-grad)" stroke="#E8D5C8" stroke-width="2"/>
-                                        <ellipse cx="46" cy="38" rx="12" ry="9" fill="url(#mat-pink-grad)"/>
-                                        <ellipse cx="44" cy="35" rx="4" ry="2.5" fill="#FFFFFF" opacity="0.6"/>
-                                    </g>
-                                    <!-- Toe 2 -->
-                                    <g transform="rotate(-5 80 24)">
-                                        <ellipse cx="80" cy="24" rx="18" ry="14" fill="url(#mat-cushion-grad)" stroke="#E8D5C8" stroke-width="2"/>
-                                        <ellipse cx="80" cy="24" rx="13" ry="10" fill="url(#mat-pink-grad)"/>
-                                        <ellipse cx="78" cy="21" rx="4.5" ry="2.8" fill="#FFFFFF" opacity="0.6"/>
-                                    </g>
-                                    <!-- Toe 3 -->
-                                    <g transform="rotate(5 120 24)">
-                                        <ellipse cx="120" cy="24" rx="18" ry="14" fill="url(#mat-cushion-grad)" stroke="#E8D5C8" stroke-width="2"/>
-                                        <ellipse cx="120" cy="24" rx="13" ry="10" fill="url(#mat-pink-grad)"/>
-                                        <ellipse cx="118" cy="21" rx="4.5" ry="2.8" fill="#FFFFFF" opacity="0.6"/>
-                                    </g>
-                                    <!-- Toe 4 -->
-                                    <g transform="rotate(15 154 38)">
-                                        <ellipse cx="154" cy="38" rx="17" ry="13" fill="url(#mat-cushion-grad)" stroke="#E8D5C8" stroke-width="2"/>
-                                        <ellipse cx="154" cy="38" rx="12" ry="9" fill="url(#mat-pink-grad)"/>
-                                        <ellipse cx="152" cy="35" rx="4" ry="2.5" fill="#FFFFFF" opacity="0.6"/>
-                                    </g>
-
-                                    <!-- Main Heart-shaped Palm Cushion -->
-                                    <path d="M 60 76 C 54 60 72 50 86 58 C 92 50 108 50 114 58 C 128 50 146 60 140 76 C 136 94 118 100 100 100 C 82 100 64 94 60 76 Z" 
-                                          fill="url(#mat-pink-grad)" stroke="#F472B6" stroke-width="1.2" opacity="0.9"/>
-                                    <ellipse cx="100" cy="74" rx="16" ry="8" fill="#FFFFFF" opacity="0.35"/>
-                                </svg>
-                            </div>
-
-                            <!-- Full-Body Pet Avatar Wrapper -->
-                            <div class="pet-avatar-wrapper anim-cat-swish" id="pet-avatar-wrapper">
-                                <div class="pet-master-character" id="pet-character-container">
-                                    <img src="assets/pet/nana_master_2d.png" alt="Na Na" class="pet-living-art" id="pet-stage-img">
-                                    <div class="pet-face-overlay" id="pet-face-overlay">
-                                        <div class="pet-eyelid eyelid-l" style="top:34.6%; left:43.6%; width:8.5%; height:8.2%; background:#f8c896;"></div>
-                                        <div class="pet-eyelid eyelid-r" style="top:27.7%; left:61.5%; width:7.2%; height:9.0%; background:#f8c896;"></div>
-                                    </div>
-                                    <div class="pet-mood-halo"></div>
-                                </div>
-                            </div>
-
-                            <!-- Interactive Food Bowl on Floor -->
-                            <div class="pet-food-bowl-wrapper" id="pet-food-bowl" title="Bấm vào bát để cho bé ăn ngay!">
-                                <svg viewBox="0 0 80 50" class="food-bowl-svg" xmlns="http://www.w3.org/2000/svg">
-                                    <defs>
-                                        <radialGradient id="bowl-ground-shadow" cx="50%" cy="50%" r="50%">
-                                            <stop offset="0%" stop-color="#371E14" stop-opacity="0.25"/>
-                                            <stop offset="100%" stop-color="#371E14" stop-opacity="0"/>
-                                        </radialGradient>
-                                        <linearGradient id="bowl-ceramic-body" x1="0%" y1="0%" x2="0%" y2="100%">
-                                            <stop offset="0%" stop-color="#FED7AA"/>
-                                            <stop offset="55%" stop-color="#FB923C"/>
-                                            <stop offset="100%" stop-color="#EA580C"/>
-                                        </linearGradient>
-                                        <linearGradient id="bowl-porcelain-rim" x1="0%" y1="0%" x2="0%" y2="100%">
-                                            <stop offset="0%" stop-color="#FFFFFF"/>
-                                            <stop offset="100%" stop-color="#FFF7ED"/>
-                                        </linearGradient>
-                                        <linearGradient id="kibble-tuna-grad" x1="0%" y1="0%" x2="0%" y2="100%">
-                                            <stop offset="0%" stop-color="#F59E0B"/>
-                                            <stop offset="100%" stop-color="#9A3412"/>
-                                        </linearGradient>
-                                    </defs>
-                                    <!-- Bowl Shadow -->
-                                    <ellipse cx="40" cy="44" rx="34" ry="5.5" fill="url(#bowl-ground-shadow)"/>
-                                    <!-- Bowl Outer Body -->
-                                    <path d="M 12 26 C 12 40 22 44 40 44 C 58 44 68 40 68 26 Z" fill="url(#bowl-ceramic-body)" stroke="#371E14" stroke-width="2.2" stroke-linejoin="round"/>
-                                    <!-- Cute Golden Fish Emblem on Bowl Front -->
-                                    <path d="M 35 34 C 38 31 43 32 45 35 C 43 38 38 39 35 36 Z M 44 35 L 48 32 L 48 38 Z" fill="#FFFDF5" stroke="#371E14" stroke-width="1.2" stroke-linejoin="round"/>
-                                    <circle cx="38" cy="34" r="0.8" fill="#371E14"/>
-                                    <!-- Ceramic Rim (White porcelain lip) -->
-                                    <ellipse cx="40" cy="25" rx="28" ry="10" fill="url(#bowl-porcelain-rim)" stroke="#371E14" stroke-width="2.2"/>
-                                    <!-- Interior Bowl Cavity -->
-                                    <ellipse cx="40" cy="25" rx="23.5" ry="7.5" fill="#7C2D12"/>
-                                    <!-- Crunchy Salmon & Tuna Kibbles Heaping Inside -->
-                                    <polygon points="32,23 38,20 37,25" fill="url(#kibble-tuna-grad)" stroke="#371E14" stroke-width="1.1"/>
-                                    <polygon points="38,21 44,21 41,26" fill="#F97316" stroke="#371E14" stroke-width="1.1"/>
-                                    <polygon points="43,23 48,22 47,26" fill="url(#kibble-tuna-grad)" stroke="#371E14" stroke-width="1.1"/>
-                                    <polygon points="26,24 31,23 29,26" fill="#EA580C" stroke="#371E14" stroke-width="1.1"/>
-                                    <polygon points="48,24 53,24 50,27" fill="#C2410C" stroke="#371E14" stroke-width="1.1"/>
-                                    <!-- Specular Shine Highlights on Kibble -->
-                                    <circle cx="35" cy="22" r="1.1" fill="#FEF08A"/>
-                                    <circle cx="41" cy="22" r="1.1" fill="#FEF08A"/>
-                                    <circle cx="46" cy="23" r="1.1" fill="#FEF08A"/>
-                                    <!-- Front Rim Specular Arc -->
-                                    <path d="M 22 28 C 30 33 50 33 58 28" stroke="#FFFFFF" stroke-width="1.4" stroke-linecap="round" fill="none" opacity="0.85"/>
-                                </svg>
-                                <div class="food-bowl-badge" id="food-bowl-badge"><span id="food-bowl-count">40</span> 🍲</div>
-                            </div>
-                        </div>
-
-                        <!-- Pet Name Display -->
-                        <div class="pet-name-tag">
-                            <span id="pet-name">Na Na</span>
-                            <span class="pet-species-badge" id="pet-species-name">Mèo Vàng Đeo Nơ</span>
-                        </div>
-
-                        <!-- Interaction Buttons -->
-                        <div class="pet-actions">
-                            <button class="btn btn-pet-action btn-feed" id="btn-feed-pet">
-                                <span class="action-icon" id="pet-feed-icon">🍲</span> Cho ăn
-                            </button>
-                            <button class="btn btn-pet-action btn-pet" id="btn-stroke-pet">
-                                <span class="action-icon">✋</span> Vuốt ve
-                            </button>
-                        </div>
                     </div>
+
                 </div>
             </div>
 
@@ -640,8 +464,6 @@
 
     <script src="flower_definitions.js"></script>
     <script src="flower_garden.js"></script>
-    <script src="pet_definitions.js"></script>
-    <script src="pet_engine.js"></script>
     <script src="app.js"></script>
 </body>
 </html>

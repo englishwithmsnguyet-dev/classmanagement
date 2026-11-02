@@ -194,6 +194,9 @@
       this.bindEvents();
       this.render();
       this.startAmbientDecay();
+      if (typeof window !== 'undefined' && window.location.hash === '#quiz') {
+        setTimeout(() => this.openQuizModal(), 300);
+      }
     },
 
     loadState() {
@@ -657,10 +660,10 @@
       modal.innerHTML = `
         <div class="modal-card garden-quiz-card">
           <div class="modal-header">
-            <h3>🎯 Đố Vui Ôn Thi — Tích Lũy Nước Tưới</h3>
+            <h3>🎯 Đố Vui Ôn Thi VSTEP (4 Kỹ Năng)</h3>
             <button class="modal-close-btn" id="btn-close-quiz-modal">&times;</button>
           </div>
-          <p class="modal-subtext">Trả lời đúng câu hỏi tiếng Anh để nhận ngay <b>+10💧 Nước Nỗ Lực</b> chăm sóc Cỏ 4 Lá May Mắn!</p>
+          <p class="modal-subtext">Rèn luyện từ vựng, ngữ pháp và 4 kỹ năng VSTEP (B1-B2-C1) cùng Cô Nguyệt để nhận ngay <b>+10💧 Nước Nỗ Lực</b> chăm sóc Cỏ 4 Lá May Mắn!</p>
           
           <div class="quiz-container" id="quiz-container">
             <!-- Injected by loadNextQuizQuestion -->
@@ -697,9 +700,17 @@
       this.currentQuizIndex = Math.floor(Math.random() * questions.length);
       const q = questions[this.currentQuizIndex];
 
+      const skillTag = q.skill ? `<span class="quiz-badge quiz-skill-tag skill-${q.skill.toLowerCase()}"><i class="fa-solid fa-graduation-cap"></i> VSTEP ${q.skill}</span>` : '';
+      const levelTag = q.level ? `<span class="quiz-badge quiz-level-tag">Cấp độ: ${q.level}</span>` : '';
+      const topicTag = q.topic ? `<span class="quiz-badge quiz-topic-tag"><i class="fa-solid fa-bookmark"></i> ${q.topic}</span>` : '';
+
       container.innerHTML = `
         <div class="quiz-question-box">
-          <span class="quiz-topic-badge"><i class="fa-solid fa-bookmark"></i> ${q.topic}</span>
+          <div class="quiz-meta-row">
+            ${skillTag}
+            ${levelTag}
+            ${topicTag}
+          </div>
           <div class="quiz-prompt">${q.question}</div>
           <div class="quiz-options-grid">
             ${q.options.map((opt, idx) => `
@@ -797,8 +808,8 @@
             <div class="earn-method-item">
               <div class="earn-icon-wrap" style="background:#EFF6FF; color:#2563EB;">🎯</div>
               <div class="earn-info">
-                <h4>Đố vui ôn thi tiếng Anh</h4>
-                <p>Làm câu đố từ vựng, ngữ pháp ngắn nhận ngay <b>+10💧</b> cho mỗi câu đúng.</p>
+                <h4>Đố vui ôn thi VSTEP (4 kỹ năng)</h4>
+                <p>Luyện tập các câu hỏi chuẩn VSTEP B1-B2-C1 nhận ngay <b>+10💧</b> cho mỗi câu trả lời đúng.</p>
               </div>
             </div>
 
@@ -806,22 +817,22 @@
               <div class="earn-icon-wrap" style="background:#FFFBEB; color:#D97706;">🎲</div>
               <div class="earn-info">
                 <h4>Gọi tên trả bài & Vòng quay lớp học</h4>
-                <p>Học viên được gọi tên và trả lời tốt/xuất sắc nhận ngay <b>+5💧 ~ +10💧</b> Nước Tưới.</p>
+                <p>Học viên được gọi tên và trả lời tốt / xuất sắc tích lũy <b>+5💧 ~ +10💧</b> Nước Nỗ Lực.</p>
               </div>
             </div>
 
             <div class="earn-method-item">
               <div class="earn-icon-wrap" style="background:#FDF2F8; color:#DB2777;">📝</div>
               <div class="earn-info">
-                <h4>Điểm danh chuyên cần lớp học</h4>
-                <p>Cô giáo ghi nhận sĩ số và điểm danh các lớp học tích lũy <b>+2💧</b> Nước Nỗ Lực.</p>
+                <h4>Điểm danh & Lưu nhật ký lớp học</h4>
+                <p>Cô giáo ghi nhận sĩ số điểm danh và lưu bài học nhận ngay <b>+10💧</b> Nước Nỗ Lực.</p>
               </div>
             </div>
           </div>
 
           <div class="earn-modal-actions">
             <button class="btn btn-primary w-100" id="btn-earn-start-quiz">
-              <i class="fa-solid fa-play"></i> Làm Đố Vui Ôn Thi Ngay (+10💧)
+              <i class="fa-solid fa-play"></i> Luyện Đề VSTEP Ngay (+10💧)
             </button>
           </div>
         </div>
@@ -1070,14 +1081,22 @@
         }
       }
 
-      // 4. Action buttons: show/hide harvest vs care
+      // 4. Action buttons: show/hide harvest vs care (prevents button collision)
+      const careRow = document.getElementById('garden-care-row');
+      const harvestRow = document.getElementById('garden-harvest-row');
       const btnHarvest = document.getElementById('btn-harvest-flower');
-      const careRow = document.getElementById('garden-actions-row');
-      if (btnHarvest) {
-        if (p >= 100) {
+
+      if (p >= 100) {
+        if (careRow) careRow.classList.add('hidden');
+        if (harvestRow) harvestRow.classList.remove('hidden');
+        if (btnHarvest) {
           btnHarvest.classList.remove('hidden');
           btnHarvest.classList.add('pulse-glow');
-        } else {
+        }
+      } else {
+        if (careRow) careRow.classList.remove('hidden');
+        if (harvestRow) harvestRow.classList.add('hidden');
+        if (btnHarvest) {
           btnHarvest.classList.add('hidden');
           btnHarvest.classList.remove('pulse-glow');
         }

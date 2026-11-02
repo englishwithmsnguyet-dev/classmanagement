@@ -1,10 +1,10 @@
 /**
  * LUCKY CLOVER GARDEN DEFINITIONS ("CHẬU CỎ 4 LÁ MAY MẮN CỦA CÔ NGUYỆT")
  * Dedicated exclusively to Cỏ 4 Lá May Mắn (Trifolium repens 🍀).
- * Lifelike Painterly Botanical Edition with Exam Motivation Engine:
- * - High-resolution hand-painted botanical illustrations across all 4 growth stages
- * - Exam Motivation Fortune Cards (Thông điệp truyền động lực ôn thi)
- * - Quick Exam Drills (Câu đố ôn thi nhận giọt nước nỗ lực)
+ * VSTEP Mastery Edition:
+ * - Lifelike Painterly Botanical Illustrations (Stage 1..4)
+ * - VSTEP 4-Skills Exam Motivation Cards (Listening, Reading, Writing, Speaking)
+ * - VSTEP Standard Question Bank (B1 - B2 - C1 theo Khung Năng Lực Ngoại Ngữ 6 Bậc)
  */
 (function(root) {
   'use strict';
@@ -12,192 +12,269 @@
   const FLOWER_CATALOG = {
     "clover": {
       "id": "clover",
-      "name": "Cỏ 4 Lá May Mắn",
+      "name": "Cỏ 4 Lá May Mắn VSTEP",
       "scientific": "Trifolium repens",
       "icon": "🍀",
       "rarity": "Thần kỳ",
       "color": "#10B981",
       "accentColor": "#059669",
       "bgGlow": "radial-gradient(circle at 50% 42%, rgba(254, 240, 138, 0.55) 0%, rgba(52, 211, 153, 0.24) 45%, transparent 76%)",
-      "meaning": "May mắn ngập tràn, niềm tin, hy vọng và tình yêu vĩnh cửu. Món quà diệu kỳ của thiên nhiên ban tặng cho cô Nguyệt!",
+      "meaning": "May mắn ngập tràn, niềm tin, hy vọng và tình yêu vĩnh cửu. Món quà diệu kỳ tiếp lửa cho học viên chinh phục chứng chỉ VSTEP B1-B2-C1 cùng cô Nguyệt!",
       "quote": "Bé cỏ 4 lá mang đến vạn sự may mắn và mọi điều ước thành hiện thực cho cô Nguyệt! 🍀🌟",
       "growthDifficulty": "Hiếm có"
     }
   };
 
   /**
-   * Kho thông điệp truyền động lực sâu sắc dành riêng cho giai đoạn ôn thi của học viên Cô Nguyệt
+   * Kho thông điệp truyền động lực ôn thi bám sát kỳ thi VSTEP (Listening, Reading, Writing, Speaking)
    */
   const EXAM_MOTIVATION_QUOTES = [
     {
-      id: "quote-1",
-      tag: "Ý Chí & Kiên Trì",
-      title: "Mỗi Bước Nhỏ Tạo Nên Kỳ Tích",
-      content: "Mọi sự kiên trì của ngày hôm nay đều là nền móng vững chắc cho kỳ tích ngày mai. Đừng nản lòng khi thấy bài vở còn nhiều; chỉ cần mỗi ngày tiến một bước nhỏ, cánh cửa ước mơ chắc chắn sẽ mở ra!",
-      advice: "Hãy chia nhỏ mục tiêu ôn tập hôm nay thành 3 phần vừa sức và hoàn thành từng phần nhé!"
+      id: "vstep-q-1",
+      tag: "VSTEP Reading (Đọc Hiểu)",
+      title: "60 Phút Bền Bỉ — Không Bỏ Sót Từ Khóa",
+      content: "4 bài đọc VSTEP với 40 câu hỏi là thử thách lớn về sức bền. Đừng hoảng sợ trước bài đọc dài hay nhiều từ mới chuyên ngành! Hãy áp dụng triệt để kỹ năng Skimming & Scanning, định vị từ khóa và đọc kỹ câu trước/sau câu hỏi.",
+      advice: "Mẹo VSTEP: Phân bổ 15 phút cho mỗi bài đọc. Nếu gặp câu hỏi suy luận khó, hãy tạm đánh dấu và quay lại sau khi đã làm hết các câu hỏi chi tiết!"
     },
     {
-      id: "quote-2",
+      id: "vstep-q-2",
+      tag: "VSTEP Listening (Kỹ Năng Nghe)",
+      title: "Bình Tĩnh Bắt Nhịp — Lỡ Một Câu Không Buông Cả Bài",
+      content: "3 phần thi Nghe VSTEP diễn ra liên tục trong khoảng 40 phút. Nếu vô tình lỡ mất một thông tin, hãy dũng cảm chọn đáp án khả dĩ nhất và hướng ngay sự tập trung sang câu kế tiếp. Tuyệt đối không để cảm giác tiếc nuối làm đứt mạch nghe!",
+      advice: "Mẹo VSTEP: Luôn tận dụng thời gian nghỉ giữa các phần để đọc trước câu hỏi và gạch chân các từ khóa cốt lõi (keywords)."
+    },
+    {
+      id: "vstep-q-3",
+      tag: "VSTEP Writing (Viết Luận & Thư)",
+      title: "Bố Cục Rõ Ràng — Cấu Trúc Đa Dạng Ghi Điểm",
+      content: "Viết VSTEP gồm Task 1 (Thư 120 từ - 20 phút) và Task 2 (Luận 250 từ - 40 phút). Bố cục 4 đoạn mạch lạc, liên từ chuyển ý mượt mà (Furthermore, On the other hand, Consequently) và 1-2 câu phức hoặc đảo ngữ sẽ giúp em bứt phá điểm số B2/C1!",
+      advice: "Mẹo VSTEP: Luôn dành 3 phút lập dàn ý trước khi viết và 3 phút cuối để kiểm tra lỗi chính tả, chia động từ và số ít/số nhiều."
+    },
+    {
+      id: "vstep-q-4",
+      tag: "VSTEP Speaking (Kỹ Năng Nói)",
+      title: "Tự Tin Trước Microphone — Phát Âm Rõ Ràng",
+      content: "Thi Nói VSTEP trên máy tính đòi hỏi em phải làm chủ thời gian: Part 1 tương tác tự nhiên, Part 2 cân nhắc 3 lựa chọn và giải thích rõ vì sao chọn/bỏ, Part 3 phát triển chủ đề mạch lạc. Đừng lo lắng về ngữ điệu bản xứ, quan trọng nhất là phát âm rõ ràng, nói đủ ý và không ngập ngừng quá lâu!",
+      advice: "Mẹo VSTEP: Nếu cần 2 giây suy nghĩ, hãy dùng filler tự nhiên: 'That's a thought-provoking question, let me consider...' thay vì im lặng."
+    },
+    {
+      id: "vstep-q-5",
+      tag: "Chiến Lược Toàn Diện",
+      title: "Mục Tiêu B1, B2 hay C1 Đều Bắt Đầu Từ Hôm Nay",
+      content: "Mỗi đề VSTEP em giải quyết hôm nay, mỗi bài tập nghe và viết em hoàn thành đều là một viên gạch vững chắc đưa em đến gần hơn với tấm bằng chứng chỉ mong ước. Cô Nguyệt luôn đồng hành, chấm chữa bài và tiếp thêm dũng khí cho em!",
+      advice: "Mẹo VSTEP: Giữ thói quen luyện đề đúng áp lực thời gian thực ít nhất 2 lần/tuần trước ngày thi."
+    },
+    {
+      id: "vstep-q-6",
       tag: "Bản Lĩnh Vượt Khó",
       title: "Áp Lực Tạo Nên Kim Cương",
       content: "Áp lực thi cử là hòn đá mài giũa bản lĩnh. Kỳ thi này không chỉ là một bài kiểm tra kiến thức, mà là cơ hội tuyệt vời để em chứng minh mình đã dũng cảm, kiên cường và trưởng thành đến nhường nào!",
-      advice: "Khi thấy căng thẳng, hãy hít thở sâu 3 nhịp và nhắc nhở bản thân: 'Mình đang lớn lên từng ngày!'"
+      advice: "Mẹo VSTEP: Khi thấy căng thẳng, hãy hít thở sâu 3 nhịp và nhắc nhở bản thân: 'Mình đã chuẩn bị rất kỹ, mình hoàn toàn làm được!'"
     },
     {
-      id: "quote-3",
-      tag: "Niềm Tin Bản Thân",
-      title: "Nỗ Lực Không Bao Giờ Phản Bội Em",
-      content: "Những đêm miệt mài bên trang sách, những giọt mồ hôi rơi xuống sẽ không bao giờ phản bội em. Hãy đặt trọn niềm tin vào quá trình em đã đi qua và bản lĩnh mà em đã tích lũy!",
-      advice: "Ghi nhớ rằng: kiến thức em đã học thật sự là tài sản nằm trong đầu em, không ai lấy đi được."
-    },
-    {
-      id: "quote-4",
-      tag: "Tự Tin Tỏa Sáng",
-      title: "Mỗi Loài Hoa Đều Có Mùa Nở Riêng",
-      content: "Đừng so sánh bước đi của mình với bất kỳ ai khác. Mỗi loài hoa đều có thời khắc bung nở của riêng mình. Chỉ cần em không bỏ cuộc, bông hoa cỏ 4 lá may mắn trong tim em sẽ rực rỡ nhất!",
-      advice: "Tập trung vào tiến bộ của chính mình so với ngày hôm qua thay vì nhìn sang người khác."
-    },
-    {
-      id: "quote-5",
-      tag: "Lời Nhắn Từ Cô Nguyệt",
-      title: "Cô Luôn Tin Tưởng Ở Em",
-      content: "Hít một hơi thật sâu, mỉm cười và tự nhủ: 'Mình nhất định làm được!'. Cô Nguyệt luôn dõi theo, tự hào và đồng hành cùng em trên từng trang bài giảng. Vững tin lên nhé!",
-      advice: "Cô luôn ở đây sẵn sàng giải đáp mọi thắc mắc và tiếp thêm năng lượng cho em!"
-    },
-    {
-      id: "quote-6",
-      tag: "Kỷ Luật & Bền Bỉ",
-      title: "Đích Đến Đang Ở Rất Gần",
-      content: "Học tập là một chặng đua tiếp sức của ý chí. Khi thấy thấm mệt, hãy cho phép mình nghỉ ngơi một chút rồi lại đứng lên bước tiếp. Thành công luôn dành trọn phần thưởng cho người không bỏ cuộc!",
-      advice: "Uống một ngụm nước ấm, chớp mắt thư giãn 5 phút rồi tiếp tục chinh phục bài học tiếp theo nhé."
-    },
-    {
-      id: "quote-7",
-      tag: "Tư Duy Tích Cực",
-      title: "Không Có Lỗi Sai, Chỉ Có Bài Học",
-      content: "Đừng sợ làm sai khi luyện đề! Mỗi câu sai hôm nay là một lỗ hổng vừa được em lấp đầy kịp thời, giúp em vững vàng hơn gấp bội khi bước vào phòng thi chính thức.",
-      advice: "Mở ngay sổ tay ghi lại lỗi sai và quy tắc ngữ pháp/từ vựng của câu vừa rồi nhé."
-    },
-    {
-      id: "quote-8",
-      tag: "Chăm Sóc Bản Thân",
-      title: "Cơ Thể Khỏe Mạnh Là Vũ Khí Tối Thượng",
-      content: "Trí óc minh mẫn chỉ đến từ một cơ thể khỏe mạnh. Đừng thức quá khuya, hãy ăn uống đủ chất, ngủ đủ giấc. Sự tỉnh táo trong phòng thi giá trị hơn 10 trang bài học vội trong cơn buồn ngủ!",
-      advice: "Tối nay hãy sắp xếp đi ngủ đúng giờ để não bộ có thời gian nạp lại năng lượng nhé."
-    },
-    {
-      id: "quote-9",
-      tag: "Bí Quyết May Mắn",
-      title: "May Mắn Đến Từ Sự Chuẩn Bị Kỹ Càng",
-      content: "May mắn không phải là phép màu ngẫu nhiên rơi từ trên trời xuống. May mắn chính là khi cơ hội gặp được sự chuẩn bị kỹ lưỡng của em. Em đang chuẩn bị rất tốt, hãy yên tâm tiến bước!",
-      advice: "Ôn lại các dạng bài quen thuộc, làm chắc chắn những câu cơ bản trước khi sang câu nâng cao."
-    },
-    {
-      id: "quote-10",
-      tag: "Khát Vọng Tương Lai",
-      title: "Mở Ra Cánh Cửa Thế Giới Rộng Lớn",
-      content: "Mỗi từ vựng, mỗi cấu trúc tiếng Anh em ghi nhớ hôm nay đều là một chiếc chìa khóa vạn năng mở ra cánh cửa học bổng, trường đại học mơ ước và tương lai rực rỡ mai sau!",
-      advice: "Hãy tưởng tượng khoảnh khắc nhận được kết quả xuất sắc để tiếp thêm ngọn lửa nhiệt huyết!"
-    },
-    {
-      id: "quote-11",
-      tag: "Sự Tập Trung",
-      title: "Sức Mạnh Của 1 Giờ Trọn Vẹn",
-      content: "60 phút học với 100% sự tập trung có giá trị hơn 5 tiếng ngồi học vừa lướt mạng vừa lo âu. Hãy cất điện thoại sang một bên, dành trọn trái tim cho bài học, em sẽ thấy điều kỳ diệu!",
-      advice: "Thử phương pháp Pomodoro: 25 phút học tập trung tuyệt đối và 5 phút giải lao."
-    },
-    {
-      id: "quote-12",
+      id: "vstep-q-7",
       tag: "Tâm Lý Phòng Thi",
-      title: "Bước Vào Phòng Thi Bằng Nụ Cười",
-      content: "Tự tin là một nửa chiến thắng. Hãy bước vào kỳ thi với tâm thế của một người đã chiến đấu hết mình trong suốt quá trình vừa qua. Không việc gì phải sợ hãi, em đã sẵn sàng rồi!",
-      advice: "Trước khi làm bài, nhắm mắt lại 10 giây, mỉm cười và tự gửi một lời chúc may mắn cho chính mình."
+      title: "Giữ Vững Bình Tĩnh — Tự Tin Tỏa Sáng",
+      content: "Khi bước vào phòng thi VSTEP, hãy mỉm cười và tự nhủ: 'Mình đã nỗ lực hết sức suốt thời gian qua'. Sự tự tin và bình tĩnh sẽ giúp não bộ hoạt động tối ưu nhất, giúp em nhớ lại toàn bộ từ vựng và cấu trúc mà cô Nguyệt đã hướng dẫn!",
+      advice: "Mẹo VSTEP: Ngủ đủ giấc đêm trước ngày thi, ăn nhẹ và đến phòng thi sớm 30 phút để tâm lý thật thoải mái."
+    },
+    {
+      id: "vstep-q-8",
+      tag: "Từ Vựng Học Thuật",
+      title: "Mở Rộng Vốn Từ — Chìa Khóa Nâng Band",
+      content: "Từ vựng học thuật (Academic Word List) chính là xương sống của cả 4 kỹ năng VSTEP. Nắm chắc collocations và các cặp từ đồng nghĩa/trái nghĩa sẽ giúp em đọc hiểu nhanh gấp đôi và viết luận sâu sắc hơn rất nhiều!",
+      advice: "Mẹo VSTEP: Học từ vựng theo cụm (collocations) và ngữ cảnh câu, tránh học từ đơn lẻ."
     }
   ];
 
   /**
-   * Bộ câu hỏi trắc nghiệm tiếng Anh ôn thi nhanh để tích lũy Giọt Nước Nỗ Lực (+10💧)
+   * Ngân hàng câu hỏi trắc nghiệm tiếng Anh CHUẨN ĐỊNH DẠNG VSTEP (B1 - B2 - C1)
+   * Bao quát đầy đủ 4 kỹ năng: Reading, Listening, Writing, Speaking & Grammar/Lexical Resource
    */
   const EXAM_QUIZ_QUESTIONS = [
+    // --- 1. VSTEP READING ---
     {
-      id: "q-1",
-      topic: "Từ Vựng Ôn Thi (Vocabulary)",
-      question: "Choose the word CLOSEST in meaning to 'perseverance':",
-      options: ["Persistence & determination", "Hesitation & doubt", "Sudden luck", "Carelessness"],
+      id: "vstep-read-1",
+      skill: "Reading",
+      level: "B2-C1",
+      topic: "VSTEP Reading — Từ Đồng Nghĩa Học Thuật",
+      question: "In VSTEP academic texts, which word is CLOSEST in meaning to 'UBIQUITOUS'?",
+      options: ["Omnipresent / Found everywhere", "Hazardous and toxic", "Rare and precious", "Temporary"],
       answer: 0,
-      explain: "'Perseverance' có nghĩa là sự kiên trì, bền bỉ vượt khó (= persistence & determination)."
+      explain: "'Ubiquitous' = có mặt ở khắp mọi nơi (= omnipresent / found everywhere). Đây là từ vựng học thuật B2-C1 rất hay gặp trong bài đọc chủ đề công nghệ, truyền thông và đời sống."
     },
     {
-      id: "q-2",
-      topic: "Thành Ngữ Ôn Thi (Idioms)",
-      question: "What does the idiom 'hit the books' mean?",
-      options: ["To buy new books", "To begin studying seriously", "To damage books", "To read novels"],
-      answer: 1,
-      explain: "'Hit the books' là thành ngữ quen thuộc có nghĩa là bắt đầu học bài một cách chăm chỉ, nghiêm túc."
-    },
-    {
-      id: "q-3",
-      topic: "Cụm Động Từ (Phrasal Verbs)",
-      question: "Never ______ your dreams, no matter how tough the exam preparation gets!",
-      options: ["give up", "take after", "look into", "break into"],
+      id: "vstep-read-2",
+      skill: "Reading",
+      level: "B1-B2",
+      topic: "VSTEP Reading — Ngữ Cảnh Kinh Tế & Xã Hội",
+      question: "Choose the word CLOSEST in meaning to 'ALLEVIATE' in: 'The initiative was launched to alleviate traffic congestion.'",
+      options: ["Relieve / Reduce", "Worsen", "Investigate", "Prohibit"],
       answer: 0,
-      explain: "'Give up' nghĩa là từ bỏ. 'Never give up your dreams' = Đừng bao giờ từ bỏ ước mơ của bạn!"
+      explain: "'Alleviate' = làm dịu, làm giảm bớt (= reduce / relieve / ease). Rất phổ biến trong bài đọc VSTEP chủ đề môi trường, y tế và giao thông."
     },
     {
-      id: "q-4",
-      topic: "Ngữ Pháp (Collocations)",
-      question: "If you want to achieve high scores, you must ______ an effort every single day.",
-      options: ["do", "make", "create", "take"],
-      answer: 1,
-      explain: "Cụm cố định luôn là 'make an effort' (nỗ lực, cố gắng), không dùng 'do an effort'."
-    },
-    {
-      id: "q-5",
-      topic: "Ngữ Pháp (Grammar)",
-      question: "The harder you practice, ______ your exam result will be.",
-      options: ["the good", "the better", "better", "the best"],
-      answer: 1,
-      explain: "Cấu trúc so sánh kép: The + comparative..., the + comparative... (Càng luyện tập chăm chỉ, kết quả càng tốt hơn)."
-    },
-    {
-      id: "q-6",
-      topic: "Từ Vựng Ôn Thi (Vocabulary)",
-      question: "Which word means 'capable of recovering quickly from difficult situations'?",
-      options: ["Fragile", "Resilient", "Lazy", "Trivial"],
-      answer: 1,
-      explain: "'Resilient' có nghĩa là kiên cường, có khả năng phục hồi và đứng dậy nhanh chóng sau thử thách."
-    },
-    {
-      id: "q-7",
-      topic: "Thành Ngữ Ôn Thi (Idioms)",
-      question: "When students 'burn the midnight oil', they are ______.",
-      options: ["cooking dinner", "working or studying late into the night", "wasting electricity", "sleeping early"],
-      answer: 1,
-      explain: "'Burn the midnight oil' có nghĩa là thức khuya miệt mài học tập hoặc làm việc."
-    },
-    {
-      id: "q-8",
-      topic: "Giới Từ (Prepositions)",
-      question: "Believe ______ yourself and all that you are capable of achieving!",
-      options: ["at", "on", "in", "with"],
-      answer: 2,
-      explain: "Động từ 'believe' đi với giới từ 'in': 'Believe in yourself' = Hãy tin vào chính bản thân em!"
-    },
-    {
-      id: "q-9",
-      topic: "Từ Vựng Ôn Thi (Vocabulary)",
-      question: "Choose the word OPPOSITE in meaning to 'pessimistic':",
-      options: ["Hopeful & optimistic", "Hopeless", "Worried", "Anxious"],
+      id: "vstep-read-3",
+      skill: "Reading",
+      level: "B2-C1",
+      topic: "VSTEP Reading — Từ Trái Nghĩa (Antonym)",
+      question: "Which word is OPPOSITE in meaning to 'DETRIMENTAL' in 'detrimental consequences for biodiversity'?",
+      options: ["Beneficial", "Catastrophic", "Damaging", "Irreversible"],
       answer: 0,
-      explain: "'Pessimistic' là bi quan, trái nghĩa với 'optimistic / hopeful' (lạc quan, tràn đầy hy vọng)."
+      explain: "'Detrimental' = gây hại (= harmful). Trái nghĩa của nó là 'beneficial' (có lợi, bổ ích)."
     },
     {
-      id: "q-10",
-      topic: "Thành Ngữ Ôn Thi (Idioms)",
-      question: "The teacher wished her students: 'Break a leg on your test tomorrow!' - What does it mean?",
-      options: ["Be careful not to fall", "Good luck and do well", "Cancel the test", "Work harder"],
-      answer: 1,
-      explain: "'Break a leg' là lời chúc 'Chúc may mắn, làm bài thật tốt nhé!' trong văn hóa tiếng Anh."
+      id: "vstep-read-4",
+      skill: "Reading",
+      level: "B2",
+      topic: "VSTEP Reading — Kỹ Năng Đoán Nghĩa Từ Mới",
+      question: "In a VSTEP reading passage, the word 'DISMANTLE' in 'dismantle the outdated factory' most likely means:",
+      options: ["Take apart / Disassemble", "Renovate and repaint", "Purchase and sell", "Expand and enlarge"],
+      answer: 0,
+      explain: "'Dismantle' = tháo dỡ, dẹp bỏ các bộ phận của một cỗ máy, công trình hoặc hệ thống (= take apart)."
+    },
+
+    // --- 2. VSTEP LISTENING ---
+    {
+      id: "vstep-lis-1",
+      skill: "Listening",
+      level: "B1-B2",
+      topic: "VSTEP Listening Part 1 — Nhận Diện Ngụ Ý Hội Thoại",
+      question: "In VSTEP Listening Part 1, when a speaker replies: 'I wouldn't say no to a cup of coffee', what do they mean?",
+      options: ["They gladly accept the offer", "They politely refuse the coffee", "They dislike hot drinks", "They want to sleep"],
+      answer: 0,
+      explain: "'I wouldn't say no to...' là cách nói thành ngữ mang nghĩa đồng ý và sẵn lòng đón nhận lời mời (= I'd love to have one). Đây là bẫy nghe rất hay gặp!"
+    },
+    {
+      id: "vstep-lis-2",
+      skill: "Listening",
+      level: "B2",
+      topic: "VSTEP Listening Part 2 — Thông Báo & Chỉ Dẫn",
+      question: "Which signal phrase in VSTEP Listening Part 2 announcements indicates a change or cancellation of flight/train schedule?",
+      options: ["Due to unforeseen circumstances", "As scheduled on your boarding pass", "In accordance with standard policy", "Without further ado"],
+      answer: 0,
+      explain: "'Due to unforeseen circumstances' (= Do tình huống bất ngờ / bất khả kháng) là cụm từ người thông báo dùng để giải thích lý do hoãn hoặc hủy chuyến."
+    },
+    {
+      id: "vstep-lis-3",
+      skill: "Listening",
+      level: "B2-C1",
+      topic: "VSTEP Listening Part 3 — Bài Giảng Học Thuật (Lecture)",
+      question: "During a VSTEP Part 3 academic lecture, when the professor says 'THAT BEING SAID, ...', what is coming next?",
+      options: ["A contrasting point or qualification", "A repetition of the previous point", "A joke for entertainment", "The end of the lecture"],
+      answer: 0,
+      explain: "'That being said' (= Dù là như vậy, tuy nhiên) là từ nối chuyển ý mang tính nhượng bộ/đối lập, báo hiệu luận điểm sau có sự khác biệt so với nhận định vừa nêu."
+    },
+
+    // --- 3. VSTEP WRITING ---
+    {
+      id: "vstep-wri-1",
+      skill: "Writing",
+      level: "B1-B2",
+      topic: "VSTEP Writing Task 1 — Quy Chuẩn Viết Thư Trang Trọng",
+      question: "When writing a formal letter in VSTEP Task 1 starting with 'Dear Sir or Madam', which closing salutation is correct?",
+      options: ["Yours faithfully,", "Yours sincerely,", "Best regards,", "Cheers,"],
+      answer: 0,
+      explain: "Quy chuẩn thư tín VSTEP: Nếu không biết tên người nhận (Dear Sir or Madam) -> kết thư bằng 'Yours faithfully,'. Nếu biết tên (Dear Mr. White) -> kết bằng 'Yours sincerely,'."
+    },
+    {
+      id: "vstep-wri-2",
+      skill: "Writing",
+      level: "B2-C1",
+      topic: "VSTEP Writing Task 2 — Liên Từ Chuyển Ý (Transitional Linkers)",
+      question: "Which linker is best used to introduce a strong contrasting argument in VSTEP Essay Task 2?",
+      options: ["On the contrary, / Conversely,", "Furthermore,", "Likewise,", "In addition to,"],
+      answer: 0,
+      explain: "'Conversely,' hoặc 'On the contrary,' dùng để đưa ra luận điểm trái ngược một cách trang trọng, giúp nâng điểm tiêu chí Coherence & Cohesion."
+    },
+    {
+      id: "vstep-wri-3",
+      skill: "Writing",
+      level: "C1",
+      topic: "VSTEP Writing Task 2 — Cấu Trúc Đảo Ngữ Nâng Band",
+      question: "Choose the grammatically correct inversion structure to boost your Grammar score in VSTEP Writing Task 2:",
+      options: [
+        "Only by implementing strict laws can we protect the environment.",
+        "Only by implementing strict laws we can protect the environment.",
+        "Only by implementing strict laws can protect we the environment.",
+        "We can only by implementing strict laws protect the environment."
+      ],
+      answer: 0,
+      explain: "Cấu trúc đảo ngữ: 'Only by + V-ing + Modal verb (can) + S + V-bare'. Đây là cấu trúc ngữ pháp đắt giá được giám khảo VSTEP đánh giá rất cao ở thang điểm B2-C1!"
+    },
+    {
+      id: "vstep-wri-4",
+      skill: "Writing",
+      level: "B2-C1",
+      topic: "VSTEP Writing Task 2 — Collocation Học Thuật",
+      question: "Complete the academic collocation: 'Renewable energy should ______ priority over fossil fuels.'",
+      options: ["take", "give", "make", "bring"],
+      answer: 0,
+      explain: "Cụm collocation chuẩn: 'take priority over something' (= được ưu tiên hàng đầu hơn cái gì)."
+    },
+
+    // --- 4. VSTEP SPEAKING ---
+    {
+      id: "vstep-spk-1",
+      skill: "Speaking",
+      level: "B2-C1",
+      topic: "VSTEP Speaking Part 2 — Thảo Luận Giải Pháp (Solution Discussion)",
+      question: "In VSTEP Speaking Part 2, which introductory sentence best states your choice among the 3 provided options?",
+      options: [
+        "Weighing all three options, I firmly believe that option A is the most viable solution.",
+        "I like option A because it is good.",
+        "Option A is my answer, thank you.",
+        "All three options are okay, I don't care."
+      ],
+      answer: 0,
+      explain: "'Weighing all three options, I firmly believe that... is the most viable solution' thể hiện năng lực so sánh đa chiều và vốn từ phong phú đạt chuẩn B2-C1."
+    },
+    {
+      id: "vstep-spk-2",
+      skill: "Speaking",
+      level: "B2-C1",
+      topic: "VSTEP Speaking Part 2 — Bác Bỏ Phương Án (Rebuttal)",
+      question: "In VSTEP Speaking Part 2, how should you explain why you reject an alternative in an academic way?",
+      options: [
+        "Although option B seems appealing, its primary drawback lies in its prohibitive cost.",
+        "Option B is totally bad and boring.",
+        "I reject B because I don't want it.",
+        "Nobody chooses B in real life."
+      ],
+      answer: 0,
+      explain: "'Although option B seems appealing, its primary drawback lies in...' là cách phản biện tinh tế: vừa công nhận ưu điểm trước vừa nêu rõ nhược điểm cốt lõi để loại bỏ."
+    },
+    {
+      id: "vstep-spk-3",
+      skill: "Speaking",
+      level: "C1",
+      topic: "VSTEP Speaking Part 3 — Phát Triển Chủ Đề (Topic Development)",
+      question: "In VSTEP Speaking Part 3, which discourse marker best emphasizes an undeniable argument?",
+      options: ["It is indisputable that ...", "Maybe I guess that ...", "You know what, ...", "By the way, ..."],
+      answer: 0,
+      explain: "'It is indisputable that...' (= Không thể bàn cãi rằng...) là discourse marker cao cấp giúp câu nói có sức nặng và tính học thuật cao."
+    },
+
+    // --- 5. VSTEP GRAMMAR & LEXICAL RESOURCE ---
+    {
+      id: "vstep-gram-1",
+      skill: "Grammar",
+      level: "B2",
+      topic: "VSTEP Grammar — Mệnh Đề Nhượng Bộ (Concession)",
+      question: "Complete the sentence: '______ the fact that the tuition fees were high, thousands of students applied.'",
+      options: ["Despite", "Although", "Even though", "Because of"],
+      answer: 0,
+      explain: "'Despite / In spite of + the fact that + Clause' (= Mặc dù thực tế là...). 'Although / Even though' đi trực tiếp với mệnh đề mà không cần 'the fact that'."
+    },
+    {
+      id: "vstep-gram-2",
+      skill: "Lexical",
+      level: "B2-C1",
+      topic: "VSTEP Lexical Resource — Collocation 'Đóng Vai Trò'",
+      question: "Complete the C1 collocation: 'Extensive reading plays an ______ role in enriching vocabulary.'",
+      options: ["indispensable", "unnecessary", "avoidable", "insignificant"],
+      answer: 0,
+      explain: "'Play an indispensable role in...' (= Đóng một vai trò không thể thiếu / cực kỳ quan trọng đối với...). Cụm từ đắt giá cho cả bài thi Viết và Nói VSTEP!"
     }
   ];
 
@@ -282,7 +359,7 @@
         <div class="clover-aura-halo" aria-hidden="true"></div>
         <div class="clover-breeze-rig">
           <img src="assets/garden/clover_stage_${stage}.png"
-               alt="Cỏ 4 Lá May Mắn - Giai đoạn ${stage}"
+               alt="Cỏ 4 Lá May Mắn VSTEP - Giai đoạn ${stage}"
                class="clover-living-art"
                draggable="false" />
           <svg viewBox="0 0 100 100" class="clover-dew-overlay" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">

@@ -3,7 +3,6 @@ let appState = {
     classes: [],
     selectedClassId: null,
     currentWeekIndex: 0,
-    pet: null,
     lastModified: Date.now()
 };
 
@@ -202,9 +201,6 @@ function loadState() {
         stateChanged = true;
     }
     if (ensureAllSeedClassesExist(appState)) {
-        stateChanged = true;
-    }
-    if (ensurePetState(appState)) {
         stateChanged = true;
     }
 
@@ -679,8 +675,6 @@ function showHomeView() {
     });
     
     if (typeof window !== "undefined" && window.FlowerGarden) window.FlowerGarden.init();
-    if (typeof window !== "undefined" && window.PetEngine) window.PetEngine.init();
-    renderPetView();
 }
 
 function showClassView() {
@@ -967,7 +961,6 @@ btnNextWeek.addEventListener('click', () => {
 
 // Modals Handling
 const imageViewerModal = document.getElementById('image-viewer-modal');
-const petModal = document.getElementById('pet-modal');
 btnCloseModals.forEach(btn => {
     btn.addEventListener('click', () => {
         addClassModal.classList.remove('active');
@@ -975,7 +968,6 @@ btnCloseModals.forEach(btn => {
         announcementModal.classList.remove('active');
         lessonDetailsModal.classList.remove('active');
         if (imageViewerModal) imageViewerModal.classList.remove('active');
-        if (petModal) petModal.classList.remove('active');
     });
 });
 
@@ -983,14 +975,6 @@ if (imageViewerModal) {
     imageViewerModal.addEventListener('click', (e) => {
         if (e.target === imageViewerModal) {
             imageViewerModal.classList.remove('active');
-        }
-    });
-}
-
-if (petModal) {
-    petModal.addEventListener('click', (e) => {
-        if (e.target === petModal) {
-            petModal.classList.remove('active');
         }
     });
 }
@@ -1158,16 +1142,11 @@ async function fetchFromCloud() {
         if (cloudData && cloudData.classes && cloudData.lastModified) {
             // Overwrite local state if cloud data is newer
             if (!appState.lastModified || cloudData.lastModified > appState.lastModified) {
-                const localPet = appState.pet;
                 appState = cloudData;
-                if (!appState.pet && localPet) {
-                    appState.pet = localPet;
-                }
-                const petChanged = ensurePetState(appState);
                 const addedSeeds = ensureAllSeedClassesExist(appState);
                 const migrated = ensureClassScheduleMigrations(appState);
                 localStorage.setItem('attendance_app_v2', JSON.stringify(appState));
-                if (addedSeeds || migrated || petChanged) {
+                if (addedSeeds || migrated) {
                     saveState();
 
                     // Award effort water to flower garden (throttled once every 4 seconds)
@@ -1521,6 +1500,9 @@ async function saveLessonDetailsData(dateStr, globalLessonNum) {
     
     saveState();
     renderMatrix();
+    if (typeof window !== 'undefined' && window.FlowerGarden) {
+        window.FlowerGarden.addWaterDrops(10, 'Ghi nhận điểm danh & lưu nhật ký lớp học');
+    }
     return { classObj, record, topic, content, homework, note, next };
 }
 
@@ -1876,154 +1858,6 @@ document.querySelectorAll('.btn-reward').forEach(btn => {
 // ==========================================
 if (typeof window !== 'undefined' && window.FlowerGarden) {
     window.FlowerGarden.init();
-}
-
-// ==========================================
-// VIRTUAL PET COMPANION ("Nuôi thú cưng")
-// Modularly loaded from pet_definitions.js & pet_engine.js
-// ==========================================
-const PET_DATA = (typeof window !== 'undefined' && window.PET_REGISTRY) ? window.PET_REGISTRY : {};
-
-// DOM References for Pet
-const petStage = document.getElementById('pet-stage');
-const petAvatarWrapper = document.getElementById('pet-avatar-wrapper');
-const petFoodBowl = document.getElementById('pet-food-bowl');
-const foodBowlCount = document.getElementById('food-bowl-count');
-const petNameEl = document.getElementById('pet-name');
-const petSpeciesEl = document.getElementById('pet-species-name');
-const petLevelEl = document.getElementById('pet-level');
-const petStreakEl = document.getElementById('pet-streak');
-const petSpeechEl = document.getElementById('pet-speech');
-const petHungerSegments = document.getElementById('pet-hunger-segments');
-const petHappinessSegments = document.getElementById('pet-happiness-segments');
-const petHungerText = document.getElementById('pet-hunger-text');
-const petHappinessText = document.getElementById('pet-happiness-text');
-const petMoodBadge = document.getElementById('pet-mood-badge');
-const petFeedIcon = document.getElementById('pet-feed-icon');
-const btnFeedPet = document.getElementById('btn-feed-pet');
-const btnStrokePet = document.getElementById('btn-stroke-pet');
-const btnOpenPetModal = document.getElementById('btn-open-pet-modal');
-const petSelectionGrid = document.getElementById('pet-selection-grid');
-const inputPetName = document.getElementById('input-pet-name');
-const btnConfirmPet = document.getElementById('btn-confirm-pet');
-
-function ensurePetState(state) {
-    if (!state) return false;
-    const todayStr = new Date().toISOString().substring(0, 10);
-    let changed = false;
-
-    if (!state.pet) {
-        state.pet = {
-            id: 'nana',
-            name: 'Na Na',
-            hunger: 80,
-            happiness: 90,
-            level: 1,
-            exp: 0,
-            streak: 1,
-            lastVisitDate: todayStr,
-            lastFedDate: null,
-            lastPettedDate: null
-        };
-        return true;
-    }
-
-    // Migrate old 'cat' ID to 'nana'
-    if (state.pet.id === 'cat') {
-        state.pet.id = 'nana';
-        if (state.pet.name === 'Miu Miu') state.pet.name = 'Na Na';
-        changed = true;
-    }
-
-    const reg = (typeof window !== 'undefined' && window.PET_REGISTRY) ? window.PET_REGISTRY : PET_DATA;
-    if (!state.pet.id || (reg && Object.keys(reg).length > 0 && !reg[state.pet.id])) {
-        state.pet.id = 'nana';
-        changed = true;
-    }
-    if (!state.pet.name) {
-        const petDef = (reg && reg[state.pet.id]) || {};
-        state.pet.name = petDef.name || 'Na Na';
-        changed = true;
-    }
-    if (typeof state.pet.hunger !== 'number') { state.pet.hunger = 80; changed = true; }
-    if (typeof state.pet.happiness !== 'number') { state.pet.happiness = 90; changed = true; }
-    if (typeof state.pet.level !== 'number') { state.pet.level = 1; changed = true; }
-    if (typeof state.pet.exp !== 'number') { state.pet.exp = 0; changed = true; }
-    if (typeof state.pet.streak !== 'number') { state.pet.streak = 1; changed = true; }
-
-    // Daily streak & decay check
-    if (state.pet.lastVisitDate !== todayStr) {
-        if (state.pet.lastVisitDate) {
-            const lastDate = new Date(state.pet.lastVisitDate + 'T00:00:00');
-            const today = new Date(todayStr + 'T00:00:00');
-            const diffDays = Math.round((today - lastDate) / (1000 * 60 * 60 * 24));
-            
-            if (diffDays === 1) {
-                state.pet.streak = (state.pet.streak || 0) + 1;
-            } else if (diffDays > 1) {
-                state.pet.streak = 1;
-            }
-            
-            if (diffDays >= 1) {
-                state.pet.hunger = Math.max(15, state.pet.hunger - (diffDays * 25));
-                state.pet.happiness = Math.max(15, state.pet.happiness - (diffDays * 20));
-            }
-        }
-        state.pet.lastVisitDate = todayStr;
-        changed = true;
-    }
-
-    return changed;
-}
-
-function renderPetView() {
-    ensurePetState(appState);
-    if (typeof window !== 'undefined' && window.PetEngine) {
-        window.PetEngine.render(appState.pet);
-    }
-}
-
-function handleFeedPet() {
-    ensurePetState(appState);
-    if (typeof window !== 'undefined' && window.PetEngine) {
-        window.PetEngine.feed(appState.pet, saveState);
-    }
-}
-
-function handleStrokePet() {
-    ensurePetState(appState);
-    if (typeof window !== 'undefined' && window.PetEngine) {
-        window.PetEngine.stroke(appState.pet, saveState);
-    }
-}
-
-// Event Listeners for Pet
-if (btnFeedPet) {
-    btnFeedPet.addEventListener('click', (e) => {
-        e.stopPropagation();
-        handleFeedPet();
-    });
-}
-
-if (btnStrokePet) {
-    btnStrokePet.addEventListener('click', (e) => {
-        e.stopPropagation();
-        handleStrokePet();
-    });
-}
-
-if (petFoodBowl) {
-    petFoodBowl.addEventListener('click', (e) => {
-        e.stopPropagation();
-        handleFeedPet();
-    });
-}
-
-if (petStage) {
-    petStage.addEventListener('click', (e) => {
-        if (e.target.closest('#pet-food-bowl')) return;
-        handleStrokePet();
-    });
 }
 
 document.addEventListener('DOMContentLoaded', init);

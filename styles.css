@@ -579,9 +579,9 @@ input:focus, textarea:focus { border-color: var(--primary); }
     padding: 32px;
     border-radius: 24px;
     box-shadow: var(--shadow-sm);
-    flex: 1 1 340px;
+    flex: 1 1 380px;
     min-width: 320px;
-    max-width: 420px;
+    max-width: 490px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -1239,59 +1239,110 @@ input:focus, textarea:focus { border-color: var(--primary); }
     margin-left: 2px;
 }
 
-/* Care Action Buttons */
-.garden-actions-row {
+/* Garden Actions Layout (No Overlap) */
+.garden-actions-container {
+    width: 100%;
     display: flex;
-    gap: 6px;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 10px;
+}
+.garden-care-row {
+    display: flex;
+    gap: 8px;
     width: 100%;
 }
-.garden-btn {
-    flex: 1;
+.garden-care-row .garden-btn {
+    flex: 1 1 50%;
     min-width: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 3px;
-    font-size: 11.5px;
+    gap: 5px;
+    font-size: 12.5px;
     font-weight: 700;
-    padding: 7px 4px;
-    border-radius: 12px;
+    padding: 9px 8px;
+    border-radius: 14px;
     white-space: nowrap;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.04);
     transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
-.garden-btn:hover {
+.garden-care-row .garden-btn:hover {
     transform: translateY(-2px);
 }
-.garden-btn .action-icon {
-    font-size: 13.5px;
+.garden-quiz-row {
+    width: 100%;
 }
-#btn-harvest-flower {
-    background: linear-gradient(135deg, #EC4899 0%, #E11D48 100%);
-    border: none;
-    color: white;
+.garden-btn-quiz {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    font-size: 13px;
     font-weight: 700;
+    padding: 10px 14px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #ECFDF5 0%, #D1FAE5 100%);
+    border: 1.5px solid #A7F3D0;
+    color: #065F46;
+    box-shadow: 0 2px 6px rgba(16, 185, 129, 0.12);
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.garden-btn-quiz:hover {
+    background: linear-gradient(135deg, #D1FAE5 0%, #A7F3D0 100%);
+    color: #047857;
+    border-color: #6EE7B7;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+}
+.garden-harvest-row {
+    width: 100%;
+}
+.garden-btn-harvest-cta {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 13.5px;
+    font-weight: 800;
+    padding: 12px 14px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, #10B981 0%, #059669 50%, #047857 100%);
+    border: none;
+    color: #FFFFFF;
+    box-shadow: 0 6px 18px rgba(16, 185, 129, 0.38);
+    cursor: pointer;
+    letter-spacing: 0.3px;
+    transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.garden-btn-harvest-cta:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 8px 24px rgba(16, 185, 129, 0.48);
 }
 .pulse-glow {
     animation: pulseBorder 1.5s infinite;
 }
 
 .action-cost-tag {
-    font-size: 9.5px;
-    font-weight: 700;
+    font-size: 10px;
+    font-weight: 800;
     background: #BAE6FD;
     color: #0369A1;
-    padding: 1px 4px;
-    border-radius: 6px;
-    margin-left: 2px;
+    padding: 2px 6px;
+    border-radius: 8px;
+    margin-left: 3px;
 }
 .action-gain-tag {
-    font-size: 9.5px;
-    font-weight: 700;
+    font-size: 10px;
+    font-weight: 800;
     background: #DCFCE7;
     color: #15803D;
-    padding: 1px 4px;
-    border-radius: 6px;
-    margin-left: 2px;
+    padding: 2px 6px;
+    border-radius: 8px;
+    margin-left: 3px;
 }
 
 /* Seed & Basket Modals */
@@ -1669,10 +1720,47 @@ input:focus, textarea:focus { border-color: var(--primary); }
     justify-content: center;
 }
 
-/* Mini-Quiz Modal */
+/* Mini-Quiz & Garden Modals */
+.modal-card {
+    background: #FFFFFF;
+    border-radius: 24px;
+    padding: 24px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    position: relative;
+    max-height: 90vh;
+    overflow-y: auto;
+    border: 1px solid var(--border-color);
+}
 .garden-quiz-card {
-    max-width: 520px;
-    width: 90%;
+    max-width: 540px;
+    width: 92%;
+}
+.garden-quiz-card .modal-header {
+    padding: 0 0 12px 0;
+    border-bottom: 1px solid #F3F4F6;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.garden-quiz-card .modal-header h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 800;
+    color: #1F2937;
+}
+.garden-quiz-card .modal-subtext {
+    font-size: 13px;
+    color: #4B5563;
+    margin-bottom: 16px;
+    line-height: 1.5;
+}
+.quiz-footer-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 14px;
+    gap: 10px;
 }
 .quiz-question-box {
     background: #F9FAFB;
@@ -1680,6 +1768,68 @@ input:focus, textarea:focus { border-color: var(--primary); }
     border-radius: 16px;
     padding: 16px;
     margin-bottom: 14px;
+}
+.quiz-meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: center;
+    margin-bottom: 12px;
+}
+.quiz-badge {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+.quiz-skill-tag {
+    background: #E0E7FF;
+    color: #4338CA;
+    border: 1px solid #C7D2FE;
+}
+.quiz-skill-tag.skill-reading {
+    background: #E0F2FE;
+    color: #0369A1;
+    border-color: #BAE6FD;
+}
+.quiz-skill-tag.skill-listening {
+    background: #FEF3C7;
+    color: #B45309;
+    border-color: #FDE68A;
+}
+.quiz-skill-tag.skill-writing {
+    background: #FCE7F3;
+    color: #BE185D;
+    border-color: #FBCFE8;
+}
+.quiz-skill-tag.skill-speaking {
+    background: #DCFCE7;
+    color: #15803D;
+    border-color: #BBF7D0;
+}
+.quiz-skill-tag.skill-grammar {
+    background: #F3E8FF;
+    color: #7E22CE;
+    border-color: #E9D5FF;
+}
+.quiz-skill-tag.skill-lexical {
+    background: #FFF1F2;
+    color: #BE123C;
+    border-color: #FECDD3;
+}
+.quiz-level-tag {
+    background: #F3F4F6;
+    color: #374151;
+    border: 1px solid #E5E7EB;
+    font-weight: 800;
+}
+.quiz-topic-tag {
+    background: #FFF7ED;
+    color: #C2410C;
+    border: 1px solid #FFEDD5;
 }
 .quiz-topic-badge {
     display: inline-block;
