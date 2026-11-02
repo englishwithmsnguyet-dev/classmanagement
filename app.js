@@ -930,6 +930,15 @@ function renderMatrix() {
                         cb.classList.add('checked');
                     }
                     saveState();
+
+                    // Award effort water to flower garden (throttled once every 4 seconds)
+                    if (typeof window !== 'undefined' && window.FlowerGarden) {
+                        const now = Date.now();
+                        if (!window._lastAttendanceWaterTime || (now - window._lastAttendanceWaterTime > 4000)) {
+                            window._lastAttendanceWaterTime = now;
+                            window.FlowerGarden.addWaterDrops(2, 'Điểm danh chuyên cần', false);
+                        }
+                    }
                 };
                 return cb;
             };
@@ -1160,6 +1169,15 @@ async function fetchFromCloud() {
                 localStorage.setItem('attendance_app_v2', JSON.stringify(appState));
                 if (addedSeeds || migrated || petChanged) {
                     saveState();
+
+                    // Award effort water to flower garden (throttled once every 4 seconds)
+                    if (typeof window !== 'undefined' && window.FlowerGarden) {
+                        const now = Date.now();
+                        if (!window._lastAttendanceWaterTime || (now - window._lastAttendanceWaterTime > 4000)) {
+                            window._lastAttendanceWaterTime = now;
+                            window.FlowerGarden.addWaterDrops(2, 'Điểm danh chuyên cần', false);
+                        }
+                    }
                 }
                 
                 if (appState.selectedClassId) {
@@ -1636,6 +1654,9 @@ randomClassSelect.addEventListener('change', drawWheel);
 
 btnPickRandom.addEventListener('click', () => {
     if (isRolling) return;
+
+    const rewardBarSlot = document.getElementById('picker-reward-bar-slot');
+    if (rewardBarSlot) rewardBarSlot.style.display = 'none';
     
     // Unlock Audio for browsers (Safari/Chrome) by playing and pausing immediately during user interaction
     applauseSound.volume = 0;
@@ -1685,6 +1706,10 @@ btnPickRandom.addEventListener('click', () => {
             // Audio & Visual Effects
             applauseSound.currentTime = 0;
             applauseSound.play().catch(e => console.log('Audio autoplay prevented'));
+
+            // Show assessment reward bar
+            const rewardBarSlot = document.getElementById('picker-reward-bar-slot');
+            if (rewardBarSlot) rewardBarSlot.style.display = 'flex';
             
             if (typeof confetti === 'function') {
                 const rect = randomResultBox.getBoundingClientRect();
@@ -1747,6 +1772,9 @@ function drawWheel() {
 
 btnSpinWheel.addEventListener('click', () => {
     if (isRolling) return;
+
+    const rewardBarWheel = document.getElementById('picker-reward-bar-wheel');
+    if (rewardBarWheel) rewardBarWheel.style.display = 'none';
     
     const classId = randomClassSelect.value;
     if (!classId) {
@@ -1813,8 +1841,33 @@ btnSpinWheel.addEventListener('click', () => {
         
         wheelResultCenter.textContent = finalPick;
         wheelResultCenter.classList.add('show');
+
+        // Show assessment reward bar
+        const rewardBarWheel = document.getElementById('picker-reward-bar-wheel');
+        if (rewardBarWheel) rewardBarWheel.style.display = 'flex';
         
     }, 3000); // 3 seconds matching the CSS transition
+});
+
+// Setup click handlers for student response reward buttons
+document.querySelectorAll('.btn-reward').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+        const pts = parseInt(btn.dataset.points, 10) || 10;
+        const bar = btn.closest('.picker-reward-bar');
+        if (bar) bar.style.display = 'none';
+
+        if (typeof window !== 'undefined' && window.FlowerGarden) {
+            window.FlowerGarden.addWaterDrops(pts, pts >= 10 ? 'Trả lời xuất sắc' : 'Trả lời tốt');
+        }
+        if (typeof confetti === 'function') {
+            confetti({
+                particleCount: 80,
+                spread: 60,
+                origin: { y: 0.7 },
+                colors: ['#38BDF8', '#34D399', '#FBBF24']
+            });
+        }
+    });
 });
 
 // ==========================================

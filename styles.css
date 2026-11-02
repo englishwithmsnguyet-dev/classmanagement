@@ -724,18 +724,23 @@ input:focus, textarea:focus { border-color: var(--primary); }
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
+    gap: 8px;
 }
 
 .garden-header-row h3 {
     margin: 0;
-    font-size: 20px;
+    font-size: 17px;
+    font-weight: 800;
     color: #BE185D;
+    line-height: 1.25;
 }
 
 .garden-header-actions {
     display: flex;
+    align-items: center;
     gap: 6px;
+    flex-shrink: 0;
 }
 
 .garden-subtitle {
@@ -1237,26 +1242,28 @@ input:focus, textarea:focus { border-color: var(--primary); }
 /* Care Action Buttons */
 .garden-actions-row {
     display: flex;
-    gap: 8px;
+    gap: 6px;
     width: 100%;
 }
 .garden-btn {
     flex: 1;
+    min-width: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 4px;
-    font-size: 13px;
-    font-weight: 600;
-    padding: 8px 10px;
+    gap: 3px;
+    font-size: 11.5px;
+    font-weight: 700;
+    padding: 7px 4px;
     border-radius: 12px;
+    white-space: nowrap;
     transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 .garden-btn:hover {
     transform: translateY(-2px);
 }
 .garden-btn .action-icon {
-    font-size: 16px;
+    font-size: 13.5px;
 }
 #btn-harvest-flower {
     background: linear-gradient(135deg, #EC4899 0%, #E11D48 100%);
@@ -1266,6 +1273,25 @@ input:focus, textarea:focus { border-color: var(--primary); }
 }
 .pulse-glow {
     animation: pulseBorder 1.5s infinite;
+}
+
+.action-cost-tag {
+    font-size: 9.5px;
+    font-weight: 700;
+    background: #BAE6FD;
+    color: #0369A1;
+    padding: 1px 4px;
+    border-radius: 6px;
+    margin-left: 2px;
+}
+.action-gain-tag {
+    font-size: 9.5px;
+    font-weight: 700;
+    background: #DCFCE7;
+    color: #15803D;
+    padding: 1px 4px;
+    border-radius: 6px;
+    margin-left: 2px;
 }
 
 /* Seed & Basket Modals */
@@ -1368,6 +1394,554 @@ input:focus, textarea:focus { border-color: var(--primary); }
 .basket-item.locked {
     opacity: 0.55;
     filter: grayscale(0.5);
+}
+
+/* ==========================================
+   WATER ECONOMY & EXAM MOTIVATION STYLES
+   ========================================== */
+.garden-water-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: linear-gradient(135deg, #E0F2FE 0%, #BAE6FD 100%);
+    border: 1.5px solid #7DD3FC;
+    border-radius: 20px;
+    padding: 3px 6px 3px 10px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #0369A1;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(2, 132, 199, 0.12);
+    transition: all 0.25s ease;
+    user-select: none;
+}
+.garden-water-pill:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(2, 132, 199, 0.2);
+    border-color: #38BDF8;
+}
+.garden-water-pill.pill-reward-glow {
+    animation: pillWaterPulse 0.9s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+@keyframes pillWaterPulse {
+    0% { transform: scale(1); filter: drop-shadow(0 0 0 rgba(14, 165, 233, 0)); }
+    40% { transform: scale(1.16); filter: drop-shadow(0 0 12px #38BDF8); background: #7DD3FC; color: #0C4A6E; }
+    100% { transform: scale(1); }
+}
+.water-pill-icon {
+    font-size: 14px;
+    animation: waterDripBob 2.5s ease-in-out infinite;
+}
+@keyframes waterDripBob {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-2px); }
+}
+.water-pill-add-btn {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: none;
+    background: #0284C7;
+    color: #FFFFFF;
+    font-size: 13px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    line-height: 1;
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+.water-pill-add-btn:hover {
+    transform: scale(1.15) rotate(90deg);
+    background: #0369A1;
+}
+
+
+
+/* Random Picker Reward Assessment Bar */
+.picker-reward-bar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, #F0FDF4 0%, #ECFDF5 50%, #FEF3C7 100%);
+    border: 1.5px solid #A7F3D0;
+    border-radius: 14px;
+    padding: 10px 14px;
+    margin-top: 12px;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.08);
+    animation: slideDownFade 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+@keyframes slideDownFade {
+    0% { opacity: 0; transform: translateY(-8px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+.picker-reward-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: #065F46;
+}
+.picker-reward-btns {
+    display: flex;
+    gap: 8px;
+    width: 100%;
+}
+.btn-reward {
+    flex: 1;
+    border: none;
+    padding: 8px 10px;
+    border-radius: 10px;
+    font-size: 12.5px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+}
+.btn-reward-great {
+    background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+    color: #FFFFFF;
+}
+.btn-reward-great:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3);
+}
+.btn-reward-good {
+    background: linear-gradient(135deg, #38BDF8 0%, #0284C7 100%);
+    color: #FFFFFF;
+}
+.btn-reward-good:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(2, 132, 199, 0.3);
+}
+
+/* Floating Water Drops Reward Badge */
+.garden-float-water-reward {
+    position: absolute;
+    pointer-events: none;
+    z-index: 10;
+    font-size: 16px;
+    font-weight: 800;
+    color: #0284C7;
+    background: #E0F2FE;
+    border: 1.5px solid #7DD3FC;
+    border-radius: 14px;
+    padding: 4px 10px;
+    box-shadow: 0 4px 12px rgba(2, 132, 199, 0.25);
+    animation: floatRewardUp 1.5s ease-out forwards;
+}
+@keyframes floatRewardUp {
+    0% { opacity: 0; transform: translateY(0) scale(0.7); }
+    20% { opacity: 1; transform: translateY(-8px) scale(1.15); }
+    80% { opacity: 1; transform: translateY(-34px) scale(1.0); }
+    100% { opacity: 0; transform: translateY(-50px) scale(0.9); }
+}
+
+/* Grand Harvest Exam Motivation Card Modal */
+.garden-harvest-card {
+    max-width: 580px;
+    width: 92%;
+    background: linear-gradient(180deg, #FFFFFF 0%, #FFFDF9 60%, #FEF9F3 100%);
+    border: 2px solid #FDE68A;
+    border-radius: 24px;
+    box-shadow: 0 16px 40px rgba(217, 119, 6, 0.16);
+    padding: 24px;
+    text-align: center;
+}
+.harvest-celebration-head {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+.harvest-clover-sparkle-halo {
+    position: relative;
+    width: 105px;
+    height: 105px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(254, 240, 138, 0.5) 0%, rgba(52, 211, 153, 0.2) 60%, transparent 75%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: auraPulse 3s ease-in-out infinite;
+}
+.harvest-clover-img {
+    width: 95px;
+    height: 95px;
+    object-fit: contain;
+    filter: drop-shadow(0 6px 14px rgba(5, 150, 105, 0.25));
+}
+.harvest-pill-badge {
+    background: #FEF3C7;
+    color: #B45309;
+    border: 1px solid #FCD34D;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 4px 12px;
+    letter-spacing: 0.4px;
+}
+.harvest-main-title {
+    font-size: 17px;
+    font-weight: 800;
+    color: #065F46;
+    margin: 4px 0 0;
+}
+.harvest-fortune-card {
+    background: #FFFFFF;
+    border: 1.5px solid #E5E7EB;
+    border-left: 5px solid #10B981;
+    border-radius: 16px;
+    padding: 16px 18px;
+    text-align: left;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.04);
+    margin: 12px 0 16px;
+}
+.fortune-tag-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+.fortune-topic-tag {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #059669;
+    background: #ECFDF5;
+    padding: 3px 8px;
+    border-radius: 8px;
+}
+.fortune-date-stamp {
+    font-size: 11px;
+    color: #9CA3AF;
+}
+.fortune-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #1F2937;
+    margin: 0 0 10px;
+    font-family: 'Roboto Serif', Georgia, serif;
+}
+.fortune-content {
+    font-size: 14px;
+    color: #374151;
+    line-height: 1.6;
+    margin: 0 0 10px;
+    font-style: italic;
+    background: #F9FAFB;
+    border-radius: 10px;
+    padding: 12px 14px;
+    border-left: 3px solid #6EE7B7;
+}
+.fortune-advice-box {
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+    background: #FEF9C3;
+    border: 1px solid #FEF08A;
+    border-radius: 10px;
+    padding: 8px 12px;
+    font-size: 12px;
+    color: #713F12;
+    margin-bottom: 6px;
+}
+.fortune-advice-box i {
+    color: #EAB308;
+    margin-top: 2px;
+}
+.fortune-signature {
+    text-align: right;
+    font-size: 12px;
+    color: #9D174D;
+    font-weight: 600;
+    margin-top: 6px;
+}
+.harvest-modal-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+}
+
+/* Mini-Quiz Modal */
+.garden-quiz-card {
+    max-width: 520px;
+    width: 90%;
+}
+.quiz-question-box {
+    background: #F9FAFB;
+    border: 1.5px solid #E5E7EB;
+    border-radius: 16px;
+    padding: 16px;
+    margin-bottom: 14px;
+}
+.quiz-topic-badge {
+    display: inline-block;
+    font-size: 11.5px;
+    font-weight: 700;
+    color: #2563EB;
+    background: #EFF6FF;
+    border-radius: 8px;
+    padding: 3px 8px;
+    margin-bottom: 8px;
+}
+.quiz-prompt {
+    font-size: 15px;
+    font-weight: 600;
+    color: #111827;
+    margin-bottom: 14px;
+    line-height: 1.5;
+}
+.quiz-options-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.quiz-option-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    background: #FFFFFF;
+    border: 1.5px solid #E5E7EB;
+    border-radius: 12px;
+    font-size: 13.5px;
+    color: #374151;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: left;
+}
+.quiz-option-btn:hover:not(:disabled) {
+    border-color: #38BDF8;
+    background: #F0F9FF;
+    transform: translateX(3px);
+}
+.option-letter {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #F3F4F6;
+    color: #4B5563;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+.quiz-option-btn.is-correct {
+    border-color: #10B981 !important;
+    background: #ECFDF5 !important;
+    color: #065F46 !important;
+    font-weight: 700;
+}
+.quiz-option-btn.is-correct .option-letter {
+    background: #10B981;
+    color: #FFFFFF;
+}
+.quiz-option-btn.is-wrong {
+    border-color: #EF4444 !important;
+    background: #FEF2F2 !important;
+    color: #991B1B !important;
+}
+.quiz-option-btn.is-wrong .option-letter {
+    background: #EF4444;
+    color: #FFFFFF;
+}
+.quiz-feedback-box {
+    margin-top: 14px;
+    padding: 12px 14px;
+    border-radius: 12px;
+    font-size: 13px;
+    animation: slideDownFade 0.25s ease;
+}
+.feedback-correct {
+    background: #ECFDF5;
+    border: 1px solid #A7F3D0;
+    color: #065F46;
+}
+.feedback-wrong {
+    background: #FEF3C7;
+    border: 1px solid #FDE68A;
+    color: #92400E;
+}
+.feedback-title {
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+.feedback-explain {
+    margin: 0;
+    line-height: 1.45;
+}
+.quiz-footer-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+/* Water Earning Guide Modal */
+.garden-earn-card {
+    max-width: 520px;
+    width: 90%;
+}
+.earn-water-balance-box {
+    background: linear-gradient(135deg, #E0F2FE 0%, #BAE6FD 100%);
+    border: 1.5px solid #7DD3FC;
+    border-radius: 16px;
+    padding: 14px;
+    text-align: center;
+    margin-bottom: 14px;
+}
+.balance-label {
+    font-size: 12px;
+    color: #0369A1;
+    font-weight: 600;
+}
+.balance-value {
+    font-size: 20px;
+    font-weight: 800;
+    color: #0C4A6E;
+    margin: 4px 0 6px;
+}
+.balance-sub {
+    font-size: 12px;
+    color: #075985;
+    font-style: italic;
+    margin: 0;
+}
+.earn-methods-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+.earn-method-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #FFFFFF;
+    border: 1.5px solid #F3F4F6;
+    border-radius: 14px;
+    padding: 10px 12px;
+    transition: transform 0.2s ease;
+}
+.earn-method-item:hover {
+    transform: translateX(2px);
+    border-color: #E0E7FF;
+}
+.earn-icon-wrap {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+}
+.earn-info h4 {
+    margin: 0 0 2px 0;
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #1F2937;
+}
+.earn-info p {
+    margin: 0;
+    font-size: 12px;
+    color: #4B5563;
+    line-height: 1.4;
+}
+
+/* Basket Tabs & Quotes Archive */
+.basket-tabs-row {
+    display: flex;
+    gap: 8px;
+    border-bottom: 2px solid #F3F4F6;
+    padding-bottom: 8px;
+    margin-bottom: 14px;
+}
+.basket-tab-btn {
+    flex: 1;
+    padding: 8px 12px;
+    border: none;
+    background: #F9FAFB;
+    color: #6B7280;
+    font-size: 13px;
+    font-weight: 700;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.basket-tab-btn.active {
+    background: #ECFDF5;
+    color: #059669;
+}
+.harvested-quotes-archive {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-height: 52vh;
+    overflow-y: auto;
+    padding-right: 4px;
+}
+.archive-quote-card {
+    background: #FFFFFF;
+    border: 1.5px solid #E5E7EB;
+    border-left: 4px solid #10B981;
+    border-radius: 14px;
+    padding: 12px 14px;
+    text-align: left;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+}
+.archive-quote-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 11px;
+    color: #9CA3AF;
+    margin-bottom: 6px;
+}
+.archive-badge {
+    font-weight: 700;
+    color: #059669;
+}
+.archive-tag {
+    background: #F3F4F6;
+    padding: 2px 6px;
+    border-radius: 6px;
+    color: #374151;
+}
+.archive-title {
+    margin: 0 0 6px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #111827;
+}
+.archive-text {
+    margin: 0 0 6px;
+    font-size: 13px;
+    font-style: italic;
+    color: #4B5563;
+    line-height: 1.45;
+}
+.archive-advice {
+    font-size: 12px;
+    color: #854D0E;
+    background: #FEF9C3;
+    padding: 6px 8px;
+    border-radius: 8px;
+    margin-top: 4px;
+}
+.empty-quotes-notice {
+    text-align: center;
+    padding: 30px 16px;
+    color: #9CA3AF;
 }
 
 /* ==========================================

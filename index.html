@@ -87,6 +87,18 @@
                             <div class="random-result-box" id="random-result-box">
                                 <span id="random-result-name">Sẵn sàng...</span>
                             </div>
+                            <!-- Reward & Scoring Bar for Student Answer -->
+                            <div class="picker-reward-bar" id="picker-reward-bar-slot" style="display: none;">
+                                <span class="picker-reward-title">✨ Kết quả trả lời của học viên:</span>
+                                <div class="picker-reward-btns">
+                                    <button class="btn btn-reward btn-reward-great" data-points="10" title="Trả lời xuất sắc (+10💧 Nước Tưới)">
+                                        ⭐ Đúng xuất sắc (+10💧)
+                                    </button>
+                                    <button class="btn btn-reward btn-reward-good" data-points="5" title="Trả lời tốt / có cố gắng (+5💧 Nước Tưới)">
+                                        👍 Trả lời tốt (+5💧)
+                                    </button>
+                                </div>
+                            </div>
                             <button class="btn btn-primary w-100" id="btn-pick-random" style="font-size: 18px; padding: 12px; margin-top: 16px;">
                                 <i class="fa-solid fa-wand-magic-sparkles"></i> GỌI TÊN
                             </button>
@@ -99,6 +111,18 @@
                                 <canvas id="lucky-wheel" width="300" height="300"></canvas>
                                 <div class="wheel-result-center" id="wheel-result-center"></div>
                             </div>
+                            <!-- Reward & Scoring Bar for Wheel -->
+                            <div class="picker-reward-bar" id="picker-reward-bar-wheel" style="display: none;">
+                                <span class="picker-reward-title">✨ Kết quả trả lời của học viên:</span>
+                                <div class="picker-reward-btns">
+                                    <button class="btn btn-reward btn-reward-great" data-points="10" title="Trả lời xuất sắc (+10💧 Nước Tưới)">
+                                        ⭐ Đúng xuất sắc (+10💧)
+                                    </button>
+                                    <button class="btn btn-reward btn-reward-good" data-points="5" title="Trả lời tốt / có cố gắng (+5💧 Nước Tưới)">
+                                        👍 Trả lời tốt (+5💧)
+                                    </button>
+                                </div>
+                            </div>
                             <button class="btn btn-primary w-100" id="btn-spin-wheel" style="font-size: 18px; padding: 12px; margin-top: 16px;">
                                 <i class="fa-solid fa-arrows-rotate"></i> QUAY VÒNG
                             </button>
@@ -110,12 +134,17 @@
                         <div class="garden-header-row">
                             <h3>🍀 Chậu Cỏ 4 Lá May Mắn Của Cô Nguyệt</h3>
                             <div class="garden-header-actions">
-                                <button class="btn btn-secondary btn-small" id="btn-open-flower-basket" title="Xem giỏ cỏ 4 lá đã thu hoạch">
+                                <div class="garden-water-pill" id="garden-water-pill" title="Giọt Nước Nỗ Lực (Tích lũy từ điểm danh & làm bài đúng)">
+                                    <span class="water-pill-icon">💧</span>
+                                    <span class="water-pill-count" id="garden-water-count">35</span>
+                                    <button class="water-pill-add-btn" id="btn-open-earn-water" title="Kiếm thêm nước tưới">+</button>
+                                </div>
+                                <button class="btn btn-secondary btn-small" id="btn-open-flower-basket" title="Xem giỏ cỏ 4 lá & kho thông điệp ôn thi">
                                     🍀 <span id="garden-harvest-count">0</span>
                                 </button>
                             </div>
                         </div>
-                        <p class="garden-subtitle" id="garden-subtitle">Chăm sóc mầm cây mỗi ngày để đón nhận Cỏ 4 Lá May Mắn diệu kỳ! 🍀✨</p>
+                        <p class="garden-subtitle" id="garden-subtitle">Tích lũy nước nỗ lực mỗi ngày để vun trồng Cỏ 4 Lá May Mắn & đón nhận thông điệp ôn thi! 🍀✨</p>
 
                         <!-- Garden Stage (Sunshine, Floating Petals, Interactive Flower Pot) -->
                         <div class="garden-stage" id="garden-stage" title="Bấm vào cây để truyền yêu thương!">
@@ -152,25 +181,26 @@
                                 <span class="garden-progress-text" id="garden-progress-text">30%</span>
                             </div>
                             <div class="garden-stats-row">
+                                <span class="garden-stat" id="stat-water-drops" title="Giọt Nước Nỗ Lực đang có"><i class="fa-solid fa-faucet-drip" style="color:#0284C7;"></i> <b id="garden-water-drops-stat">35💧</b></span>
                                 <span class="garden-stat" id="stat-moisture" title="Độ ẩm đất"><i class="fa-solid fa-droplet" style="color:#0284C7;"></i> <b id="garden-moisture-val">75%</b></span>
                                 <span class="garden-stat" id="stat-sunlight" title="Ánh sáng mặt trời"><i class="fa-solid fa-sun" style="color:#F59E0B;"></i> <b id="garden-sunlight-val">80%</b></span>
                                 <span class="garden-stat" id="stat-level" title="Số cỏ 4 lá đã thu hoạch"><i class="fa-solid fa-trophy" style="color:#10B981;"></i> <b id="garden-harvest-val">0 cành</b></span>
                             </div>
                         </div>
 
-                        <!-- Care Actions Row (Water, Sun, Fertilize, Music / Harvest) -->
+                        <!-- Care Actions Row (Water, Sun, Quiz / Harvest) -->
                         <div class="garden-actions-row" id="garden-actions-row">
-                            <button class="btn btn-secondary btn-small garden-btn" id="btn-water-flower" title="Tưới nước cho hoa (+25% lớn)">
-                                <span class="action-icon">💧</span> Tưới nước
+                            <button class="btn btn-secondary btn-small garden-btn" id="btn-water-flower" title="Tưới nước cho hoa (-10💧, +25% lớn)">
+                                <span class="action-icon">💧</span> Tưới nước <span class="action-cost-tag">10💧</span>
                             </button>
                             <button class="btn btn-secondary btn-small garden-btn" id="btn-sun-flower" title="Cho hoa tắm nắng (+20% lớn)">
                                 <span class="action-icon">☀️</span> Tắm nắng
                             </button>
-                            <button class="btn btn-secondary btn-small garden-btn" id="btn-fertilize-flower" title="Bón phân hữu cơ (+30% lớn)">
-                                <span class="action-icon">🧴</span> Bón phân
+                            <button class="btn btn-secondary btn-small garden-btn" id="btn-quiz-flower" title="Làm câu hỏi ôn thi ngắn nhận ngay +10💧 Nước Nỗ Lực">
+                                <span class="action-icon">🎯</span> Đố vui ôn thi <span class="action-gain-tag">+10💧</span>
                             </button>
-                            <button class="btn btn-primary btn-small garden-btn hidden" id="btn-harvest-flower" title="Thu hoạch bông hoa tuyệt đẹp này!">
-                                <span class="action-icon">💐</span> Thu hoạch!
+                            <button class="btn btn-primary btn-small garden-btn hidden" id="btn-harvest-flower" title="Thu hoạch Cỏ 4 Lá May Mắn & Nhận thông điệp ôn thi!">
+                                <span class="action-icon">🍀</span> Thu hoạch & Nhận thông điệp! ✨
                             </button>
                         </div>
                     </div>
