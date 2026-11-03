@@ -528,12 +528,18 @@
         console.warn('Could not load garden state from localStorage', e);
       }
 
-      // Guarantee single plant is always clover
-      this.state.currentFlowerId = 'clover';
-      const cloverCount = (this.state.basket && (this.state.basket.clover || this.state.basket.sunflower || this.state.harvestCount)) || 0;
-      this.state.basket = { clover: cloverCount };
-      if (typeof this.state.harvestCount !== 'number') {
-        this.state.harvestCount = cloverCount;
+      // Support multiple flower types (clover, sunflower)
+      if (!this.state.currentFlowerId || !(root.FLOWER_CATALOG && root.FLOWER_CATALOG[this.state.currentFlowerId])) {
+        this.state.currentFlowerId = 'clover';
+      }
+      if (!this.state.basket) {
+        this.state.basket = { clover: 0, sunflower: 0 };
+      }
+      if (typeof this.state.basket.clover !== 'number') this.state.basket.clover = 0;
+      if (typeof this.state.basket.sunflower !== 'number') this.state.basket.sunflower = 0;
+      const totalHarvest = (this.state.basket.clover || 0) + (this.state.basket.sunflower || 0);
+      if (typeof this.state.harvestCount !== 'number' || this.state.harvestCount < totalHarvest) {
+        this.state.harvestCount = totalHarvest;
       }
       if (typeof this.state.waterDrops !== 'number' || isNaN(this.state.waterDrops)) {
         this.state.waterDrops = 35;
@@ -713,7 +719,14 @@
       if (btnHarvest) btnHarvest.addEventListener('click', () => this.harvest());
       if (btnQuiz) btnQuiz.addEventListener('click', () => this.openQuizModal());
 
-      // Header modal button for clover basket
+      // Flower Seed Selector modal buttons
+      const btnOpenSeed = document.getElementById('btn-open-seed-modal');
+      if (btnOpenSeed) btnOpenSeed.addEventListener('click', () => this.openFlowerSelectorModal());
+
+      const btnChangeFlowerTag = document.getElementById('btn-change-flower-tag');
+      if (btnChangeFlowerTag) btnChangeFlowerTag.addEventListener('click', () => this.openFlowerSelectorModal());
+
+      // Header modal button for flower basket
       const btnOpenBasket = document.getElementById('btn-open-flower-basket');
       if (btnOpenBasket) btnOpenBasket.addEventListener('click', () => this.openBasketModal());
 
