@@ -488,6 +488,25 @@
           setTimeout(() => this.openEarnWaterModal(), 300);
         } else if (hash === '#basket' || hash === '#basket-test') {
           setTimeout(() => this.openBasketModal(), 300);
+        } else if (hash === '#seed' || hash === '#seed-test') {
+          setTimeout(() => this.openFlowerSelectorModal(), 300);
+        } else if (hash === '#sunflower-test') {
+          this.switchFlower('sunflower');
+          this.state.progress = 65;
+          this.render();
+        } else if (hash === '#sunflower-bloom') {
+          this.switchFlower('sunflower');
+          this.state.progress = 100;
+          this.render();
+        } else if (hash === '#sunflower-harvest') {
+          this.switchFlower('sunflower');
+          this.state.progress = 100;
+          setTimeout(() => this.harvest(), 400);
+        } else if (hash === '#basket-both') {
+          this.state.basket = { clover: 4, sunflower: 3 };
+          this.state.harvestCount = 7;
+          this.state.currentFlowerId = 'sunflower';
+          setTimeout(() => this.openBasketModal(), 300);
         } else if (hash === '#wilted' || hash === '#wilt-test') {
           // Dedicated debug hash for testing wilted plant state
           this.state.lastWateredDate = '2026-01-01';
