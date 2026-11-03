@@ -199,6 +199,8 @@
           setTimeout(() => this.openQuizModal(), 300);
         } else if (window.location.hash === '#harvest-test') {
           setTimeout(() => this.harvest(), 400);
+        } else if (window.location.hash === '#earn-water') {
+          setTimeout(() => this.openEarnWaterModal(), 300);
         }
       }
     },
@@ -787,7 +789,7 @@
       modal.innerHTML = `
         <div class="modal-card garden-earn-card">
           <div class="modal-header">
-            <h3>💧 Giọt Nước Nỗ Lực & Cách Tích Lũy</h3>
+            <h3>💧 TÍCH LUỸ NƯỚC TƯỚI</h3>
             <button class="modal-close-btn" id="btn-close-earn-modal">&times;</button>
           </div>
           
@@ -798,36 +800,44 @@
           </div>
 
           <div class="earn-methods-list">
-            <div class="earn-method-item">
+            <!-- 1. Daily Login -->
+            <div class="earn-method-item" id="earn-action-login" role="button" tabindex="0" title="Bấm để nhận thưởng điểm danh đăng nhập hôm nay">
               <div class="earn-icon-wrap" style="background:#ECFDF5; color:#059669;">☀️</div>
               <div class="earn-info">
-                <h4>Điểm danh đăng nhập hàng ngày</h4>
+                <h4>ĐIỂM DANH ĐĂNG NHẬP HÀNG NGÀY</h4>
                 <p>Mở website mỗi ngày nhận <b>+15💧 ~ +25💧</b> (duy trì chuỗi ngày chuyên cần để nhận thêm thưởng streak!)</p>
               </div>
+              <span class="earn-action-badge"><i class="fa-solid fa-calendar-check"></i> Điểm danh</span>
             </div>
 
-            <div class="earn-method-item">
+            <!-- 2. VSTEP Quiz -->
+            <div class="earn-method-item" id="earn-action-quiz" role="button" tabindex="0" title="Bấm để mở bộ đề ôn thi VSTEP nhận +10💧 Nước Nỗ Lực">
               <div class="earn-icon-wrap" style="background:#EFF6FF; color:#2563EB;">🎯</div>
               <div class="earn-info">
-                <h4>Đố vui ôn thi VSTEP (4 kỹ năng)</h4>
+                <h4>ĐỐ VUI ÔN THI VSTEP (4 KỸ NĂNG)</h4>
                 <p>Luyện tập các câu hỏi chuẩn VSTEP B1-B2-C1 nhận ngay <b>+10💧</b> cho mỗi câu trả lời đúng.</p>
               </div>
+              <span class="earn-action-badge action-primary"><i class="fa-solid fa-play"></i> Luyện ngay</span>
             </div>
 
-            <div class="earn-method-item">
+            <!-- 3. Random Picker -->
+            <div class="earn-method-item" id="earn-action-picker" role="button" tabindex="0" title="Bấm để mở Gọi Tên Trả Bài & Vòng Quay">
               <div class="earn-icon-wrap" style="background:#FFFBEB; color:#D97706;">🎲</div>
               <div class="earn-info">
-                <h4>Gọi tên trả bài & Vòng quay lớp học</h4>
+                <h4>GỌI TÊN TRẢ BÀI & VÒNG QUAY LỚP HỌC</h4>
                 <p>Học viên được gọi tên và trả lời tốt / xuất sắc tích lũy <b>+5💧 ~ +10💧</b> Nước Nỗ Lực.</p>
               </div>
+              <span class="earn-action-badge"><i class="fa-solid fa-arrow-right"></i> Đến quay</span>
             </div>
 
-            <div class="earn-method-item">
+            <!-- 4. Class Attendance & Lesson Logging -->
+            <div class="earn-method-item" id="earn-action-attendance" role="button" tabindex="0" title="Bấm để chọn lớp điểm danh & ghi nhật ký">
               <div class="earn-icon-wrap" style="background:#FDF2F8; color:#DB2777;">📝</div>
               <div class="earn-info">
-                <h4>Điểm danh & Lưu nhật ký lớp học</h4>
+                <h4>ĐIỂM DANH & LƯU NHẬT KÝ LỚP HỌC</h4>
                 <p>Cô giáo ghi nhận sĩ số điểm danh và lưu bài học nhận ngay <b>+10💧</b> Nước Nỗ Lực.</p>
               </div>
+              <span class="earn-action-badge"><i class="fa-solid fa-arrow-right"></i> Vào lớp</span>
             </div>
           </div>
 
@@ -844,11 +854,85 @@
         modal.classList.remove('active');
         this.openQuizModal();
       });
+
+      // Item 1: Click to Claim / Check Daily Login
+      modal.querySelector('#earn-action-login').addEventListener('click', () => {
+        this.claimOrCheckDailyLogin(modal);
+      });
+
+      // Item 2: Click to Open Quiz
+      modal.querySelector('#earn-action-quiz').addEventListener('click', () => {
+        modal.classList.remove('active');
+        this.openQuizModal();
+      });
+
+      // Item 3: Click to Open Random Picker on Home View
+      modal.querySelector('#earn-action-picker').addEventListener('click', () => {
+        modal.classList.remove('active');
+        if (typeof showHomeView === 'function') showHomeView();
+        setTimeout(() => {
+          const picker = document.querySelector('.random-picker-container');
+          if (picker) {
+            picker.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            picker.classList.remove('pulse-glow');
+            void picker.offsetWidth;
+            picker.classList.add('pulse-glow');
+            setTimeout(() => picker.classList.remove('pulse-glow'), 2000);
+          }
+        }, 150);
+        if (typeof showToast === 'function') {
+          showToast('🎲 Đã chuyển tới Gọi Tên Trả Bài! Hãy chọn lớp và quay số để học viên trả lời nhận +5💧 ~ +10💧 Nước Tưới!');
+        }
+      });
+
+      // Item 4: Click to Navigate to Attendance / Class Logging
+      modal.querySelector('#earn-action-attendance').addEventListener('click', () => {
+        modal.classList.remove('active');
+        const sidebarList = document.getElementById('class-list');
+        if (sidebarList) {
+          sidebarList.classList.remove('pulse-glow');
+          void sidebarList.offsetWidth;
+          sidebarList.classList.add('pulse-glow');
+          setTimeout(() => sidebarList.classList.remove('pulse-glow'), 2000);
+        }
+        if (typeof showToast === 'function') {
+          showToast('📝 Hãy chọn một lớp học ở danh sách bên trái để điểm danh và lưu bài học (+10💧 Nước Tưới)!');
+        }
+      });
+
       modal.addEventListener('click', (e) => {
         if (e.target === modal) modal.classList.remove('active');
       });
 
       return modal;
+    },
+
+    claimOrCheckDailyLogin(modal) {
+      const today = new Date().toISOString().substring(0, 10);
+      const isAlreadyClaimedToday = (this.state.lastLoginDate === today && this.state.dailyLoginClaimed);
+      const streak = this.state.loginStreak || 1;
+
+      if (isAlreadyClaimedToday) {
+        GardenAudio.playSun();
+        this.spawnParticles('☀️', 6);
+        const bonus = 15 + Math.min(10, (streak - 1) * 2);
+        const msg = `☀️ Bạn đã điểm danh hôm nay rồi (+${bonus}💧, chuỗi ${streak} ngày chuyên cần)! Hãy quay lại vào ngày mai nhé 🍀`;
+        if (typeof showToast === 'function') showToast(msg);
+        this.updateSpeechBubble(msg);
+      } else {
+        // Claim today's bonus right away
+        const bonus = 15 + Math.min(10, (streak - 1) * 2);
+        this.state.lastLoginDate = today;
+        this.state.dailyLoginClaimed = true;
+        this.addWaterDrops(bonus, 'Điểm danh đăng nhập ngày mới');
+        this.spawnParticles('🎉', 8);
+        this.spawnParticles('💧', 8);
+        const msg = `🎉 Điểm danh thành công! +${bonus}💧 Nước Nỗ Lực (Chuỗi ${streak} ngày chuyên cần) 🍀`;
+        if (typeof showToast === 'function') showToast(msg);
+        this.updateSpeechBubble(`Điểm danh đăng nhập thành công: +${bonus}💧 Nước Nỗ Lực! Chúc cô Nguyệt một ngày làm việc tuyệt vời! 🌟`);
+        const countEl = modal ? modal.querySelector('#earn-modal-water-count') : null;
+        if (countEl) countEl.textContent = this.state.waterDrops;
+      }
     },
 
     // ==========================================
