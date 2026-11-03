@@ -772,354 +772,619 @@
    * Phân chia chính xác theo 4 chuyên đề thực tế của Cô Nguyệt.
    */
   const EXAM_QUIZ_QUESTIONS = [
-    // --- 1. CHUYÊN ĐỀ: BẢNG LỢI ÍCH CHUẨN CÔ NGUYỆT (64 CỤM TỪ) ---
-    {
-      id: "bm-off-1",
-      category: "benefit-matrix",
-      categoryName: "📊 Bảng Lợi Ích",
-      skill: "Speaking",
-      level: "B1",
-      topic: "Bảng Lợi Ích — Nhóm Giải Trí (Entertainment)",
-      question: "Trong Bảng Lợi Ích của Cô Nguyệt, cụm từ nào mang nghĩa 'thư giãn sau một ngày bận rộn' thường dùng cho câu hỏi về sở thích/thời gian rảnh?",
-      options: [
-        "relax after a busy day",
-        "widen my knowledge",
-        "stay in good shape",
-        "money management skills"
-      ],
-      answer: 0,
-      explain: "'relax after a busy day' thuộc Nhóm Lợi Ích Giải Trí trong Bảng Lợi Ích của Cô Nguyệt. Đây là cụm từ kinh điển để ghép vào cấu trúc: 'I like listening to music because it helps me relax after a busy day.'"
-    },
-    {
-      id: "bm-off-2",
-      category: "benefit-matrix",
-      categoryName: "📊 Bảng Lợi Ích",
-      skill: "Speaking",
-      level: "B1",
-      topic: "Bảng Lợi Ích — Nhóm Giáo Dục (Education)",
-      question: "Cụm từ nào trong Bảng Lợi Ích của Cô Nguyệt có nghĩa là 'mở rộng kiến thức' khi trả lời về việc đọc sách hoặc học ngoại ngữ?",
-      options: [
-        "widen my knowledge",
-        "pass the time",
-        "avoid getting sick",
-        "regain my energy"
-      ],
-      answer: 0,
-      explain: "'widen my knowledge' thuộc Nhóm Lợi Ích Giáo Dục / Phát Triển Bản Thân của Cô Nguyệt. Rất phù hợp khi trả lời: 'Reading books is great because it helps me widen my knowledge.'"
-    },
-    {
-      id: "bm-off-3",
-      category: "benefit-matrix",
-      categoryName: "📊 Bảng Lợi Ích",
-      skill: "Speaking",
-      level: "B1",
-      topic: "Bảng Lợi Ích — Nhóm Sức Khỏe (Health)",
-      question: "Khi được hỏi 'Why do you like playing badminton?', cụm từ nào trong Bảng Lợi Ích Sức Khỏe mang nghĩa 'giữ vóc dáng cân đối'?",
-      options: [
-        "stay in good shape",
-        "escape from daily stress",
-        "digital skills",
-        "forget about my worries"
-      ],
-      answer: 0,
-      explain: "'stay in good shape' thuộc Nhóm Lợi Ích Sức Khỏe của Cô Nguyệt, dùng để diễn tả việc duy trì vóc dáng đẹp, cân đối khi tập luyện thể thao."
-    },
-    {
-      id: "bm-off-4",
-      category: "benefit-matrix",
-      categoryName: "📊 Bảng Lợi Ích",
-      skill: "Speaking",
-      level: "B1",
-      topic: "Bảng Lợi Ích — Kỹ Năng Mềm (Soft Skills)",
-      question: "Trong Bảng Lợi Ích, cụm từ 'teamwork skills' và 'problem-solving skills' thuộc nhóm nào?",
-      options: [
-        "Kỹ Năng Mềm Cần Thiết (Soft Skills)",
-        "Lợi Ích Giải Trí (Entertainment)",
-        "Lợi Ích Sức Khỏe (Health)",
-        "Lợi Ích Thời Gian (Time)"
-      ],
-      answer: 0,
-      explain: "'teamwork skills' (kỹ năng làm việc nhóm) và 'problem-solving skills' (kỹ năng giải quyết vấn đề) thuộc Nhóm Kỹ Năng Mềm Cần Thiết trong hệ thống giáo trình của Cô Nguyệt."
-    },
-    {
-      id: "bm-off-5",
-      category: "benefit-matrix",
-      categoryName: "📊 Bảng Lợi Ích",
-      skill: "Speaking",
-      level: "B1",
-      topic: "Bảng Lợi Ích — Ứng Dụng Công Thức Phản Xạ",
-      question: "Công thức phản xạ chuẩn của Cô Nguyệt khi trả lời câu hỏi Speaking Part 1 về sở thích bằng Bảng Lợi Ích là gì?",
-      options: [
-        "Trả lời trực tiếp + because it helps me + [Cụm Lợi Ích] + Mở rộng",
-        "Chỉ cần nói Yes hoặc No rồi dừng lại",
-        "Đọc lại toàn bộ đề bài và không đưa lý do",
-        "Nói một câu tiếng Việt rồi dịch từng chữ sang tiếng Anh"
-      ],
-      answer: 0,
-      explain: "Công thức chuẩn của Cô Nguyệt: Trả lời trực tiếp ('Yes, definitely!') -> Dùng 'because it helps me + V-bare' gắn với cụm trong Bảng Lợi Ích -> Mở rộng tần suất hoặc cảm xúc!"
-    },
-
-    // --- 2. CHUYÊN ĐỀ: BẢNG TỪ VỰNG SPEAKING THỰC CHIẾN ---
-    {
-      id: "sv-off-1",
-      category: "speaking-vocab",
-      categoryName: "🗣️ Từ Vựng Speaking",
-      skill: "Speaking",
-      level: "B1-B2",
-      topic: "Speaking Part 1 — Thành Ngữ Tần Suất",
-      question: "Trong Speaking Part 1, thành ngữ nào mang nghĩa 'rất hiếm khi làm điều gì' giúp câu trả lời thêm sinh động và đạt điểm cao?",
-      options: [
-        "once in a blue moon",
-        "hit the books",
-        "a real page-turner",
-        "right up my alley"
-      ],
-      answer: 0,
-      explain: "'once in a blue moon' = rất hiếm khi. Ví dụ: 'Because of my busy work, I only go swimming once in a blue moon.'"
-    },
-    {
-      id: "sv-off-2",
-      category: "speaking-vocab",
-      categoryName: "🗣️ Từ Vựng Speaking",
-      skill: "Speaking",
-      level: "B1-B2",
-      topic: "Speaking Part 1 — Cụm Từ 'Rất Đúng Sở Thích'",
-      question: "Cụm thành ngữ nào diễn tả 'điều này hoàn toàn đúng với sở thích / gu của tôi'?",
-      options: [
-        "It's right up my alley",
-        "It's once in a blue moon",
-        "It hits the books",
-        "It passes the time"
-      ],
-      answer: 0,
-      explain: "'It's right up my alley' là thành ngữ chuẩn bản xứ, có nghĩa là việc này rất hợp gu/sở thích của tôi."
-    },
-    {
-      id: "sv-off-3",
-      category: "speaking-vocab",
-      categoryName: "🗣️ Từ Vựng Speaking",
-      skill: "Speaking",
-      level: "B2",
-      topic: "Speaking Part 2 — Câu Chốt Phương Án Tối Ưu",
-      question: "Trong Speaking Part 2, câu mở màn nào sau đây thể hiện việc cân nhắc kỹ lưỡng và chọn phương án tối ưu chuẩn band B2?",
-      options: [
-        "Weighing all three alternatives, I firmly believe that Option A is the most viable solution.",
-        "I like Option A because it is good and cheap.",
-        "There are 3 options, I choose A.",
-        "Option A is my favourite answer."
-      ],
-      answer: 0,
-      explain: "'Weighing all three alternatives, I firmly believe that [Option] is the most viable solution' là câu mở đầu học thuật chuẩn mực trong giáo trình của Cô Nguyệt."
-    },
-    {
-      id: "sv-off-4",
-      category: "speaking-vocab",
-      categoryName: "🗣️ Từ Vựng Speaking",
-      skill: "Speaking",
-      level: "B2",
-      topic: "Speaking Part 2 — Công Thức Bác Bỏ (Rebuttal)",
-      question: "Khi cần bác bỏ phương án B vì quá đắt đỏ trong Speaking Part 2, câu nào thể hiện sự phản biện khéo léo nhất?",
-      options: [
-        "Turning to Option B, although it seems tempting at first glance, its primary drawback lies in its prohibitive cost.",
-        "Option B is bad and ugly.",
-        "Nobody likes Option B because it is stupid.",
-        "I hate Option B."
-      ],
-      answer: 0,
-      explain: "Công thức nhượng bộ 'Although Option B seems tempting at first glance, its primary drawback lies in its prohibitive cost' vừa thừa nhận ưu điểm vừa chỉ ra lý do cốt lõi để loại bỏ."
-    },
-
-    // --- 3. CHUYÊN ĐỀ: 7 DẠNG THƯ VSTEP TASK 01 CỦA CÔ NGUYỆT ---
-    {
-      id: "wl-off-1",
-      category: "writing-letter",
-      categoryName: "✉️ 7 Dạng Thư Task 1",
-      skill: "Writing",
-      level: "B1",
-      topic: "Task 1 — Nhận Dạng Thư Cho Lời Khuyên (Letter of Advice)",
-      question: "Đề bài có các từ khóa: 'advice, give me some advice, ask for advice, suggestions, recommendations, what should I do...'. Đây là dạng thư nào?",
-      options: [
-        "Letter of Advice (Thư Cho Lời Khuyên)",
-        "Letter of Complaint (Thư Phàn Nàn)",
-        "Letter of Apology (Thư Xin Lỗi)",
-        "Letter of Application (Thư Ứng Tuyển)"
-      ],
-      answer: 0,
-      explain: "Từ khóa 'advice, suggestions, what should I do' là dấu hiệu đặc trưng của Letter of Advice (Dạng thư 1 trong hệ thống của Cô Nguyệt). Thư thường mang phong cách thân mật (Informal)."
-    },
-    {
-      id: "wl-off-2",
-      category: "writing-letter",
-      categoryName: "✉️ 7 Dạng Thư Task 1",
-      skill: "Writing",
-      level: "B1",
-      topic: "Task 1 — Nhận Dạng Thư Yêu Cầu (Letter of Request)",
-      question: "Đề bài: 'You are planning to take an English course. Write a letter to ask about the tuition fee, teachers, and schedule.' Đây là dạng thư nào?",
-      options: [
-        "Letter of Request (Thư Yêu Cầu Thông Tin)",
-        "Letter of Feedback (Thư Đánh Giá)",
-        "Letter of Apology (Thư Xin Lỗi)",
-        "Letter of Advice (Thư Cho Lời Khuyên)"
-      ],
-      answer: 0,
-      explain: "Yêu cầu hỏi xin thông tin về học phí, giáo viên và lịch học là dạng Letter of Request (Dạng thư 2). Mẫu câu: 'Could you please provide me with more information about...?'"
-    },
-    {
-      id: "wl-off-3",
-      category: "writing-letter",
-      categoryName: "✉️ 7 Dạng Thư Task 1",
-      skill: "Writing",
-      level: "B1",
-      topic: "Task 1 — Nhận Dạng Thư Phàn Nàn (Letter of Complaint)",
-      question: "Đề bài có các từ khóa: 'complain about, express dissatisfaction with, poor service, bad quality, ask for a refund'. Đây là dạng thư nào?",
-      options: [
-        "Letter of Complaint (Thư Phàn Nàn)",
-        "Letter of Description (Thư Cung Cấp Thông Tin)",
-        "Letter of Application (Thư Ứng Tuyển)",
-        "Letter of Advice (Thư Cho Lời Khuyên)"
-      ],
-      answer: 0,
-      explain: "Dấu hiệu 'complain about, express dissatisfaction, poor service, ask for a refund' là dạng Letter of Complaint (Dạng thư 4). Phong cách bắt buộc là Formal Letter, tuyệt đối không viết tắt!"
-    },
-    {
-      id: "wl-off-4",
-      category: "writing-letter",
-      categoryName: "✉️ 7 Dạng Thư Task 1",
-      skill: "Writing",
-      level: "B1",
-      topic: "Task 1 — Nhận Dạng Thư Cung Cấp Thông Tin (Letter of Description)",
-      question: "Đề bài: 'Your friend is going to visit your hometown. Write a letter to tell him about the famous places, local food, and the weather.' Đây là dạng thư nào?",
-      options: [
-        "Letter of Description (Thư Cung Cấp Thông Tin)",
-        "Letter of Complaint (Thư Phàn Nàn)",
-        "Letter of Application (Thư Ứng Tuyển)",
-        "Letter of Request (Thư Yêu Cầu)"
-      ],
-      answer: 0,
-      explain: "Đề bài yêu cầu miêu tả và cung cấp thông tin về quê hương (địa điểm, món ăn, thời tiết) là dạng Letter of Description (Dạng thư 3)."
-    },
-    {
-      id: "wl-off-5",
-      category: "writing-letter",
-      categoryName: "✉️ 7 Dạng Thư Task 1",
-      skill: "Writing",
-      level: "B1",
-      topic: "Task 1 — Nhận Dạng Thư Phản Hồi, Đánh Giá (Letter of Feedback)",
-      question: "Đề bài yêu cầu: 'Write a letter to share what you liked and did not like about the workshop you attended.' Đây là dạng thư nào?",
-      options: [
-        "Letter of Feedback (Thư Phản Hồi, Đánh Giá)",
-        "Letter of Apology (Thư Xin Lỗi)",
-        "Letter of Advice (Thư Cho Lời Khuyên)",
-        "Letter of Application (Thư Ứng Tuyển)"
-      ],
-      answer: 0,
-      explain: "Nêu nhận xét cả mặt tích cực (liked) và mặt cần cải thiện (did not like) là đặc trưng của Letter of Feedback (Dạng thư 5)."
-    },
-    {
-      id: "wl-off-6",
-      category: "writing-letter",
-      categoryName: "✉️ 7 Dạng Thư Task 1",
-      skill: "Writing",
-      level: "B1",
-      topic: "Task 1 — Nhận Dạng Thư Xin Lỗi (Letter of Apology)",
-      question: "Đề bài: 'You missed your friend's birthday party last night. Write a letter to apologize, explain why you could not come, and suggest another meeting.' Đây là dạng thư nào?",
-      options: [
-        "Letter of Apology (Thư Xin Lỗi)",
-        "Letter of Complaint (Thư Phàn Nàn)",
-        "Letter of Request (Thư Yêu Cầu)",
-        "Letter of Description (Thư Cung Cấp Thông Tin)"
-      ],
-      answer: 0,
-      explain: "Xin lỗi vì vắng mặt, giải thích lý do và đề xuất hẹn lại là dạng Letter of Apology (Dạng thư 6). Mở đầu: 'Please accept my sincere apologies for...'"
-    },
-    {
-      id: "wl-off-7",
-      category: "writing-letter",
-      categoryName: "✉️ 7 Dạng Thư Task 1",
-      skill: "Writing",
-      level: "B1",
-      topic: "Task 1 — Nhận Dạng Thư Ứng Tuyển (Letter of Application)",
-      question: "Đề bài: 'You saw an advertisement for a part-time receptionist at a hotel. Write a letter to apply for this job.' Đây là dạng thư nào?",
-      options: [
-        "Letter of Application (Thư Ứng Tuyển)",
-        "Letter of Advice (Thư Cho Lời Khuyên)",
-        "Letter of Feedback (Thư Đánh Giá)",
-        "Letter of Complaint (Thư Phàn Nàn)"
-      ],
-      answer: 0,
-      explain: "Ứng tuyển vào vị trí công việc theo quảng cáo là dạng Letter of Application (Dạng thư 7). Mở bài: 'I am writing to apply for the position of receptionist as advertised...'"
-    },
-
-    // --- 4. CHUYÊN ĐỀ: 4 DẠNG LUẬN VSTEP TASK 02 CỦA CÔ NGUYỆT ---
-    {
-      id: "we-off-1",
-      category: "writing-essay",
-      categoryName: "📝 4 Dạng Luận Task 2",
-      skill: "Writing",
-      level: "B1-B2",
-      topic: "Task 2 — Dạng Luận Thuận Lợi & Bất Lợi (Advantages and Disadvantages)",
-      question: "Đề bài có câu lệnh: 'What are the advantages and disadvantages of studying abroad?' hoặc 'Do the advantages outweigh the disadvantages?' Đây là dạng bài luận nào?",
-      options: [
-        "ADVANTAGES AND DISADVANTAGES (Thảo Luận Thuận Lợi & Bất Lợi)",
-        "OPINION (Trình Bày Quan Điểm)",
-        "CAUSES – EFFECTS – SOLUTIONS (Nguyên Nhân, Hậu Quả & Giải Pháp)",
-        "DISCUSSION (Thảo Luận 2 Chiều)"
-      ],
-      answer: 0,
-      explain: "Câu lệnh hỏi về advantages and disadvantages / benefits and drawbacks là Dạng Luận 1 trong giáo trình của Cô Nguyệt. Cần phân tích cả mặt tích cực và tiêu cực."
-    },
-    {
-      id: "we-off-2",
-      category: "writing-essay",
-      categoryName: "📝 4 Dạng Luận Task 2",
-      skill: "Writing",
-      level: "B1-B2",
-      topic: "Task 2 — Dạng Nguyên Nhân, Hậu Quả & Giải Pháp (Causes - Effects - Solutions)",
-      question: "Đề bài: 'Many young people are spending too much time on social media. What are the causes of this issue and suggest some practical solutions.' Đây là dạng bài luận nào?",
-      options: [
-        "CAUSES – EFFECTS – SOLUTIONS (Nguyên Nhân, Hậu Quả & Giải Pháp)",
-        "DISCUSSION (Thảo Luận 2 Chiều)",
-        "OPINION (Trình Bày Quan Điểm)",
-        "ADVANTAGES AND DISADVANTAGES (Thuận Lợi & Bất Lợi)"
-      ],
-      answer: 0,
-      explain: "Đề bài yêu cầu phân tích nguyên nhân (causes) và giải pháp (solutions) là Dạng Luận 2 trong hệ thống của Cô Nguyệt. Thân bài 1 viết nguyên nhân, Thân bài 2 viết giải pháp tương ứng."
-    },
-    {
-      id: "we-off-3",
-      category: "writing-essay",
-      categoryName: "📝 4 Dạng Luận Task 2",
-      skill: "Writing",
-      level: "B1-B2",
-      topic: "Task 2 — Dạng Luận Trình Bày Quan Điểm (Opinion)",
-      question: "Đề bài kết thúc bằng: 'Do you agree or disagree with this statement?' hoặc 'To what extent do you agree or disagree?' Đây là dạng bài luận nào?",
-      options: [
-        "OPINION (Trình Bày Quan Điểm)",
-        "DISCUSSION (Thảo Luận 2 Chiều)",
-        "CAUSES – EFFECTS – SOLUTIONS (Nguyên Nhân, Hậu Quả & Giải Pháp)",
-        "ADVANTAGES AND DISADVANTAGES (Thuận Lợi & Bất Lợi)"
-      ],
-      answer: 0,
-      explain: "Câu hỏi 'Do you agree or disagree?' là Dạng Luận 3 (Opinion Essay). Thí sinh phải nêu rõ lập trường của mình ngay cuối Mở bài (Thesis Statement)."
-    },
-    {
-      id: "we-off-4",
-      category: "writing-essay",
-      categoryName: "📝 4 Dạng Luận Task 2",
-      skill: "Writing",
-      level: "B1-B2",
-      topic: "Task 2 — Dạng Luận Thảo Luận 2 Chiều (Discussion)",
-      question: "Đề bài có câu lệnh: 'Discuss both views and give your opinion.' Lưu ý quan trọng nhất của Cô Nguyệt đối với dạng bài này là gì?",
-      options: [
-        "Bắt buộc phải phân tích cả hai quan điểm ở 2 thân bài trước khi đưa ra kết luận cá nhân.",
-        "Chỉ phân tích một quan điểm mình thích và bỏ qua quan điểm còn lại.",
-        "Không được đưa ra ý kiến cá nhân ở bất cứ đoạn nào.",
-        "Chỉ viết về nguyên nhân và giải pháp của vấn đề."
-      ],
-      answer: 0,
-      explain: "Lưu ý sống còn của Dạng Discussion (Dạng Luận 4): Khi đề bài xuất hiện hai quan điểm đối lập, người viết bắt buộc phải phân tích và phát triển cả hai phía (Body 1 và Body 2) trước khi đưa ra kết luận hoặc quan điểm cá nhân!"
-    }
-  ];
+  {
+    "id": "bm-off-1",
+    "category": "benefit-matrix",
+    "categoryName": "📊 Bảng Lợi Ích",
+    "skill": "Speaking",
+    "level": "B1",
+    "topic": "Bảng Lợi Ích — Nhóm Giải Trí (Entertainment)",
+    "question": "Trong Bảng Lợi Ích của Cô Nguyệt, cụm từ nào mang nghĩa 'thư giãn sau một ngày dài' khi nói về sở thích nghe nhạc hoặc xem phim?",
+    "options": [
+      "relax after a long day",
+      "widen my knowledge",
+      "stay in good shape",
+      "enhance my employability"
+    ],
+    "answer": 0,
+    "explain": "'relax after a long day' thuộc Nhóm Lợi Ích Giải Trí của Cô Nguyệt, dùng để giải thích lý do vì sao thích các hoạt động thư giãn sau giờ học hoặc làm việc căng thẳng."
+  },
+  {
+    "id": "bm-off-2",
+    "category": "benefit-matrix",
+    "categoryName": "📊 Bảng Lợi Ích",
+    "skill": "Speaking",
+    "level": "B1",
+    "topic": "Bảng Lợi Ích — Nhóm Giáo Dục (Education)",
+    "question": "Cụm từ nào trong Bảng Lợi Ích của Cô Nguyệt có nghĩa là 'mở rộng kiến thức' khi trả lời về việc đọc sách hoặc học ngoại ngữ?",
+    "options": [
+      "widen my knowledge",
+      "pass the time",
+      "avoid getting sick",
+      "regain my energy"
+    ],
+    "answer": 0,
+    "explain": "'widen my knowledge' thuộc Nhóm Lợi Ích Giáo Dục / Phát Triển Bản Thân của Cô Nguyệt. Rất phù hợp khi trả lời: 'Reading books is great because it helps me widen my knowledge.'"
+  },
+  {
+    "id": "bm-off-3",
+    "category": "benefit-matrix",
+    "categoryName": "📊 Bảng Lợi Ích",
+    "skill": "Speaking",
+    "level": "B1",
+    "topic": "Bảng Lợi Ích — Nhóm Sức Khỏe (Health)",
+    "question": "Khi được hỏi 'Why do you like playing badminton?', cụm từ nào trong Bảng Lợi Ích Sức Khỏe mang nghĩa 'giữ vóc dáng cân đối'?",
+    "options": [
+      "stay in good shape",
+      "escape from daily stress",
+      "digital skills",
+      "forget about my worries"
+    ],
+    "answer": 0,
+    "explain": "'stay in good shape' thuộc Nhóm Lợi Ích Sức Khỏe của Cô Nguyệt, dùng để diễn tả việc duy trì vóc dáng đẹp, cân đối khi tập luyện thể thao."
+  },
+  {
+    "id": "bm-off-4",
+    "category": "benefit-matrix",
+    "categoryName": "📊 Bảng Lợi Ích",
+    "skill": "Speaking",
+    "level": "B1",
+    "topic": "Bảng Lợi Ích — Kỹ Năng Mềm (Soft Skills)",
+    "question": "Trong Bảng Lợi Ích, cụm từ 'teamwork skills' và 'problem-solving skills' thuộc nhóm nào?",
+    "options": [
+      "Kỹ Năng Mềm Cần Thiết (Soft Skills)",
+      "Lợi Ích Giải Trí (Entertainment)",
+      "Lợi Ích Sức Khỏe (Health)",
+      "Lợi Ích Thời Gian (Time)"
+    ],
+    "answer": 0,
+    "explain": "'teamwork skills' (kỹ năng làm việc nhóm) và 'problem-solving skills' (kỹ năng giải quyết vấn đề) thuộc Nhóm Kỹ Năng Mềm Cần Thiết trong hệ thống giáo trình của Cô Nguyệt."
+  },
+  {
+    "id": "bm-off-5",
+    "category": "benefit-matrix",
+    "categoryName": "📊 Bảng Lợi Ích",
+    "skill": "Speaking",
+    "level": "B1",
+    "topic": "Bảng Lợi Ích — Ứng Dụng Công Thức Phản Xạ",
+    "question": "Công thức phản xạ chuẩn của Cô Nguyệt khi trả lời câu hỏi Speaking Part 1 về sở thích bằng Bảng Lợi Ích là gì?",
+    "options": [
+      "Trả lời trực tiếp + because it helps me + [Cụm Lợi Ích] + Mở rộng",
+      "Chỉ cần nói Yes hoặc No rồi dừng lại",
+      "Đọc lại toàn bộ đề bài và không đưa lý do",
+      "Nói một câu tiếng Việt rồi dịch từng chữ sang tiếng Anh"
+    ],
+    "answer": 0,
+    "explain": "Công thức chuẩn của Cô Nguyệt: Trả lời trực tiếp ('Yes, definitely!') -> Dùng 'because it helps me + V-bare' gắn với cụm trong Bảng Lợi Ích -> Mở rộng tần suất hoặc cảm xúc!"
+  },
+  {
+    "id": "bm-off-6",
+    "category": "benefit-matrix",
+    "categoryName": "📊 Bảng Lợi Ích",
+    "skill": "Speaking",
+    "level": "B1",
+    "topic": "Bảng Lợi Ích — Nhóm Giải Trí (Entertainment)",
+    "question": "Cụm từ nào trong Bảng Lợi Ích Giải Trí có nghĩa là 'giải tỏa tâm trí, làm sạch suy nghĩ' sau những giờ làm việc mệt mỏi?",
+    "options": [
+      "clear my mind",
+      "enrich practical experience",
+      "time management skills",
+      "avoid getting sick"
+    ],
+    "answer": 0,
+    "explain": "'clear my mind' = làm sạch tâm trí, giải tỏa âu lo. Ví dụ: 'Taking a stroll in the park helps me clear my mind after a hectic day.'"
+  },
+  {
+    "id": "bm-off-7",
+    "category": "benefit-matrix",
+    "categoryName": "📊 Bảng Lợi Ích",
+    "skill": "Speaking",
+    "level": "B1-B2",
+    "topic": "Bảng Lợi Ích — Nhóm Sức Khỏe (Health)",
+    "question": "Khi nói về việc ăn uống đủ chất hoặc rèn luyện thể thao, cụm từ nào mang nghĩa 'tăng cường hệ miễn dịch'?",
+    "options": [
+      "boost my immune system",
+      "pass the time",
+      "sharpen critical thinking",
+      "adaptability"
+    ],
+    "answer": 0,
+    "explain": "'boost my immune system' (tăng cường hệ miễn dịch) thuộc Nhóm Lợi Ích Sức Khỏe, giúp bài nói đạt điểm từ vựng band B2."
+  },
+  {
+    "id": "bm-off-8",
+    "category": "benefit-matrix",
+    "categoryName": "📊 Bảng Lợi Ích",
+    "skill": "Speaking",
+    "level": "B1-B2",
+    "topic": "Bảng Lợi Ích — Nhóm Giáo Dục (Education)",
+    "question": "Trong Bảng Lợi Ích, cụm từ 'broaden my horizons' có nghĩa là gì?",
+    "options": [
+      "Mở rộng tầm nhìn và hiểu biết về thế giới",
+      "Giảm cân và giữ vóc dáng",
+      "Ngủ ngon và sâu giấc hơn",
+      "Giết thời gian những lúc rảnh rỗi"
+    ],
+    "answer": 0,
+    "explain": "'broaden my horizons' là cụm từ rất hay trong Nhóm Giáo Dục, dùng khi nói về du lịch, học ngoại ngữ, đọc sách: 'Traveling broadens my horizons.'"
+  },
+  {
+    "id": "bm-off-9",
+    "category": "benefit-matrix",
+    "categoryName": "📊 Bảng Lợi Ích",
+    "skill": "Speaking",
+    "level": "B1",
+    "topic": "Bảng Lợi Ích — Kỹ Năng Mềm (Soft Skills)",
+    "question": "Cụm từ nào trong nhóm Kỹ Năng Mềm của Cô Nguyệt diễn tả khả năng 'thuyết trình tự tin trước đám đông'?",
+    "options": [
+      "public speaking skills",
+      "sleep better",
+      "enjoy my free time",
+      "maintain a healthy lifestyle"
+    ],
+    "answer": 0,
+    "explain": "'public speaking skills' (kỹ năng nói trước đám đông) là kỹ năng mềm quan trọng, thường dùng khi nói về hoạt động tham gia CLB hoặc thuyết trình tại lớp."
+  },
+  {
+    "id": "sv-off-1",
+    "category": "speaking-vocab",
+    "categoryName": "🗣️ Từ Vựng Speaking",
+    "skill": "Speaking",
+    "level": "B1-B2",
+    "topic": "Speaking Part 1 — Thành Ngữ Tần Suất",
+    "question": "Trong Speaking Part 1, thành ngữ nào mang nghĩa 'rất hiếm khi làm điều gì' giúp câu trả lời thêm sinh động và đạt điểm cao?",
+    "options": [
+      "once in a blue moon",
+      "hit the books",
+      "a real page-turner",
+      "right up my alley"
+    ],
+    "answer": 0,
+    "explain": "'once in a blue moon' = rất hiếm khi. Ví dụ: 'Because of my busy work, I only go swimming once in a blue moon.'"
+  },
+  {
+    "id": "sv-off-2",
+    "category": "speaking-vocab",
+    "categoryName": "🗣️ Từ Vựng Speaking",
+    "skill": "Speaking",
+    "level": "B1-B2",
+    "topic": "Speaking Part 1 — Cụm Từ 'Rất Đúng Sở Thích'",
+    "question": "Cụm thành ngữ nào diễn tả 'điều này hoàn toàn đúng với sở thích / gu của tôi'?",
+    "options": [
+      "It's right up my alley",
+      "It's once in a blue moon",
+      "It hits the books",
+      "It passes the time"
+    ],
+    "answer": 0,
+    "explain": "'It's right up my alley' là thành ngữ chuẩn bản xứ, có nghĩa là việc này rất hợp gu/sở thích của tôi."
+  },
+  {
+    "id": "sv-off-3",
+    "category": "speaking-vocab",
+    "categoryName": "🗣️ Từ Vựng Speaking",
+    "skill": "Speaking",
+    "level": "B2",
+    "topic": "Speaking Part 2 — Câu Chốt Phương Án Tối Ưu",
+    "question": "Trong Speaking Part 2, câu mở màn nào sau đây thể hiện việc cân nhắc kỹ lưỡng và chọn phương án tối ưu chuẩn band B2?",
+    "options": [
+      "Weighing all three alternatives, I firmly believe that Option A is the most viable solution.",
+      "I like Option A because it is good and cheap.",
+      "There are 3 options, I choose A.",
+      "Option A is my favourite answer."
+    ],
+    "answer": 0,
+    "explain": "'Weighing all three alternatives, I firmly believe that [Option] is the most viable solution' là câu mở đầu học thuật chuẩn mực trong giáo trình của Cô Nguyệt."
+  },
+  {
+    "id": "sv-off-4",
+    "category": "speaking-vocab",
+    "categoryName": "🗣️ Từ Vựng Speaking",
+    "skill": "Speaking",
+    "level": "B2",
+    "topic": "Speaking Part 2 — Công Thức Bác Bỏ (Rebuttal)",
+    "question": "Khi cần bác bỏ phương án B vì quá đắt đỏ trong Speaking Part 2, câu nào thể hiện sự phản biện khéo léo nhất?",
+    "options": [
+      "Turning to Option B, although it seems tempting at first glance, its primary drawback lies in its prohibitive cost.",
+      "Option B is bad and ugly.",
+      "Nobody likes Option B because it is stupid.",
+      "I hate Option B."
+    ],
+    "answer": 0,
+    "explain": "Công thức nhượng bộ 'Although Option B seems tempting at first glance, its primary drawback lies in its prohibitive cost' vừa thừa nhận ưu điểm vừa chỉ ra lý do cốt lõi để loại bỏ."
+  },
+  {
+    "id": "sv-off-5",
+    "category": "speaking-vocab",
+    "categoryName": "🗣️ Từ Vựng Speaking",
+    "skill": "Speaking",
+    "level": "B1-B2",
+    "topic": "Speaking Part 1 — Khen Sách Cực Hay",
+    "question": "Khi giám khảo hỏi về thói quen đọc sách, cụm từ nào mang nghĩa 'một cuốn sách quá lôi cuốn, hấp dẫn khiến người đọc không thể rời mắt'?",
+    "options": [
+      "a real page-turner",
+      "hit the nail on the head",
+      "under the weather",
+      "beat around the bush"
+    ],
+    "answer": 0,
+    "explain": "'a page-turner' = cuốn sách cực kỳ ly kỳ, lôi cuốn: 'The detective novel was a real page-turner, so I finished it in one sitting.'"
+  },
+  {
+    "id": "sv-off-6",
+    "category": "speaking-vocab",
+    "categoryName": "🗣️ Từ Vựng Speaking",
+    "skill": "Speaking",
+    "level": "B2",
+    "topic": "Speaking Part 2 — So Sánh Vượt Trội",
+    "question": "Trong Speaking Part 2, mẫu câu nào thể hiện lựa chọn tối ưu vượt trội hơn hẳn các lựa chọn còn lại?",
+    "options": [
+      "Option A stands out as a far superior choice in comparison with the others.",
+      "Option A is the same as Option B and C.",
+      "All options are bad so I pick randomly.",
+      "I cannot decide which one is better."
+    ],
+    "answer": 0,
+    "explain": "'Option A stands out as a far superior choice in comparison with the others' giúp giám khảo thấy rõ khả năng so sánh tương quan vượt trội."
+  },
+  {
+    "id": "sv-off-7",
+    "category": "speaking-vocab",
+    "categoryName": "🗣️ Từ Vựng Speaking",
+    "skill": "Speaking",
+    "level": "B2",
+    "topic": "Speaking Part 3 — Từ Nối Khởi Đầu Luận Điểm",
+    "question": "Trong Speaking Part 3, từ nối (discourse marker) nào trang trọng nhất để mở đầu cho luận điểm cốt lõi đầu tiên?",
+    "options": [
+      "First and foremost",
+      "By the way",
+      "Anyway",
+      "Like you know"
+    ],
+    "answer": 0,
+    "explain": "'First and foremost' = Trước hết và quan trọng nhất, là từ nối mở bài trang trọng giúp định hình cấu trúc nói mạch lạc."
+  },
+  {
+    "id": "sv-off-8",
+    "category": "speaking-vocab",
+    "categoryName": "🗣️ Từ Vựng Speaking",
+    "skill": "Speaking",
+    "level": "B1",
+    "topic": "Speaking Part 1 — Thành Ngữ Ôn Thi Chăm Chỉ",
+    "question": "Cụm thành ngữ nào đồng nghĩa với 'bắt đầu học bài chăm chỉ, vùi đầu vào sách vở' cho kỳ thi VSTEP sắp tới?",
+    "options": [
+      "hit the books",
+      "hit the sack",
+      "bite the bullet",
+      "spill the beans"
+    ],
+    "answer": 0,
+    "explain": "'hit the books' = vùi đầu vào học: 'I have an exam next week, so it's time to hit the books.'"
+  },
+  {
+    "id": "sv-off-9",
+    "category": "speaking-vocab",
+    "categoryName": "🗣️ Từ Vựng Speaking",
+    "skill": "Speaking",
+    "level": "B2",
+    "topic": "Speaking Part 3 — Nêu Hệ Quả (Cause & Effect)",
+    "question": "Từ nối nào diễn tả mối quan hệ nhân - quả học thuật (hệ quả tất yếu) thích hợp nhất cho Speaking Part 3 và Writing?",
+    "options": [
+      "Consequently",
+      "Maybe",
+      "Or else",
+      "Kind of"
+    ],
+    "answer": 0,
+    "explain": "'Consequently' (= Do đó, kết quả là) thể hiện tư duy học thuật sắc sảo, nâng điểm tiêu chí Coherence and Fluency."
+  },
+  {
+    "id": "wl-off-1",
+    "category": "writing-letter",
+    "categoryName": "✉️ 7 Dạng Thư Task 1",
+    "skill": "Writing",
+    "level": "B1",
+    "topic": "Task 1 — Nhận Dạng Thư Cho Lời Khuyên (Letter of Advice)",
+    "question": "Đề bài có các từ khóa: 'advice, give me some advice, ask for advice, suggestions, recommendations, what should I do...'. Đây là dạng thư nào?",
+    "options": [
+      "Letter of Advice (Thư Cho Lời Khuyên)",
+      "Letter of Complaint (Thư Phàn Nàn)",
+      "Letter of Apology (Thư Xin Lỗi)",
+      "Letter of Application (Thư Ứng Tuyển)"
+    ],
+    "answer": 0,
+    "explain": "Từ khóa 'advice, suggestions, what should I do' là dấu hiệu đặc trưng của Letter of Advice (Dạng thư 1 trong hệ thống của Cô Nguyệt). Thư thường mang phong cách thân mật (Informal)."
+  },
+  {
+    "id": "wl-off-2",
+    "category": "writing-letter",
+    "categoryName": "✉️ 7 Dạng Thư Task 1",
+    "skill": "Writing",
+    "level": "B1",
+    "topic": "Task 1 — Nhận Dạng Thư Yêu Cầu (Letter of Request)",
+    "question": "Đề bài: 'You are planning to take an English course. Write a letter to ask about the tuition fee, teachers, and schedule.' Đây là dạng thư nào?",
+    "options": [
+      "Letter of Request (Thư Yêu Cầu Thông Tin)",
+      "Letter of Feedback (Thư Đánh Giá)",
+      "Letter of Apology (Thư Xin Lỗi)",
+      "Letter of Advice (Thư Cho Lời Khuyên)"
+    ],
+    "answer": 0,
+    "explain": "Yêu cầu hỏi xin thông tin về học phí, giáo viên và lịch học là dạng Letter of Request (Dạng thư 2). Mẫu câu: 'Could you please provide me with more information about...?'"
+  },
+  {
+    "id": "wl-off-3",
+    "category": "writing-letter",
+    "categoryName": "✉️ 7 Dạng Thư Task 1",
+    "skill": "Writing",
+    "level": "B1",
+    "topic": "Task 1 — Nhận Dạng Thư Phàn Nàn (Letter of Complaint)",
+    "question": "Đề bài có các từ khóa: 'complain about, express dissatisfaction with, poor service, bad quality, ask for a refund'. Đây là dạng thư nào?",
+    "options": [
+      "Letter of Complaint (Thư Phàn Nàn)",
+      "Letter of Description (Thư Cung Cấp Thông Tin)",
+      "Letter of Application (Thư Ứng Tuyển)",
+      "Letter of Advice (Thư Cho Lời Khuyên)"
+    ],
+    "answer": 0,
+    "explain": "Dấu hiệu 'complain about, express dissatisfaction, poor service, ask for a refund' là dạng Letter of Complaint (Dạng thư 4). Phong cách bắt buộc là Formal Letter, tuyệt đối không viết tắt!"
+  },
+  {
+    "id": "wl-off-4",
+    "category": "writing-letter",
+    "categoryName": "✉️ 7 Dạng Thư Task 1",
+    "skill": "Writing",
+    "level": "B1",
+    "topic": "Task 1 — Nhận Dạng Thư Cung Cấp Thông Tin (Letter of Description)",
+    "question": "Đề bài: 'Your friend is going to visit your hometown. Write a letter to tell him about the famous places, local food, and the weather.' Đây là dạng thư nào?",
+    "options": [
+      "Letter of Description (Thư Cung Cấp Thông Tin)",
+      "Letter of Complaint (Thư Phàn Nàn)",
+      "Letter of Application (Thư Ứng Tuyển)",
+      "Letter of Request (Thư Yêu Cầu)"
+    ],
+    "answer": 0,
+    "explain": "Đề bài yêu cầu miêu tả và cung cấp thông tin về quê hương (địa điểm, món ăn, thời tiết) là dạng Letter of Description (Dạng thư 3)."
+  },
+  {
+    "id": "wl-off-5",
+    "category": "writing-letter",
+    "categoryName": "✉️ 7 Dạng Thư Task 1",
+    "skill": "Writing",
+    "level": "B1",
+    "topic": "Task 1 — Nhận Dạng Thư Phản Hồi, Đánh Giá (Letter of Feedback)",
+    "question": "Đề bài yêu cầu: 'Write a letter to share what you liked and did not like about the workshop you attended.' Đây là dạng thư nào?",
+    "options": [
+      "Letter of Feedback (Thư Phản Hồi, Đánh Giá)",
+      "Letter of Apology (Thư Xin Lỗi)",
+      "Letter of Advice (Thư Cho Lời Khuyên)",
+      "Letter of Application (Thư Ứng Tuyển)"
+    ],
+    "answer": 0,
+    "explain": "Nêu nhận xét cả mặt tích cực (liked) và mặt cần cải thiện (did not like) là đặc trưng của Letter of Feedback (Dạng thư 5)."
+  },
+  {
+    "id": "wl-off-6",
+    "category": "writing-letter",
+    "categoryName": "✉️ 7 Dạng Thư Task 1",
+    "skill": "Writing",
+    "level": "B1",
+    "topic": "Task 1 — Nhận Dạng Thư Xin Lỗi (Letter of Apology)",
+    "question": "Đề bài: 'You missed your friend's birthday party last night. Write a letter to apologize, explain why you could not come, and suggest another meeting.' Đây là dạng thư nào?",
+    "options": [
+      "Letter of Apology (Thư Xin Lỗi)",
+      "Letter of Complaint (Thư Phàn Nàn)",
+      "Letter of Request (Thư Yêu Cầu)",
+      "Letter of Description (Thư Cung Cấp Thông Tin)"
+    ],
+    "answer": 0,
+    "explain": "Xin lỗi vì vắng mặt, giải thích lý do và đề xuất hẹn lại là dạng Letter of Apology (Dạng thư 6). Mở đầu: 'Please accept my sincere apologies for...'"
+  },
+  {
+    "id": "wl-off-7",
+    "category": "writing-letter",
+    "categoryName": "✉️ 7 Dạng Thư Task 1",
+    "skill": "Writing",
+    "level": "B1",
+    "topic": "Task 1 — Nhận Dạng Thư Ứng Tuyển (Letter of Application)",
+    "question": "Đề bài: 'You saw an advertisement for a part-time receptionist at a hotel. Write a letter to apply for this job.' Đây là dạng thư nào?",
+    "options": [
+      "Letter of Application (Thư Ứng Tuyển)",
+      "Letter of Advice (Thư Cho Lời Khuyên)",
+      "Letter of Feedback (Thư Đánh Giá)",
+      "Letter of Complaint (Thư Phàn Nàn)"
+    ],
+    "answer": 0,
+    "explain": "Ứng tuyển vào vị trí công việc theo quảng cáo là dạng Letter of Application (Dạng thư 7). Mở bài: 'I am writing to apply for the position of receptionist as advertised...'"
+  },
+  {
+    "id": "wl-off-8",
+    "category": "writing-letter",
+    "categoryName": "✉️ 7 Dạng Thư Task 1",
+    "skill": "Writing",
+    "level": "B1",
+    "topic": "Task 1 — Quy Tắc Chào Kết Thư Trang Trọng (Formal Letter)",
+    "question": "Trong thư trang trọng (Formal Letter), nếu bạn không biết tên người nhận và mở đầu bằng 'Dear Sir/Madam,', thì câu kết thư chuẩn bắt buộc phải là gì?",
+    "options": [
+      "Yours faithfully,",
+      "Yours sincerely,",
+      "Love,",
+      "See ya,"
+    ],
+    "answer": 0,
+    "explain": "Quy tắc kinh điển của Cô Nguyệt: 'Dear Sir/Madam' đi với 'Yours faithfully,'. Nếu biết tên 'Dear Mr. Smith' thì đi với 'Yours sincerely,'!"
+  },
+  {
+    "id": "wl-off-9",
+    "category": "writing-letter",
+    "categoryName": "✉️ 7 Dạng Thư Task 1",
+    "skill": "Writing",
+    "level": "B1",
+    "topic": "Task 1 — Mở Bài Thư Phàn Nàn Chuẩn Cô Nguyệt",
+    "question": "Câu mở bài nào sau đây chuẩn phong cách trang trọng (Formal) cho Thư Phàn Nàn (Letter of Complaint)?",
+    "options": [
+      "I am writing this letter to express my strong dissatisfaction with the poor customer service at your store.",
+      "Hey guys, your store is so terrible and I am very mad at you.",
+      "What's up? Fix my order right now!",
+      "I feel sad because your food was bad."
+    ],
+    "answer": 0,
+    "explain": "'I am writing to express my strong dissatisfaction with...' là mẫu câu chuẩn formal, lịch sự nhưng nghiêm túc, được giám khảo VSTEP đánh giá cao."
+  },
+  {
+    "id": "we-off-1",
+    "category": "writing-essay",
+    "categoryName": "📝 4 Dạng Luận Task 2",
+    "skill": "Writing",
+    "level": "B1-B2",
+    "topic": "Task 2 — Dạng Thuận Lợi & Bất Lợi (Advantages and Disadvantages)",
+    "question": "Đề bài có câu lệnh: 'What are the advantages and disadvantages of studying abroad?' hoặc 'Do the advantages outweigh the disadvantages?' Đây là dạng bài luận nào?",
+    "options": [
+      "ADVANTAGES AND DISADVANTAGES (Thảo Luận Thuận Lợi & Bất Lợi)",
+      "OPINION (Trình Bày Quan Điểm)",
+      "CAUSES – EFFECTS – SOLUTIONS (Nguyên Nhân, Hậu Quả & Giải Pháp)",
+      "DISCUSSION (Thảo Luận 2 Chiều)"
+    ],
+    "answer": 0,
+    "explain": "Câu lệnh hỏi về advantages and disadvantages / benefits and drawbacks là Dạng Luận 1 trong giáo trình của Cô Nguyệt. Cần phân tích cả mặt tích cực và tiêu cực."
+  },
+  {
+    "id": "we-off-2",
+    "category": "writing-essay",
+    "categoryName": "📝 4 Dạng Luận Task 2",
+    "skill": "Writing",
+    "level": "B1-B2",
+    "topic": "Task 2 — Dạng Nguyên Nhân & Giải Pháp (Causes - Solutions)",
+    "question": "Đề bài: 'Many young people are spending too much time on social media. What are the causes of this issue and suggest some practical solutions.' Đây là dạng bài luận nào?",
+    "options": [
+      "CAUSES – EFFECTS – SOLUTIONS (Nguyên Nhân, Hậu Quả & Giải Pháp)",
+      "DISCUSSION (Thảo Luận 2 Chiều)",
+      "OPINION (Trình Bày Quan Điểm)",
+      "ADVANTAGES AND DISADVANTAGES (Thuận Lợi & Bất Lợi)"
+    ],
+    "answer": 0,
+    "explain": "Đề bài yêu cầu phân tích nguyên nhân (causes) và giải pháp (solutions) là Dạng Luận 2 trong hệ thống của Cô Nguyệt. Thân bài 1 viết nguyên nhân, Thân bài 2 viết giải pháp tương ứng."
+  },
+  {
+    "id": "we-off-3",
+    "category": "writing-essay",
+    "categoryName": "📝 4 Dạng Luận Task 2",
+    "skill": "Writing",
+    "level": "B1-B2",
+    "topic": "Task 2 — Dạng Luận Quan Điểm (Opinion)",
+    "question": "Đề bài kết thúc bằng: 'Do you agree or disagree with this statement?' hoặc 'To what extent do you agree or disagree?' Đây là dạng bài luận nào?",
+    "options": [
+      "OPINION (Trình Bày Quan Điểm)",
+      "DISCUSSION (Thảo Luận 2 Chiều)",
+      "CAUSES – EFFECTS – SOLUTIONS (Nguyên Nhân, Hậu Quả & Giải Pháp)",
+      "ADVANTAGES AND DISADVANTAGES (Thuận Lợi & Bất Lợi)"
+    ],
+    "answer": 0,
+    "explain": "Câu lệnh 'Do you agree or disagree' là Dạng Luận Opinion (Dạng 3). Thí sinh cần nêu rõ quan điểm cá nhân ngay tại câu Thesis Statement ở Mở bài!"
+  },
+  {
+    "id": "we-off-4",
+    "category": "writing-essay",
+    "categoryName": "📝 4 Dạng Luận Task 2",
+    "skill": "Writing",
+    "level": "B1-B2",
+    "topic": "Task 2 — Dạng Luận Thảo Luận 2 Chiều (Discussion)",
+    "question": "Đề bài có câu lệnh: 'Discuss both views and give your own opinion.' Đây là dạng bài luận nào?",
+    "options": [
+      "DISCUSSION (Thảo Luận 2 Chiều)",
+      "CAUSES – EFFECTS – SOLUTIONS (Nguyên Nhân, Hậu Quả & Giải Pháp)",
+      "ADVANTAGES AND DISADVANTAGES (Thuận Lợi & Bất Lợi)",
+      "LETTER OF ADVICE (Thư Cho Lời Khuyên)"
+    ],
+    "answer": 0,
+    "explain": "Câu lệnh 'Discuss both views and give your opinion' là Dạng Luận Discussion (Dạng 4). Bắt buộc Thân bài 1 bàn góc nhìn thứ nhất, Thân bài 2 bàn góc nhìn thứ hai, rồi chốt quan điểm cá nhân."
+  },
+  {
+    "id": "we-off-5",
+    "category": "writing-essay",
+    "categoryName": "📝 4 Dạng Luận Task 2",
+    "skill": "Writing",
+    "level": "B2",
+    "topic": "Task 2 — Bẫy Thi Dạng Outweigh Của Cô Nguyệt",
+    "question": "Trong đề bài 'Do the advantages outweigh the disadvantages?', lưu ý bẫy thi của Cô Nguyệt là gì?",
+    "options": [
+      "Phải so sánh tương quan và khẳng định rõ mặt nào lớn hơn, không chỉ liệt kê thuần túy",
+      "Chỉ được viết về mặt lợi, bỏ qua hoàn toàn mặt hại",
+      "Viết hai đoạn thân bài bằng nhau chằn chặn mà không đưa ra kết luận bên nào nặng hơn",
+      "Chỉ cần viết 1 đoạn văn duy nhất"
+    ],
+    "answer": 0,
+    "explain": "Bẫy thi lớn nhất của dạng Outweigh: Nếu chỉ liệt kê lợi và hại mà không so sánh tương quan và chốt mặt nào vượt trội hơn, thí sinh sẽ bị trừ điểm nặng tiêu chí Task Response."
+  },
+  {
+    "id": "we-off-6",
+    "category": "writing-essay",
+    "categoryName": "📝 4 Dạng Luận Task 2",
+    "skill": "Writing",
+    "level": "B2",
+    "topic": "Task 2 — Phân Biệt Discussion & Opinion",
+    "question": "Điểm khác biệt cốt lõi nhất giữa dạng Discussion (Discuss both views) và dạng Opinion (Agree/Disagree) là gì?",
+    "options": [
+      "Discussion bắt buộc phải phân tích khách quan cả 2 góc nhìn trước khi chốt ý, Opinion có thể bảo vệ 1 chiều hoàn toàn",
+      "Discussion chỉ viết 1 đoạn thân bài, Opinion viết 3 đoạn",
+      "Opinion không được dùng ngôi 'I', Discussion bắt buộc dùng ngôi 'I'",
+      "Hai dạng bài này hoàn toàn giống hệt nhau về cách viết"
+    ],
+    "answer": 0,
+    "explain": "Ở dạng Discussion, bạn PHẢI thảo luận cả 2 mặt của vấn đề một cách công bằng ở 2 đoạn thân bài. Còn Opinion bạn có thể chọn đồng ý 100% và bảo vệ góc nhìn của mình suốt toàn bài."
+  },
+  {
+    "id": "we-off-7",
+    "category": "writing-essay",
+    "categoryName": "📝 4 Dạng Luận Task 2",
+    "skill": "Writing",
+    "level": "B1-B2",
+    "topic": "Task 2 — Thesis Statement Cho Dạng Causes - Solutions",
+    "question": "Mẫu câu Thesis Statement nào sau đây chuẩn chỉnh nhất cho Mở bài bài luận Causes & Solutions?",
+    "options": [
+      "This essay will examine the underlying causes of this phenomenon and propose practical measures to address it.",
+      "I think this problem has many reasons and solutions.",
+      "In this essay I will talk about good things and bad things.",
+      "This is a big problem for everyone."
+    ],
+    "answer": 0,
+    "explain": "'This essay will examine the underlying causes of this phenomenon and propose practical measures to address it' là câu Thesis Statement học thuật chuẩn mực trong giáo trình của Cô Nguyệt."
+  },
+  {
+    "id": "we-off-8",
+    "category": "writing-essay",
+    "categoryName": "📝 4 Dạng Luận Task 2",
+    "skill": "Writing",
+    "level": "B1-B2",
+    "topic": "Task 2 — Quy Tắc Viết Câu Chủ Đề (Topic Sentence)",
+    "question": "Theo quy chuẩn chấm thi VSTEP, câu chủ đề (Topic Sentence) ở đầu mỗi đoạn thân bài có vai trò gì?",
+    "options": [
+      "Nêu bật ý tưởng chính bao quát của cả đoạn, có từ nối chuyển đoạn rõ ràng",
+      "Kể một câu chuyện cá nhân dài dòng",
+      "Chép lại nguyên văn câu đề bài",
+      "Đưa ra kết luận cuối cùng của toàn bài"
+    ],
+    "answer": 0,
+    "explain": "Topic Sentence giúp giám khảo nắm ngay luận điểm của đoạn, quyết định điểm Coherence & Task Response. Ví dụ: 'On the one hand, there are several convincing arguments in favor of...'"
+  },
+  {
+    "id": "we-off-9",
+    "category": "writing-essay",
+    "categoryName": "📝 4 Dạng Luận Task 2",
+    "skill": "Writing",
+    "level": "B1-B2",
+    "topic": "Task 2 — Điều Cấm Kỵ Trong Đoạn Kết Bài (Conclusion)",
+    "question": "Khi viết đoạn Kết bài (Conclusion) cho bài luận VSTEP Task 2, điều cấm kỵ nhất là gì?",
+    "options": [
+      "Tuyệt đối không đưa thêm ý tưởng, thông tin mới chưa từng được phân tích trong thân bài",
+      "Khẳng định lại quan điểm cá nhân đã nêu ở mở bài",
+      "Tóm tắt ngắn gọn các luận điểm chính",
+      "Dùng từ nối 'In conclusion' hoặc 'To sum up'"
+    ],
+    "answer": 0,
+    "explain": "Nguyên tắc vàng của Cô Nguyệt: Kết bài chỉ tóm tắt và khẳng định lại, tuyệt đối KHÔNG đưa ý mới (new ideas) vào Kết bài vì sẽ bị giám khảo trừ điểm cấu trúc bài viết!"
+  }
+];
 
   /**
    * Computes growth stage index (1..4) from progress percentage (0..100).
@@ -1214,6 +1479,87 @@
     `;
   }
 
+  
+  /**
+   * Thuật toán chọn câu hỏi ôn thi VSTEP KHÔNG TRÙNG LẶP (Non-Repeating Quiz Engine)
+   * Đảm bảo:
+   * 1. Tuyệt đối không lặp lại câu hỏi đã trả lời trong chu kỳ hiện tại.
+   * 2. Hỗ trợ lọc theo danh mục cụ thể hoặc toàn bộ câu hỏi.
+   * 3. Khi hoàn thành 100% câu hỏi trong danh mục, tự động khởi động chu kỳ mới
+   *    nhưng giữ lại câu vừa làm gần nhất để không bao giờ bị trùng 2 câu liên tiếp!
+   */
+  const QUIZ_SEEN_STORAGE_KEY = 'miss_nguyet_quiz_seen_ids_v1';
+
+  function getNextNonRepeatingQuizQuestion(selectedCategory = 'all', seenIds = null) {
+    const questions = EXAM_QUIZ_QUESTIONS || [];
+    if (questions.length === 0) return null;
+
+    // Filter by category
+    let pool = questions;
+    if (selectedCategory && selectedCategory !== 'all') {
+      pool = questions.filter(q => q.category === selectedCategory);
+      if (pool.length === 0) pool = questions;
+    }
+
+    // Load or normalize seenIds
+    let currentSeen = Array.isArray(seenIds) ? [...seenIds] : [];
+    if (!seenIds && typeof window !== 'undefined' && window.localStorage) {
+      try {
+        const saved = localStorage.getItem(QUIZ_SEEN_STORAGE_KEY);
+        if (saved) currentSeen = JSON.parse(saved);
+        if (!Array.isArray(currentSeen)) currentSeen = [];
+      } catch (e) {
+        currentSeen = [];
+      }
+    }
+
+    // Find questions in pool that haven't been seen yet
+    let available = pool.filter(q => !currentSeen.includes(q.id));
+    let isNewCycle = false;
+
+    // If all questions in pool have been answered, restart cycle
+    if (available.length === 0) {
+      const lastSeenId = currentSeen[currentSeen.length - 1];
+      // Keep last seen id so it never repeats immediately
+      currentSeen = lastSeenId ? [lastSeenId] : [];
+      available = pool.filter(q => !currentSeen.includes(q.id));
+      if (available.length === 0) available = pool;
+      isNewCycle = true;
+    }
+
+    // Pick random from available
+    const randomIndex = Math.floor(Math.random() * available.length);
+    const chosen = available[randomIndex];
+
+    // Add to seen list
+    currentSeen.push(chosen.id);
+
+    if (typeof window !== 'undefined' && window.localStorage) {
+      try {
+        localStorage.setItem(QUIZ_SEEN_STORAGE_KEY, JSON.stringify(currentSeen));
+      } catch (e) {}
+    }
+
+    // Calculate progress in current pool
+    const seenInPool = pool.filter(q => currentSeen.includes(q.id)).length;
+
+    return {
+      question: chosen,
+      indexInPool: seenInPool,
+      totalInPool: pool.length,
+      isNewCycle: isNewCycle,
+      updatedSeenIds: currentSeen
+    };
+  }
+
+  function resetQuizSeenHistory() {
+    if (typeof window !== 'undefined' && window.localStorage) {
+      try {
+        localStorage.removeItem(QUIZ_SEEN_STORAGE_KEY);
+      } catch (e) {}
+    }
+  }
+
   root.FLOWER_CATALOG = FLOWER_CATALOG;
   root.EXAM_MOTIVATION_QUOTES = EXAM_MOTIVATION_QUOTES;
   root.DAILY_INSPIRATION_QUOTES = DAILY_INSPIRATION_QUOTES;
@@ -1223,6 +1569,8 @@
   root.VSTEP_OFFICIAL_LETTER_TYPES = VSTEP_OFFICIAL_LETTER_TYPES;
   root.VSTEP_OFFICIAL_ESSAY_TYPES = VSTEP_OFFICIAL_ESSAY_TYPES;
   root.EXAM_QUIZ_QUESTIONS = EXAM_QUIZ_QUESTIONS;
+  root.getNextNonRepeatingQuizQuestion = getNextNonRepeatingQuizQuestion;
+  root.resetQuizSeenHistory = resetQuizSeenHistory;
   root.getCloverStage = getCloverStage;
   root.renderFlowerPotSvg = renderFlowerPotSvg;
 

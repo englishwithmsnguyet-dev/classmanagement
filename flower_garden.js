@@ -183,6 +183,7 @@
         clover: 0
       },
       harvestedQuotes: [], // Lưu các thông điệp ôn thi đã rút được
+      seenQuizIds: [], // Ghi nhớ ID các câu hỏi đã làm để đảm bảo KHÔNG TRÙNG LẶP
       history: []
     },
 
@@ -721,6 +722,9 @@
             </div>
 
             <div class="quiz-footer-actions">
+              <button class="btn btn-secondary btn-small" id="btn-quiz-reset-deck" title="Làm mới tiến độ để làm lại từ đầu">
+                <i class="fa-solid fa-rotate-left"></i> Làm lại từ đầu
+              </button>
               <button class="btn btn-secondary btn-small" id="btn-quiz-next">
                 <i class="fa-solid fa-arrows-rotate"></i> Đổi câu hỏi khác
               </button>
@@ -751,6 +755,15 @@
       modal.querySelector('#btn-close-quiz-modal').addEventListener('click', () => modal.classList.remove('active'));
       modal.querySelector('#btn-quiz-done').addEventListener('click', () => modal.classList.remove('active'));
       modal.querySelector('#btn-quiz-next').addEventListener('click', () => this.loadNextQuizQuestion());
+      modal.querySelector('#btn-quiz-reset-deck').addEventListener('click', () => {
+        this.state.seenQuizIds = [];
+        if (typeof root.resetQuizSeenHistory === 'function') root.resetQuizSeenHistory();
+        this.saveState();
+        if (typeof showToast === 'function') {
+          showToast('✨ Đã làm mới danh sách câu hỏi ôn thi (0 câu đã xem)!');
+        }
+        this.loadNextQuizQuestion();
+      });
       modal.addEventListener('click', (e) => {
         if (e.target === modal) modal.classList.remove('active');
       });
@@ -1075,22 +1088,43 @@
       const allQuestions = root.EXAM_QUIZ_QUESTIONS || [];
       if (allQuestions.length === 0) return;
 
-      // Filter by selected category if not 'all'
-      const filterCat = this.quizState.selectedCategory;
-      let pool = allQuestions;
-      if (filterCat && filterCat !== 'all') {
-        pool = allQuestions.filter(q => q.category === filterCat);
-        if (pool.length === 0) pool = allQuestions;
+      const getNext = root.getNextNonRepeatingQuizQuestion;
+      let drawResult = null;
+      if (typeof getNext === 'function') {
+        drawResult = getNext(this.quizState.selectedCategory, this.state.seenQuizIds);
       }
 
-      this.currentQuizIndex = Math.floor(Math.random() * pool.length);
-      const q = pool[this.currentQuizIndex];
-      this.quizState.currentQuestion = q;
+      let q = null;
+      let progressText = '';
+      if (drawResult && drawResult.question) {
+        q = drawResult.question;
+        this.quizState.currentQuestion = q;
+        this.state.seenQuizIds = drawResult.updatedSeenIds;
+        this.saveState();
+        progressText = `Câu ${drawResult.indexInPool} / ${drawResult.totalInPool}`;
+
+        if (drawResult.isNewCycle && typeof showToast === 'function') {
+          showToast('🎉 Bạn đã hoàn thành 100% câu hỏi trong danh mục này! Vòng ôn tập mới đã khởi động 🌟');
+        }
+      } else {
+        const filterCat = this.quizState.selectedCategory;
+        let pool = allQuestions;
+        if (filterCat && filterCat !== 'all') {
+          pool = allQuestions.filter(item => item.category === filterCat);
+          if (pool.length === 0) pool = allQuestions;
+        }
+        this.currentQuizIndex = Math.floor(Math.random() * pool.length);
+        q = pool[this.currentQuizIndex];
+        this.quizState.currentQuestion = q;
+        progressText = `Câu 1 / ${pool.length}`;
+      }
 
       const catBadge = q.categoryName ? `<span class="quiz-badge quiz-cat-tag"><i class="fa-solid fa-layer-group"></i> ${q.categoryName}</span>` : '';
       const skillTag = q.skill ? `<span class="quiz-badge quiz-skill-tag skill-${q.skill.toLowerCase()}"><i class="fa-solid fa-graduation-cap"></i> ${q.skill}</span>` : '';
       const levelTag = q.level ? `<span class="quiz-badge quiz-level-tag">Band: ${q.level}</span>` : '';
       const topicTag = q.topic ? `<span class="quiz-badge quiz-topic-tag"><i class="fa-solid fa-bookmark"></i> ${q.topic}</span>` : '';
+      const progressBadge = `<span class="quiz-badge quiz-progress-tag" title="Tiến độ làm bài trong danh mục này"><i class="fa-solid fa-list-check"></i> ${progressText}</span>`;
+      const noRepeatBadge = `<span class="quiz-badge quiz-norepeat-tag" title="Hệ thống thuật toán đảm bảo không bao giờ trùng lặp câu hỏi"><i class="fa-solid fa-shield-halved"></i> Không trùng lặp ✨</span>`;
 
       container.innerHTML = `
         <div class="quiz-question-box">
@@ -1099,6 +1133,8 @@
             ${skillTag}
             ${levelTag}
             ${topicTag}
+            ${progressBadge}
+            ${noRepeatBadge}
           </div>
           <div class="quiz-prompt">${q.question}</div>
           <div class="quiz-options-grid">
@@ -1135,6 +1171,14 @@
 
       feedback.classList.remove('hidden');
 
+      const nextBtnHtml = `
+        <div class="feedback-action-row" style="margin-top: 14px; display: flex; justify-content: flex-end;">
+          <button class="btn btn-primary btn-small pulse-glow" id="btn-feedback-next-q" style="padding: 9px 18px; font-weight: 800; border-radius: 12px; font-size: 13px;">
+            <i class="fa-solid fa-arrow-right"></i> Câu tiếp theo (+10💧)
+          </button>
+        </div>
+      `;
+
       if (isCorrect) {
         this.addWaterDrops(10, 'Ôn thi VSTEP xuất sắc', false);
         this.spawnParticles('✨', 6);
@@ -1143,6 +1187,7 @@
         feedback.innerHTML = `
           <div class="feedback-title">🎉 CHÍNH XÁC! (+10💧 Nước Nỗ Lực)</div>
           <p class="feedback-explain">${q.explain}</p>
+          ${nextBtnHtml}
         `;
       } else {
         this.addWaterDrops(2, 'Tinh thần học tập tích cực', false);
@@ -1150,11 +1195,19 @@
         feedback.innerHTML = `
           <div class="feedback-title">💡 GẦN ĐÚNG RỒI! (+2💧 Khích lệ nỗ lực)</div>
           <p class="feedback-explain">${q.explain}</p>
+          ${nextBtnHtml}
         `;
+      }
+
+      const btnNextInFeedback = feedback.querySelector('#btn-feedback-next-q');
+      if (btnNextInFeedback) {
+        btnNextInFeedback.addEventListener('click', () => {
+          this.loadNextQuizQuestion();
+        });
       }
     },
 
-    // ==========================================
+        // ==========================================
     // 7. EARN WATER GUIDE MODAL
     // ==========================================
     openEarnWaterModal() {
