@@ -159,12 +159,17 @@
                                     <span class="water-pill-count" id="garden-water-count">35</span>
                                     <button class="water-pill-add-btn" id="btn-open-earn-water" title="Kiếm thêm nước tưới">+</button>
                                 </div>
+                                <div class="garden-sun-pill" id="garden-sun-pill" title="Tia Nắng Nỗ Lực (Tích lũy từ điểm danh, ôn thi & quy đổi)">
+                                    <span class="sun-pill-icon">☀️</span>
+                                    <span class="sun-pill-count" id="garden-sun-count">35</span>
+                                    <button class="sun-pill-add-btn" id="btn-open-earn-sun" title="Kiếm thêm tia nắng hoặc quy đổi">+</button>
+                                </div>
                                 <button class="btn btn-secondary btn-small" id="btn-open-flower-basket" title="Xem giỏ cỏ 4 lá & kho thông điệp ôn thi">
                                     🍀 <span id="garden-harvest-count">0</span>
                                 </button>
                             </div>
                         </div>
-                        <p class="garden-subtitle" id="garden-subtitle">Tích lũy nước nỗ lực mỗi ngày để vun trồng Cỏ 4 Lá May Mắn & đón nhận thông điệp ôn thi! 🍀✨</p>
+                        <p class="garden-subtitle" id="garden-subtitle">Tích lũy nước & nắng nỗ lực mỗi ngày để vun trồng Cỏ 4 Lá May Mắn & đón nhận thông điệp ôn thi! 🍀✨</p>
 
                         <!-- Garden Stage (Sunshine, Floating Petals, Interactive Flower Pot) -->
                         <div class="garden-stage" id="garden-stage" title="Bấm vào cây để truyền yêu thương!">
@@ -203,7 +208,7 @@
                             <div class="garden-stats-row">
                                 <span class="garden-stat" id="stat-water-drops" title="Giọt Nước Nỗ Lực đang có"><i class="fa-solid fa-faucet-drip" style="color:#0284C7;"></i> <b id="garden-water-drops-stat">35💧</b></span>
                                 <span class="garden-stat" id="stat-moisture" title="Độ ẩm đất"><i class="fa-solid fa-droplet" style="color:#0284C7;"></i> <b id="garden-moisture-val">75%</b></span>
-                                <span class="garden-stat" id="stat-sunlight" title="Ánh sáng mặt trời"><i class="fa-solid fa-sun" style="color:#F59E0B;"></i> <b id="garden-sunlight-val">80%</b></span>
+                                <span class="garden-stat" id="stat-sunlight" title="Tia Nắng Nỗ Lực đang có"><i class="fa-solid fa-sun" style="color:#F59E0B;"></i> <b id="garden-sunlight-val">35☀️</b></span>
                                 <span class="garden-stat" id="stat-level" title="Số cỏ 4 lá đã thu hoạch"><i class="fa-solid fa-trophy" style="color:#10B981;"></i> <b id="garden-harvest-val">0 cành</b></span>
                             </div>
                         </div>
@@ -215,8 +220,8 @@
                                 <button class="btn btn-secondary btn-small garden-btn" id="btn-water-flower" title="Tưới nước cho hoa (-10💧, +25% lớn)">
                                     <span class="action-icon">💧</span> Tưới nước <span class="action-cost-tag">10💧</span>
                                 </button>
-                                <button class="btn btn-secondary btn-small garden-btn" id="btn-sun-flower" title="Cho hoa tắm nắng (+20% lớn)">
-                                    <span class="action-icon">☀️</span> Tắm nắng <span class="action-gain-tag">+20%</span>
+                                <button class="btn btn-secondary btn-small garden-btn" id="btn-sun-flower" title="Cho hoa tắm nắng (-10☀️ tia nắng, +20% lớn)">
+                                    <span class="action-icon">☀️</span> Tắm nắng <span class="action-cost-tag">10☀️</span>
                                 </button>
                             </div>
 
@@ -227,10 +232,10 @@
                                 </button>
                             </div>
 
-                            <!-- Row 2: VSTEP Quiz Button (Always accessible to earn effort water) -->
+                            <!-- Row 2: VSTEP Quiz Button (Always accessible to earn effort water & sun) -->
                             <div class="garden-quiz-row" id="garden-quiz-row">
-                                <button class="btn btn-secondary btn-small garden-btn garden-btn-quiz" id="btn-quiz-flower" title="Làm câu hỏi ôn thi VSTEP nhận ngay +10💧 Nước Nỗ Lực">
-                                    <span class="action-icon">🎯</span> Đố Vui Ôn Thi VSTEP <span class="action-gain-tag">+10💧 Nước</span>
+                                <button class="btn btn-secondary btn-small garden-btn garden-btn-quiz" id="btn-quiz-flower" title="Làm câu hỏi ôn thi VSTEP nhận ngay +10💧 Nước & +10☀️ Nắng Nỗ Lực">
+                                    <span class="action-icon">🎯</span> Đố Vui Ôn Thi VSTEP <span class="action-gain-tag">+10💧 & +10☀️</span>
                                 </button>
                             </div>
                         </div>
