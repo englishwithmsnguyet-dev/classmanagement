@@ -2054,21 +2054,48 @@
     ]
   };
 
+  const ROSE_DEW_GLINTS = {
+    1: [
+      { x: 45.0, y: 43.0, r: 1.4, d: '0s' },
+      { x: 54.0, y: 46.0, r: 1.2, d: '1.2s' }
+    ],
+    2: [
+      { x: 40.0, y: 36.0, r: 1.5, d: '0s' },
+      { x: 58.0, y: 32.0, r: 1.4, d: '1.0s' },
+      { x: 49.0, y: 25.0, r: 1.3, d: '2.0s' }
+    ],
+    3: [
+      { x: 38.0, y: 38.0, r: 1.5, d: '0s' },
+      { x: 58.0, y: 33.0, r: 1.4, d: '1.2s' },
+      { x: 48.0, y: 19.0, r: 1.6, d: '1.8s' }
+    ],
+    4: [
+      { x: 39.0, y: 38.0, r: 1.5, d: '0s' },
+      { x: 58.0, y: 36.0, r: 1.5, d: '0.8s' },
+      { x: 46.0, y: 20.0, r: 1.7, d: '1.5s' },
+      { x: 54.0, y: 22.0, r: 1.6, d: '2.2s' }
+    ]
+  };
+
   /**
    * Renders the lifelike painterly potted flower stage with grounded shadow,
    * bottom-anchored organic wind sway, and synchronized morning dewdrop glints.
-   * Supports 'clover' (Trifolium repens), 'sunflower' (Helianthus annuus), 'tulip' (Tulipa gesneriana), and 'cactus' (Cactaceae).
+   * Supports 'clover', 'sunflower', 'tulip', 'cactus', and 'rose'.
    */
   function renderFlowerPotSvg(flowerId, progress) {
     const fid = (flowerId === 'sunflower')
       ? 'sunflower'
-      : (flowerId === 'tulip' ? 'tulip' : (flowerId === 'cactus' ? 'cactus' : 'clover'));
+      : (flowerId === 'tulip'
+          ? 'tulip'
+          : (flowerId === 'cactus' ? 'cactus' : (flowerId === 'rose' ? 'rose' : 'clover')));
     const stage = getCloverStage(progress);
     const glintsMap = (fid === 'sunflower')
       ? SUNFLOWER_DEW_GLINTS
       : (fid === 'tulip'
           ? TULIP_DEW_GLINTS
-          : (fid === 'cactus' ? CACTUS_DEW_GLINTS : STAGE_DEW_GLINTS));
+          : (fid === 'cactus'
+              ? CACTUS_DEW_GLINTS
+              : (fid === 'rose' ? ROSE_DEW_GLINTS : STAGE_DEW_GLINTS)));
     const glints = glintsMap[stage] || glintsMap[1];
 
     const glintMarkup = glints.map((g) => `
@@ -2106,7 +2133,9 @@
           ? `Hoa Tulip Kiêu Hãnh VSTEP - Giai đoạn ${stage}`
           : (fid === 'cactus'
               ? `Hoa Xương Rồng Kiên Cường VSTEP - Giai đoạn ${stage}`
-              : `Cỏ 4 Lá May Mắn VSTEP - Giai đoạn ${stage}`));
+              : (fid === 'rose'
+                  ? `Hoa Hồng Đỏ Khát Vọng VSTEP - Giai đoạn ${stage}`
+                  : `Cỏ 4 Lá May Mắn VSTEP - Giai đoạn ${stage}`)));
 
     return `
       <div class="clover-living-stage clover-stage-${stage} flower-type-${fid}" data-stage="${stage}" data-flower="${fid}">
