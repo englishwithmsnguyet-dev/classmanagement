@@ -13,15 +13,42 @@
     "clover": {
       "id": "clover",
       "name": "Cỏ 4 Lá May Mắn VSTEP",
+      "shortName": "Cỏ 4 Lá",
       "scientific": "Trifolium repens",
       "icon": "🍀",
-      "rarity": "Thần kỳ",
+      "rarity": "May Mắn",
       "color": "#10B981",
       "accentColor": "#059669",
       "bgGlow": "radial-gradient(circle at 50% 42%, rgba(254, 240, 138, 0.55) 0%, rgba(52, 211, 153, 0.24) 45%, transparent 76%)",
       "meaning": "May mắn ngập tràn, niềm tin, hy vọng và tình yêu vĩnh cửu. Món quà diệu kỳ tiếp lửa cho học viên tự tin chinh phục chứng chỉ VSTEP B1-B2-C1!",
       "quote": "Bé cỏ 4 lá mang đến vạn sự may mắn, bình an và kết quả thi cử rực rỡ nhất! 🍀🌟",
-      "growthDifficulty": "Hiếm có"
+      "growthDifficulty": "Hiếm có",
+      "stages": [
+        { "level": 1, "name": "Mầm Non Xanh", "icon": "🌱" },
+        { "level": 2, "name": "Cây Con Lá Non", "icon": "🌿" },
+        { "level": 3, "name": "Bụi Cỏ Xanh Mướt", "icon": "☘️" },
+        { "level": 4, "name": "Cỏ 4 Lá Bừng Nở", "icon": "🍀" }
+      ]
+    },
+    "sunflower": {
+      "id": "sunflower",
+      "name": "Hoa Hướng Dương Rực Rỡ VSTEP",
+      "shortName": "Hoa Hướng Dương",
+      "scientific": "Helianthus annuus",
+      "icon": "🌻",
+      "rarity": "Kiên Định",
+      "color": "#F59E0B",
+      "accentColor": "#D97706",
+      "bgGlow": "radial-gradient(circle at 50% 42%, rgba(254, 240, 138, 0.70) 0%, rgba(245, 158, 11, 0.28) 45%, transparent 76%)",
+      "meaning": "Biểu tượng của ý chí kiên định, luôn hướng về phía ánh sáng mặt trời và đỉnh cao tri thức. Tiếp thêm nguồn năng lượng tích cực, sự tự tin và ý chí bền bỉ vượt qua mọi kỳ thi VSTEP!",
+      "quote": "Như đóa hướng dương luôn hướng về vầng thái dương, chúc bạn luôn kiên định, tự tin và tỏa sáng rực rỡ trong kỳ thi VSTEP! 🌻☀️",
+      "growthDifficulty": "Yêu nắng",
+      "stages": [
+        { "level": 1, "name": "Mầm Nhỏ Nhú Đất", "icon": "🌱" },
+        { "level": 2, "name": "Cây Non Thân Khỏe", "icon": "🌿" },
+        { "level": 3, "name": "Nụ Vàng Chúm Chím", "icon": "🌼" },
+        { "level": 4, "name": "Hướng Dương Rực Rỡ", "icon": "🌻" }
+      ]
     }
   };
 
@@ -1899,13 +1926,38 @@
     ]
   };
 
+  const SUNFLOWER_DEW_GLINTS = {
+    1: [
+      { x: 42.5, y: 46.0, r: 1.6, d: '0s' }
+    ],
+    2: [
+      { x: 36.5, y: 44.5, r: 1.5, d: '0s' },
+      { x: 63.5, y: 37.0, r: 1.4, d: '1.2s' },
+      { x: 63.5, y: 19.0, r: 1.2, d: '2.0s' }
+    ],
+    3: [
+      { x: 35.5, y: 45.5, r: 1.5, d: '0s' },
+      { x: 65.5, y: 35.5, r: 1.4, d: '1.2s' },
+      { x: 59.5, y: 55.5, r: 1.3, d: '2.0s' }
+    ],
+    4: [
+      { x: 38.5, y: 40.5, r: 1.6, d: '0s' },
+      { x: 66.5, y: 28.5, r: 1.5, d: '1.0s' },
+      { x: 32.5, y: 54.0, r: 1.4, d: '1.8s' },
+      { x: 63.5, y: 60.5, r: 1.3, d: '2.4s' }
+    ]
+  };
+
   /**
-   * Renders the lifelike painterly potted clover stage with grounded shadow,
+   * Renders the lifelike painterly potted flower stage with grounded shadow,
    * bottom-anchored organic wind sway, and synchronized morning dewdrop glints.
+   * Supports both 'clover' (Trifolium repens) and 'sunflower' (Helianthus annuus).
    */
   function renderFlowerPotSvg(flowerId, progress) {
+    const fid = (flowerId === 'sunflower') ? 'sunflower' : 'clover';
     const stage = getCloverStage(progress);
-    const glints = STAGE_DEW_GLINTS[stage] || STAGE_DEW_GLINTS[1];
+    const glintsMap = (fid === 'sunflower') ? SUNFLOWER_DEW_GLINTS : STAGE_DEW_GLINTS;
+    const glints = glintsMap[stage] || glintsMap[1];
 
     const glintMarkup = glints.map((g) => `
       <g transform="translate(${g.x}, ${g.y})">
@@ -1918,7 +1970,7 @@
     `).join('');
 
     // Delicate sunlit fairy butterfly visiting the blooming Stage 4 clover
-    const stage4Accents = stage === 4 ? `
+    const stage4Accents = (fid === 'clover' && stage === 4) ? `
       <g transform="translate(76, 17)" class="clover-sun-butterfly-path">
         <g class="clover-bfly-bob">
           <g class="clover-bfly-wing-l">
@@ -1936,13 +1988,17 @@
       </g>
     ` : '';
 
+    const altText = (fid === 'sunflower')
+      ? `Hoa Hướng Dương Rực Rỡ VSTEP - Giai đoạn ${stage}`
+      : `Cỏ 4 Lá May Mắn VSTEP - Giai đoạn ${stage}`;
+
     return `
-      <div class="clover-living-stage clover-stage-${stage}" data-stage="${stage}">
+      <div class="clover-living-stage clover-stage-${stage} flower-type-${fid}" data-stage="${stage}" data-flower="${fid}">
         <div class="clover-ground-shadow" aria-hidden="true"></div>
         <div class="clover-aura-halo" aria-hidden="true"></div>
         <div class="clover-breeze-rig">
-          <img src="assets/garden/clover_stage_${stage}.png"
-               alt="Cỏ 4 Lá May Mắn VSTEP - Giai đoạn ${stage}"
+          <img src="assets/garden/${fid}_stage_${stage}.png"
+               alt="${altText}"
                class="clover-living-art"
                draggable="false" />
           <svg viewBox="0 0 100 100" class="clover-dew-overlay" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">

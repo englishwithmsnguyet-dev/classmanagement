@@ -3481,4 +3481,164 @@
     font-weight: 600 !important;
 }
 
+/* ==========================================================================
+   FLOWER SEED SELECTOR MODAL & DIVERSE FLOWER SYSTEM
+   ========================================================================== */
+.btn-switch-seed {
+    background: #FFFBEB !important;
+    color: #B45309 !important;
+    border: 1.5px solid #FDE68A !important;
+    font-weight: 700 !important;
+    font-size: 12px !important;
+    padding: 6px 12px !important;
+    border-radius: 9999px !important;
+    cursor: pointer !important;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 5px !important;
+    user-select: none !important;
+}
+.btn-switch-seed:hover {
+    background: #FEF3C7 !important;
+    border-color: #F59E0B !important;
+    color: #92400E !important;
+    transform: translateY(-1.5px) !important;
+    box-shadow: 0 3px 10px rgba(245, 158, 11, 0.22) !important;
+}
+.btn-change-flower-tag {
+    background: #F8FAFC !important;
+    color: #475569 !important;
+    border: 1px solid #CBD5E1 !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    padding: 3px 9px !important;
+    border-radius: 8px !important;
+    cursor: pointer !important;
+    transition: all 0.18s ease !important;
+    margin-left: 8px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 3px !important;
+}
+.btn-change-flower-tag:hover {
+    background: #EFF6FF !important;
+    color: #1D4ED8 !important;
+    border-color: #93C5FD !important;
+    transform: translateY(-1px) !important;
+}
+
+/* Seed Selector Modal */
+.flower-seed-modal .garden-modal-dialog {
+    max-width: 660px !important;
+    width: 95% !important;
+}
+.flower-seed-cards-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 16px !important;
+    margin-top: 18px !important;
+}
+@media (max-width: 580px) {
+    .flower-seed-cards-grid {
+        grid-template-columns: 1fr !important;
+    }
+}
+.seed-option-card {
+    background: #FFFFFF !important;
+    border: 2px solid #E2E8F0 !important;
+    border-radius: 20px !important;
+    padding: 22px 18px 18px 18px !important;
+    text-align: center !important;
+    position: relative !important;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    cursor: pointer !important;
+    box-sizing: border-box !important;
+}
+.seed-option-card:hover {
+    transform: translateY(-4px) !important;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08) !important;
+}
+.seed-option-card.selected {
+    background: #FFFEF9 !important;
+}
+.seed-card-badge {
+    font-size: 11px !important;
+    font-weight: 800 !important;
+    padding: 4px 12px !important;
+    border-radius: 9999px !important;
+    border: 1px solid transparent !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.04em !important;
+    margin-bottom: 12px !important;
+    display: inline-block !important;
+}
+.seed-preview-img-wrap {
+    width: 140px !important;
+    height: 140px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin-bottom: 12px !important;
+    filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.12)) !important;
+}
+.seed-preview-img {
+    max-width: 100% !important;
+    max-height: 100% !important;
+    object-fit: contain !important;
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    pointer-events: none !important;
+}
+.seed-option-card:hover .seed-preview-img {
+    transform: scale(1.06) !important;
+}
+.seed-flower-name {
+    font-size: 15.5px !important;
+    font-weight: 800 !important;
+    color: #0F172A !important;
+    margin: 0 0 6px 0 !important;
+    line-height: 1.3 !important;
+}
+.seed-flower-desc {
+    font-size: 12.5px !important;
+    color: #64748B !important;
+    line-height: 1.5 !important;
+    margin: 0 0 16px 0 !important;
+    flex: 1 !important;
+}
+.btn-seed-select {
+    width: 100% !important;
+    padding: 10px 16px !important;
+    border-radius: 12px !important;
+    font-weight: 700 !important;
+    font-size: 13.5px !important;
+    border: 1.5px solid #CBD5E1 !important;
+    background: #F8FAFC !important;
+    color: #334155 !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+}
+.btn-seed-select:hover {
+    background: #F1F5F9 !important;
+    color: #0F172A !important;
+    border-color: #94A3B8 !important;
+}
+.btn-seed-select.btn-seed-active {
+    cursor: default !important;
+    border-color: transparent !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Sunflower theme glow & breeze sway */
+.flower-type-sunflower .clover-ground-shadow {
+    background: radial-gradient(ellipse at center, rgba(180, 83, 9, 0.25) 0%, transparent 72%) !important;
+}
+.flower-type-sunflower .clover-aura-halo {
+    background: radial-gradient(circle, rgba(254, 240, 138, 0.55) 0%, rgba(245, 158, 11, 0.18) 45%, transparent 70%) !important;
+}
+
+
 
