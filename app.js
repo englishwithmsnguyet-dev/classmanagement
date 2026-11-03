@@ -675,6 +675,7 @@ function showHomeView() {
     });
     
     if (typeof window !== "undefined" && window.FlowerGarden) window.FlowerGarden.init();
+    initDailyInfoCard();
 }
 
 function showClassView() {
@@ -1858,6 +1859,88 @@ document.querySelectorAll('.btn-reward').forEach(btn => {
 // ==========================================
 if (typeof window !== 'undefined' && window.FlowerGarden) {
     window.FlowerGarden.init();
+}
+
+// ==========================================
+// THÔNG TIN CỦA NGÀY HÔM NAY (DAILY INSPIRATION BANNER)
+// ==========================================
+function initDailyInfoCard() {
+    const card = document.getElementById('daily-info-card');
+    if (!card) return;
+
+    const enEl = document.getElementById('daily-quote-en');
+    const viEl = document.getElementById('daily-quote-vi');
+    const btnRefresh = document.getElementById('btn-refresh-daily-quote');
+
+    const TODAY_CACHE_KEY = 'miss_nguyet_today_quote_cache_v1';
+    const todayStr = new Date().toISOString().substring(0, 10);
+
+    function displayQuote(q, animate = true) {
+        if (!q) return;
+        if (animate) {
+            card.classList.add('fade-transition');
+            setTimeout(() => {
+                if (enEl) enEl.textContent = `"${q.english}"`;
+                if (viEl) viEl.innerHTML = `<em>"${q.vietnamese}"</em>`;
+                card.classList.remove('fade-transition');
+            }, 180);
+        } else {
+            if (enEl) enEl.textContent = `"${q.english}"`;
+            if (viEl) viEl.innerHTML = `<em>"${q.vietnamese}"</em>`;
+        }
+    }
+
+    // Check if we already have today's quote cached
+    let currentQuote = null;
+    try {
+        const cached = localStorage.getItem(TODAY_CACHE_KEY);
+        if (cached) {
+            const parsed = JSON.parse(cached);
+            if (parsed && parsed.date === todayStr && parsed.quote) {
+                currentQuote = parsed.quote;
+            }
+        }
+    } catch(e) {}
+
+    if (!currentQuote) {
+        if (typeof window !== 'undefined' && typeof window.getRandomNonRepeatingQuote === 'function') {
+            currentQuote = window.getRandomNonRepeatingQuote();
+        } else if (typeof window !== 'undefined' && window.DAILY_INSPIRATION_QUOTES) {
+            currentQuote = window.DAILY_INSPIRATION_QUOTES[0];
+        } else {
+            currentQuote = {
+                english: "Believe you can and you're halfway there.",
+                vietnamese: "Hãy tin rằng bạn có thể làm được, và bạn đã đi được nửa chặng đường rồi.",
+                signature: "From Miss Nguyet with LOVE ❤️"
+            };
+        }
+        try {
+            localStorage.setItem(TODAY_CACHE_KEY, JSON.stringify({ date: todayStr, quote: currentQuote }));
+        } catch(e) {}
+    }
+
+    displayQuote(currentQuote, false);
+
+    // Refresh button click handler (non-repeating)
+    if (btnRefresh && !btnRefresh._hasClick) {
+        btnRefresh._hasClick = true;
+        btnRefresh.addEventListener('click', () => {
+            const icon = btnRefresh.querySelector('i');
+            if (icon) {
+                icon.classList.add('fa-spin');
+                setTimeout(() => icon.classList.remove('fa-spin'), 600);
+            }
+            if (typeof window !== 'undefined' && typeof window.getRandomNonRepeatingQuote === 'function') {
+                const nextQuote = window.getRandomNonRepeatingQuote();
+                if (nextQuote) {
+                    displayQuote(nextQuote, true);
+                    try {
+                        localStorage.setItem(TODAY_CACHE_KEY, JSON.stringify({ date: todayStr, quote: nextQuote }));
+                    } catch(e) {}
+                }
+            }
+        });
+    }
 }
 
 document.addEventListener('DOMContentLoaded', init);

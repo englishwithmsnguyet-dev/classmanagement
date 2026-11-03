@@ -194,8 +194,12 @@
       this.bindEvents();
       this.render();
       this.startAmbientDecay();
-      if (typeof window !== 'undefined' && window.location.hash === '#quiz') {
-        setTimeout(() => this.openQuizModal(), 300);
+      if (typeof window !== 'undefined') {
+        if (window.location.hash === '#quiz') {
+          setTimeout(() => this.openQuizModal(), 300);
+        } else if (window.location.hash === '#harvest-test') {
+          setTimeout(() => this.harvest(), 400);
+        }
       }
     },
 
@@ -491,16 +495,14 @@
       // 1. Play triumphant fanfare
       GardenAudio.playHarvest();
 
-      // 2. Select a thoughtful Exam Motivation Quote
-      const quotes = root.EXAM_MOTIVATION_QUOTES || [];
-      const quote = quotes.length > 0
-        ? quotes[Math.floor(Math.random() * quotes.length)]
+      // 2. Select a thoughtful Non-Repeating Quote (THÔNG TIN CỦA NGÀY HÔM NAY)
+      const quote = (typeof root.getRandomNonRepeatingQuote === 'function')
+        ? root.getRandomNonRepeatingQuote()
         : {
-            id: 'q-default',
-            tag: 'Vững Tâm Ôn Thi',
-            title: 'Mỗi Nỗ Lực Đều Mang Lại Trái Ngọt',
-            content: 'Bé cỏ 4 lá may mắn mang theo vạn sự tốt lành và lời chúc thi cử đỗ đạt từ cô Nguyệt gửi tới em!',
-            advice: 'Hãy luôn tự tin vào bản thân mình nhé!'
+            id: 'quote-default',
+            english: 'Believe you can and you\'re halfway there.',
+            vietnamese: 'Hãy tin rằng bạn có thể làm được, và bạn đã đi được nửa chặng đường rồi.',
+            signature: 'From Miss Nguyet with LOVE ❤️'
           };
 
       // 3. Update persistent counts
@@ -558,7 +560,7 @@
               <img src="assets/garden/clover_stage_4.png" alt="Cỏ 4 Lá May Mắn Nở Hoa" class="harvest-clover-img" />
             </div>
             <span class="harvest-pill-badge" id="harvest-pill-badge">🍀 CÀNH CỎ 4 LÁ THỨ #1 ĐÃ BỪNG NỞ!</span>
-            <h3 class="harvest-main-title">THÔNG ĐIỆP ĐỘNG LỰC ÔN THI DÀNH CHO BẠN</h3>
+            <h3 class="harvest-main-title">THÔNG TIN CỦA NGÀY HÔM NAY</h3>
           </div>
           
           <div class="harvest-quote-body" id="harvest-quote-body">
@@ -603,20 +605,19 @@
       if (countBtn) countBtn.textContent = this.state.harvestedQuotes.length;
 
       if (!body) return;
+      const english = quote.english || quote.title || 'Believe you can and you\'re halfway there.';
+      const vietnamese = quote.vietnamese || quote.content || 'Hãy tin rằng bạn có thể làm được, và bạn đã đi được nửa chặng đường rồi.';
+
       body.innerHTML = `
         <div class="harvest-fortune-card">
           <div class="fortune-tag-row">
-            <span class="fortune-topic-tag"><i class="fa-solid fa-star"></i> ${quote.tag || 'Động Lực Ôn Thi'}</span>
+            <span class="fortune-topic-tag"><i class="fa-solid fa-sparkles"></i> THÔNG TIN CỦA NGÀY HÔM NAY</span>
             <span class="fortune-date-stamp">${new Date().toLocaleDateString('vi-VN')}</span>
           </div>
-          <h4 class="fortune-title">"${quote.title || 'Mỗi Bước Nhỏ Tạo Nên Kỳ Tích'}"</h4>
-          <blockquote class="fortune-content">${quote.content}</blockquote>
-          <div class="fortune-advice-box">
-            <i class="fa-solid fa-lightbulb"></i>
-            <span><b>Lời khuyên từ Cô Nguyệt:</b> ${quote.advice || 'Hãy vững tin vào chính mình em nhé!'}</span>
-          </div>
+          <div class="harvest-quote-en">"${english}"</div>
+          <div class="harvest-quote-vi"><em>"${vietnamese}"</em></div>
           <div class="fortune-signature">
-            <span>— Thương gửi từ <b>Cô Nguyệt</b> & Lớp Học 💖</span>
+            <span class="daily-quote-signature">From Miss Nguyet with LOVE <span class="heart-pulse">❤️</span></span>
           </div>
         </div>
       `;
@@ -625,18 +626,18 @@
     copyCurrentHarvestQuote() {
       const body = document.getElementById('harvest-quote-body');
       if (!body) return;
-      const title = body.querySelector('.fortune-title') ? body.querySelector('.fortune-title').textContent : '';
-      const text = body.querySelector('.fortune-content') ? body.querySelector('.fortune-content').textContent : '';
-      const full = `${title}\n${text}\n— Lời chúc ôn thi từ Cô Nguyệt 🍀`;
+      const en = body.querySelector('.harvest-quote-en') ? body.querySelector('.harvest-quote-en').textContent : '';
+      const vi = body.querySelector('.harvest-quote-vi') ? body.querySelector('.harvest-quote-vi').textContent : '';
+      const full = `THÔNG TIN CỦA NGÀY HÔM NAY\n${en}\n${vi}\nFrom Miss Nguyet with LOVE ❤️`;
 
       if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(full).then(() => {
-          if (typeof showToast === 'function') showToast('📋 Đã sao chép thông điệp ôn thi vào bộ nhớ tạm!');
+          if (typeof showToast === 'function') showToast('📋 Đã sao chép thông điệp hôm nay vào bộ nhớ tạm!');
         }).catch(() => {
           if (typeof showToast === 'function') showToast('🍀 ' + full.slice(0, 50) + '...');
         });
       } else {
-        if (typeof showToast === 'function') showToast('📋 Đã ghi nhớ thông điệp ôn thi!');
+        if (typeof showToast === 'function') showToast('📋 Đã ghi nhớ thông điệp hôm nay!');
       }
     },
 
@@ -996,16 +997,20 @@
       archive.innerHTML = quotes.map((item, idx) => {
         const q = item.quote || {};
         const dateStr = item.timestamp ? new Date(item.timestamp).toLocaleDateString('vi-VN') : '';
+        const en = q.english || q.title || 'Believe you can and you\'re halfway there.';
+        const vi = q.vietnamese || q.content || 'Hãy tin rằng bạn có thể làm được, và bạn đã đi được nửa chặng đường rồi.';
         return `
           <div class="archive-quote-card">
             <div class="archive-quote-head">
               <span class="archive-badge">🍀 Cành cỏ #${item.harvestNum || (quotes.length - idx)}</span>
-              <span class="archive-tag">${q.tag || 'Động Lực Ôn Thi'}</span>
+              <span class="archive-tag">THÔNG TIN CỦA NGÀY HÔM NAY</span>
               <span class="archive-date">${dateStr}</span>
             </div>
-            <h5 class="archive-title">"${q.title || 'Mỗi Bước Nhỏ Tạo Nên Kỳ Tích'}"</h5>
-            <p class="archive-text">${q.content || ''}</p>
-            ${q.advice ? `<div class="archive-advice"><i class="fa-solid fa-lightbulb"></i> ${q.advice}</div>` : ''}
+            <div class="archive-quote-en">"${en}"</div>
+            <div class="archive-quote-vi"><em>"${vi}"</em></div>
+            <div class="archive-signature">
+              <span class="daily-quote-signature">From Miss Nguyet with LOVE <span class="heart-pulse">❤️</span></span>
+            </div>
           </div>
         `;
       }).join('');

@@ -564,6 +564,132 @@ input:focus, textarea:focus { border-color: var(--primary); }
     color: var(--primary-color);
 }
 
+/* ==========================================
+   THÔNG TIN CỦA NGÀY HÔM NAY (DAILY INSPIRATION BANNER)
+   ========================================== */
+.daily-info-card {
+    background: linear-gradient(135deg, #FFFFFF 0%, #FFFDF7 55%, #FFF5F5 100%);
+    border: 1.5px solid #FBCFE8;
+    border-radius: 20px;
+    padding: 18px 24px;
+    margin-bottom: 24px;
+    width: 100%;
+    max-width: 1020px;
+    box-shadow: 0 4px 18px rgba(244, 114, 182, 0.1);
+    position: relative;
+    overflow: hidden;
+    text-align: left;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, opacity 0.2s ease;
+}
+.daily-info-card:hover {
+    box-shadow: 0 6px 22px rgba(244, 114, 182, 0.16);
+}
+.daily-info-card::before {
+    content: "“";
+    position: absolute;
+    right: 20px;
+    bottom: -15px;
+    font-size: 110px;
+    line-height: 1;
+    font-family: Georgia, serif;
+    color: #FCE7F3;
+    pointer-events: none;
+    z-index: 0;
+}
+.daily-info-card.fade-transition {
+    opacity: 0.35;
+    transform: translateY(3px);
+}
+.daily-info-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    position: relative;
+    z-index: 1;
+}
+.daily-info-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12.5px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: #BE185D;
+    background: linear-gradient(135deg, #FDF2F8 0%, #FCE7F3 100%);
+    border: 1px solid #FBCFE8;
+    padding: 4px 12px;
+    border-radius: 20px;
+    box-shadow: 0 2px 4px rgba(219, 39, 119, 0.08);
+}
+.btn-refresh-quote {
+    background: #FFFFFF;
+    border: 1px solid #E5E7EB;
+    border-radius: 12px;
+    padding: 5px 12px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #6B7280;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s ease;
+}
+.btn-refresh-quote:hover {
+    color: #BE185D;
+    border-color: #FBCFE8;
+    background: #FDF2F8;
+    transform: translateY(-1px);
+}
+.daily-info-content {
+    position: relative;
+    z-index: 1;
+    margin-bottom: 8px;
+}
+.daily-quote-en {
+    font-size: 17px;
+    font-weight: 700;
+    color: #1F2937;
+    line-height: 1.5;
+    margin: 0 0 4px 0;
+}
+.daily-quote-vi {
+    font-size: 14.5px;
+    color: #4B5563;
+    line-height: 1.5;
+    margin: 0;
+}
+.daily-quote-vi em {
+    font-style: italic;
+    color: #6B7280;
+}
+.daily-info-footer {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+.daily-quote-signature {
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #E11D48;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+.heart-pulse {
+    display: inline-block;
+    animation: pulseHeart 1.6s infinite ease-in-out;
+}
+@keyframes pulseHeart {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.25); }
+}
+
 .home-grid {
     display: flex;
     gap: 40px;
@@ -1706,12 +1832,31 @@ input:focus, textarea:focus { border-color: var(--primary); }
     color: #EAB308;
     margin-top: 2px;
 }
+.harvest-quote-en {
+    font-size: 17px;
+    font-weight: 700;
+    color: #1F2937;
+    line-height: 1.5;
+    margin: 12px 0 6px;
+    font-family: 'Roboto Serif', Georgia, serif;
+}
+.harvest-quote-vi {
+    font-size: 14.5px;
+    color: #4B5563;
+    line-height: 1.5;
+    margin: 0 0 14px;
+}
+.harvest-quote-vi em {
+    font-style: italic;
+    color: #6B7280;
+}
 .fortune-signature {
-    text-align: right;
-    font-size: 12px;
-    color: #9D174D;
-    font-weight: 600;
-    margin-top: 6px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: 10px;
+    padding-top: 8px;
+    border-top: 1px dashed #E5E7EB;
 }
 .harvest-modal-actions {
     display: flex;
@@ -2066,6 +2211,31 @@ input:focus, textarea:focus { border-color: var(--primary); }
     padding: 2px 6px;
     border-radius: 6px;
     color: #374151;
+}
+.archive-quote-en {
+    margin: 6px 0 4px;
+    font-size: 14.5px;
+    font-weight: 700;
+    color: #111827;
+    line-height: 1.45;
+}
+.archive-quote-vi {
+    margin: 0 0 8px;
+    font-size: 13px;
+    color: #4B5563;
+    line-height: 1.45;
+}
+.archive-quote-vi em {
+    font-style: italic;
+    color: #6B7280;
+}
+.archive-signature {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: 6px;
+    padding-top: 6px;
+    border-top: 1px dashed #F3F4F6;
 }
 .archive-title {
     margin: 0 0 6px;

@@ -26,6 +26,250 @@
   };
 
   /**
+   * KHO CÂU TRUYỀN CẢM HỨNG BILINGUAL DÀNH CHO "THÔNG TIN CỦA NGÀY HÔM NAY"
+   * Tiếng Anh + Bản dịch tiếng Việt (in nghiêng) + "From Miss Nguyet with LOVE ❤️"
+   */
+  const DAILY_INSPIRATION_QUOTES = [
+    {
+      id: "quote-1",
+      english: "The expert in anything was once a beginner.",
+      vietnamese: "Người chuyên gia trong bất kỳ lĩnh vực nào cũng từng là một người mới bắt đầu.",
+      signature: "From Miss Nguyet with LOVE ❤️"
+    },
+    {
+      id: "quote-2",
+      english: "Small daily improvements over time lead to stunning results.",
+      vietnamese: "Những tiến bộ nhỏ mỗi ngày theo thời gian sẽ tạo nên kết quả đáng kinh ngạc.",
+      signature: "From Miss Nguyet with LOVE ❤️"
+    },
+    {
+      id: "quote-3",
+      english: "Believe you can and you're halfway there.",
+      vietnamese: "Hãy tin rằng bạn có thể làm được, và bạn đã đi được nửa chặng đường rồi.",
+      signature: "From Miss Nguyet with LOVE ❤️"
+    },
+    {
+      id: "quote-4",
+      english: "It does not matter how slowly you go as long as you do not stop.",
+      vietnamese: "Không quan trọng bạn đi chậm thế nào, miễn là bạn không dừng lại.",
+      signature: "From Miss Nguyet with LOVE ❤️"
+    },
+    {
+      id: "quote-5",
+      english: "Your only limit is you. Push yourself, because no one else is going to do it for you.",
+      vietnamese: "Giới hạn duy nhất chính là bản thân bạn. Hãy nỗ lực hết mình, vì không ai có thể cố gắng thay bạn.",
+      signature: "From Miss Nguyet with LOVE ❤️"
+    },
+    {
+      id: "quote-6",
+      english: "Every accomplishment starts with the decision to try.",
+      vietnamese: "Mọi thành tựu vĩ đại đều bắt đầu từ quyết định dám thử sức.",
+      signature: "From Miss Nguyet with LOVE ❤️"
+    },
+    {
+      id: "quote-7",
+      english: "Don't watch the clock; do what it does. Keep going.",
+      vietnamese: "Đừng nhìn kim đồng hồ; hãy làm như nó đang làm: không ngừng tiến về phía trước.",
+      signature: "From Miss Nguyet with LOVE ❤️"
+    },
+    {
+      id: "quote-8",
+      english: "Success is the sum of small efforts, repeated day in and day out.",
+      vietnamese: "Thành công là tổng của những nỗ lực nhỏ bé, được lặp đi lặp lại ngày này qua ngày khác.",
+      signature: "From Miss Nguyet with LOVE ❤️"
+    },
+    {
+      id: "quote-9",
+      english: "The future belongs to those who believe in the beauty of their dreams.",
+      vietnamese: "Tương lai thuộc về những ai vững tin vào vẻ đẹp của ước mơ mình.",
+      signature: "From Miss Nguyet with LOVE ❤️"
+    },
+    {
+      id: "quote-10",
+      english: "Mistakes are proof that you are trying and learning.",
+      vietnamese: "Những sai sót chính là bằng chứng cho thấy bạn đang nỗ lực và không ngừng học hỏi.",
+      signature: "From Miss Nguyet with LOVE ❤️"
+    },
+    {
+      id: "quote-11",
+      english: "You don't have to be great to start, but you have to start to be great.",
+      vietnamese: "Bạn không cần phải xuất chúng để bắt đầu, nhưng bạn phải bắt đầu để trở nên xuất chúng.",
+      signature: "From Miss Nguyet with LOVE ❤️"
+    },
+    {
+      id: "quote-12",
+      english: "Difficult roads often lead to beautiful destinations.",
+      vietnamese: "Những con đường gian nan thường dẫn đến những đích đến tuyệt đẹp.",
+      signature: "From Miss Nguyet with LOVE ❤️"
+    },
+    {
+      id: "quote-13",
+      english: "Learning English is a journey of patience, passion, and pride.",
+      vietnamese: "Học tiếng Anh là một hành trình của sự kiên nhẫn, niềm đam mê và lòng tự hào.",
+      signature: "From Miss Nguyet with LOVE ❤️"
+    },
+    {
+      id: "quote-14",
+      english: "Stay positive, work hard, and make it happen.",
+      vietnamese: "Hãy luôn lạc quan, chăm chỉ và biến ước mơ thành hiện thực.",
+      signature: "From Miss Nguyet with LOVE ❤️"
+    },
+    {
+      id: "quote-15",
+      english: "One word, one phrase, one sentence a day will change your future.",
+      vietnamese: "Mỗi ngày một từ, một cụm từ, một câu nói sẽ thay đổi cả tương lai của bạn.",
+      signature: "From Miss Nguyet with LOVE ❤️"
+    },
+    {
+      id: "quote-16",
+      english: "Courage is not the absence of fear, but the triumph over it.",
+      vietnamese: "Dũng cảm không phải là không sợ hãi, mà là chiến thắng nỗi sợ ấy.",
+      signature: "From Miss Nguyet with LOVE ❤️"
+    },
+    {
+      id: "quote-17",
+      english: "Study hard today so tomorrow you can live the life you dream of.",
+      vietnamese: "Hãy miệt mài học tập hôm nay để ngày mai được sống cuộc đời mà bạn hằng mơ ước.",
+      signature: "From Miss Nguyet with LOVE ❤️"
+    },
+    {
+      id: "quote-18",
+      english: "Trust the process. Your hard work will never betray you.",
+      vietnamese: "Hãy tin tưởng vào hành trình. Sự chăm chỉ của bạn không bao giờ phản bội bạn.",
+      signature: "From Miss Nguyet with LOVE ❤️"
+    },
+    {
+      id: "quote-19",
+      english: "Wake up with determination, go to bed with satisfaction.",
+      vietnamese: "Thức dậy với lòng quyết tâm, và đi ngủ với niềm mãn nguyện.",
+      signature: "From Miss Nguyet with LOVE ❤️"
+    },
+    {
+      id: "quote-20",
+      english: "A winner is a dreamer who never gives up.",
+      vietnamese: "Người chiến thắng là một kẻ mộng mơ không bao giờ từ bỏ.",
+      signature: "From Miss Nguyet with LOVE ❤️"
+    },
+    {
+      id: "quote-21",
+      english: "Hard work beats talent when talent doesn't work hard.",
+      vietnamese: "Sự chăm chỉ sẽ đánh bại tài năng khi tài năng không chịu nỗ lực.",
+      signature: "From Miss Nguyet with LOVE ❤️"
+    },
+    {
+      id: "quote-22",
+      english: "Your mind is a powerful thing. When you fill it with positive thoughts, your life will change.",
+      vietnamese: "Tâm trí bạn là một sức mạnh phi thường. Khi lấp đầy nó bằng những suy nghĩ tích cực, cuộc sống của bạn sẽ đổi thay.",
+      signature: "From Miss Nguyet with LOVE ❤️"
+    },
+    {
+      id: "quote-23",
+      english: "Great things never come from comfort zones.",
+      vietnamese: "Những điều tuyệt vời không bao giờ đến từ vùng an toàn.",
+      signature: "From Miss Nguyet with LOVE ❤️"
+    },
+    {
+      id: "quote-24",
+      english: "The best way to predict your future is to create it.",
+      vietnamese: "Cách tốt nhất để dự đoán tương lai là tự tay kiến tạo nên nó.",
+      signature: "From Miss Nguyet with LOVE ❤️"
+    },
+    {
+      id: "quote-25",
+      english: "Be proud of how far you have come, and have faith in how far you can go.",
+      vietnamese: "Hãy tự hào về chặng đường bạn đã đi qua, và tin tưởng vào chặng đường bạn có thể vươn tới.",
+      signature: "From Miss Nguyet with LOVE ❤️"
+    },
+    {
+      id: "quote-26",
+      english: "Success doesn't come to you, you go to it.",
+      vietnamese: "Thành công không tự tìm đến bạn, chính bạn phải bước tới để chinh phục nó.",
+      signature: "From Miss Nguyet with LOVE ❤️"
+    },
+    {
+      id: "quote-27",
+      english: "Consistency is what transforms average into excellence.",
+      vietnamese: "Sự kiên trì đều đặn chính là điều biến sự bình thường thành phi thường.",
+      signature: "From Miss Nguyet with LOVE ❤️"
+    },
+    {
+      id: "quote-28",
+      english: "You are capable of more than you know. Strive to be the best version of yourself.",
+      vietnamese: "Bạn có thể làm được nhiều hơn những gì bạn nghĩ. Hãy nỗ lực để trở thành phiên bản tốt nhất của chính mình.",
+      signature: "From Miss Nguyet with LOVE ❤️"
+    },
+    {
+      id: "quote-29",
+      english: "Keep your face always toward the sunshine, and shadows will fall behind you.",
+      vietnamese: "Hãy luôn hướng về phía ánh mặt trời, và bóng tối sẽ ngả lại phía sau lưng bạn.",
+      signature: "From Miss Nguyet with LOVE ❤️"
+    },
+    {
+      id: "quote-30",
+      english: "Doubt kills more dreams than failure ever will.",
+      vietnamese: "Sự nghi ngờ giết chết nhiều ước mơ hơn bất kỳ thất bại nào từng làm.",
+      signature: "From Miss Nguyet with LOVE ❤️"
+    },
+    {
+      id: "quote-31",
+      english: "Education is the passport to the future, for tomorrow belongs to those who prepare for it today.",
+      vietnamese: "Học tập là tấm hộ chiếu cho tương lai, bởi ngày mai thuộc về những ai chuẩn bị cho nó ngay từ hôm nay.",
+      signature: "From Miss Nguyet with LOVE ❤️"
+    },
+    {
+      id: "quote-32",
+      english: "Every morning is a fresh start to write a brilliant chapter in your learning journey.",
+      vietnamese: "Mỗi buổi sáng là một khởi đầu mới mẻ để viết nên một chương rực rỡ trong hành trình học tập của bạn.",
+      signature: "From Miss Nguyet with LOVE ❤️"
+    }
+  ];
+
+  /**
+   * Thuật toán lấy ngẫu nhiên KHÔNG TRÙNG LẶP (Non-repeating Shuffle Deck)
+   * Sử dụng localStorage để ghi nhớ các câu đã xem, lặp lại chu kỳ mới khi đã xem hết 100%.
+   */
+  const DAILY_QUOTES_STORAGE_KEY = 'miss_nguyet_daily_quotes_seen_v1';
+
+  function getRandomNonRepeatingQuote() {
+    const quotes = DAILY_INSPIRATION_QUOTES;
+    if (!quotes || quotes.length === 0) return null;
+
+    let seenIds = [];
+    try {
+      const saved = localStorage.getItem(DAILY_QUOTES_STORAGE_KEY);
+      if (saved) {
+        seenIds = JSON.parse(saved);
+        if (!Array.isArray(seenIds)) seenIds = [];
+      }
+    } catch (e) {
+      seenIds = [];
+    }
+
+    // Lọc các câu chưa xem
+    let available = quotes.filter(q => !seenIds.includes(q.id));
+
+    // Nếu đã xem hết toàn bộ, làm mới danh sách nhưng giữ lại câu vừa xem gần nhất để không bị lặp liên tiếp
+    if (available.length === 0) {
+      const lastSeenId = seenIds[seenIds.length - 1];
+      seenIds = lastSeenId ? [lastSeenId] : [];
+      available = quotes.filter(q => !seenIds.includes(q.id));
+      if (available.length === 0) available = quotes;
+    }
+
+    // Chọn ngẫu nhiên từ kho câu chưa xem
+    const randomIndex = Math.floor(Math.random() * available.length);
+    const chosen = available[randomIndex];
+
+    // Ghi nhớ câu đã xem
+    seenIds.push(chosen.id);
+    try {
+      localStorage.setItem(DAILY_QUOTES_STORAGE_KEY, JSON.stringify(seenIds));
+    } catch (e) {}
+
+    return chosen;
+  }
+
+  /**
    * Kho thông điệp truyền động lực ôn thi bám sát kỳ thi VSTEP (Listening, Reading, Writing, Speaking)
    */
   const EXAM_MOTIVATION_QUOTES = [
@@ -373,6 +617,8 @@
 
   root.FLOWER_CATALOG = FLOWER_CATALOG;
   root.EXAM_MOTIVATION_QUOTES = EXAM_MOTIVATION_QUOTES;
+  root.DAILY_INSPIRATION_QUOTES = DAILY_INSPIRATION_QUOTES;
+  root.getRandomNonRepeatingQuote = getRandomNonRepeatingQuote;
   root.EXAM_QUIZ_QUESTIONS = EXAM_QUIZ_QUESTIONS;
   root.getCloverStage = getCloverStage;
   root.renderFlowerPotSvg = renderFlowerPotSvg;
