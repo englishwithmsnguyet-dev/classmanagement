@@ -695,13 +695,13 @@
               <span class="tab-icon">🎯</span> Luyện Đề (+10💧)
             </button>
             <button class="quiz-tab-btn" data-tab="benefits">
-              <span class="tab-icon">📊</span> Bảng Lợi Ích
+              <span class="tab-icon">📊</span> Bảng Lợi Ích (Cô Nguyệt)
             </button>
             <button class="quiz-tab-btn" data-tab="speaking">
               <span class="tab-icon">🗣️</span> Từ Vựng Speaking
             </button>
             <button class="quiz-tab-btn" data-tab="writing">
-              <span class="tab-icon">✍️</span> Nhận Dạng Thư & Luận
+              <span class="tab-icon">✍️</span> 7 Dạng Thư & 4 Dạng Luận
             </button>
           </div>
 
@@ -710,10 +710,10 @@
             <!-- Category Filter Pills -->
             <div class="quiz-filter-bar" id="quiz-filter-bar">
               <button class="quiz-filter-pill active" data-cat="all">🌟 Tất cả</button>
-              <button class="quiz-filter-pill" data-cat="benefit-matrix">📊 Bảng Lợi Ích</button>
+              <button class="quiz-filter-pill" data-cat="benefit-matrix">📊 Bảng Lợi Ích (64 Cụm)</button>
               <button class="quiz-filter-pill" data-cat="speaking-vocab">🗣️ Từ Vựng Speaking</button>
-              <button class="quiz-filter-pill" data-cat="writing-letter">✉️ Nhận Dạng Thư</button>
-              <button class="quiz-filter-pill" data-cat="writing-essay">📝 Nhận Dạng Luận</button>
+              <button class="quiz-filter-pill" data-cat="writing-letter">✉️ 7 Dạng Thư Task 1</button>
+              <button class="quiz-filter-pill" data-cat="writing-essay">📝 4 Dạng Luận Task 2</button>
             </div>
 
             <div class="quiz-container" id="quiz-container">
@@ -822,49 +822,43 @@
     },
 
     renderBenefitsTabHtml() {
-      const matrix = root.VSTEP_BENEFITS_MATRIX || [];
+      const groups = root.VSTEP_OFFICIAL_BENEFITS || [];
       return `
         <div class="vstep-guide-wrap">
           <div class="vstep-guide-hero">
             <div class="hero-text">
-              <h4>📊 BẢNG LỢI ÍCH VẠN NĂNG (6 Trụ Cột Ý Tưởng)</h4>
-              <p>Hệ thống ý tưởng độc quyền giúp học viên lập tức tìm ra 2–3 luận điểm sắc bén và phản biện cho mọi đề thi <b>Speaking Part 2 & 3</b> và <b>Writing Task 2</b>.</p>
+              <h4>📊 BẢNG LỢI ÍCH CHUẨN CỦA CÔ NGUYỆT (64 CỤM TỪ)</h4>
+              <p>Trích xuất từ giáo trình độc quyền <a href="https://englishwithmsnguyet-dev.github.io/vstepspeakingpart1/" target="_blank" style="color:#0284C7; font-weight:700; text-decoration:underline;">vstepspeakingpart1</a>. Phân loại thành 4 nhóm cụm từ vàng giúp trả lời trôi chảy mọi câu hỏi Speaking Part 1 & Part 2.</p>
             </div>
             <button class="btn btn-primary btn-small" data-jump-cat="benefit-matrix">
               <i class="fa-solid fa-play"></i> Luyện Câu Hỏi Bảng Lợi Ích (+10💧)
             </button>
           </div>
 
-          <div class="benefits-grid">
-            ${matrix.map(b => `
-              <div class="benefit-card" style="border-top: 4px solid ${b.color};">
+          <div class="benefits-official-grid">
+            ${groups.map(g => `
+              <div class="benefit-official-card" style="border-top: 4px solid ${g.color};">
                 <div class="benefit-card-header">
-                  <span class="benefit-icon">${b.icon}</span>
+                  <span class="benefit-icon">${g.icon}</span>
                   <div>
-                    <h5>${b.title}</h5>
-                    <p class="benefit-core">${b.coreIdea}</p>
+                    <h5>${g.title}</h5>
+                    <p class="benefit-core">${g.desc}</p>
+                    <div class="formula-tip-badge">💡 ${g.formulaTip}</div>
                   </div>
                 </div>
 
-                <div class="benefit-section">
-                  <div class="section-label"><i class="fa-solid fa-star" style="color:#F59E0B;"></i> Collocations Ăn Điểm:</div>
-                  <div class="colloc-tags">
-                    ${b.collocations.map(c => `
-                      <span class="colloc-pill" title="${c.vi}">
-                        <b>${c.en}</b> <small>(${c.vi})</small>
-                      </span>
-                    `).join('')}
-                  </div>
+                <div class="benefit-items-pill-grid">
+                  ${g.items.map(it => `
+                    <div class="official-benefit-pill" style="border-left: 3px solid ${g.color};">
+                      <strong class="ob-en">${it.en}</strong>
+                      <span class="ob-vi">${it.vi}</span>
+                    </div>
+                  `).join('')}
                 </div>
 
-                <div class="benefit-section">
-                  <div class="section-label"><i class="fa-solid fa-microphone" style="color:#2563EB;"></i> Ứng dụng Speaking Part 2 & 3:</div>
-                  <div class="example-quote speaking-quote">"${b.sampleSpeaking}"</div>
-                </div>
-
-                <div class="benefit-section">
-                  <div class="section-label"><i class="fa-solid fa-pen-nib" style="color:#059669;"></i> Ứng dụng Writing Task 2:</div>
-                  <div class="example-quote writing-quote">"${b.sampleWriting}"</div>
+                <div class="benefit-sample-box">
+                  <div class="section-label"><i class="fa-solid fa-microphone"></i> Câu trả lời mẫu chuẩn Cô Nguyệt:</div>
+                  <div class="example-quote speaking-quote">"${g.sampleSentence}"</div>
                 </div>
               </div>
             `).join('')}
@@ -875,7 +869,7 @@
 
     renderSpeakingVocabTabHtml() {
       const guide = root.VSTEP_SPEAKING_VOCAB_GUIDE || {};
-      const p1 = guide.part1 || { idioms: [] };
+      const p1 = guide.part1 || { formulaSteps: [], collocations: [] };
       const p2 = guide.part2 || { formula: [] };
       const p3 = guide.part3 || { discourseMarkers: [] };
 
@@ -883,32 +877,44 @@
         <div class="vstep-guide-wrap">
           <div class="vstep-guide-hero">
             <div class="hero-text">
-              <h4>🗣️ BẢNG TỪ VỰNG & MẪU CÂU SPEAKING VSTEP THỰC CHIẾN</h4>
-              <p>Chiến thuật từng phần: Idioms Part 1 tự nhiên, Công thức vàng 3 bước Part 2, và Discourse markers mở rộng mindmap Part 3.</p>
+              <h4>🗣️ BẢNG TỪ VỰNG & CÔNG THỨC SPEAKING VSTEP THỰC CHIẾN</h4>
+              <p>Chiến thuật chuẩn từ website <a href="https://englishwithmsnguyet-dev.github.io/vstepspeakingpart1/" target="_blank" style="color:#0284C7; font-weight:700; text-decoration:underline;">vstepspeakingpart1</a>: Công thức phản xạ 3 bước, cụm từ tần suất và mẫu câu so sánh/bác bỏ.</p>
             </div>
             <button class="btn btn-primary btn-small" data-jump-cat="speaking-vocab">
               <i class="fa-solid fa-play"></i> Luyện Câu Hỏi Speaking (+10💧)
             </button>
           </div>
 
-          <!-- Part 1 -->
+          <!-- Part 1: Social Interaction -->
           <div class="guide-box">
             <div class="guide-box-header">
               <span class="box-badge">Part 1</span>
               <h5>${p1.title}</h5>
             </div>
             <p class="guide-desc">${p1.overview}</p>
-            <div class="idioms-list">
-              ${p1.idioms.map(i => `
-                <div class="idiom-item">
-                  <div class="idiom-phrase">💡 <b>${i.phrase}</b>: <i>${i.meaning}</i></div>
-                  <div class="idiom-example">👉 Ví dụ: "${i.example}"</div>
+
+            <div class="formula-steps">
+              ${(p1.formulaSteps || []).map((fs, idx) => `
+                <div class="formula-step-card">
+                  <h6><span class="step-num">${idx + 1}</span> ${fs.step}</h6>
+                  <ul class="step-phrases">
+                    ${fs.phrases.map(p => `<li>${p}</li>`).join('')}
+                  </ul>
                 </div>
+              `).join('')}
+            </div>
+
+            <div class="section-sub-header mt-3"><i class="fa-solid fa-star" style="color:#f59e0b;"></i> Thành ngữ & Collocations ghi điểm tự nhiên:</div>
+            <div class="colloc-tags p-3">
+              ${(p1.collocations || []).map(c => `
+                <span class="colloc-pill" title="${c.vi}">
+                  <b>${c.en}</b> <small>(${c.vi})</small>
+                </span>
               `).join('')}
             </div>
           </div>
 
-          <!-- Part 2 -->
+          <!-- Part 2: Solution Discussion -->
           <div class="guide-box">
             <div class="guide-box-header" style="background:#EFF6FF; color:#1D4ED8;">
               <span class="box-badge" style="background:#2563EB; color:#fff;">Part 2</span>
@@ -927,7 +933,7 @@
             </div>
           </div>
 
-          <!-- Part 3 -->
+          <!-- Part 3: Topic Development -->
           <div class="guide-box">
             <div class="guide-box-header" style="background:#FDF2F8; color:#BE185D;">
               <span class="box-badge" style="background:#DB2777; color:#fff;">Part 3</span>
@@ -948,88 +954,111 @@
     },
 
     renderWritingGuideTabHtml() {
-      const guide = root.VSTEP_WRITING_IDENTIFICATION_GUIDE || {};
-      const t1 = guide.task1 || { registers: [], types: [] };
-      const t2 = guide.task2 || { essayTypes: [] };
+      const letters = root.VSTEP_OFFICIAL_LETTER_TYPES || [];
+      const essays = root.VSTEP_OFFICIAL_ESSAY_TYPES || [];
 
       return `
         <div class="vstep-guide-wrap">
           <div class="vstep-guide-hero">
             <div class="hero-text">
-              <h4>✍️ CẨM NANG NHẬN DẠNG DẠNG THƯ & LUẬN VSTEP</h4>
-              <p>Bí quyết nhận diện thần tốc phong cách thư Task 1 (Formal vs Informal) và 4 dạng bài luận Task 2 kèm câu Thesis ăn trọn điểm!</p>
+              <h4>✍️ 7 DẠNG THƯ & 4 DẠNG LUẬN VSTEP CHUẨN CÔ NGUYỆT</h4>
+              <p>Trích xuất đầy đủ từ hệ thống học liệu <a href="https://englishwithmsnguyet-dev.github.io/vstepwritingtask1b1/" target="_blank" style="color:#0284C7; font-weight:700; text-decoration:underline;">vstepwritingtask1b1</a> và <a href="https://englishwithmsnguyet-dev.github.io/vstepwritingtask2b1/" target="_blank" style="color:#0284C7; font-weight:700; text-decoration:underline;">vstepwritingtask2b1</a>.</p>
             </div>
             <div style="display:flex; gap:8px;">
               <button class="btn btn-secondary btn-small" data-jump-cat="writing-letter">
-                <i class="fa-solid fa-envelope"></i> Luyện Dạng Thư (+10💧)
+                <i class="fa-solid fa-envelope"></i> Luyện 7 Dạng Thư (+10💧)
               </button>
               <button class="btn btn-primary btn-small" data-jump-cat="writing-essay">
-                <i class="fa-solid fa-file-pen"></i> Luyện Dạng Luận (+10💧)
+                <i class="fa-solid fa-file-pen"></i> Luyện 4 Dạng Luận (+10💧)
               </button>
             </div>
           </div>
 
-          <!-- Section 1: Task 1 Letters -->
+          <!-- Section 1: Task 1 - 7 Letter Types -->
           <div class="writing-section-card">
             <div class="writing-section-title">
-              <span class="section-tag task1-tag">Task 1</span>
-              <h5>${t1.title}</h5>
+              <span class="section-tag task1-tag">Task 1 (120 từ)</span>
+              <h5>🎯 CHINH PHỤC 7 DẠNG THƯ VSTEP TASK 01 CỦA CÔ NGUYỆT</h5>
             </div>
-            <p class="guide-desc">${t1.timeAdvice}</p>
+            <p class="guide-desc">Học thuộc dấu hiệu nhận biết và công thức cấu trúc cho từng dạng thư để viết nhanh, chuẩn xác và không bị trừ điểm văn phong.</p>
 
-            <h6 class="sub-label">A. Quy Chuẩn 3 Văn Phong Thư:</h6>
-            <div class="registers-grid">
-              ${t1.registers.map(r => `
-                <div class="register-col">
-                  <h6>${r.type}</h6>
-                  <p class="reg-meta"><b>Người nhận:</b> ${r.recipient}</p>
-                  <p class="reg-meta"><b>Chào đầu:</b> <code>${r.salutation}</code></p>
-                  <p class="reg-meta"><b>Kết thư:</b> <code>${r.signOff}</code></p>
-                  <div class="reg-rule">⚠️ <b>Lưu ý:</b> ${r.rule}</div>
-                </div>
-              `).join('')}
-            </div>
-
-            <h6 class="sub-label mt-3">B. Nhận Dạng 6 Dạng Thư Trọng Tâm & Câu Mở Đầu:</h6>
-            <div class="letter-types-list">
-              ${t1.types.map(lt => `
-                <div class="letter-type-item">
-                  <div class="lt-header">
-                    <b>${lt.name}</b>
-                    <span class="lt-keywords">Từ khóa: ${lt.keywords}</span>
+            <div class="official-letters-grid">
+              ${letters.map((lt, idx) => `
+                <div class="official-letter-card" style="border-top: 4px solid ${lt.color};">
+                  <div class="olc-header">
+                    <div style="display:flex; align-items:center; gap:8px;">
+                      <span class="olc-idx">${idx + 1}</span>
+                      <div>
+                        <h6>${lt.titleEn}</h6>
+                        <span class="olc-vi">${lt.titleVi}</span>
+                      </div>
+                    </div>
+                    <span class="olc-style-badge">${lt.style}</span>
                   </div>
-                  <div class="lt-starter">
-                    <span class="starter-tag">Câu mở bài:</span> "${lt.starter}"
+
+                  <p class="olc-purpose"><b>Mục đích:</b> ${lt.purpose}</p>
+
+                  <div class="olc-keywords">
+                    <i class="fa-solid fa-key" style="color:${lt.color};"></i>
+                    <span><b>Từ khóa đề bài:</b> <code>${lt.keywords}</code></span>
+                  </div>
+
+                  <div class="olc-structures">
+                    <div class="struct-title">Mở bài & Cấu trúc chính:</div>
+                    <div class="struct-phrase">↳ <i>${lt.outline.opening}</i></div>
+                    <ul class="struct-list">
+                      ${lt.outline.structures.map(s => `<li>↳ ${s}</li>`).join('')}
+                    </ul>
+                  </div>
+
+                  <div class="olc-footer">
+                    <span class="olc-salutation"><b>Chào:</b> ${lt.outline.salutation}</span>
+                    <span class="olc-signoff"><b>Kết:</b> ${lt.outline.signOff}</span>
                   </div>
                 </div>
               `).join('')}
             </div>
           </div>
 
-          <!-- Section 2: Task 2 Essays -->
+          <!-- Section 2: Task 2 - 4 Essay Types -->
           <div class="writing-section-card mt-3">
             <div class="writing-section-title">
-              <span class="section-tag task2-tag">Task 2</span>
-              <h5>${t2.title}</h5>
+              <span class="section-tag task2-tag">Task 2 (250 từ)</span>
+              <h5>🎯 4 DẠNG BÀI LUẬN VSTEP TASK 02 CHUẨN CỦA CÔ NGUYỆT</h5>
             </div>
-            <p class="guide-desc">${t2.timeAdvice}</p>
+            <p class="guide-desc">Nhận diện đúng câu lệnh đề bài để xây dựng câu Thesis Statement và phân bổ thân bài hoàn hảo.</p>
 
-            <div class="essay-types-list">
-              ${t2.essayTypes.map(et => `
-                <div class="essay-type-card">
-                  <div class="et-header">
-                    <h6>${et.type}</h6>
-                    <span class="et-clue">Dấu hiệu: <b>${et.questionClues}</b></span>
+            <div class="official-essays-grid">
+              ${essays.map((et, idx) => `
+                <div class="official-essay-card" style="border-left: 5px solid ${et.color};">
+                  <div class="oec-header">
+                    <div style="display:flex; align-items:center; gap:8px;">
+                      <span class="oec-badge" style="background:${et.color};">Type ${idx + 1}</span>
+                      <h6>${et.titleEn}</h6>
+                    </div>
+                    <span class="oec-vi">${et.titleVi}</span>
+                  </div>
+
+                  <div class="oec-clues">
+                    <div class="clue-label"><i class="fa-solid fa-magnifying-glass"></i> Dấu hiệu nhận biết câu lệnh:</div>
+                    <ul class="clue-list">
+                      ${et.clues.map(c => `<li><b>${c}</b></li>`).join('')}
+                    </ul>
                   </div>
 
                   <div class="et-trap">
                     <i class="fa-solid fa-triangle-exclamation" style="color:#DC2626;"></i>
-                    <span><b>Lưu ý bẫy thi:</b> ${et.trapWarning}</span>
+                    <span><b>LƯU Ý BẪY THI CỦA CÔ NGUYỆT:</b> ${et.trapWarning}</span>
                   </div>
 
-                  <div class="et-body">
-                    <div class="et-row"><b>Cấu trúc thân bài:</b> ${et.bodyStructure}</div>
-                    <div class="et-row mt-1"><b>Thesis Statement mẫu:</b> <i class="thesis-text">"${et.thesisTemplate}"</i></div>
+                  <div class="oec-structure">
+                    <div class="struct-row"><b>Mở bài (Intro):</b> ${et.structure.intro}</div>
+                    <div class="struct-row"><b>Thân bài 1 (Body 1):</b> ${et.structure.body1}</div>
+                    <div class="struct-row"><b>Thân bài 2 (Body 2):</b> ${et.structure.body2}</div>
+                    <div class="struct-row"><b>Kết bài (Conclusion):</b> ${et.structure.conclusion}</div>
+                    <div class="struct-row thesis-highlight mt-2">
+                      <i class="fa-solid fa-feather"></i> <b>Thesis Statement Mẫu:</b> <i>"${et.thesisSample}"</i>
+                    </div>
                   </div>
                 </div>
               `).join('')}
