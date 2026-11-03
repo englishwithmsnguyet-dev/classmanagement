@@ -2640,7 +2640,7 @@
       // Always update dynamic student name in subtext when opened
       const subtext = modal.querySelector('#basket-modal-subtext');
       if (subtext) {
-        subtext.innerHTML = `Mỗi cành cỏ 4 lá may mắn được <b>${this.escapeHtml(this.getStudentName())}</b> vun trồng là một niềm tin gửi gắm tới mục tiêu kỳ thi VSTEP:`;
+        subtext.innerHTML = `Mỗi cành hoa được <b>${this.escapeHtml(this.getStudentName())}</b> vun trồng là một niềm tin gửi gắm tới mục tiêu kỳ thi VSTEP:`;
       }
       this.switchBasketTab(activeTab);
       modal.classList.add('active');
@@ -2653,13 +2653,13 @@
       modal.innerHTML = `
         <div class="modal-card garden-modal-card garden-basket-modal-card">
           <div class="modal-header">
-            <h3>🧺 Bộ Sưu Tập Cỏ 4 Lá & Động Lực Ôn Thi</h3>
+            <h3>🧺 Bộ Sưu Tập Vườn Hoa & Động Lực Ôn Thi</h3>
             <button class="modal-close-btn" id="btn-close-basket-modal">&times;</button>
           </div>
           
           <div class="basket-tabs-row">
             <button class="basket-tab-btn active" id="tab-btn-basket-stats">
-              🍀 Vườn Ươm & Danh Hiệu
+              🌸 Vườn Ươm & Danh Hiệu
             </button>
             <button class="basket-tab-btn" id="tab-btn-basket-quotes">
               📜 Kho Tàng Động Lực Ôn Thi (<span id="basket-quotes-count">0</span>)
@@ -2669,14 +2669,14 @@
           <div class="basket-tab-content" id="basket-content-stats">
             <div class="garden-title-badge-wrap">
               <span class="gardener-title-badge" id="gardener-title-badge">🌱 Người Gieo Mầm Hạnh Phúc</span>
-              <span class="total-harvested-badge">Tổng gặt hái: <b id="basket-total-count">0</b> cành 🍀</span>
+              <span class="total-harvested-badge" id="basket-total-badge">Tổng gặt hái: <b id="basket-total-count">0</b> mùa</span>
             </div>
-            <p class="modal-subtext" id="basket-modal-subtext">Mỗi cành cỏ 4 lá may mắn được <b>${this.escapeHtml(this.getStudentName())}</b> vun trồng là một niềm tin gửi gắm tới mục tiêu kỳ thi VSTEP:</p>
+            <p class="modal-subtext" id="basket-modal-subtext">Mỗi cành hoa được <b>${this.escapeHtml(this.getStudentName())}</b> vun trồng là một niềm tin gửi gắm tới mục tiêu kỳ thi VSTEP:</p>
             <div class="garden-basket-grid" id="garden-basket-grid"></div>
           </div>
 
           <div class="basket-tab-content hidden" id="basket-content-quotes">
-            <p class="modal-subtext" style="margin-bottom:12px;">Tổng hợp những thông điệp và lời chúc tiếp lửa ôn thi bạn đã gặt hái được qua các mùa hoa cỏ 4 lá:</p>
+            <p class="modal-subtext" style="margin-bottom:12px;">Tổng hợp những thông điệp và lời chúc tiếp lửa ôn thi bạn đã gặt hái được qua các mùa hoa:</p>
             <div class="harvested-quotes-archive" id="harvested-quotes-archive"></div>
           </div>
         </div>
@@ -2718,6 +2718,7 @@
     renderBasketStats() {
       const grid = document.getElementById('garden-basket-grid');
       const totalCount = document.getElementById('basket-total-count');
+      const totalBadge = document.getElementById('basket-total-badge');
       const titleBadge = document.getElementById('gardener-title-badge');
       const quotesCount = document.getElementById('basket-quotes-count');
       if (!grid) return;
@@ -2731,7 +2732,11 @@
       const fid = flower.id || 'clover';
       const isSunflower = fid === 'sunflower';
 
-      if (totalCount) totalCount.innerHTML = `<b>${total}</b> mùa gặt (${cloverCount} 🍀 + ${sunflowerCount} 🌻)`;
+      if (totalBadge) {
+        totalBadge.innerHTML = `Tổng gặt hái: <b>${total}</b> mùa (${cloverCount} 🍀 + ${sunflowerCount} 🌻)`;
+      } else if (totalCount) {
+        totalCount.textContent = total;
+      }
       if (quotesCount) quotesCount.textContent = quotes.length;
 
       // 1. Calculate Titles & Milestone Progression
