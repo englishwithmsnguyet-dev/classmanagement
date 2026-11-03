@@ -12,7 +12,7 @@
   const FLOWER_CATALOG = {
     "clover": {
       "id": "clover",
-      "name": "Cỏ 4 Lá May Mắn VSTEP",
+      "name": "Cỏ 4 Lá May Mắn",
       "shortName": "Cỏ 4 Lá",
       "scientific": "Trifolium repens",
       "icon": "🍀",
@@ -20,8 +20,8 @@
       "color": "#10B981",
       "accentColor": "#059669",
       "bgGlow": "radial-gradient(circle at 50% 42%, rgba(254, 240, 138, 0.55) 0%, rgba(52, 211, 153, 0.24) 45%, transparent 76%)",
-      "meaning": "May mắn ngập tràn, niềm tin, hy vọng và tình yêu vĩnh cửu. Món quà diệu kỳ tiếp lửa cho học viên tự tin chinh phục chứng chỉ VSTEP B1-B2-C1!",
-      "quote": "Bé cỏ 4 lá mang đến vạn sự may mắn, bình an và kết quả thi cử rực rỡ nhất! 🍀🌟",
+      "meaning": "May mắn ngập tràn, niềm tin, hy vọng và tình yêu thương. Món quà diệu kỳ tiếp thêm sự tự tin, may mắn và năng lượng tích cực mỗi ngày.",
+      "quote": "Bé cỏ 4 lá mang đến vạn sự may mắn, bình an và kết quả rực rỡ nhất! 🍀🌟",
       "growthDifficulty": "Hiếm có",
       "stages": [
         { "level": 1, "name": "Mầm Hạt Nảy Mầm", "icon": "🌱" },
@@ -33,7 +33,7 @@
     },
     "sunflower": {
       "id": "sunflower",
-      "name": "Hoa Hướng Dương Rực Rỡ VSTEP",
+      "name": "Hoa Hướng Dương Rực Rỡ",
       "shortName": "Hoa Hướng Dương",
       "scientific": "Helianthus annuus",
       "icon": "🌻",
@@ -41,8 +41,8 @@
       "color": "#F59E0B",
       "accentColor": "#D97706",
       "bgGlow": "radial-gradient(circle at 50% 42%, rgba(254, 240, 138, 0.70) 0%, rgba(245, 158, 11, 0.28) 45%, transparent 76%)",
-      "meaning": "Biểu tượng của ý chí kiên định, luôn hướng về phía ánh sáng mặt trời và đỉnh cao tri thức. Tiếp thêm nguồn năng lượng tích cực, sự tự tin và ý chí bền bỉ vượt qua mọi kỳ thi VSTEP!",
-      "quote": "Như đóa hướng dương luôn hướng về vầng thái dương, chúc bạn luôn kiên định, tự tin và tỏa sáng rực rỡ trong kỳ thi VSTEP! 🌻☀️",
+      "meaning": "Biểu tượng của ý chí kiên định, luôn hướng về phía ánh sáng mặt trời. Tiếp thêm nguồn năng lượng tích cực, sự tự tin và nghị lực bền bỉ vươn tới thành công.",
+      "quote": "Như đóa hướng dương luôn hướng về vầng thái dương, chúc bạn luôn kiên định, tự tin và tỏa sáng rực rỡ trên mọi chặng đường! 🌻☀️",
       "growthDifficulty": "Yêu nắng",
       "stages": [
         { "level": 1, "name": "Hạt Mầm Nứt Đất", "icon": "🌱" },
@@ -54,7 +54,7 @@
     },
     "tulip": {
       "id": "tulip",
-      "name": "Hoa Tulip Kiêu Hãnh VSTEP",
+      "name": "Hoa Tulip Kiêu Hãnh",
       "shortName": "Hoa Tulip",
       "scientific": "Tulipa gesneriana",
       "icon": "🌷",
@@ -62,8 +62,8 @@
       "color": "#F43F5E",
       "accentColor": "#E11D48",
       "bgGlow": "radial-gradient(circle at 50% 42%, rgba(254, 205, 211, 0.70) 0%, rgba(244, 63, 94, 0.28) 45%, transparent 76%)",
-      "meaning": "Biểu tượng của lòng nhiệt huyết, sự thanh lịch và niềm kiêu hãnh vươn mình. Tiếp thêm ngọn lửa tự tin, tinh thần kỷ luật và bản lĩnh kiên cường để bứt phá band điểm VSTEP B1-B2-C1!",
-      "quote": "Như đóa tulip kiêu hãnh đón ngọn gió xuân, chúc bạn luôn thanh lịch, kiên cường và tỏa sáng rực rỡ với band điểm mơ ước! 🌷✨",
+      "meaning": "Biểu tượng của lòng nhiệt huyết, sự thanh lịch và niềm kiêu hãnh vươn mình. Thắp sáng ngọn lửa tự tin, tinh thần kỷ luật và bản lĩnh kiên cường để bứt phá mọi mục tiêu.",
+      "quote": "Như đóa tulip kiêu hãnh đón ngọn gió xuân, chúc bạn luôn thanh lịch, kiên cường và tỏa sáng rực rỡ với ước mơ của mình! 🌷✨",
       "growthDifficulty": "Yêu nước & gió nhẹ",
       "stages": [
         { "level": 1, "name": "Mầm Củ Nhú Xanh", "icon": "🌱" },
@@ -75,7 +75,7 @@
     },
     "cactus": {
       "id": "cactus",
-      "name": "Hoa Xương Rồng Kiên Cường VSTEP",
+      "name": "Hoa Xương Rồng Kiên Cường",
       "shortName": "Hoa Xương Rồng",
       "scientific": "Cactaceae",
       "icon": "🌵",
@@ -83,8 +83,8 @@
       "color": "#0D9488",
       "accentColor": "#0F766E",
       "bgGlow": "radial-gradient(circle at 50% 42%, rgba(204, 251, 241, 0.70) 0%, rgba(20, 184, 166, 0.28) 45%, transparent 76%)",
-      "meaning": "Biểu tượng của ý chí thép kiên cường, sức sống mãnh liệt vượt qua mọi nghịch cảnh và sa mạc thử thách để bung nở đóa hoa diệu kỳ. Tiếp thêm bản lĩnh vững vàng và nghị lực phi thường để chinh phục đỉnh cao VSTEP!",
-      "quote": "Dù giữa sa mạc khô cằn, xương rồng vẫn kiên cường nở hoa rực rỡ. Chúc bạn luôn bền bỉ, kiên định và tỏa sáng ngoạn mục với band điểm mơ ước! 🌵✨",
+      "meaning": "Biểu tượng của ý chí thép kiên cường, sức sống mãnh liệt vượt qua mọi nghịch cảnh và thử thách để bung nở đóa hoa diệu kỳ. Tiếp thêm bản lĩnh vững vàng và nghị lực phi thường.",
+      "quote": "Dù giữa sa mạc khô cằn, xương rồng vẫn kiên cường nở hoa rực rỡ. Chúc bạn luôn bền bỉ, kiên định và tỏa sáng ngoạn mục! 🌵✨",
       "growthDifficulty": "Chịu hạn giỏi & bền bỉ",
       "stages": [
         { "level": 1, "name": "Mầm Gai Bé Nhỏ", "icon": "🌱" },
@@ -96,7 +96,7 @@
     },
     "rose": {
       "id": "rose",
-      "name": "Hoa Hồng Đỏ Khát Vọng VSTEP",
+      "name": "Hoa Hồng Đỏ Khát Vọng",
       "shortName": "Hoa Hồng Đỏ",
       "scientific": "Rosa",
       "icon": "🌹",
@@ -104,8 +104,8 @@
       "color": "#BE123C",
       "accentColor": "#9F1239",
       "bgGlow": "radial-gradient(circle at 50% 42%, rgba(254, 205, 211, 0.75) 0%, rgba(190, 18, 60, 0.28) 45%, transparent 76%)",
-      "meaning": "Biểu tượng của ngọn lửa đam mê, lòng nhiệt huyết cháy bỏng và khát khao vươn tới đỉnh cao tri thức. Tiếp thêm ngọn lửa tự tin để bạn bứt phá và chinh phục trọn vẹn chứng chỉ VSTEP B1-B2-C1!",
-      "quote": "Như đóa hồng nhung đỏ thắm kiêu sa qua bao ngày chăm bón, chúc bạn luôn giữ trọn ngọn lửa đam mê, tự tin và vững bước chinh phục thành công chứng chỉ VSTEP B1-B2-C1! 🌹✨",
+      "meaning": "Biểu tượng của ngọn lửa đam mê, lòng nhiệt huyết cháy bỏng và khát vọng vươn tới ước mơ. Tiếp thêm sự tự tin để bạn bứt phá, tỏa sáng và gặt hái thành công trọn vẹn.",
+      "quote": "Như đóa hồng nhung đỏ thắm kiêu sa qua bao ngày chăm bón, chúc bạn luôn giữ trọn ngọn lửa đam mê, tự tin và vững bước tới tương lai tươi sáng! 🌹✨",
       "growthDifficulty": "Yêu nắng ấm & gió nhẹ",
       "stages": [
         { "level": 1, "name": "Mầm Non Đỏ Tía", "icon": "🌱" },
@@ -2149,14 +2149,14 @@
     const stageImgSrc = stageImgMap[stage] || `assets/garden/${fid}_stage_1.png`;
 
     const altText = (fid === 'sunflower')
-      ? `Hoa Hướng Dương Rực Rỡ VSTEP - Giai đoạn ${stage}/5`
+      ? `Hoa Hướng Dương Rực Rỡ - Giai đoạn ${stage}/5`
       : (fid === 'tulip')
-          ? `Hoa Tulip Kiêu Hãnh VSTEP - Giai đoạn ${stage}/5`
+          ? `Hoa Tulip Kiêu Hãnh - Giai đoạn ${stage}/5`
           : (fid === 'cactus'
-              ? `Hoa Xương Rồng Kiên Cường VSTEP - Giai đoạn ${stage}/5`
+              ? `Hoa Xương Rồng Kiên Cường - Giai đoạn ${stage}/5`
               : (fid === 'rose'
-                  ? `Hoa Hồng Đỏ Khát Vọng VSTEP - Giai đoạn ${stage}/5`
-                  : `Cỏ 4 Lá May Mắn VSTEP - Giai đoạn ${stage}/5`));
+                  ? `Hoa Hồng Đỏ Khát Vọng - Giai đoạn ${stage}/5`
+                  : `Cỏ 4 Lá May Mắn - Giai đoạn ${stage}/5`));
 
     return `
       <div class="clover-living-stage clover-stage-${stage} flower-type-${fid}" data-stage="${stage}" data-flower="${fid}">
