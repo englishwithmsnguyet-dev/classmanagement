@@ -565,7 +565,7 @@ input:focus, textarea:focus { border-color: var(--primary); }
 }
 
 /* ==========================================
-   THÔNG TIN CỦA NGÀY HÔM NAY (DAILY INSPIRATION BANNER)
+   THÔNG ĐIỆP HÔM NAY (DAILY INSPIRATION BANNER)
    ========================================== */
 .daily-info-card {
     background: linear-gradient(135deg, #FFFFFF 0%, #FFFDF7 55%, #FFF5F5 100%);

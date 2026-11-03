@@ -1862,7 +1862,7 @@ if (typeof window !== 'undefined' && window.FlowerGarden) {
 }
 
 // ==========================================
-// THÔNG TIN CỦA NGÀY HÔM NAY (DAILY INSPIRATION BANNER)
+// THÔNG ĐIỆP HÔM NAY (DAILY INSPIRATION BANNER)
 // ==========================================
 function initDailyInfoCard() {
     const card = document.getElementById('daily-info-card');

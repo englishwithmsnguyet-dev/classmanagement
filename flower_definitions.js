@@ -26,7 +26,7 @@
   };
 
   /**
-   * KHO CÂU TRUYỀN CẢM HỨNG BILINGUAL DÀNH CHO "THÔNG TIN CỦA NGÀY HÔM NAY"
+   * KHO CÂU TRUYỀN CẢM HỨNG BILINGUAL DÀNH CHO "THÔNG ĐIỆP HÔM NAY"
    * Tiếng Anh + Bản dịch tiếng Việt (in nghiêng) + "From Miss Nguyet with LOVE ❤️"
    */
   const DAILY_INSPIRATION_QUOTES = [

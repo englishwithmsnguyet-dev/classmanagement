@@ -495,7 +495,7 @@
       // 1. Play triumphant fanfare
       GardenAudio.playHarvest();
 
-      // 2. Select a thoughtful Non-Repeating Quote (THÔNG TIN CỦA NGÀY HÔM NAY)
+      // 2. Select a thoughtful Non-Repeating Quote (THÔNG ĐIỆP HÔM NAY)
       const quote = (typeof root.getRandomNonRepeatingQuote === 'function')
         ? root.getRandomNonRepeatingQuote()
         : {
@@ -560,7 +560,7 @@
               <img src="assets/garden/clover_stage_4.png" alt="Cỏ 4 Lá May Mắn Nở Hoa" class="harvest-clover-img" />
             </div>
             <span class="harvest-pill-badge" id="harvest-pill-badge">🍀 CÀNH CỎ 4 LÁ THỨ #1 ĐÃ BỪNG NỞ!</span>
-            <h3 class="harvest-main-title">THÔNG TIN CỦA NGÀY HÔM NAY</h3>
+            <h3 class="harvest-main-title">THÔNG ĐIỆP HÔM NAY</h3>
           </div>
           
           <div class="harvest-quote-body" id="harvest-quote-body">
@@ -611,7 +611,7 @@
       body.innerHTML = `
         <div class="harvest-fortune-card">
           <div class="fortune-tag-row">
-            <span class="fortune-topic-tag"><i class="fa-solid fa-sparkles"></i> THÔNG TIN CỦA NGÀY HÔM NAY</span>
+            <span class="fortune-topic-tag"><i class="fa-solid fa-sparkles"></i> THÔNG ĐIỆP HÔM NAY</span>
             <span class="fortune-date-stamp">${new Date().toLocaleDateString('vi-VN')}</span>
           </div>
           <div class="harvest-quote-en">"${english}"</div>
@@ -628,7 +628,7 @@
       if (!body) return;
       const en = body.querySelector('.harvest-quote-en') ? body.querySelector('.harvest-quote-en').textContent : '';
       const vi = body.querySelector('.harvest-quote-vi') ? body.querySelector('.harvest-quote-vi').textContent : '';
-      const full = `THÔNG TIN CỦA NGÀY HÔM NAY\n${en}\n${vi}\nFrom Miss Nguyet with LOVE ❤️`;
+      const full = `THÔNG ĐIỆP HÔM NAY\n${en}\n${vi}\nFrom Miss Nguyet with LOVE ❤️`;
 
       if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(full).then(() => {
@@ -1003,7 +1003,7 @@
           <div class="archive-quote-card">
             <div class="archive-quote-head">
               <span class="archive-badge">🍀 Cành cỏ #${item.harvestNum || (quotes.length - idx)}</span>
-              <span class="archive-tag">THÔNG TIN CỦA NGÀY HÔM NAY</span>
+              <span class="archive-tag">THÔNG ĐIỆP HÔM NAY</span>
               <span class="archive-date">${dateStr}</span>
             </div>
             <div class="archive-quote-en">"${en}"</div>
