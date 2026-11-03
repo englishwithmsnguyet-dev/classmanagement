@@ -2078,6 +2078,506 @@ input:focus, textarea:focus { border-color: var(--primary); }
     margin: 0;
     line-height: 1.45;
 }
+
+/* ==========================================
+   VSTEP STUDY HUB & TABBED QUIZ MODAL
+   ========================================== */
+.vstep-hub-card {
+    max-width: 780px !important;
+    width: 95% !important;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Tabs Bar */
+.quiz-modal-tabs {
+    display: flex;
+    gap: 6px;
+    background: #F3F4F6;
+    padding: 5px;
+    border-radius: 14px;
+    margin-bottom: 16px;
+    overflow-x: auto;
+}
+.quiz-tab-btn {
+    flex: 1 1 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 8px 12px;
+    border-radius: 10px;
+    border: none;
+    background: transparent;
+    font-size: 13px;
+    font-weight: 700;
+    color: #4B5563;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+}
+.quiz-tab-btn:hover {
+    color: #1F2937;
+    background: rgba(255, 255, 255, 0.6);
+}
+.quiz-tab-btn.active {
+    background: #FFFFFF;
+    color: #0369A1;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* Tab Panels */
+.quiz-tab-panel {
+    display: none;
+    overflow-y: auto;
+    padding-right: 4px;
+}
+.quiz-tab-panel.active {
+    display: block;
+    animation: fadeIn 0.25s ease;
+}
+
+/* Category Filter Pills */
+.quiz-filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 14px;
+}
+.quiz-filter-pill {
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    border: 1px solid #E5E7EB;
+    background: #F9FAFB;
+    color: #4B5563;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.quiz-filter-pill:hover {
+    border-color: #38BDF8;
+    background: #F0F9FF;
+    color: #0284C7;
+}
+.quiz-filter-pill.active {
+    background: #0284C7;
+    border-color: #0284C7;
+    color: #FFFFFF;
+    box-shadow: 0 2px 6px rgba(2, 132, 199, 0.3);
+}
+
+/* Category Badge in Question */
+.quiz-cat-tag {
+    background: #FEF3C7;
+    color: #B45309;
+    border: 1px solid #FDE68A;
+    font-weight: 800;
+}
+
+/* Guide Wrapper & Hero */
+.vstep-guide-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+.vstep-guide-hero {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 14px;
+    background: linear-gradient(135deg, #ECFDF5 0%, #EFF6FF 100%);
+    border: 1.5px solid #BAE6FD;
+    border-radius: 16px;
+    padding: 14px 18px;
+    flex-wrap: wrap;
+}
+.vstep-guide-hero .hero-text h4 {
+    margin: 0 0 4px 0;
+    font-size: 15px;
+    font-weight: 800;
+    color: #0F172A;
+}
+.vstep-guide-hero .hero-text p {
+    margin: 0;
+    font-size: 12.5px;
+    color: #475569;
+    line-height: 1.45;
+}
+
+/* Benefits Matrix Grid */
+.benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 14px;
+}
+.benefit-card {
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 16px;
+    padding: 14px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.benefit-card-header {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+}
+.benefit-icon {
+    font-size: 24px;
+    line-height: 1;
+}
+.benefit-card-header h5 {
+    margin: 0 0 3px 0;
+    font-size: 14px;
+    font-weight: 800;
+    color: #1E293B;
+}
+.benefit-core {
+    margin: 0;
+    font-size: 12px;
+    color: #64748B;
+    line-height: 1.4;
+}
+.benefit-section {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+.section-label {
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    color: #475569;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+.colloc-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+.colloc-pill {
+    background: #F1F5F9;
+    border: 1px solid #E2E8F0;
+    border-radius: 8px;
+    padding: 2px 7px;
+    font-size: 11px;
+    color: #334155;
+    line-height: 1.4;
+}
+.colloc-pill b {
+    color: #0369A1;
+}
+.example-quote {
+    font-size: 12px;
+    font-style: italic;
+    border-radius: 10px;
+    padding: 8px 10px;
+    line-height: 1.45;
+}
+.speaking-quote {
+    background: #EFF6FF;
+    border-left: 3px solid #3B82F6;
+    color: #1E40AF;
+}
+.writing-quote {
+    background: #ECFDF5;
+    border-left: 3px solid #10B981;
+    color: #065F46;
+}
+
+/* Speaking Guide Styles */
+.guide-box {
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+}
+.guide-box-header {
+    background: #F0FDF4;
+    color: #15803D;
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px solid #E2E8F0;
+}
+.box-badge {
+    background: #16A34A;
+    color: #FFFFFF;
+    font-size: 11px;
+    font-weight: 800;
+    padding: 2px 7px;
+    border-radius: 6px;
+}
+.guide-box-header h5 {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 800;
+}
+.guide-desc {
+    padding: 10px 14px 6px;
+    margin: 0;
+    font-size: 12.5px;
+    color: #64748B;
+    line-height: 1.45;
+}
+.idioms-list {
+    padding: 6px 14px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.idiom-item {
+    background: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    border-radius: 10px;
+    padding: 8px 10px;
+    font-size: 12px;
+}
+.idiom-phrase {
+    color: #1E293B;
+}
+.idiom-example {
+    margin-top: 3px;
+    color: #0369A1;
+    font-style: italic;
+}
+.formula-steps {
+    padding: 8px 14px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.formula-step-card {
+    background: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    border-radius: 10px;
+    padding: 10px;
+}
+.formula-step-card h6 {
+    margin: 0 0 6px 0;
+    font-size: 12.5px;
+    font-weight: 800;
+    color: #1E293B;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.step-num {
+    background: #2563EB;
+    color: #FFFFFF;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+}
+.step-phrases {
+    margin: 0;
+    padding-left: 20px;
+    font-size: 12px;
+    color: #334155;
+    line-height: 1.5;
+}
+.markers-table {
+    padding: 8px 14px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.marker-row {
+    display: flex;
+    gap: 10px;
+    padding: 8px 10px;
+    background: #FDF2F8;
+    border-radius: 8px;
+    font-size: 12px;
+    align-items: center;
+}
+.marker-code {
+    flex: 0 0 220px;
+    color: #BE185D;
+}
+.marker-use {
+    color: #374151;
+}
+
+/* Writing Guide Styles */
+.writing-section-card {
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 16px;
+    padding: 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+}
+.writing-section-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+}
+.section-tag {
+    font-size: 11px;
+    font-weight: 800;
+    padding: 3px 8px;
+    border-radius: 6px;
+    color: #FFFFFF;
+}
+.task1-tag { background: #0284C7; }
+.task2-tag { background: #7C3AED; }
+.writing-section-title h5 {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 800;
+    color: #0F172A;
+}
+.sub-label {
+    font-size: 12.5px;
+    font-weight: 800;
+    color: #334155;
+    margin: 12px 0 8px 0;
+}
+.registers-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 10px;
+}
+.register-col {
+    background: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+    padding: 10px;
+    font-size: 11.5px;
+}
+.register-col h6 {
+    margin: 0 0 6px 0;
+    font-size: 12.5px;
+    font-weight: 800;
+    color: #0369A1;
+}
+.reg-meta {
+    margin: 0 0 4px 0;
+    color: #475569;
+}
+.reg-meta code {
+    background: #E2E8F0;
+    padding: 1px 4px;
+    border-radius: 4px;
+    color: #0F172A;
+}
+.reg-rule {
+    margin-top: 6px;
+    padding-top: 6px;
+    border-top: 1px dashed #CBD5E1;
+    color: #B91C1C;
+    font-size: 11px;
+}
+.letter-types-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.letter-type-item {
+    background: #F0F9FF;
+    border: 1px solid #BAE6FD;
+    border-radius: 10px;
+    padding: 8px 12px;
+    font-size: 12px;
+}
+.lt-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 4px;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+.lt-header b {
+    color: #0369A1;
+    font-size: 12.5px;
+}
+.lt-keywords {
+    font-size: 11px;
+    color: #64748B;
+    background: #FFFFFF;
+    padding: 2px 6px;
+    border-radius: 6px;
+}
+.lt-starter {
+    font-style: italic;
+    color: #1E293B;
+}
+.starter-tag {
+    font-weight: 700;
+    font-style: normal;
+    color: #0284C7;
+}
+
+/* Essay Types List */
+.essay-types-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.essay-type-card {
+    background: #FBFBFE;
+    border: 1px solid #E0E7FF;
+    border-radius: 12px;
+    padding: 12px;
+    font-size: 12px;
+}
+.et-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+.et-header h6 {
+    margin: 0;
+    font-size: 13.5px;
+    font-weight: 800;
+    color: #4338CA;
+}
+.et-clue {
+    font-size: 11.5px;
+    color: #6366F1;
+    background: #EEF2FF;
+    padding: 2px 8px;
+    border-radius: 6px;
+}
+.et-trap {
+    background: #FEF2F2;
+    border: 1px solid #FECACA;
+    border-radius: 8px;
+    padding: 6px 10px;
+    color: #991B1B;
+    font-size: 11.5px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.et-body {
+    color: #334155;
+    line-height: 1.45;
+}
+.thesis-text {
+    color: #047857;
+    font-weight: 600;
+}
 .quiz-footer-actions {
     display: flex;
     justify-content: flex-end;

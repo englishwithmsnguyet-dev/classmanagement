@@ -197,6 +197,12 @@
       if (typeof window !== 'undefined') {
         if (window.location.hash === '#quiz') {
           setTimeout(() => this.openQuizModal(), 300);
+        } else if (window.location.hash === '#quiz-benefits') {
+          setTimeout(() => this.openQuizModal(null, 'benefits'), 300);
+        } else if (window.location.hash === '#quiz-speaking') {
+          setTimeout(() => this.openQuizModal(null, 'speaking'), 300);
+        } else if (window.location.hash === '#quiz-writing') {
+          setTimeout(() => this.openQuizModal(null, 'writing'), 300);
         } else if (window.location.hash === '#harvest-test') {
           setTimeout(() => this.harvest(), 400);
         } else if (window.location.hash === '#earn-water') {
@@ -644,15 +650,28 @@
     },
 
     // ==========================================
-    // 6. MINI-QUIZ ÔN THI (EARN WATER DROPS)
+    // 6. MINI-QUIZ ÔN THI & CẨM NANG VSTEP THỰC CHIẾN (EARN WATER DROPS)
     // ==========================================
-    openQuizModal() {
+    quizState: {
+      activeTab: 'practice', // 'practice' | 'benefits' | 'speaking' | 'writing'
+      selectedCategory: 'all', // 'all' | 'benefit-matrix' | 'speaking-vocab' | 'writing-letter' | 'writing-essay'
+      currentQuestion: null
+    },
+
+    openQuizModal(targetCategory = null, targetTab = null) {
       let modal = document.getElementById('garden-quiz-modal');
       if (!modal) {
         modal = this.createQuizModalDom();
         document.body.appendChild(modal);
       }
-      this.loadNextQuizQuestion();
+      if (targetTab) {
+        this.switchQuizTab(targetTab);
+      }
+      if (targetCategory) {
+        this.setQuizCategory(targetCategory);
+      } else if (!this.quizState.currentQuestion) {
+        this.loadNextQuizQuestion();
+      }
       modal.classList.add('active');
     },
 
@@ -661,28 +680,74 @@
       modal.className = 'modal-overlay garden-modal';
       modal.id = 'garden-quiz-modal';
       modal.innerHTML = `
-        <div class="modal-card garden-quiz-card">
+        <div class="modal-card garden-quiz-card vstep-hub-card">
           <div class="modal-header">
-            <h3>🎯 Đố Vui Ôn Thi VSTEP (4 Kỹ Năng)</h3>
+            <div>
+              <h3>🎯 ĐỐ VUI ÔN THI VSTEP THỰC CHIẾN</h3>
+              <p class="modal-subtext mb-0">Học Bảng Lợi Ích, Từ Vựng Speaking và Nhận Dạng Dạng Thư & Luận cùng Cô Nguyệt (+10💧 Nước Nỗ Lực)!</p>
+            </div>
             <button class="modal-close-btn" id="btn-close-quiz-modal">&times;</button>
           </div>
-          <p class="modal-subtext">Rèn luyện từ vựng, ngữ pháp và 4 kỹ năng VSTEP (B1-B2-C1) cùng Cô Nguyệt để nhận ngay <b>+10💧 Nước Nỗ Lực</b> chăm sóc Cỏ 4 Lá May Mắn!</p>
-          
-          <div class="quiz-container" id="quiz-container">
-            <!-- Injected by loadNextQuizQuestion -->
+
+          <!-- Tab Navigation Bar -->
+          <div class="quiz-modal-tabs" id="quiz-modal-tabs">
+            <button class="quiz-tab-btn active" data-tab="practice">
+              <span class="tab-icon">🎯</span> Luyện Đề (+10💧)
+            </button>
+            <button class="quiz-tab-btn" data-tab="benefits">
+              <span class="tab-icon">📊</span> Bảng Lợi Ích
+            </button>
+            <button class="quiz-tab-btn" data-tab="speaking">
+              <span class="tab-icon">🗣️</span> Từ Vựng Speaking
+            </button>
+            <button class="quiz-tab-btn" data-tab="writing">
+              <span class="tab-icon">✍️</span> Nhận Dạng Thư & Luận
+            </button>
           </div>
 
-          <div class="quiz-footer-actions">
-            <button class="btn btn-secondary btn-small" id="btn-quiz-next">
-              <i class="fa-solid fa-arrows-rotate"></i> Câu hỏi khác
-            </button>
-            <button class="btn btn-primary btn-small" id="btn-quiz-done">
-              <i class="fa-solid fa-check"></i> Về Chậu Cây
-            </button>
+          <!-- Tab Panel 1: Practice Quiz -->
+          <div class="quiz-tab-panel active" id="quiz-panel-practice">
+            <!-- Category Filter Pills -->
+            <div class="quiz-filter-bar" id="quiz-filter-bar">
+              <button class="quiz-filter-pill active" data-cat="all">🌟 Tất cả</button>
+              <button class="quiz-filter-pill" data-cat="benefit-matrix">📊 Bảng Lợi Ích</button>
+              <button class="quiz-filter-pill" data-cat="speaking-vocab">🗣️ Từ Vựng Speaking</button>
+              <button class="quiz-filter-pill" data-cat="writing-letter">✉️ Nhận Dạng Thư</button>
+              <button class="quiz-filter-pill" data-cat="writing-essay">📝 Nhận Dạng Luận</button>
+            </div>
+
+            <div class="quiz-container" id="quiz-container">
+              <!-- Injected by loadNextQuizQuestion -->
+            </div>
+
+            <div class="quiz-footer-actions">
+              <button class="btn btn-secondary btn-small" id="btn-quiz-next">
+                <i class="fa-solid fa-arrows-rotate"></i> Đổi câu hỏi khác
+              </button>
+              <button class="btn btn-primary btn-small" id="btn-quiz-done">
+                <i class="fa-solid fa-seedling"></i> Về Chậu Cây Cỏ May Mắn
+              </button>
+            </div>
+          </div>
+
+          <!-- Tab Panel 2: Benefits Matrix Reference -->
+          <div class="quiz-tab-panel" id="quiz-panel-benefits">
+            ${this.renderBenefitsTabHtml()}
+          </div>
+
+          <!-- Tab Panel 3: Speaking Vocab & Formulas Reference -->
+          <div class="quiz-tab-panel" id="quiz-panel-speaking">
+            ${this.renderSpeakingVocabTabHtml()}
+          </div>
+
+          <!-- Tab Panel 4: Writing Letters & Essays Identification Reference -->
+          <div class="quiz-tab-panel" id="quiz-panel-writing">
+            ${this.renderWritingGuideTabHtml()}
           </div>
         </div>
       `;
 
+      // Close handlers
       modal.querySelector('#btn-close-quiz-modal').addEventListener('click', () => modal.classList.remove('active'));
       modal.querySelector('#btn-quiz-done').addEventListener('click', () => modal.classList.remove('active'));
       modal.querySelector('#btn-quiz-next').addEventListener('click', () => this.loadNextQuizQuestion());
@@ -690,26 +755,318 @@
         if (e.target === modal) modal.classList.remove('active');
       });
 
+      // Tab switching handlers
+      const tabBtns = modal.querySelectorAll('.quiz-tab-btn');
+      tabBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          this.switchQuizTab(btn.dataset.tab);
+        });
+      });
+
+      // Filter pills handlers
+      const filterPills = modal.querySelectorAll('.quiz-filter-pill');
+      filterPills.forEach(pill => {
+        pill.addEventListener('click', () => {
+          this.setQuizCategory(pill.dataset.cat);
+        });
+      });
+
+      // Bind in-panel shortcut buttons that jump to practice with specific category
+      modal.addEventListener('click', (e) => {
+        const jumpBtn = e.target.closest('[data-jump-cat]');
+        if (jumpBtn) {
+          const targetCat = jumpBtn.dataset.jumpCat;
+          this.switchQuizTab('practice');
+          this.setQuizCategory(targetCat);
+        }
+      });
+
       return modal;
+    },
+
+    switchQuizTab(tabId) {
+      this.quizState.activeTab = tabId;
+      const modal = document.getElementById('garden-quiz-modal');
+      if (!modal) return;
+
+      const tabBtns = modal.querySelectorAll('.quiz-tab-btn');
+      tabBtns.forEach(btn => {
+        if (btn.dataset.tab === tabId) btn.classList.add('active');
+        else btn.classList.remove('active');
+      });
+
+      const panels = modal.querySelectorAll('.quiz-tab-panel');
+      panels.forEach(p => {
+        if (p.id === `quiz-panel-${tabId}`) p.classList.add('active');
+        else p.classList.remove('active');
+      });
+
+      // If switching to practice and no question loaded, load one
+      if (tabId === 'practice' && !this.quizState.currentQuestion) {
+        this.loadNextQuizQuestion();
+      }
+    },
+
+    setQuizCategory(cat) {
+      this.quizState.selectedCategory = cat || 'all';
+      const modal = document.getElementById('garden-quiz-modal');
+      if (!modal) return;
+
+      const filterPills = modal.querySelectorAll('.quiz-filter-pill');
+      filterPills.forEach(p => {
+        if (p.dataset.cat === this.quizState.selectedCategory) p.classList.add('active');
+        else p.classList.remove('active');
+      });
+
+      this.loadNextQuizQuestion();
+    },
+
+    renderBenefitsTabHtml() {
+      const matrix = root.VSTEP_BENEFITS_MATRIX || [];
+      return `
+        <div class="vstep-guide-wrap">
+          <div class="vstep-guide-hero">
+            <div class="hero-text">
+              <h4>📊 BẢNG LỢI ÍCH VẠN NĂNG (6 Trụ Cột Ý Tưởng)</h4>
+              <p>Hệ thống ý tưởng độc quyền giúp học viên lập tức tìm ra 2–3 luận điểm sắc bén và phản biện cho mọi đề thi <b>Speaking Part 2 & 3</b> và <b>Writing Task 2</b>.</p>
+            </div>
+            <button class="btn btn-primary btn-small" data-jump-cat="benefit-matrix">
+              <i class="fa-solid fa-play"></i> Luyện Câu Hỏi Bảng Lợi Ích (+10💧)
+            </button>
+          </div>
+
+          <div class="benefits-grid">
+            ${matrix.map(b => `
+              <div class="benefit-card" style="border-top: 4px solid ${b.color};">
+                <div class="benefit-card-header">
+                  <span class="benefit-icon">${b.icon}</span>
+                  <div>
+                    <h5>${b.title}</h5>
+                    <p class="benefit-core">${b.coreIdea}</p>
+                  </div>
+                </div>
+
+                <div class="benefit-section">
+                  <div class="section-label"><i class="fa-solid fa-star" style="color:#F59E0B;"></i> Collocations Ăn Điểm:</div>
+                  <div class="colloc-tags">
+                    ${b.collocations.map(c => `
+                      <span class="colloc-pill" title="${c.vi}">
+                        <b>${c.en}</b> <small>(${c.vi})</small>
+                      </span>
+                    `).join('')}
+                  </div>
+                </div>
+
+                <div class="benefit-section">
+                  <div class="section-label"><i class="fa-solid fa-microphone" style="color:#2563EB;"></i> Ứng dụng Speaking Part 2 & 3:</div>
+                  <div class="example-quote speaking-quote">"${b.sampleSpeaking}"</div>
+                </div>
+
+                <div class="benefit-section">
+                  <div class="section-label"><i class="fa-solid fa-pen-nib" style="color:#059669;"></i> Ứng dụng Writing Task 2:</div>
+                  <div class="example-quote writing-quote">"${b.sampleWriting}"</div>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    },
+
+    renderSpeakingVocabTabHtml() {
+      const guide = root.VSTEP_SPEAKING_VOCAB_GUIDE || {};
+      const p1 = guide.part1 || { idioms: [] };
+      const p2 = guide.part2 || { formula: [] };
+      const p3 = guide.part3 || { discourseMarkers: [] };
+
+      return `
+        <div class="vstep-guide-wrap">
+          <div class="vstep-guide-hero">
+            <div class="hero-text">
+              <h4>🗣️ BẢNG TỪ VỰNG & MẪU CÂU SPEAKING VSTEP THỰC CHIẾN</h4>
+              <p>Chiến thuật từng phần: Idioms Part 1 tự nhiên, Công thức vàng 3 bước Part 2, và Discourse markers mở rộng mindmap Part 3.</p>
+            </div>
+            <button class="btn btn-primary btn-small" data-jump-cat="speaking-vocab">
+              <i class="fa-solid fa-play"></i> Luyện Câu Hỏi Speaking (+10💧)
+            </button>
+          </div>
+
+          <!-- Part 1 -->
+          <div class="guide-box">
+            <div class="guide-box-header">
+              <span class="box-badge">Part 1</span>
+              <h5>${p1.title}</h5>
+            </div>
+            <p class="guide-desc">${p1.overview}</p>
+            <div class="idioms-list">
+              ${p1.idioms.map(i => `
+                <div class="idiom-item">
+                  <div class="idiom-phrase">💡 <b>${i.phrase}</b>: <i>${i.meaning}</i></div>
+                  <div class="idiom-example">👉 Ví dụ: "${i.example}"</div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+
+          <!-- Part 2 -->
+          <div class="guide-box">
+            <div class="guide-box-header" style="background:#EFF6FF; color:#1D4ED8;">
+              <span class="box-badge" style="background:#2563EB; color:#fff;">Part 2</span>
+              <h5>${p2.title}</h5>
+            </div>
+            <p class="guide-desc">${p2.overview}</p>
+            <div class="formula-steps">
+              ${p2.formula.map((f, idx) => `
+                <div class="formula-step-card">
+                  <h6><span class="step-num">${idx + 1}</span> ${f.step}</h6>
+                  <ul class="step-phrases">
+                    ${f.phrases.map(p => `<li>"${p}"</li>`).join('')}
+                  </ul>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+
+          <!-- Part 3 -->
+          <div class="guide-box">
+            <div class="guide-box-header" style="background:#FDF2F8; color:#BE185D;">
+              <span class="box-badge" style="background:#DB2777; color:#fff;">Part 3</span>
+              <h5>${p3.title}</h5>
+            </div>
+            <p class="guide-desc">${p3.overview}</p>
+            <div class="markers-table">
+              ${p3.discourseMarkers.map(m => `
+                <div class="marker-row">
+                  <div class="marker-code"><b>${m.marker}</b></div>
+                  <div class="marker-use">${m.usage}</div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        </div>
+      `;
+    },
+
+    renderWritingGuideTabHtml() {
+      const guide = root.VSTEP_WRITING_IDENTIFICATION_GUIDE || {};
+      const t1 = guide.task1 || { registers: [], types: [] };
+      const t2 = guide.task2 || { essayTypes: [] };
+
+      return `
+        <div class="vstep-guide-wrap">
+          <div class="vstep-guide-hero">
+            <div class="hero-text">
+              <h4>✍️ CẨM NANG NHẬN DẠNG DẠNG THƯ & LUẬN VSTEP</h4>
+              <p>Bí quyết nhận diện thần tốc phong cách thư Task 1 (Formal vs Informal) và 4 dạng bài luận Task 2 kèm câu Thesis ăn trọn điểm!</p>
+            </div>
+            <div style="display:flex; gap:8px;">
+              <button class="btn btn-secondary btn-small" data-jump-cat="writing-letter">
+                <i class="fa-solid fa-envelope"></i> Luyện Dạng Thư (+10💧)
+              </button>
+              <button class="btn btn-primary btn-small" data-jump-cat="writing-essay">
+                <i class="fa-solid fa-file-pen"></i> Luyện Dạng Luận (+10💧)
+              </button>
+            </div>
+          </div>
+
+          <!-- Section 1: Task 1 Letters -->
+          <div class="writing-section-card">
+            <div class="writing-section-title">
+              <span class="section-tag task1-tag">Task 1</span>
+              <h5>${t1.title}</h5>
+            </div>
+            <p class="guide-desc">${t1.timeAdvice}</p>
+
+            <h6 class="sub-label">A. Quy Chuẩn 3 Văn Phong Thư:</h6>
+            <div class="registers-grid">
+              ${t1.registers.map(r => `
+                <div class="register-col">
+                  <h6>${r.type}</h6>
+                  <p class="reg-meta"><b>Người nhận:</b> ${r.recipient}</p>
+                  <p class="reg-meta"><b>Chào đầu:</b> <code>${r.salutation}</code></p>
+                  <p class="reg-meta"><b>Kết thư:</b> <code>${r.signOff}</code></p>
+                  <div class="reg-rule">⚠️ <b>Lưu ý:</b> ${r.rule}</div>
+                </div>
+              `).join('')}
+            </div>
+
+            <h6 class="sub-label mt-3">B. Nhận Dạng 6 Dạng Thư Trọng Tâm & Câu Mở Đầu:</h6>
+            <div class="letter-types-list">
+              ${t1.types.map(lt => `
+                <div class="letter-type-item">
+                  <div class="lt-header">
+                    <b>${lt.name}</b>
+                    <span class="lt-keywords">Từ khóa: ${lt.keywords}</span>
+                  </div>
+                  <div class="lt-starter">
+                    <span class="starter-tag">Câu mở bài:</span> "${lt.starter}"
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+
+          <!-- Section 2: Task 2 Essays -->
+          <div class="writing-section-card mt-3">
+            <div class="writing-section-title">
+              <span class="section-tag task2-tag">Task 2</span>
+              <h5>${t2.title}</h5>
+            </div>
+            <p class="guide-desc">${t2.timeAdvice}</p>
+
+            <div class="essay-types-list">
+              ${t2.essayTypes.map(et => `
+                <div class="essay-type-card">
+                  <div class="et-header">
+                    <h6>${et.type}</h6>
+                    <span class="et-clue">Dấu hiệu: <b>${et.questionClues}</b></span>
+                  </div>
+
+                  <div class="et-trap">
+                    <i class="fa-solid fa-triangle-exclamation" style="color:#DC2626;"></i>
+                    <span><b>Lưu ý bẫy thi:</b> ${et.trapWarning}</span>
+                  </div>
+
+                  <div class="et-body">
+                    <div class="et-row"><b>Cấu trúc thân bài:</b> ${et.bodyStructure}</div>
+                    <div class="et-row mt-1"><b>Thesis Statement mẫu:</b> <i class="thesis-text">"${et.thesisTemplate}"</i></div>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        </div>
+      `;
     },
 
     loadNextQuizQuestion() {
       const container = document.getElementById('quiz-container');
       if (!container) return;
 
-      const questions = root.EXAM_QUIZ_QUESTIONS || [];
-      if (questions.length === 0) return;
+      const allQuestions = root.EXAM_QUIZ_QUESTIONS || [];
+      if (allQuestions.length === 0) return;
 
-      this.currentQuizIndex = Math.floor(Math.random() * questions.length);
-      const q = questions[this.currentQuizIndex];
+      // Filter by selected category if not 'all'
+      const filterCat = this.quizState.selectedCategory;
+      let pool = allQuestions;
+      if (filterCat && filterCat !== 'all') {
+        pool = allQuestions.filter(q => q.category === filterCat);
+        if (pool.length === 0) pool = allQuestions;
+      }
 
-      const skillTag = q.skill ? `<span class="quiz-badge quiz-skill-tag skill-${q.skill.toLowerCase()}"><i class="fa-solid fa-graduation-cap"></i> VSTEP ${q.skill}</span>` : '';
-      const levelTag = q.level ? `<span class="quiz-badge quiz-level-tag">Cấp độ: ${q.level}</span>` : '';
+      this.currentQuizIndex = Math.floor(Math.random() * pool.length);
+      const q = pool[this.currentQuizIndex];
+      this.quizState.currentQuestion = q;
+
+      const catBadge = q.categoryName ? `<span class="quiz-badge quiz-cat-tag"><i class="fa-solid fa-layer-group"></i> ${q.categoryName}</span>` : '';
+      const skillTag = q.skill ? `<span class="quiz-badge quiz-skill-tag skill-${q.skill.toLowerCase()}"><i class="fa-solid fa-graduation-cap"></i> ${q.skill}</span>` : '';
+      const levelTag = q.level ? `<span class="quiz-badge quiz-level-tag">Band: ${q.level}</span>` : '';
       const topicTag = q.topic ? `<span class="quiz-badge quiz-topic-tag"><i class="fa-solid fa-bookmark"></i> ${q.topic}</span>` : '';
 
       container.innerHTML = `
         <div class="quiz-question-box">
           <div class="quiz-meta-row">
+            ${catBadge}
             ${skillTag}
             ${levelTag}
             ${topicTag}
@@ -750,7 +1107,7 @@
       feedback.classList.remove('hidden');
 
       if (isCorrect) {
-        this.addWaterDrops(10, 'Đố vui ôn thi xuất sắc', false);
+        this.addWaterDrops(10, 'Ôn thi VSTEP xuất sắc', false);
         this.spawnParticles('✨', 6);
         this.spawnParticles('💧', 6);
         feedback.className = 'quiz-feedback-box feedback-correct';
