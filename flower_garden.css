@@ -1229,6 +1229,14 @@
     user-select: none !important;
 }
 
+.harvest-action-btn .harvest-btn-ico {
+    font-size: 16px !important;
+    line-height: 1 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
 .harvest-action-btn i {
     font-size: 14px !important;
     line-height: 1 !important;
@@ -1276,7 +1284,7 @@
     box-shadow: 0 4px 14px rgba(16, 185, 129, 0.16) !important;
 }
 
-/* 3. Nút Vun Trồng Mầm Cỏ Tiếp Theo (Primary CTA Gradient) */
+/* 3. Nút Vun Trồng Mầm Tiếp Theo (Primary CTA Gradient with Flower Themes) */
 .harvest-action-btn.btn-harvest-next {
     background: linear-gradient(135deg, #10B981 0%, #059669 100%) !important;
     color: #FFFFFF !important;
@@ -1284,13 +1292,52 @@
     box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35) !important;
     font-weight: 800 !important;
     letter-spacing: -0.2px !important;
-}
-.harvest-action-btn.btn-harvest-next i {
-    color: #A7F3D0 !important;
+    padding: 12px 26px !important;
 }
 .harvest-action-btn.btn-harvest-next:hover {
     background: linear-gradient(135deg, #059669 0%, #047857 100%) !important;
     box-shadow: 0 6px 20px rgba(16, 185, 129, 0.45) !important;
+}
+
+/* Specific Dynamic Color Themes for Next Plant Button */
+.harvest-action-btn.btn-harvest-theme-sunflower {
+    background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%) !important;
+    border-color: #D97706 !important;
+    box-shadow: 0 4px 14px rgba(217, 119, 6, 0.35) !important;
+}
+.harvest-action-btn.btn-harvest-theme-sunflower:hover {
+    background: linear-gradient(135deg, #D97706 0%, #B45309 100%) !important;
+    box-shadow: 0 6px 20px rgba(217, 119, 6, 0.45) !important;
+}
+
+.harvest-action-btn.btn-harvest-theme-tulip {
+    background: linear-gradient(135deg, #F43F5E 0%, #E11D48 100%) !important;
+    border-color: #E11D48 !important;
+    box-shadow: 0 4px 14px rgba(225, 29, 72, 0.35) !important;
+}
+.harvest-action-btn.btn-harvest-theme-tulip:hover {
+    background: linear-gradient(135deg, #E11D48 0%, #BE123C 100%) !important;
+    box-shadow: 0 6px 20px rgba(225, 29, 72, 0.45) !important;
+}
+
+.harvest-action-btn.btn-harvest-theme-cactus {
+    background: linear-gradient(135deg, #0D9488 0%, #0F766E 100%) !important;
+    border-color: #0F766E !important;
+    box-shadow: 0 4px 14px rgba(15, 118, 110, 0.35) !important;
+}
+.harvest-action-btn.btn-harvest-theme-cactus:hover {
+    background: linear-gradient(135deg, #0F766E 0%, #115E59 100%) !important;
+    box-shadow: 0 6px 20px rgba(15, 118, 110, 0.45) !important;
+}
+
+.harvest-action-btn.btn-harvest-theme-rose {
+    background: linear-gradient(135deg, #E11D48 0%, #BE123C 100%) !important;
+    border-color: #BE123C !important;
+    box-shadow: 0 4px 14px rgba(190, 18, 60, 0.40) !important;
+}
+.harvest-action-btn.btn-harvest-theme-rose:hover {
+    background: linear-gradient(135deg, #BE123C 0%, #9F1239 100%) !important;
+    box-shadow: 0 6px 20px rgba(190, 18, 60, 0.50) !important;
 }
 
 /* Generic Fallback Button Styles for All Garden Modals */
@@ -3310,7 +3357,7 @@
 
 .basket-stats-flowers-row {
     display: grid !important;
-    grid-template-columns: repeat(4, 1fr) !important;
+    grid-template-columns: repeat(5, 1fr) !important;
     gap: 8px !important;
     width: 100% !important;
     box-sizing: border-box !important;
@@ -3324,7 +3371,13 @@
     box-sizing: border-box !important;
 }
 
-@media (max-width: 680px) {
+@media (max-width: 768px) {
+    .basket-stats-flowers-row {
+        grid-template-columns: repeat(3, 1fr) !important;
+    }
+}
+
+@media (max-width: 520px) {
     .basket-stats-flowers-row {
         grid-template-columns: repeat(2, 1fr) !important;
     }
@@ -3379,6 +3432,10 @@
     background: #F0FDFA !important;
     border-color: #99F6E4 !important;
 }
+.basket-mini-stat.stat-rose {
+    background: #FFF1F2 !important;
+    border-color: #FECDD3 !important;
+}
 .basket-mini-stat.stat-water {
     background: #F0F9FF !important;
     border-color: #BAE6FD !important;
@@ -3415,6 +3472,7 @@
 .stat-sunflower .mini-stat-num { color: #D97706 !important; }
 .stat-tulip .mini-stat-num { color: #E11D48 !important; }
 .stat-cactus .mini-stat-num { color: #0F766E !important; }
+.stat-rose .mini-stat-num { color: #BE123C !important; }
 .stat-water .mini-stat-num { color: #0284C7 !important; }
 .stat-sun .mini-stat-num { color: #D97706 !important; }
 .stat-streak .mini-stat-num { color: #EA580C !important; }
@@ -3587,21 +3645,26 @@
 
 /* Seed Selector Modal */
 .flower-seed-modal .garden-modal-dialog {
-    max-width: 980px !important;
+    max-width: 1080px !important;
     width: 96% !important;
 }
 .flower-seed-cards-grid {
     display: grid !important;
-    grid-template-columns: repeat(4, 1fr) !important;
+    grid-template-columns: repeat(5, 1fr) !important;
     gap: 12px !important;
     margin-top: 18px !important;
 }
-@media (max-width: 880px) {
+@media (max-width: 992px) {
+    .flower-seed-cards-grid {
+        grid-template-columns: repeat(3, 1fr) !important;
+    }
+}
+@media (max-width: 640px) {
     .flower-seed-cards-grid {
         grid-template-columns: repeat(2, 1fr) !important;
     }
 }
-@media (max-width: 480px) {
+@media (max-width: 440px) {
     .flower-seed-cards-grid {
         grid-template-columns: 1fr !important;
     }
@@ -3716,6 +3779,14 @@
 }
 .flower-type-cactus .clover-aura-halo {
     background: radial-gradient(circle, rgba(204, 251, 241, 0.60) 0%, rgba(20, 184, 166, 0.20) 45%, transparent 72%) !important;
+}
+
+/* Rose theme glow & breeze sway */
+.flower-type-rose .clover-ground-shadow {
+    background: radial-gradient(ellipse at center, rgba(190, 18, 60, 0.22) 0%, transparent 72%) !important;
+}
+.flower-type-rose .clover-aura-halo {
+    background: radial-gradient(circle, rgba(254, 205, 211, 0.65) 0%, rgba(190, 18, 60, 0.22) 45%, transparent 72%) !important;
 }
 
 
