@@ -3299,7 +3299,43 @@
     color: #065F46 !important;
 }
 
-/* 2. Symmetrical 3-Column Stats Row (Row 1: 3 Hoa, Row 2: 3 Nguồn Lực) */
+/* 2. Symmetrical Stats Container (Row 1: 4 Hoa, Row 2: 3 Nguồn Lực) */
+.basket-stats-container {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 8px !important;
+    width: 100% !important;
+    margin-bottom: 16px !important;
+}
+
+.basket-stats-flowers-row {
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 8px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+.basket-stats-resources-row {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 8px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+@media (max-width: 680px) {
+    .basket-stats-flowers-row {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .basket-stats-resources-row {
+        grid-template-columns: 1fr !important;
+    }
+}
+
 .basket-stats-row {
     display: grid !important;
     grid-template-columns: repeat(3, 1fr) !important;
@@ -3339,6 +3375,10 @@
     background: #FFF1F2 !important;
     border-color: #FECDD3 !important;
 }
+.basket-mini-stat.stat-cactus {
+    background: #F0FDFA !important;
+    border-color: #99F6E4 !important;
+}
 .basket-mini-stat.stat-water {
     background: #F0F9FF !important;
     border-color: #BAE6FD !important;
@@ -3374,6 +3414,7 @@
 .stat-clover .mini-stat-num { color: #047857 !important; }
 .stat-sunflower .mini-stat-num { color: #D97706 !important; }
 .stat-tulip .mini-stat-num { color: #E11D48 !important; }
+.stat-cactus .mini-stat-num { color: #0F766E !important; }
 .stat-water .mini-stat-num { color: #0284C7 !important; }
 .stat-sun .mini-stat-num { color: #D97706 !important; }
 .stat-streak .mini-stat-num { color: #EA580C !important; }
@@ -3546,16 +3587,21 @@
 
 /* Seed Selector Modal */
 .flower-seed-modal .garden-modal-dialog {
-    max-width: 860px !important;
+    max-width: 980px !important;
     width: 96% !important;
 }
 .flower-seed-cards-grid {
     display: grid !important;
-    grid-template-columns: repeat(3, 1fr) !important;
-    gap: 14px !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 12px !important;
     margin-top: 18px !important;
 }
-@media (max-width: 768px) {
+@media (max-width: 880px) {
+    .flower-seed-cards-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+}
+@media (max-width: 480px) {
     .flower-seed-cards-grid {
         grid-template-columns: 1fr !important;
     }
@@ -3662,6 +3708,14 @@
 }
 .flower-type-tulip .clover-aura-halo {
     background: radial-gradient(circle, rgba(254, 205, 211, 0.60) 0%, rgba(244, 63, 94, 0.20) 45%, transparent 72%) !important;
+}
+
+/* Cactus theme glow & breeze sway */
+.flower-type-cactus .clover-ground-shadow {
+    background: radial-gradient(ellipse at center, rgba(15, 118, 110, 0.22) 0%, transparent 72%) !important;
+}
+.flower-type-cactus .clover-aura-halo {
+    background: radial-gradient(circle, rgba(204, 251, 241, 0.60) 0%, rgba(20, 184, 166, 0.20) 45%, transparent 72%) !important;
 }
 
 

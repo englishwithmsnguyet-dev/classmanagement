@@ -69,6 +69,26 @@
         { "level": 3, "name": "Búp Hoa E Ấp", "icon": "🌸" },
         { "level": 4, "name": "Tulip Nở Kiêu Hãnh", "icon": "🌷" }
       ]
+    },
+    "cactus": {
+      "id": "cactus",
+      "name": "Hoa Xương Rồng Kiên Cường VSTEP",
+      "shortName": "Hoa Xương Rồng",
+      "scientific": "Cactaceae",
+      "icon": "🌵",
+      "rarity": "Kiên Cường",
+      "color": "#0D9488",
+      "accentColor": "#0F766E",
+      "bgGlow": "radial-gradient(circle at 50% 42%, rgba(204, 251, 241, 0.70) 0%, rgba(20, 184, 166, 0.28) 45%, transparent 76%)",
+      "meaning": "Biểu tượng của ý chí thép kiên cường, sức sống mãnh liệt vượt qua mọi nghịch cảnh và sa mạc thử thách để bung nở đóa hoa diệu kỳ. Tiếp thêm bản lĩnh vững vàng và nghị lực phi thường để chinh phục đỉnh cao VSTEP!",
+      "quote": "Dù giữa sa mạc khô cằn, xương rồng vẫn kiên cường nở hoa rực rỡ. Chúc bạn luôn bền bỉ, kiên định và tỏa sáng ngoạn mục với band điểm mơ ước! 🌵✨",
+      "growthDifficulty": "Chịu hạn giỏi & bền bỉ",
+      "stages": [
+        { "level": 1, "name": "Mầm Gai Bé Nhỏ", "icon": "🌱" },
+        { "level": 2, "name": "Thân Mọng Khỏe Khoắn", "icon": "🌿" },
+        { "level": 3, "name": "Nụ Hoa Kỳ Diệu", "icon": "🌸" },
+        { "level": 4, "name": "Xương Rồng Nở Hoa", "icon": "🌵" }
+      ]
     }
   };
 
@@ -1991,15 +2011,44 @@
     ]
   };
 
+  const CACTUS_DEW_GLINTS = {
+    1: [
+      { x: 48.0, y: 44.0, r: 1.4, d: '0s' },
+      { x: 53.0, y: 47.0, r: 1.2, d: '1.2s' }
+    ],
+    2: [
+      { x: 42.0, y: 38.0, r: 1.5, d: '0s' },
+      { x: 58.0, y: 36.0, r: 1.4, d: '1.0s' },
+      { x: 50.0, y: 28.0, r: 1.3, d: '2.0s' }
+    ],
+    3: [
+      { x: 41.0, y: 38.0, r: 1.5, d: '0s' },
+      { x: 58.0, y: 34.0, r: 1.4, d: '1.2s' },
+      { x: 49.0, y: 20.0, r: 1.6, d: '1.8s' }
+    ],
+    4: [
+      { x: 42.0, y: 40.0, r: 1.5, d: '0s' },
+      { x: 58.0, y: 42.0, r: 1.5, d: '0.8s' },
+      { x: 47.0, y: 22.0, r: 1.7, d: '1.5s' },
+      { x: 54.0, y: 24.0, r: 1.6, d: '2.2s' }
+    ]
+  };
+
   /**
    * Renders the lifelike painterly potted flower stage with grounded shadow,
    * bottom-anchored organic wind sway, and synchronized morning dewdrop glints.
-   * Supports 'clover' (Trifolium repens), 'sunflower' (Helianthus annuus), and 'tulip' (Tulipa gesneriana).
+   * Supports 'clover' (Trifolium repens), 'sunflower' (Helianthus annuus), 'tulip' (Tulipa gesneriana), and 'cactus' (Cactaceae).
    */
   function renderFlowerPotSvg(flowerId, progress) {
-    const fid = (flowerId === 'sunflower') ? 'sunflower' : (flowerId === 'tulip' ? 'tulip' : 'clover');
+    const fid = (flowerId === 'sunflower')
+      ? 'sunflower'
+      : (flowerId === 'tulip' ? 'tulip' : (flowerId === 'cactus' ? 'cactus' : 'clover'));
     const stage = getCloverStage(progress);
-    const glintsMap = (fid === 'sunflower') ? SUNFLOWER_DEW_GLINTS : (fid === 'tulip' ? TULIP_DEW_GLINTS : STAGE_DEW_GLINTS);
+    const glintsMap = (fid === 'sunflower')
+      ? SUNFLOWER_DEW_GLINTS
+      : (fid === 'tulip'
+          ? TULIP_DEW_GLINTS
+          : (fid === 'cactus' ? CACTUS_DEW_GLINTS : STAGE_DEW_GLINTS));
     const glints = glintsMap[stage] || glintsMap[1];
 
     const glintMarkup = glints.map((g) => `
@@ -2035,7 +2084,9 @@
       ? `Hoa Hướng Dương Rực Rỡ VSTEP - Giai đoạn ${stage}`
       : (fid === 'tulip'
           ? `Hoa Tulip Kiêu Hãnh VSTEP - Giai đoạn ${stage}`
-          : `Cỏ 4 Lá May Mắn VSTEP - Giai đoạn ${stage}`);
+          : (fid === 'cactus'
+              ? `Hoa Xương Rồng Kiên Cường VSTEP - Giai đoạn ${stage}`
+              : `Cỏ 4 Lá May Mắn VSTEP - Giai đoạn ${stage}`));
 
     return `
       <div class="clover-living-stage clover-stage-${stage} flower-type-${fid}" data-stage="${stage}" data-flower="${fid}">
