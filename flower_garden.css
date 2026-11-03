@@ -3205,8 +3205,8 @@
    ENHANCED BASKET SHOWCASE MODAL (HIỂN THỊ ĐỀU & ĐẸP)
    ======================================================== */
 .garden-basket-modal-card {
-    max-width: 620px !important;
-    width: 94% !important;
+    max-width: 660px !important;
+    width: 95% !important;
     border-radius: 20px !important;
     box-shadow: 0 16px 40px rgba(0, 0, 0, 0.16) !important;
 }
@@ -3299,23 +3299,16 @@
     color: #065F46 !important;
 }
 
-/* 2. Symmetrical 3-Column Stats Row */
+/* 2. Symmetrical 3-Column Stats Row (Row 1: 3 Hoa, Row 2: 3 Nguồn Lực) */
 .basket-stats-row {
     display: grid !important;
-    grid-template-columns: repeat(5, 1fr) !important;
-    gap: 6px !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 8px !important;
     width: 100% !important;
     box-sizing: border-box !important;
 }
 
-@media (max-width: 620px) {
-    .basket-stats-row {
-        grid-template-columns: repeat(3, 1fr) !important;
-        gap: 6px !important;
-    }
-}
-
-@media (max-width: 420px) {
+@media (max-width: 480px) {
     .basket-stats-row {
         grid-template-columns: repeat(2, 1fr) !important;
         gap: 6px !important;
@@ -3325,8 +3318,8 @@
 .basket-mini-stat {
     display: flex !important;
     align-items: center !important;
-    gap: 6px !important;
-    padding: 8px 6px !important;
+    gap: 8px !important;
+    padding: 8px 10px !important;
     border-radius: 12px !important;
     border: 1.5px solid transparent !important;
     transition: all 0.2s ease !important;
@@ -3341,6 +3334,10 @@
 .basket-mini-stat.stat-sunflower {
     background: #FFFBEB !important;
     border-color: #FDE68A !important;
+}
+.basket-mini-stat.stat-tulip {
+    background: #FFF1F2 !important;
+    border-color: #FECDD3 !important;
 }
 .basket-mini-stat.stat-water {
     background: #F0F9FF !important;
@@ -3376,6 +3373,7 @@
 
 .stat-clover .mini-stat-num { color: #047857 !important; }
 .stat-sunflower .mini-stat-num { color: #D97706 !important; }
+.stat-tulip .mini-stat-num { color: #E11D48 !important; }
 .stat-water .mini-stat-num { color: #0284C7 !important; }
 .stat-sun .mini-stat-num { color: #D97706 !important; }
 .stat-streak .mini-stat-num { color: #EA580C !important; }
@@ -3548,16 +3546,16 @@
 
 /* Seed Selector Modal */
 .flower-seed-modal .garden-modal-dialog {
-    max-width: 660px !important;
-    width: 95% !important;
+    max-width: 860px !important;
+    width: 96% !important;
 }
 .flower-seed-cards-grid {
     display: grid !important;
-    grid-template-columns: repeat(2, 1fr) !important;
-    gap: 16px !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 14px !important;
     margin-top: 18px !important;
 }
-@media (max-width: 580px) {
+@media (max-width: 768px) {
     .flower-seed-cards-grid {
         grid-template-columns: 1fr !important;
     }
@@ -3656,6 +3654,14 @@
 }
 .flower-type-sunflower .clover-aura-halo {
     background: radial-gradient(circle, rgba(254, 240, 138, 0.55) 0%, rgba(245, 158, 11, 0.18) 45%, transparent 70%) !important;
+}
+
+/* Tulip theme glow & breeze sway */
+.flower-type-tulip .clover-ground-shadow {
+    background: radial-gradient(ellipse at center, rgba(225, 29, 72, 0.22) 0%, transparent 72%) !important;
+}
+.flower-type-tulip .clover-aura-halo {
+    background: radial-gradient(circle, rgba(254, 205, 211, 0.60) 0%, rgba(244, 63, 94, 0.20) 45%, transparent 72%) !important;
 }
 
 

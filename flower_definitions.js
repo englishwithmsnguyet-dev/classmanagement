@@ -49,6 +49,26 @@
         { "level": 3, "name": "Nụ Vàng Chúm Chím", "icon": "🌼" },
         { "level": 4, "name": "Hướng Dương Rực Rỡ", "icon": "🌻" }
       ]
+    },
+    "tulip": {
+      "id": "tulip",
+      "name": "Hoa Tulip Kiêu Hãnh VSTEP",
+      "shortName": "Hoa Tulip",
+      "scientific": "Tulipa gesneriana",
+      "icon": "🌷",
+      "rarity": "Thanh Lịch",
+      "color": "#F43F5E",
+      "accentColor": "#E11D48",
+      "bgGlow": "radial-gradient(circle at 50% 42%, rgba(254, 205, 211, 0.70) 0%, rgba(244, 63, 94, 0.28) 45%, transparent 76%)",
+      "meaning": "Biểu tượng của lòng nhiệt huyết, sự thanh lịch và niềm kiêu hãnh vươn mình. Tiếp thêm ngọn lửa tự tin, tinh thần kỷ luật và bản lĩnh kiên cường để bứt phá band điểm VSTEP B1-B2-C1!",
+      "quote": "Như đóa tulip kiêu hãnh đón ngọn gió xuân, chúc bạn luôn thanh lịch, kiên cường và tỏa sáng rực rỡ với band điểm mơ ước! 🌷✨",
+      "growthDifficulty": "Yêu nước & gió nhẹ",
+      "stages": [
+        { "level": 1, "name": "Mầm Củ Nhú Xanh", "icon": "🌱" },
+        { "level": 2, "name": "Lá Non Vươn Dài", "icon": "🌿" },
+        { "level": 3, "name": "Búp Hoa E Ấp", "icon": "🌸" },
+        { "level": 4, "name": "Tulip Nở Kiêu Hãnh", "icon": "🌷" }
+      ]
     }
   };
 
@@ -1948,15 +1968,38 @@
     ]
   };
 
+  const TULIP_DEW_GLINTS = {
+    1: [
+      { x: 44.0, y: 45.0, r: 1.5, d: '0s' },
+      { x: 54.5, y: 46.5, r: 1.3, d: '1.2s' }
+    ],
+    2: [
+      { x: 38.0, y: 39.0, r: 1.5, d: '0s' },
+      { x: 59.0, y: 35.0, r: 1.4, d: '1.0s' },
+      { x: 49.0, y: 28.0, r: 1.3, d: '2.0s' }
+    ],
+    3: [
+      { x: 37.0, y: 41.0, r: 1.5, d: '0s' },
+      { x: 58.5, y: 36.5, r: 1.4, d: '1.2s' },
+      { x: 48.0, y: 22.0, r: 1.6, d: '1.8s' }
+    ],
+    4: [
+      { x: 38.0, y: 40.0, r: 1.5, d: '0s' },
+      { x: 59.0, y: 38.0, r: 1.5, d: '0.8s' },
+      { x: 43.5, y: 22.5, r: 1.7, d: '1.5s' },
+      { x: 53.0, y: 24.0, r: 1.6, d: '2.2s' }
+    ]
+  };
+
   /**
    * Renders the lifelike painterly potted flower stage with grounded shadow,
    * bottom-anchored organic wind sway, and synchronized morning dewdrop glints.
-   * Supports both 'clover' (Trifolium repens) and 'sunflower' (Helianthus annuus).
+   * Supports 'clover' (Trifolium repens), 'sunflower' (Helianthus annuus), and 'tulip' (Tulipa gesneriana).
    */
   function renderFlowerPotSvg(flowerId, progress) {
-    const fid = (flowerId === 'sunflower') ? 'sunflower' : 'clover';
+    const fid = (flowerId === 'sunflower') ? 'sunflower' : (flowerId === 'tulip' ? 'tulip' : 'clover');
     const stage = getCloverStage(progress);
-    const glintsMap = (fid === 'sunflower') ? SUNFLOWER_DEW_GLINTS : STAGE_DEW_GLINTS;
+    const glintsMap = (fid === 'sunflower') ? SUNFLOWER_DEW_GLINTS : (fid === 'tulip' ? TULIP_DEW_GLINTS : STAGE_DEW_GLINTS);
     const glints = glintsMap[stage] || glintsMap[1];
 
     const glintMarkup = glints.map((g) => `
@@ -1990,7 +2033,9 @@
 
     const altText = (fid === 'sunflower')
       ? `Hoa Hướng Dương Rực Rỡ VSTEP - Giai đoạn ${stage}`
-      : `Cỏ 4 Lá May Mắn VSTEP - Giai đoạn ${stage}`;
+      : (fid === 'tulip'
+          ? `Hoa Tulip Kiêu Hãnh VSTEP - Giai đoạn ${stage}`
+          : `Cỏ 4 Lá May Mắn VSTEP - Giai đoạn ${stage}`);
 
     return `
       <div class="clover-living-stage clover-stage-${stage} flower-type-${fid}" data-stage="${stage}" data-flower="${fid}">
