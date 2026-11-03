@@ -920,14 +920,49 @@
       }
     },
 
+    getCurrentFlower() {
+      const fid = this.state.currentFlowerId || 'clover';
+      if (root.FLOWER_CATALOG && root.FLOWER_CATALOG[fid]) {
+        return root.FLOWER_CATALOG[fid];
+      }
+      return (root.FLOWER_CATALOG && root.FLOWER_CATALOG.clover) || {
+        id: 'clover',
+        name: 'Cỏ 4 Lá May Mắn VSTEP',
+        icon: '🍀',
+        bgGlow: 'radial-gradient(circle, rgba(16, 185, 129, 0.35) 0%, transparent 70%)'
+      };
+    },
+
     updateTitleWithStudentName() {
       const titleEl = document.getElementById('garden-title-heading') ||
                       document.querySelector('.garden-header-row h3');
       if (!titleEl) return;
 
       const studentName = this.getStudentName();
+      const flower = this.getCurrentFlower();
+      const isSunflower = flower.id === 'sunflower';
+      const flowerTitle = isSunflower
+        ? `🌻 Chậu Hoa Hướng Dương Rực Rỡ Của`
+        : `🍀 Chậu Cỏ 4 Lá May Mắn Của`;
       
-      titleEl.innerHTML = `🍀 Chậu Cỏ 4 Lá May Mắn Của <span class="garden-student-name-tag" id="garden-student-name" title="Bấm để đổi tên học viên của bạn">${this.escapeHtml(studentName)} <i class="fa-solid fa-pen-to-square edit-name-pen-icon" style="font-size:12px; opacity:0.75; margin-left:3px;"></i></span>`;
+      titleEl.innerHTML = `${flowerTitle} <span class="garden-student-name-tag" id="garden-student-name" title="Bấm để đổi tên học viên của bạn">${this.escapeHtml(studentName)} <i class="fa-solid fa-pen-to-square edit-name-pen-icon" style="font-size:12px; opacity:0.75; margin-left:3px;"></i></span>`;
+
+      // Update switcher button icon
+      const seedIcon = document.getElementById('btn-seed-icon');
+      if (seedIcon) {
+        seedIcon.textContent = isSunflower ? '🍀' : '🌻';
+      }
+      const basketIcon = document.getElementById('header-basket-icon');
+      if (basketIcon) {
+        basketIcon.textContent = flower.icon || '🍀';
+      }
+
+      const subtitleEl = document.getElementById('garden-subtitle');
+      if (subtitleEl) {
+        subtitleEl.textContent = isSunflower
+          ? 'Tích lũy nước & nắng nỗ lực mỗi ngày để vun trồng Hoa Hướng Dương Rực Rỡ & đón nhận thông điệp ôn thi! 🌻☀️'
+          : 'Tích lũy nước & nắng nỗ lực mỗi ngày để vun trồng Cỏ 4 Lá May Mắn & đón nhận thông điệp ôn thi! 🍀✨';
+      }
 
       // Attach click to edit student name
       const nameTag = titleEl.querySelector('#garden-student-name');
@@ -937,7 +972,7 @@
         nameTag.addEventListener('click', (e) => {
           e.stopPropagation();
           const current = studentName === 'Bạn' ? '' : studentName;
-          const entered = prompt('Nhập họ và tên học viên của bạn để khắc tên lên Chậu Cỏ May Mắn 🍀:', current);
+          const entered = prompt(`Nhập họ và tên học viên của bạn để khắc tên lên chậu hoa ${flower.icon}:`, current);
           if (entered !== null && entered.trim()) {
             this.setStudentName(entered);
           }
