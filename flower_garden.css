@@ -3299,7 +3299,7 @@
 /* 2. Symmetrical 3-Column Stats Row */
 .basket-stats-row {
     display: grid !important;
-    grid-template-columns: repeat(4, 1fr) !important;
+    grid-template-columns: repeat(auto-fit, minmax(115px, 1fr)) !important;
     gap: 8px !important;
     width: 100% !important;
     box-sizing: border-box !important;
@@ -3326,6 +3326,10 @@
 .basket-mini-stat.stat-clover {
     background: #F0FDF4 !important;
     border-color: #BBF7D0 !important;
+}
+.basket-mini-stat.stat-sunflower {
+    background: #FFFBEB !important;
+    border-color: #FDE68A !important;
 }
 .basket-mini-stat.stat-water {
     background: #F0F9FF !important;
@@ -3360,6 +3364,7 @@
 }
 
 .stat-clover .mini-stat-num { color: #047857 !important; }
+.stat-sunflower .mini-stat-num { color: #D97706 !important; }
 .stat-water .mini-stat-num { color: #0284C7 !important; }
 .stat-sun .mini-stat-num { color: #D97706 !important; }
 .stat-streak .mini-stat-num { color: #EA580C !important; }
