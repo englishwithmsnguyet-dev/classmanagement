@@ -89,6 +89,26 @@
         { "level": 3, "name": "Nụ Hoa Kỳ Diệu", "icon": "🌸" },
         { "level": 4, "name": "Xương Rồng Nở Hoa", "icon": "🌵" }
       ]
+    },
+    "rose": {
+      "id": "rose",
+      "name": "Hoa Hồng Đỏ Khát Vọng VSTEP",
+      "shortName": "Hoa Hồng Đỏ",
+      "scientific": "Rosa",
+      "icon": "🌹",
+      "rarity": "Khát Vọng",
+      "color": "#BE123C",
+      "accentColor": "#9F1239",
+      "bgGlow": "radial-gradient(circle at 50% 42%, rgba(254, 205, 211, 0.75) 0%, rgba(190, 18, 60, 0.28) 45%, transparent 76%)",
+      "meaning": "Biểu tượng của ngọn lửa đam mê, lòng nhiệt huyết cháy bỏng và khát khao vươn tới đỉnh cao tri thức. Tiếp thêm ngọn lửa tự tin để bạn bứt phá và chinh phục trọn vẹn chứng chỉ VSTEP B1-B2-C1!",
+      "quote": "Như đóa hồng nhung đỏ thắm kiêu sa qua bao ngày chăm bón, chúc bạn luôn giữ trọn ngọn lửa đam mê, tự tin và vững bước chinh phục thành công chứng chỉ VSTEP B1-B2-C1! 🌹✨",
+      "growthDifficulty": "Yêu nắng ấm & gió nhẹ",
+      "stages": [
+        { "level": 1, "name": "Mầm Non Đỏ Tía", "icon": "🌱" },
+        { "level": 2, "name": "Cành Xanh Tươi Tốt", "icon": "🌿" },
+        { "level": 3, "name": "Búp Hồng E Ấp", "icon": "🌸" },
+        { "level": 4, "name": "Hoa Hồng Bung Nở", "icon": "🌹" }
+      ]
     }
   };
 
