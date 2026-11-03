@@ -24,10 +24,11 @@
       "quote": "Bé cỏ 4 lá mang đến vạn sự may mắn, bình an và kết quả thi cử rực rỡ nhất! 🍀🌟",
       "growthDifficulty": "Hiếm có",
       "stages": [
-        { "level": 1, "name": "Mầm Non Xanh", "icon": "🌱" },
-        { "level": 2, "name": "Cây Con Lá Non", "icon": "🌿" },
-        { "level": 3, "name": "Bụi Cỏ Xanh Mướt", "icon": "☘️" },
-        { "level": 4, "name": "Cỏ 4 Lá Bừng Nở", "icon": "🍀" }
+        { "level": 1, "name": "Mầm Hạt Nảy Mầm", "icon": "🌱" },
+        { "level": 2, "name": "Mầm Non Xanh Biếc", "icon": "🌿" },
+        { "level": 3, "name": "Cây Non Tỏa Lá", "icon": "🪴" },
+        { "level": 4, "name": "Bụi Cỏ E Ấp", "icon": "☘️" },
+        { "level": 5, "name": "Cỏ 4 Lá Bừng Nở", "icon": "🍀" }
       ]
     },
     "sunflower": {
@@ -44,10 +45,11 @@
       "quote": "Như đóa hướng dương luôn hướng về vầng thái dương, chúc bạn luôn kiên định, tự tin và tỏa sáng rực rỡ trong kỳ thi VSTEP! 🌻☀️",
       "growthDifficulty": "Yêu nắng",
       "stages": [
-        { "level": 1, "name": "Mầm Nhỏ Nhú Đất", "icon": "🌱" },
-        { "level": 2, "name": "Cây Non Thân Khỏe", "icon": "🌿" },
-        { "level": 3, "name": "Nụ Vàng Chúm Chím", "icon": "🌼" },
-        { "level": 4, "name": "Hướng Dương Rực Rỡ", "icon": "🌻" }
+        { "level": 1, "name": "Hạt Mầm Nứt Đất", "icon": "🌱" },
+        { "level": 2, "name": "Mầm Non Vươn Cao", "icon": "🌿" },
+        { "level": 3, "name": "Thân Khỏe Tán Lá", "icon": "🪴" },
+        { "level": 4, "name": "Nụ Vàng Chúm Chím", "icon": "🌼" },
+        { "level": 5, "name": "Hướng Dương Rực Rỡ", "icon": "🌻" }
       ]
     },
     "tulip": {
@@ -65,9 +67,10 @@
       "growthDifficulty": "Yêu nước & gió nhẹ",
       "stages": [
         { "level": 1, "name": "Mầm Củ Nhú Xanh", "icon": "🌱" },
-        { "level": 2, "name": "Lá Non Vươn Dài", "icon": "🌿" },
-        { "level": 3, "name": "Búp Hoa E Ấp", "icon": "🌸" },
-        { "level": 4, "name": "Tulip Nở Kiêu Hãnh", "icon": "🌷" }
+        { "level": 2, "name": "Lá Mầm Vươn Dài", "icon": "🌿" },
+        { "level": 3, "name": "Thân Thon Cứng Cáp", "icon": "🪴" },
+        { "level": 4, "name": "Búp Hoa E Ấp", "icon": "🌸" },
+        { "level": 5, "name": "Tulip Nở Kiêu Hãnh", "icon": "🌷" }
       ]
     },
     "cactus": {
@@ -85,9 +88,10 @@
       "growthDifficulty": "Chịu hạn giỏi & bền bỉ",
       "stages": [
         { "level": 1, "name": "Mầm Gai Bé Nhỏ", "icon": "🌱" },
-        { "level": 2, "name": "Thân Mọng Khỏe Khoắn", "icon": "🌿" },
-        { "level": 3, "name": "Nụ Hoa Kỳ Diệu", "icon": "🌸" },
-        { "level": 4, "name": "Xương Rồng Nở Hoa", "icon": "🌵" }
+        { "level": 2, "name": "Thân Non Xanh Mướt", "icon": "🌿" },
+        { "level": 3, "name": "Thân Mọng Kiên Cường", "icon": "🪴" },
+        { "level": 4, "name": "Nụ Hồng Chúm Chím", "icon": "🌸" },
+        { "level": 5, "name": "Xương Rồng Nở Hoa", "icon": "🌵" }
       ]
     },
     "rose": {
@@ -105,9 +109,10 @@
       "growthDifficulty": "Yêu nắng ấm & gió nhẹ",
       "stages": [
         { "level": 1, "name": "Mầm Non Đỏ Tía", "icon": "🌱" },
-        { "level": 2, "name": "Cành Xanh Tươi Tốt", "icon": "🌿" },
-        { "level": 3, "name": "Búp Hồng E Ấp", "icon": "🌸" },
-        { "level": 4, "name": "Hoa Hồng Bung Nở", "icon": "🌹" }
+        { "level": 2, "name": "Cành Non Xanh Biếc", "icon": "🌿" },
+        { "level": 3, "name": "Cành Lá Sum Suê", "icon": "🪴" },
+        { "level": 4, "name": "Búp Hồng E Ấp", "icon": "🌸" },
+        { "level": 5, "name": "Hoa Hồng Bung Nở", "icon": "🌹" }
       ]
     }
   };
@@ -1953,9 +1958,10 @@
    */
   function getCloverStage(progress) {
     const p = Math.max(0, Math.min(100, progress || 0));
-    if (p >= 100) return 4;
-    if (p >= 60) return 3;
-    if (p >= 25) return 2;
+    if (p >= 80) return 5;
+    if (p >= 60) return 4;
+    if (p >= 40) return 3;
+    if (p >= 20) return 2;
     return 1;
   }
 
@@ -2096,7 +2102,7 @@
           : (fid === 'cactus'
               ? CACTUS_DEW_GLINTS
               : (fid === 'rose' ? ROSE_DEW_GLINTS : STAGE_DEW_GLINTS)));
-    const glints = glintsMap[stage] || glintsMap[1];
+    const glints = glintsMap[stage] || glintsMap[4] || glintsMap[1];
 
     const glintMarkup = glints.map((g) => `
       <g transform="translate(${g.x}, ${g.y})">
@@ -2108,8 +2114,8 @@
       </g>
     `).join('');
 
-    // Delicate sunlit fairy butterfly visiting the blooming Stage 4 clover
-    const stage4Accents = (fid === 'clover' && stage === 4) ? `
+    // Delicate sunlit fairy butterfly visiting the blooming Stage 5 clover
+    const stage5Accents = (fid === 'clover' && stage === 5) ? `
       <g transform="translate(76, 17)" class="clover-sun-butterfly-path">
         <g class="clover-bfly-bob">
           <g class="clover-bfly-wing-l">
@@ -2127,28 +2133,43 @@
       </g>
     ` : '';
 
+    // 5 Growth Stages Asset Resolver
+    // Stage 1 (0-19%): Sprout nestled in soil (stage_1.png compact)
+    // Stage 2 (20-39%): Seedling rising tall (stage_1.png full)
+    // Stage 3 (40-59%): Foliage growth & branching out (stage_2.png)
+    // Stage 4 (60-79%): Bushy plant with budding flower (stage_3.png)
+    // Stage 5 (80-100%): Full glorious blooming flower (stage_4.png)
+    const stageImgMap = {
+      1: `assets/garden/${fid}_stage_1.png`,
+      2: `assets/garden/${fid}_stage_1.png`,
+      3: `assets/garden/${fid}_stage_2.png`,
+      4: `assets/garden/${fid}_stage_3.png`,
+      5: `assets/garden/${fid}_stage_4.png`
+    };
+    const stageImgSrc = stageImgMap[stage] || `assets/garden/${fid}_stage_1.png`;
+
     const altText = (fid === 'sunflower')
-      ? `Hoa Hướng Dương Rực Rỡ VSTEP - Giai đoạn ${stage}`
-      : (fid === 'tulip'
-          ? `Hoa Tulip Kiêu Hãnh VSTEP - Giai đoạn ${stage}`
+      ? `Hoa Hướng Dương Rực Rỡ VSTEP - Giai đoạn ${stage}/5`
+      : (fid === 'tulip')
+          ? `Hoa Tulip Kiêu Hãnh VSTEP - Giai đoạn ${stage}/5`
           : (fid === 'cactus'
-              ? `Hoa Xương Rồng Kiên Cường VSTEP - Giai đoạn ${stage}`
+              ? `Hoa Xương Rồng Kiên Cường VSTEP - Giai đoạn ${stage}/5`
               : (fid === 'rose'
-                  ? `Hoa Hồng Đỏ Khát Vọng VSTEP - Giai đoạn ${stage}`
-                  : `Cỏ 4 Lá May Mắn VSTEP - Giai đoạn ${stage}`)));
+                  ? `Hoa Hồng Đỏ Khát Vọng VSTEP - Giai đoạn ${stage}/5`
+                  : `Cỏ 4 Lá May Mắn VSTEP - Giai đoạn ${stage}/5`));
 
     return `
       <div class="clover-living-stage clover-stage-${stage} flower-type-${fid}" data-stage="${stage}" data-flower="${fid}">
         <div class="clover-ground-shadow" aria-hidden="true"></div>
         <div class="clover-aura-halo" aria-hidden="true"></div>
         <div class="clover-breeze-rig">
-          <img src="assets/garden/${fid}_stage_${stage}.png"
+          <img src="${stageImgSrc}"
                alt="${altText}"
                class="clover-living-art"
                draggable="false" />
           <svg viewBox="0 0 100 100" class="clover-dew-overlay" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             ${glintMarkup}
-            ${stage4Accents}
+            ${stage5Accents}
           </svg>
         </div>
       </div>

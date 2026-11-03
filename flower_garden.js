@@ -7,7 +7,7 @@
  * 1. Water Economy (Giọt Nước Nỗ Lực 💧):
  *    - Water is not infinite; it is earned through daily logins, student attendance,
  *      and answering questions correctly in class / quick exam drills.
- *    - Costs 10💧 per watering session (+25% growth).
+ *    - Costs 10💧 per watering session (+20% growth).
  * 2. Grand Harvest Celebration & Exam Motivation Cards (Thông Điệp Ôn Thi 📜):
  *    - Reaching 100% full bloom unlocks a Grand Harvest modal with a curated,
  *      heartfelt exam motivation message from Cô Nguyệt.
@@ -173,9 +173,9 @@
 
     state: {
       currentFlowerId: 'clover',
-      progress: 30, // 0 to 100
-      moisture: 75,
-      sunlight: 80,
+      progress: 0, // Khởi đầu từ 0%
+      moisture: 0, // Đất mới gieo hạt, chưa tưới
+      sunlight: 35,
       waterDrops: 35, // Giọt nước nỗ lực tích lũy
       sunDrops: 35,   // Tia nắng nỗ lực tích lũy
       loginStreak: 1,
@@ -198,9 +198,9 @@
       return {
         studentName: studentName || '',
         currentFlowerId: 'clover',
-        progress: 30, // 30% khởi đầu xanh non
-        moisture: 75,
-        sunlight: 80,
+        progress: 0, // Khởi đầu từ 0%
+        moisture: 0, // Đất mới gieo hạt, chưa tưới
+        sunlight: 35,
         waterDrops: 35, // 35 giọt nước nỗ lực khởi đầu cho mỗi tài khoản
         sunDrops: 35,   // 35 tia nắng nỗ lực khởi đầu cho mỗi tài khoản
         loginStreak: 1,
@@ -481,13 +481,13 @@
             </div>
             <div class="garden-progress-bar-wrap">
                 <div class="garden-progress-bar">
-                    <div class="garden-progress-fill" id="garden-progress-fill" style="width: 30%;"></div>
+                    <div class="garden-progress-fill" id="garden-progress-fill" style="width: 0%;"></div>
                 </div>
-                <span class="garden-progress-text" id="garden-progress-text">30%</span>
+                <span class="garden-progress-text" id="garden-progress-text">0%</span>
             </div>
             <div class="garden-stats-row">
                 <span class="garden-stat" id="stat-water-drops" title="Giọt Nước Nỗ Lực đang có"><i class="fa-solid fa-faucet-drip" style="color:#0284C7;"></i> <b id="garden-water-drops-stat">35💧</b></span>
-                <span class="garden-stat" id="stat-moisture" title="Độ ẩm đất"><i class="fa-solid fa-droplet" style="color:#0284C7;"></i> <b id="garden-moisture-val">75%</b></span>
+                <span class="garden-stat" id="stat-moisture" title="Độ ẩm đất"><i class="fa-solid fa-droplet" style="color:#0284C7;"></i> <b id="garden-moisture-val">0%</b></span>
                 <span class="garden-stat" id="stat-sunlight" title="Tia Nắng Nỗ Lực đang có"><i class="fa-solid fa-sun" style="color:#F59E0B;"></i> <b id="garden-sunlight-val">35☀️</b></span>
                 <span class="garden-stat" id="stat-level" title="Số cỏ 4 lá đã thu hoạch"><i class="fa-solid fa-trophy" style="color:#10B981;"></i> <b id="garden-harvest-val">0 cành</b></span>
             </div>
@@ -496,11 +496,11 @@
         <!-- Care Actions Container (Water, Sun, Quiz / Harvest) -->
         <div class="garden-actions-container" id="garden-actions-container">
             <div class="garden-care-row" id="garden-care-row">
-                <button class="btn btn-secondary btn-small garden-btn" id="btn-water-flower" title="Tưới nước cho hoa (-10💧, +25% lớn)">
-                    <span class="action-icon">💧</span> Tưới nước <span class="action-cost-tag">10💧</span>
+                <button class="btn btn-secondary btn-small garden-btn" id="btn-water-flower" title="Tưới nước cho hoa (-10💧, +20% lớn)">
+                    <span class="action-icon">💧</span> Tưới nước <span class="action-cost-tag">10💧 (+20%)</span>
                 </button>
                 <button class="btn btn-secondary btn-small garden-btn" id="btn-sun-flower" title="Cho hoa tắm nắng (-10☀️ tia nắng, +20% lớn)">
-                    <span class="action-icon">☀️</span> Tắm nắng <span class="action-cost-tag">10☀️</span>
+                    <span class="action-icon">☀️</span> Tắm nắng <span class="action-cost-tag">10☀️ (+20%)</span>
                 </button>
             </div>
 
@@ -638,6 +638,21 @@
           this.checkWiltingStatus();
           this.render();
           this.updateSpeechBubble(`🥀 Em khát nước quá rồi... Đã 1 ngày ${this.getStudentName()} chưa tưới nước, lá cỏ đang bị héo rũ mất rồi! Mau tưới cho em 10💧 nước để hồi sinh nhé! 🥺💧`);
+        } else if (hash === '#stage1-test') {
+          this.state.progress = 0;
+          this.render();
+        } else if (hash === '#stage2-test') {
+          this.state.progress = 20;
+          this.render();
+        } else if (hash === '#stage3-test') {
+          this.state.progress = 40;
+          this.render();
+        } else if (hash === '#stage4-test') {
+          this.state.progress = 60;
+          this.render();
+        } else if (hash === '#stage5-test') {
+          this.state.progress = 80;
+          this.render();
         }
       }
     },
@@ -1284,6 +1299,9 @@
     switchFlower(targetFid) {
       if (!targetFid || targetFid === this.state.currentFlowerId) return;
       this.state.currentFlowerId = targetFid;
+      this.state.progress = 0; // Luôn bắt đầu từ 0% khi đổi loài hoa mới
+      this.state.moisture = 0; // Đất mới gieo hạt, chưa tưới
+      this.state.isWilted = false;
       
       this.saveState();
       
@@ -1467,7 +1485,7 @@
     // CARE ACTIONS
     // ==========================================
 
-    // 1. Water Action: Costs WATER_PER_WATERING (10💧) -> +25% progress
+    // 1. Water Action: Costs WATER_PER_WATERING (10💧) -> +20% progress
     water() {
       if (this.state.progress >= 100) {
         this.triggerReadyToHarvest();
@@ -1484,10 +1502,10 @@
 
       // Deduct water
       this.state.waterDrops -= cost;
-      this.state.moisture = Math.min(100, this.state.moisture + 35);
+      this.state.moisture = Math.min(100, (this.state.moisture || 0) + 20);
       this.state.lastWateredDate = this.getTodayDateString();
       this.state.isWilted = false;
-      this.addProgress(25);
+      this.addProgress(20); // Mỗi lần tưới được 20% tiến độ (đúng 5 lần để nở rộ 100%)
 
       GardenAudio.playWater();
       this.triggerPlantBounce();
@@ -1713,10 +1731,10 @@
       // 4. Confetti burst
       this.triggerHarvestCelebration(flower);
 
-      // 5. Reset for next sprout, retaining current flower
+      // 5. Reset for next sprout, retaining current flower (luôn bắt đầu từ 0%)
       this.state.progress = 0;
-      this.state.moisture = 75;
-      this.state.sunlight = 75;
+      this.state.moisture = 0;
+      this.state.sunlight = 35;
       this.state.currentFlowerId = fid;
 
       this.saveState();
@@ -3232,7 +3250,7 @@
       const potWrapper = document.getElementById('garden-pot-wrapper');
       const targetStage = typeof root.getCloverStage === 'function'
         ? root.getCloverStage(p)
-        : (p >= 100 ? 4 : p >= 60 ? 3 : p >= 25 ? 2 : 1);
+        : (p >= 80 ? 5 : p >= 60 ? 4 : p >= 40 ? 3 : p >= 20 ? 2 : 1);
 
       if (potWrapper && typeof root.renderFlowerPotSvg === 'function') {
         const prevStage = potWrapper.dataset.cloverStage;
@@ -3263,15 +3281,6 @@
       const waterStatVal = document.getElementById('garden-water-drops-stat');
 
       if (nameEl) nameEl.innerHTML = `${flower.icon} ${flower.name}`;
-      if (stageBadge) {
-        const stages = flower.stages || [];
-        const stageInfo = stages[targetStage - 1];
-        if (stageInfo) {
-          stageBadge.textContent = `${stageInfo.icon || '🌱'} ${stageInfo.name}`;
-          const stageClasses = ['stage-seeding', 'stage-sprouting', 'stage-budding', 'stage-blooming'];
-          stageBadge.className = `stage-badge ${stageClasses[targetStage - 1] || 'stage-seeding'}`;
-        }
-      }
       if (fillBar) fillBar.style.width = `${p}%`;
       if (textVal) textVal.textContent = `${p}%`;
       if (moistureVal) moistureVal.textContent = `${Math.round(this.state.moisture)}%`;
@@ -3322,23 +3331,22 @@
         if (count) count.textContent = this.state.sunDrops || 0;
       }
 
-      // 3. Stage Badge Text & Styling
+      // 3. Stage Badge Text & Styling (Dynamic per flower species and 5 stages)
       if (stageBadge) {
         if (this.isPlantWilted()) {
-          stageBadge.textContent = '🥀 Cỏ Đang Héo Rũ (Cần Nước!)';
+          stageBadge.textContent = `🥀 ${flower.name} Đang Héo Rũ (Cần Nước!)`;
           stageBadge.className = 'garden-stage-badge stage-wilted';
-        } else if (p >= 100) {
-          stageBadge.textContent = '🍀 Bừng Nở 4 Lá May Mắn!';
-          stageBadge.className = 'garden-stage-badge stage-blooming';
-        } else if (p >= 60) {
-          stageBadge.textContent = '☘️ Cỏ 3 Lá Đang Kết Nụ';
-          stageBadge.className = 'garden-stage-badge stage-budding';
-        } else if (p >= 25) {
-          stageBadge.textContent = '🌿 Cây Cỏ Non Xanh Mướt';
-          stageBadge.className = 'garden-stage-badge stage-sprouting';
         } else {
-          stageBadge.textContent = '🌱 Vừa Gieo Mầm Cỏ';
-          stageBadge.className = 'garden-stage-badge stage-seeding';
+          const stages = flower.stages || [];
+          const stageInfo = stages[targetStage - 1];
+          const stageClasses = ['stage-seeding', 'stage-sprouting', 'stage-vegetative', 'stage-budding', 'stage-blooming'];
+          if (stageInfo) {
+            stageBadge.textContent = `${stageInfo.icon || '🌱'} ${stageInfo.name}`;
+            stageBadge.className = `garden-stage-badge stage-badge ${stageClasses[targetStage - 1] || 'stage-seeding'}`;
+          } else {
+            stageBadge.textContent = p >= 100 ? `${flower.icon} Bừng Nở Rực Rỡ!` : `🌱 Mầm Non Đang Phát Triển (${p}%)`;
+            stageBadge.className = `garden-stage-badge stage-badge ${stageClasses[targetStage - 1] || 'stage-seeding'}`;
+          }
         }
       }
 
@@ -3359,17 +3367,17 @@
           btnWater.classList.add('btn-revive-pulse');
           btnWater.title = 'Cây đang bị héo do 1 ngày chưa tưới nước! Mau tưới 10💧 để hồi sinh nhé!';
         } else {
-          btnWater.innerHTML = '<span class="action-icon">💧</span> Tưới nước <span class="action-cost-tag">10💧</span>';
+          btnWater.innerHTML = '<span class="action-icon">💧</span> Tưới nước <span class="action-cost-tag">10💧 (+20%)</span>';
           btnWater.classList.remove('btn-revive-pulse');
-          btnWater.title = 'Tưới nước cho hoa (-10💧, +25% lớn)';
+          btnWater.title = `Tưới nước cho ${flower.name} (-10💧, +20% lớn)`;
         }
       }
 
       // Dynamic Sun Button (Shows 10☀️ cost)
       const btnSun = document.getElementById('btn-sun-flower');
       if (btnSun) {
-        btnSun.innerHTML = '<span class="action-icon">☀️</span> Tắm nắng <span class="action-cost-tag">10☀️</span>';
-        btnSun.title = 'Cho cỏ 4 lá tắm nắng (-10☀️ tia nắng, +20% lớn)';
+        btnSun.innerHTML = '<span class="action-icon">☀️</span> Tắm nắng <span class="action-cost-tag">10☀️ (+20%)</span>';
+        btnSun.title = `Cho ${flower.name} tắm nắng (-10☀️ tia nắng, +20% lớn)`;
       }
 
       // Dynamic Quiz Button (Shows +10💧 & +10☀️ reward)

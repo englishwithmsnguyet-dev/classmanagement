@@ -287,11 +287,37 @@
     z-index: 1;
     animation: cloverAuraBreathe 4.2s ease-in-out infinite;
 }
-.clover-stage-4 .clover-aura-halo {
+.clover-stage-4 .clover-aura-halo,
+.clover-stage-5 .clover-aura-halo {
     top: 4%;
-    width: 86%;
-    height: 70%;
-    background: radial-gradient(circle, rgba(254, 240, 138, 0.48) 0%, rgba(110, 231, 183, 0.30) 46%, transparent 74%);
+    width: 88%;
+    height: 72%;
+    background: radial-gradient(circle, rgba(254, 240, 138, 0.52) 0%, rgba(110, 231, 183, 0.32) 46%, transparent 74%);
+    animation: cloverAuraBreathe 3.4s ease-in-out infinite;
+}
+
+/* 5 Discrete Growth Stage Visual Transforms */
+.clover-living-stage.clover-stage-1 .clover-living-art {
+    transform: scale(0.72) translateY(28px) !important;
+    transform-origin: 50% 92% !important;
+    transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
+.clover-living-stage.clover-stage-2 .clover-living-art {
+    transform: scale(1.0) translateY(0) !important;
+    transform-origin: 50% 92% !important;
+    transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
+.clover-living-stage.clover-stage-3 .clover-living-art {
+    transform: scale(1.0) translateY(0) !important;
+    transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
+.clover-living-stage.clover-stage-4 .clover-living-art {
+    transform: scale(1.0) translateY(0) !important;
+    transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
+.clover-living-stage.clover-stage-5 .clover-living-art {
+    transform: scale(1.0) translateY(0) !important;
+    transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
 }
 
 /* Bottom-Anchored Breeze Rig: Pot Base Stays 100% Grounded While Stems & Canopy Sway Naturally */
@@ -541,6 +567,7 @@
 }
 .stage-seeding { background: #FEF3C7; color: #B45309; }
 .stage-sprouting { background: #DCFCE7; color: #15803D; }
+.stage-vegetative { background: #E0F2FE; color: #0369A1; }
 .stage-budding { background: #FCE7F3; color: #BE185D; }
 .stage-blooming { background: #FDF2F8; color: #BE123C; border: 1px solid #FDA4AF; animation: pulseBorder 1.8s infinite; }
 
