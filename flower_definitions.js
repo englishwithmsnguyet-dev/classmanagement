@@ -2465,6 +2465,7 @@
     // Stage 5 Budding (80-99%): Plant with emerging flower buds (stage_3.png)
     // Stage 5 Bloomed (100%): Full glorious blooming flower (stage_4.png)
     const isBloomed = (progress >= 100);
+    const ASSET_VER = '20261104_v9';
     const stageImgMap = {
       1: `assets/garden/${fid}_stage_1.png`,
       2: `assets/garden/${fid}_stage_1.png`,
@@ -2472,7 +2473,8 @@
       4: `assets/garden/${fid}_stage_2.png`,
       5: isBloomed ? `assets/garden/${fid}_stage_4.png` : `assets/garden/${fid}_stage_3.png`
     };
-    const stageImgSrc = stageImgMap[stage] || `assets/garden/${fid}_stage_1.png`;
+    const baseImgSrc = stageImgMap[stage] || `assets/garden/${fid}_stage_1.png`;
+    const stageImgSrc = `${baseImgSrc}?v=${ASSET_VER}`;
 
     const flowerNames = {
       sunflower: 'Hoa Hướng Dương Rực Rỡ',
