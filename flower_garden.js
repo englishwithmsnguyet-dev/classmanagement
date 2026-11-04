@@ -213,7 +213,10 @@
           sunflower: 0,
           tulip: 0,
           cactus: 0,
-          rose: 0
+          rose: 0,
+          lavender: 0,
+          daisy: 0,
+          succulent: 0
         },
         harvestedQuotes: [], // Kho tàng động lực độc lập cho từng tài khoản
         seenQuizIds: [],
@@ -528,6 +531,12 @@
     },
 
     init() {
+      if (this._hasRunInit) {
+        this.handleHashRoute();
+        this.render();
+        return;
+      }
+      this._hasRunInit = true;
       this.ensureGardenContainerDom();
       this.currentActiveAccountId = this.getAccountId();
       this.loadState();
@@ -546,114 +555,166 @@
       }
 
       if (typeof window !== 'undefined') {
-        const hash = window.location.hash;
-        if (hash === '#quiz') {
-          setTimeout(() => this.openQuizModal(), 300);
-        } else if (hash === '#quiz-benefits') {
-          setTimeout(() => this.openQuizModal(null, 'benefits'), 300);
-        } else if (hash === '#quiz-speaking') {
-          setTimeout(() => this.openQuizModal(null, 'speaking'), 300);
-        } else if (hash === '#quiz-writing') {
-          setTimeout(() => this.openQuizModal(null, 'writing'), 300);
-        } else if (hash === '#harvest-test') {
-          setTimeout(() => this.harvest(), 400);
-        } else if (hash === '#earn-water') {
-          setTimeout(() => this.openEarnWaterModal(), 300);
-        } else if (hash === '#basket' || hash === '#basket-test') {
-          setTimeout(() => this.openBasketModal(), 300);
-        } else if (hash === '#seed' || hash === '#seed-test') {
-          setTimeout(() => this.openFlowerSelectorModal(), 300);
-        } else if (hash === '#sunflower-test') {
-          this.switchFlower('sunflower');
-          this.state.progress = 65;
-          this.render();
-        } else if (hash === '#sunflower-bloom') {
-          this.switchFlower('sunflower');
-          this.state.progress = 100;
-          this.render();
-        } else if (hash === '#sunflower-harvest') {
-          this.switchFlower('sunflower');
-          this.state.progress = 100;
-          setTimeout(() => this.harvest(), 400);
-        } else if (hash === '#basket-both') {
-          this.state.basket = { clover: 4, sunflower: 3 };
-          this.state.harvestCount = 7;
-          this.state.currentFlowerId = 'sunflower';
-          setTimeout(() => this.openBasketModal(), 300);
-        } else if (hash === '#tulip-test') {
-          this.switchFlower('tulip');
-          this.state.progress = 65;
-          this.render();
-        } else if (hash === '#tulip-bloom') {
-          this.switchFlower('tulip');
-          this.state.progress = 100;
-          this.render();
-        } else if (hash === '#tulip-harvest') {
-          this.switchFlower('tulip');
-          this.state.progress = 100;
-          setTimeout(() => this.harvest(), 400);
-        } else if (hash === '#basket-three') {
-          this.state.basket = { clover: 5, sunflower: 3, tulip: 2 };
-          this.state.harvestCount = 10;
-          this.state.currentFlowerId = 'tulip';
-          setTimeout(() => this.openBasketModal(), 300);
-        } else if (hash === '#cactus-test') {
-          this.switchFlower('cactus');
-          this.state.progress = 65;
-          this.render();
-        } else if (hash === '#cactus-bloom') {
-          this.switchFlower('cactus');
-          this.state.progress = 100;
-          this.render();
-        } else if (hash === '#cactus-harvest') {
-          this.switchFlower('cactus');
-          this.state.progress = 100;
-          setTimeout(() => this.harvest(), 400);
-        } else if (hash === '#rose-test') {
-          this.switchFlower('rose');
-          this.state.progress = 65;
-          this.render();
-        } else if (hash === '#rose-bloom') {
-          this.switchFlower('rose');
-          this.state.progress = 100;
-          this.render();
-        } else if (hash === '#rose-harvest') {
-          this.switchFlower('rose');
-          this.state.progress = 100;
-          setTimeout(() => this.harvest(), 400);
-        } else if (hash === '#basket-four') {
-          this.state.basket = { clover: 5, sunflower: 3, tulip: 2, cactus: 2 };
-          this.state.harvestCount = 12;
-          this.state.currentFlowerId = 'cactus';
-          setTimeout(() => this.openBasketModal(), 300);
-        } else if (hash === '#basket-five' || hash === '#basket-all') {
-          this.state.basket = { clover: 5, sunflower: 3, tulip: 2, cactus: 2, rose: 2 };
-          this.state.harvestCount = 14;
-          this.state.currentFlowerId = 'rose';
-          setTimeout(() => this.openBasketModal(), 300);
-        } else if (hash === '#wilted' || hash === '#wilt-test') {
-          // Dedicated debug hash for testing wilted plant state
-          this.state.lastWateredDate = '2026-01-01';
-          this.state.moisture = 10;
-          this.checkWiltingStatus();
-          this.render();
-          this.updateSpeechBubble(`🥀 Em khát nước quá rồi... Đã 1 ngày ${this.getStudentName()} chưa tưới nước, lá cỏ đang bị héo rũ mất rồi! Mau tưới cho em 10💧 nước để hồi sinh nhé! 🥺💧`);
-        } else if (hash === '#stage1-test') {
-          this.state.progress = 0;
-          this.render();
-        } else if (hash === '#stage2-test') {
-          this.state.progress = 20;
-          this.render();
-        } else if (hash === '#stage3-test') {
-          this.state.progress = 40;
-          this.render();
-        } else if (hash === '#stage4-test') {
-          this.state.progress = 60;
-          this.render();
-        } else if (hash === '#stage5-test') {
-          this.state.progress = 80;
-          this.render();
-        }
+        window.addEventListener('hashchange', () => this.handleHashRoute());
+        this.handleHashRoute();
+      }
+    },
+
+    handleHashRoute() {
+      if (typeof window === 'undefined') return;
+      const hash = window.location.hash;
+      if (!hash) return;
+
+      if (hash === '#quiz') {
+        setTimeout(() => this.openQuizModal(), 200);
+      } else if (hash === '#quiz-benefits') {
+        setTimeout(() => this.openQuizModal(null, 'benefits'), 200);
+      } else if (hash === '#quiz-speaking') {
+        setTimeout(() => this.openQuizModal(null, 'speaking'), 200);
+      } else if (hash === '#quiz-writing') {
+        setTimeout(() => this.openQuizModal(null, 'writing'), 200);
+      } else if (hash === '#harvest-test') {
+        setTimeout(() => this.harvest(), 300);
+      } else if (hash === '#earn-water') {
+        setTimeout(() => this.openEarnWaterModal(), 200);
+      } else if (hash === '#basket' || hash === '#basket-test') {
+        setTimeout(() => this.openBasketModal(), 200);
+      } else if (hash === '#seed' || hash === '#seed-test') {
+        setTimeout(() => this.openFlowerSelectorModal(), 200);
+      } else if (hash === '#sunflower-test') {
+        this.switchFlower('sunflower');
+        this.state.progress = 65;
+        this.render();
+      } else if (hash === '#sunflower-bloom') {
+        this.switchFlower('sunflower');
+        this.state.progress = 100;
+        this.render();
+      } else if (hash === '#sunflower-harvest') {
+        this.switchFlower('sunflower');
+        this.state.progress = 100;
+        setTimeout(() => this.harvest(), 300);
+      } else if (hash === '#basket-both') {
+        this.state.basket = { clover: 4, sunflower: 3 };
+        this.state.harvestCount = 7;
+        this.state.currentFlowerId = 'sunflower';
+        setTimeout(() => this.openBasketModal(), 200);
+      } else if (hash === '#tulip-test') {
+        this.switchFlower('tulip');
+        this.state.progress = 65;
+        this.render();
+      } else if (hash === '#tulip-bloom') {
+        this.switchFlower('tulip');
+        this.state.progress = 100;
+        this.render();
+      } else if (hash === '#tulip-harvest') {
+        this.switchFlower('tulip');
+        this.state.progress = 100;
+        setTimeout(() => this.harvest(), 300);
+      } else if (hash === '#basket-three') {
+        this.state.basket = { clover: 5, sunflower: 3, tulip: 2 };
+        this.state.harvestCount = 10;
+        this.state.currentFlowerId = 'tulip';
+        setTimeout(() => this.openBasketModal(), 200);
+      } else if (hash === '#cactus-test') {
+        this.switchFlower('cactus');
+        this.state.progress = 65;
+        this.render();
+      } else if (hash === '#cactus-bloom') {
+        this.switchFlower('cactus');
+        this.state.progress = 100;
+        this.render();
+      } else if (hash === '#cactus-harvest') {
+        this.switchFlower('cactus');
+        this.state.progress = 100;
+        setTimeout(() => this.harvest(), 300);
+      } else if (hash === '#rose-test') {
+        this.switchFlower('rose');
+        this.state.progress = 65;
+        this.render();
+      } else if (hash === '#rose-bloom') {
+        this.switchFlower('rose');
+        this.state.progress = 100;
+        this.render();
+      } else if (hash === '#rose-harvest') {
+        this.switchFlower('rose');
+        this.state.progress = 100;
+        setTimeout(() => this.harvest(), 300);
+      } else if (hash === '#lavender-test') {
+        this.switchFlower('lavender');
+        this.state.progress = 60;
+        this.render();
+      } else if (hash === '#lavender-bloom') {
+        this.switchFlower('lavender');
+        this.state.progress = 100;
+        this.saveState();
+        this.render();
+      } else if (hash === '#lavender-harvest') {
+        this.switchFlower('lavender');
+        this.state.progress = 100;
+        setTimeout(() => this.harvest(), 300);
+      } else if (hash === '#daisy-test') {
+        this.switchFlower('daisy');
+        this.state.progress = 60;
+        this.render();
+      } else if (hash === '#daisy-bloom') {
+        this.switchFlower('daisy');
+        this.state.progress = 100;
+        this.saveState();
+        this.render();
+      } else if (hash === '#daisy-harvest') {
+        this.switchFlower('daisy');
+        this.state.progress = 100;
+        setTimeout(() => this.harvest(), 300);
+      } else if (hash === '#succulent-test') {
+        this.switchFlower('succulent');
+        this.state.progress = 60;
+        this.render();
+      } else if (hash === '#succulent-bloom') {
+        this.switchFlower('succulent');
+        this.state.progress = 100;
+        this.saveState();
+        this.render();
+      } else if (hash === '#succulent-harvest') {
+        this.switchFlower('succulent');
+        this.state.progress = 100;
+        setTimeout(() => this.harvest(), 300);
+      } else if (hash === '#basket-four') {
+        this.state.basket = { clover: 5, sunflower: 3, tulip: 2, cactus: 2 };
+        this.state.harvestCount = 12;
+        this.state.currentFlowerId = 'cactus';
+        setTimeout(() => this.openBasketModal(), 200);
+      } else if (hash === '#basket-five') {
+        this.state.basket = { clover: 5, sunflower: 3, tulip: 2, cactus: 2, rose: 2 };
+        this.state.harvestCount = 14;
+        this.state.currentFlowerId = 'rose';
+        setTimeout(() => this.openBasketModal(), 200);
+      } else if (hash === '#basket-all') {
+        this.state.basket = { clover: 6, sunflower: 4, tulip: 3, cactus: 3, rose: 3, lavender: 2, daisy: 2, succulent: 2 };
+        this.state.harvestCount = 25;
+        this.state.currentFlowerId = 'lavender';
+        this.saveState();
+        setTimeout(() => this.openBasketModal(0), 200);
+      } else if (hash === '#wilted' || hash === '#wilt-test') {
+        this.state.lastWateredDate = '2026-01-01';
+        this.state.moisture = 10;
+        this.checkWiltingStatus();
+        this.render();
+        this.updateSpeechBubble(`🥀 Em khát nước quá rồi... Đã 1 ngày ${this.getStudentName()} chưa tưới nước, lá cỏ đang bị héo rũ mất rồi! Mau tưới cho em 10💧 nước để hồi sinh nhé! 🥺💧`);
+      } else if (hash === '#stage1-test') {
+        this.state.progress = 0;
+        this.render();
+      } else if (hash === '#stage2-test') {
+        this.state.progress = 20;
+        this.render();
+      } else if (hash === '#stage3-test') {
+        this.state.progress = 40;
+        this.render();
+      } else if (hash === '#stage4-test') {
+        this.state.progress = 60;
+        this.render();
+      } else if (hash === '#stage5-test') {
+        this.state.progress = 80;
+        this.render();
       }
     },
 
@@ -690,15 +751,14 @@
       if (!this.state.currentFlowerId || !(root.FLOWER_CATALOG && root.FLOWER_CATALOG[this.state.currentFlowerId])) {
         this.state.currentFlowerId = 'clover';
       }
+      const allFlowerIds = ['clover', 'sunflower', 'tulip', 'cactus', 'rose', 'lavender', 'daisy', 'succulent'];
       if (!this.state.basket) {
-        this.state.basket = { clover: 0, sunflower: 0, tulip: 0, cactus: 0, rose: 0 };
+        this.state.basket = {};
       }
-      if (typeof this.state.basket.clover !== 'number') this.state.basket.clover = 0;
-      if (typeof this.state.basket.sunflower !== 'number') this.state.basket.sunflower = 0;
-      if (typeof this.state.basket.tulip !== 'number') this.state.basket.tulip = 0;
-      if (typeof this.state.basket.cactus !== 'number') this.state.basket.cactus = 0;
-      if (typeof this.state.basket.rose !== 'number') this.state.basket.rose = 0;
-      const totalHarvest = (this.state.basket.clover || 0) + (this.state.basket.sunflower || 0) + (this.state.basket.tulip || 0) + (this.state.basket.cactus || 0) + (this.state.basket.rose || 0);
+      allFlowerIds.forEach(fid => {
+        if (typeof this.state.basket[fid] !== 'number') this.state.basket[fid] = 0;
+      });
+      const totalHarvest = allFlowerIds.reduce((sum, fid) => sum + (this.state.basket[fid] || 0), 0);
       if (typeof this.state.harvestCount !== 'number' || this.state.harvestCount < totalHarvest) {
         this.state.harvestCount = totalHarvest;
       }
@@ -1091,7 +1151,7 @@
       }
       return (root.FLOWER_CATALOG && root.FLOWER_CATALOG.clover) || {
         id: 'clover',
-        name: 'Cỏ 4 Lá May Mắn VSTEP',
+        name: 'Cỏ 4 Lá May Mắn',
         icon: '🍀',
         bgGlow: 'radial-gradient(circle, rgba(16, 185, 129, 0.35) 0%, transparent 70%)'
       };
@@ -1104,26 +1164,36 @@
 
       const studentName = this.getStudentName();
       const flower = this.getCurrentFlower();
-      const isSunflower = flower.id === 'sunflower';
-      const isTulip = flower.id === 'tulip';
-      const isCactus = flower.id === 'cactus';
-      const isRose = flower.id === 'rose';
-      const flowerTitle = isSunflower
-        ? `🌻 Chậu Hoa Hướng Dương Rực Rỡ Của`
-        : (isTulip
-            ? `🌷 Chậu Hoa Tulip Kiêu Hãnh Của`
-            : (isCactus
-                ? `🌵 Chậu Hoa Xương Rồng Kiên Cường Của`
-                : (isRose
-                    ? `🌹 Chậu Hoa Hồng Đỏ Khát Vọng Của`
-                    : `🍀 Chậu Cỏ 4 Lá May Mắn Của`)));
+      const fid = flower.id || 'clover';
+
+      const titlePrefixMap = {
+        clover: '🍀 Chậu Cỏ 4 Lá May Mắn Của',
+        sunflower: '🌻 Chậu Hoa Hướng Dương Rực Rỡ Của',
+        tulip: '🌷 Chậu Hoa Tulip Kiêu Hãnh Của',
+        cactus: '🌵 Chậu Hoa Xương Rồng Kiên Cường Của',
+        rose: '🌹 Chậu Hoa Hồng Đỏ Khát Vọng Của',
+        lavender: '🪻 Chậu Hoa Oải Hương Tĩnh Tâm Của',
+        daisy: '🌼 Chậu Hoa Cúc Họa Mi Thuần Khiết Của',
+        succulent: '🪷 Chậu Sen Đá Ngọc Bền Bỉ Của'
+      };
+      const flowerTitle = titlePrefixMap[fid] || `🌱 Chậu Hoa Của`;
       
       titleEl.innerHTML = `${flowerTitle} <span class="garden-student-name-tag" id="garden-student-name" title="Bấm để đổi tên học viên của bạn">${this.escapeHtml(studentName)} <i class="fa-solid fa-pen-to-square edit-name-pen-icon" style="font-size:12px; opacity:0.75; margin-left:3px;"></i></span>`;
 
-      // Update switcher button icon (Cycle: clover -> sunflower -> tulip -> cactus -> rose -> clover)
+      // Update switcher button icon (Cycle: clover -> sunflower -> tulip -> cactus -> rose -> lavender -> daisy -> succulent -> clover)
+      const nextIconMap = {
+        clover: '🌻',
+        sunflower: '🌷',
+        tulip: '🌵',
+        cactus: '🌹',
+        rose: '🪻',
+        lavender: '🌼',
+        daisy: '🪷',
+        succulent: '🍀'
+      };
       const seedIcon = document.getElementById('btn-seed-icon');
       if (seedIcon) {
-        seedIcon.textContent = isRose ? '🍀' : (isCactus ? '🌹' : (isTulip ? '🌵' : (isSunflower ? '🌷' : '🌻')));
+        seedIcon.textContent = nextIconMap[fid] || '🌱';
       }
       const basketIcon = document.getElementById('header-basket-icon');
       if (basketIcon) {
@@ -1132,15 +1202,7 @@
 
       const subtitleEl = document.getElementById('garden-subtitle');
       if (subtitleEl) {
-        subtitleEl.textContent = isSunflower
-          ? 'Tích lũy nước & nắng nỗ lực mỗi ngày để vun trồng Hoa Hướng Dương Rực Rỡ & đón nhận thông điệp ôn thi! 🌻☀️'
-          : (isTulip
-              ? 'Tích lũy nước & nắng nỗ lực mỗi ngày để vun trồng Hoa Tulip Kiêu Hãnh & đón nhận thông điệp ôn thi! 🌷✨'
-              : (isCactus
-                  ? 'Tích lũy nước & nắng nỗ lực mỗi ngày để vun trồng Hoa Xương Rồng Kiên Cường & đón nhận thông điệp ôn thi! 🌵✨'
-                  : (isRose
-                      ? 'Tích lũy nước & nắng nỗ lực mỗi ngày để vun trồng Hoa Hồng Đỏ Khát Vọng & đón nhận thông điệp ôn thi! 🌹✨'
-                      : 'Tích lũy nước & nắng nỗ lực mỗi ngày để vun trồng Cỏ 4 Lá May Mắn & đón nhận thông điệp ôn thi! 🍀✨')));
+        subtitleEl.textContent = `Tích lũy nước & nắng nỗ lực mỗi ngày để vun trồng ${flower.name} & đón nhận thông điệp tiếp lửa! ${flower.icon || '✨'}`;
       }
 
       // Attach click to edit student name
@@ -1206,54 +1268,78 @@
 
       const currentFid = this.state.currentFlowerId || 'clover';
       const catalog = root.FLOWER_CATALOG || {};
-      const flowers = ['clover', 'sunflower', 'tulip', 'cactus', 'rose'];
+      const flowers = ['clover', 'sunflower', 'tulip', 'cactus', 'rose', 'lavender', 'daisy', 'succulent'];
+
+      const themeMap = {
+        clover: {
+          unit: 'cành',
+          badgeBg: '#DCFCE7',
+          badgeColor: '#166534',
+          borderColor: '#10B981',
+          gradient: 'background:linear-gradient(135deg, #10B981 0%, #059669 100%) !important; color:#FFF !important;'
+        },
+        sunflower: {
+          unit: 'đóa',
+          badgeBg: '#FEF3C7',
+          badgeColor: '#92400E',
+          borderColor: '#F59E0B',
+          gradient: 'background:linear-gradient(135deg, #F59E0B 0%, #D97706 100%) !important; color:#FFF !important;'
+        },
+        tulip: {
+          unit: 'đóa',
+          badgeBg: '#FFF1F2',
+          badgeColor: '#BE123C',
+          borderColor: '#F43F5E',
+          gradient: 'background:linear-gradient(135deg, #F43F5E 0%, #E11D48 100%) !important; color:#FFF !important;'
+        },
+        cactus: {
+          unit: 'đóa',
+          badgeBg: '#CCFBF1',
+          badgeColor: '#0F766E',
+          borderColor: '#0D9488',
+          gradient: 'background:linear-gradient(135deg, #0D9488 0%, #0F766E 100%) !important; color:#FFF !important;'
+        },
+        rose: {
+          unit: 'đóa',
+          badgeBg: '#FFE4E6',
+          badgeColor: '#BE123C',
+          borderColor: '#BE123C',
+          gradient: 'background:linear-gradient(135deg, #BE123C 0%, #9F1239 100%) !important; color:#FFF !important;'
+        },
+        lavender: {
+          unit: 'đóa',
+          badgeBg: '#EDE9FE',
+          badgeColor: '#6D28D9',
+          borderColor: '#8B5CF6',
+          gradient: 'background:linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%) !important; color:#FFF !important;'
+        },
+        daisy: {
+          unit: 'đóa',
+          badgeBg: '#FEF9C3',
+          badgeColor: '#854D0E',
+          borderColor: '#EAB308',
+          gradient: 'background:linear-gradient(135deg, #FACC15 0%, #EAB308 100%) !important; color:#78350F !important;'
+        },
+        succulent: {
+          unit: 'đóa',
+          badgeBg: '#D1FAE5',
+          badgeColor: '#065F46',
+          borderColor: '#10B981',
+          gradient: 'background:linear-gradient(135deg, #10B981 0%, #047857 100%) !important; color:#FFF !important;'
+        }
+      };
 
       container.innerHTML = flowers.map(fid => {
         const fl = catalog[fid] || {};
         const isCurrent = currentFid === fid;
         const harvestCount = (this.state.basket && this.state.basket[fid]) || 0;
-        const previewImg = fid === 'sunflower'
-          ? 'assets/garden/sunflower_stage_4.png'
-          : (fid === 'tulip'
-              ? 'assets/garden/tulip_stage_4.png'
-              : (fid === 'cactus'
-                  ? 'assets/garden/cactus_stage_4.png'
-                  : (fid === 'rose'
-                      ? 'assets/garden/rose_stage_4.png'
-                      : 'assets/garden/clover_stage_4.png')));
-        const unit = (fid === 'clover') ? 'cành' : 'đóa';
-        const badgeBg = fid === 'sunflower'
-          ? '#FEF3C7'
-          : (fid === 'tulip'
-              ? '#FFF1F2'
-              : (fid === 'cactus'
-                  ? '#CCFBF1'
-                  : (fid === 'rose' ? '#FFE4E6' : '#DCFCE7')));
-        const badgeColor = fid === 'sunflower'
-          ? '#92400E'
-          : (fid === 'tulip'
-              ? '#BE123C'
-              : (fid === 'cactus'
-                  ? '#0F766E'
-                  : (fid === 'rose' ? '#BE123C' : '#166534')));
-        const borderColor = isCurrent
-          ? (fid === 'sunflower'
-              ? '#F59E0B'
-              : (fid === 'tulip'
-                  ? '#F43F5E'
-                  : (fid === 'cactus'
-                      ? '#0D9488'
-                      : (fid === 'rose' ? '#BE123C' : '#10B981'))))
-          : '#E2E8F0';
-        const activeGradient = fid === 'sunflower'
-          ? 'background:linear-gradient(135deg, #F59E0B 0%, #D97706 100%) !important; color:#FFF !important;'
-          : (fid === 'tulip'
-              ? 'background:linear-gradient(135deg, #F43F5E 0%, #E11D48 100%) !important; color:#FFF !important;'
-              : (fid === 'cactus'
-                  ? 'background:linear-gradient(135deg, #0D9488 0%, #0F766E 100%) !important; color:#FFF !important;'
-                  : (fid === 'rose'
-                      ? 'background:linear-gradient(135deg, #BE123C 0%, #9F1239 100%) !important; color:#FFF !important;'
-                      : 'background:linear-gradient(135deg, #10B981 0%, #059669 100%) !important; color:#FFF !important;')));
+        const previewImg = `assets/garden/${fid}_stage_4.png`;
+        const theme = themeMap[fid] || themeMap.clover;
+        const unit = theme.unit;
+        const badgeBg = theme.badgeBg;
+        const badgeColor = theme.badgeColor;
+        const borderColor = isCurrent ? theme.borderColor : '#E2E8F0';
+        const activeGradient = theme.gradient;
 
         return `
           <div class="seed-option-card ${isCurrent ? 'selected' : ''}" style="border-color: ${borderColor} !important;" data-seed-id="${fid}">
@@ -1317,18 +1403,17 @@
       this.createLeafConfetti();
 
       const studentName = this.getStudentName();
-      let msg = '';
-      if (targetFid === 'sunflower') {
-        msg = `🌻 Chúc mừng ${studentName} đã chuyển sang vun trồng Hoa Hướng Dương Rực Rỡ! Luôn kiên định hướng về vầng thái dương nhé! ☀️`;
-      } else if (targetFid === 'tulip') {
-        msg = `🌷 Chúc mừng ${studentName} đã chuyển sang vun trồng Hoa Tulip Kiêu Hãnh! Tự tin, thanh lịch và bứt phá đỉnh cao nhé! ✨`;
-      } else if (targetFid === 'cactus') {
-        msg = `🌵 Chúc mừng ${studentName} đã chuyển sang vun trồng Hoa Xương Rồng Kiên Cường! Ý chí sắt đá vượt qua mọi thử thách! ✨`;
-      } else if (targetFid === 'rose') {
-        msg = `🌹 Chúc mừng ${studentName} đã chuyển sang vun trồng Hoa Hồng Đỏ Khát Vọng! Luôn giữ trọn ngọn lửa đam mê và khát khao vươn tới ước mơ nhé! ✨`;
-      } else {
-        msg = `🍀 Chúc mừng ${studentName} đã chuyển sang vun trồng Cỏ 4 Lá May Mắn! Niềm tin & hy vọng luôn bên bạn! ✨`;
-      }
+      const switchMsgMap = {
+        clover: `🍀 Chúc mừng ${studentName} đã chuyển sang vun trồng Cỏ 4 Lá May Mắn! Niềm tin & hy vọng luôn bên bạn! ✨`,
+        sunflower: `🌻 Chúc mừng ${studentName} đã chuyển sang vun trồng Hoa Hướng Dương Rực Rỡ! Luôn kiên định hướng về vầng thái dương nhé! ☀️`,
+        tulip: `🌷 Chúc mừng ${studentName} đã chuyển sang vun trồng Hoa Tulip Kiêu Hãnh! Tự tin, thanh lịch và bứt phá đỉnh cao nhé! ✨`,
+        cactus: `🌵 Chúc mừng ${studentName} đã chuyển sang vun trồng Hoa Xương Rồng Kiên Cường! Ý chí sắt đá vượt qua mọi thử thách! ✨`,
+        rose: `🌹 Chúc mừng ${studentName} đã chuyển sang vun trồng Hoa Hồng Đỏ Khát Vọng! Luôn giữ trọn ngọn lửa đam mê và khát khao vươn tới ước mơ nhé! ✨`,
+        lavender: `🪻 Chúc mừng ${studentName} đã chuyển sang vun trồng Hoa Oải Hương Tĩnh Tâm! Giữ tâm trí an nhiên, tập trung cao độ và tự tin bứt phá nhé! ✨`,
+        daisy: `🌼 Chúc mừng ${studentName} đã chuyển sang vun trồng Hoa Cúc Họa Mi Thuần Khiết! Đón nhận năng lượng tươi sáng và nụ cười rạng ngời mỗi ngày nhé! ☀️`,
+        succulent: `🪷 Chúc mừng ${studentName} đã chuyển sang vun trồng Sen Đá Ngọc Bền Bỉ! Kiên trì, dẻo dai chắt chiu tri thức để vững vàng tỏa sắc nhé! ✨`
+      };
+      const msg = switchMsgMap[targetFid] || `🌱 Chúc mừng ${studentName} đã chuyển sang vun trồng loài hoa mới! Cùng đón nhận năng lượng tích cực nhé! ✨`;
       
       this.updateSpeechBubble(msg);
       if (typeof showToast === 'function') {
@@ -1670,20 +1755,21 @@
 
     triggerReadyToHarvest() {
       const flower = this.getCurrentFlower();
-      const isSunflower = flower.id === 'sunflower';
-      const isTulip = flower.id === 'tulip';
+      const fid = flower.id || 'clover';
       const icon = flower.icon || '🌸';
-      const isRose = flower.id === 'rose';
-      const isCactus = flower.id === 'cactus';
-      const msg = isSunflower
-        ? `🌻 Bé Hoa Hướng Dương đã bừng nở rực rỡ! Mau bấm "Thu hoạch" để đón nhận thông điệp ôn thi nhé ${this.getStudentName()}! ☀️`
-        : (isTulip
-            ? `🌷 Bé Hoa Tulip đã bừng nở kiêu hãnh! Mau bấm "Thu hoạch" để đón nhận thông điệp ôn thi nhé ${this.getStudentName()}! ✨`
-            : (isCactus
-                ? `🌵 Bé Hoa Xương Rồng đã kiên cường bung nở rực rỡ! Mau bấm "Thu hoạch" để đón nhận thông điệp ôn thi nhé ${this.getStudentName()}! ✨`
-                : (isRose
-                    ? `🌹 Đóa Hoa Hồng Đỏ Khát Vọng đã bung nở kiêu sa! Mau bấm "Thu hoạch" để đón nhận thông điệp ôn thi nhé ${this.getStudentName()}! ✨`
-                    : `🍀 Bé Cỏ 4 Lá May Mắn đã bừng nở tuyệt đẹp! Mau bấm "Thu hoạch" để đón nhận thông điệp ôn thi may mắn nhé ${this.getStudentName()}! ✨`)));
+      const studentName = this.getStudentName();
+
+      const readyMsgMap = {
+        clover: `🍀 Bé Cỏ 4 Lá May Mắn đã bừng nở tuyệt đẹp! Mau bấm "Thu hoạch" để đón nhận thông điệp tiếp lửa nhé ${studentName}! ✨`,
+        sunflower: `🌻 Bé Hoa Hướng Dương đã bừng nở rực rỡ! Mau bấm "Thu hoạch" để đón nhận thông điệp tiếp lửa nhé ${studentName}! ☀️`,
+        tulip: `🌷 Bé Hoa Tulip đã bừng nở kiêu hãnh! Mau bấm "Thu hoạch" để đón nhận thông điệp tiếp lửa nhé ${studentName}! ✨`,
+        cactus: `🌵 Bé Hoa Xương Rồng đã kiên cường bung nở rực rỡ! Mau bấm "Thu hoạch" để đón nhận thông điệp tiếp lửa nhé ${studentName}! ✨`,
+        rose: `🌹 Đóa Hoa Hồng Đỏ Khát Vọng đã bung nở kiêu sa! Mau bấm "Thu hoạch" để đón nhận thông điệp tiếp lửa nhé ${studentName}! ✨`,
+        lavender: `🪻 Đóa Hoa Oải Hương Tĩnh Tâm đã ngát hương thơm dịu! Mau bấm "Thu hoạch" để đón nhận thông điệp tiếp lửa nhé ${studentName}! ✨`,
+        daisy: `🌼 Bé Hoa Cúc Họa Mi Thuần Khiết đã bừng sáng lung linh! Mau bấm "Thu hoạch" để đón nhận thông điệp tiếp lửa nhé ${studentName}! ☀️`,
+        succulent: `🪷 Đóa Sen Đá Ngọc Bền Bỉ đã đơm hoa rực rỡ! Mau bấm "Thu hoạch" để đón nhận thông điệp tiếp lửa nhé ${studentName}! ✨`
+      };
+      const msg = readyMsgMap[fid] || `🌸 Đóa hoa đã bừng nở rực rỡ! Mau bấm "Thu hoạch" để đón nhận thông điệp nhé ${studentName}! ✨`;
       this.updateSpeechBubble(msg);
       if (typeof showToast === 'function') {
         showToast(`${icon} ${flower.name} đã nở rộ! Bấm nút "Thu hoạch" để nhận thông điệp tiếp lửa!`);
@@ -1810,10 +1896,6 @@
     renderGrandHarvestCard(quote, harvestNum) {
       const flower = this.getCurrentFlower();
       const fid = flower.id || 'clover';
-      const isSunflower = fid === 'sunflower';
-      const isTulip = fid === 'tulip';
-      const isCactus = fid === 'cactus';
-      const isRose = fid === 'rose';
       const badge = document.getElementById('harvest-pill-badge');
       const body = document.getElementById('harvest-quote-body');
       const countBtn = document.getElementById('harvest-total-quotes-btn');
@@ -1821,38 +1903,39 @@
       const celebImg = document.getElementById('harvest-celebration-img');
 
       if (celebImg) {
-        celebImg.src = isSunflower
-          ? 'assets/garden/sunflower_stage_4.png'
-          : (isTulip
-              ? 'assets/garden/tulip_stage_4.png'
-              : (isCactus
-                  ? 'assets/garden/cactus_stage_4.png'
-                  : (isRose ? 'assets/garden/rose_stage_4.png' : 'assets/garden/clover_stage_4.png')));
+        celebImg.src = `assets/garden/${fid}_stage_4.png`;
         celebImg.alt = flower.name;
       }
 
+      const badgeTextMap = {
+        clover: `🍀 CÀNH CỎ 4 LÁ THỨ #${harvestNum} ĐÃ BỪNG NỞ!`,
+        sunflower: `🌻 ĐÓA HOA HƯỚNG DƯƠNG THỨ #${harvestNum} ĐÃ BỪNG NỞ!`,
+        tulip: `🌷 ĐÓA HOA TULIP THỨ #${harvestNum} ĐÃ BỪNG NỞ!`,
+        cactus: `🌵 ĐÓA HOA XƯƠNG RỒNG THỨ #${harvestNum} ĐÃ BỪNG NỞ!`,
+        rose: `🌹 ĐÓA HOA HỒNG THỨ #${harvestNum} ĐÃ BỪNG NỞ!`,
+        lavender: `🪻 ĐÓA HOA OẢI HƯƠNG THỨ #${harvestNum} ĐÃ BỪNG NỞ!`,
+        daisy: `🌼 ĐÓA HOA CÚC HỌA MI THỨ #${harvestNum} ĐÃ BỪNG NỞ!`,
+        succulent: `🪷 ĐÓA SEN ĐÁ NGỌC THỨ #${harvestNum} ĐÃ BỪNG NỞ!`
+      };
+
       if (badge) {
-        badge.textContent = isSunflower
-          ? `🌻 ĐÓA HOA HƯỚNG DƯƠNG THỨ #${harvestNum} ĐÃ BỪNG NỞ!`
-          : (isTulip
-              ? `🌷 ĐÓA HOA TULIP THỨ #${harvestNum} ĐÃ BỪNG NỞ!`
-              : (isCactus
-                  ? `🌵 ĐÓA HOA XƯƠNG RỒNG THỨ #${harvestNum} ĐÃ BỪNG NỞ!`
-                  : (isRose
-                      ? `🌹 ĐÓA HOA HỒNG THỨ #${harvestNum} ĐÃ BỪNG NỞ!`
-                      : `🍀 CÀNH CỎ 4 LÁ THỨ #${harvestNum} ĐÃ BỪNG NỞ!`)));
+        badge.textContent = badgeTextMap[fid] || `🌸 ĐÓA HOA THỨ #${harvestNum} ĐÃ BỪNG NỞ!`;
       }
+
+      const nextBtnMap = {
+        clover: `<span class="harvest-btn-ico">🍀</span> Vun trồng mầm cỏ tiếp theo`,
+        sunflower: `<span class="harvest-btn-ico">🌻</span> Vun trồng mầm hướng dương tiếp theo`,
+        tulip: `<span class="harvest-btn-ico">🌷</span> Vun trồng mầm tulip tiếp theo`,
+        cactus: `<span class="harvest-btn-ico">🌵</span> Vun trồng mầm xương rồng tiếp theo`,
+        rose: `<span class="harvest-btn-ico">🌹</span> Vun trồng mầm hoa hồng tiếp theo`,
+        lavender: `<span class="harvest-btn-ico">🪻</span> Vun trồng mầm oải hương tiếp theo`,
+        daisy: `<span class="harvest-btn-ico">🌼</span> Vun trồng mầm cúc họa mi tiếp theo`,
+        succulent: `<span class="harvest-btn-ico">🪷</span> Vun trồng mầm sen đá tiếp theo`
+      };
+
       if (nextBtn) {
         nextBtn.className = `harvest-action-btn btn-harvest-next btn-harvest-theme-${fid}`;
-        nextBtn.innerHTML = isSunflower
-          ? `<span class="harvest-btn-ico">🌻</span> Vun trồng mầm hướng dương tiếp theo`
-          : (isTulip
-              ? `<span class="harvest-btn-ico">🌷</span> Vun trồng mầm tulip tiếp theo`
-              : (isCactus
-                  ? `<span class="harvest-btn-ico">🌵</span> Vun trồng mầm xương rồng tiếp theo`
-                  : (isRose
-                      ? `<span class="harvest-btn-ico">🌹</span> Vun trồng mầm hoa hồng tiếp theo`
-                      : `<span class="harvest-btn-ico">🍀</span> Vun trồng mầm cỏ tiếp theo`)));
+        nextBtn.innerHTML = nextBtnMap[fid] || `<span class="harvest-btn-ico">🌱</span> Vun trồng mầm tiếp theo`;
       }
       if (countBtn) countBtn.textContent = this.state.harvestedQuotes.length;
 
@@ -1934,8 +2017,8 @@
         <div class="modal-card garden-quiz-card vstep-hub-card">
           <div class="modal-header">
             <div>
-              <h3>🎯 ĐỐ VUI ÔN THI VSTEP THỰC CHIẾN</h3>
-              <p class="modal-subtext mb-0">Học Bảng Lợi Ích, Từ Vựng Speaking và Nhận Dạng Dạng Thư & Luận chuẩn VSTEP B1-B2-C1 (+10💧 Nước & +10☀️ Nắng Nỗ Lực)!</p>
+              <h3>🎯 ĐỐ VUI ÔN THI THỰC CHIẾN (TOEIC & VSTEP)</h3>
+              <p class="modal-subtext mb-0">Luyện tập câu hỏi chuẩn TOEIC (Listening, Grammar, Vocab) & VSTEP (4 Kỹ Năng) nhận ngay +10💧 Nước & +10☀️ Nắng Nỗ Lực!</p>
             </div>
             <button class="modal-close-btn" id="btn-close-quiz-modal">&times;</button>
           </div>
@@ -1944,6 +2027,9 @@
           <div class="quiz-modal-tabs" id="quiz-modal-tabs">
             <button class="quiz-tab-btn active" data-tab="practice">
               <span class="tab-icon">🎯</span> Luyện Đề (+10💧)
+            </button>
+            <button class="quiz-tab-btn" data-tab="toeic">
+              <span class="tab-icon">💼</span> Bí Quyết TOEIC
             </button>
             <button class="quiz-tab-btn" data-tab="benefits">
               <span class="tab-icon">📊</span> Bảng Lợi Ích
@@ -1961,7 +2047,10 @@
             <!-- Category Filter Pills -->
             <div class="quiz-filter-bar" id="quiz-filter-bar">
               <button class="quiz-filter-pill active" data-cat="all">🌟 Tất cả</button>
-              <button class="quiz-filter-pill" data-cat="benefit-matrix">📊 Bảng Lợi Ích</button>
+              <button class="quiz-filter-pill" data-cat="toeic-grammar">📝 TOEIC Part 5</button>
+              <button class="quiz-filter-pill" data-cat="toeic-vocab">💼 TOEIC Từ Vựng</button>
+              <button class="quiz-filter-pill" data-cat="toeic-listening">🎧 TOEIC Listening</button>
+              <button class="quiz-filter-pill" data-cat="benefit-matrix">📊 VSTEP Lợi Ích</button>
               <button class="quiz-filter-pill" data-cat="speaking-vocab">🗣️ Từ Vựng Speaking</button>
               <button class="quiz-filter-pill" data-cat="writing-letter">✉️ 7 Dạng Thư Task 1</button>
               <button class="quiz-filter-pill" data-cat="writing-essay">📝 4 Dạng Luận Task 2</button>
@@ -2680,8 +2769,8 @@
             <div class="earn-method-item" id="earn-action-quiz" role="button" tabindex="0" title="Bấm để mở bộ đề ôn thi VSTEP nhận +10💧 & +10☀️">
               <div class="earn-icon-wrap" style="background:#EFF6FF; color:#2563EB;">🎯</div>
               <div class="earn-info">
-                <h4>ĐỐ VUI ÔN THI VSTEP (4 KỸ NĂNG)</h4>
-                <p>Luyện tập các câu hỏi chuẩn VSTEP B1-B2-C1 nhận ngay <b>+10💧 & +10☀️</b> cho mỗi câu trả lời đúng.</p>
+                <h4>ĐỐ VUI ÔN THI (TOEIC & VSTEP)</h4>
+                <p>Luyện tập các câu hỏi chuẩn TOEIC & VSTEP nhận ngay <b>+10💧 & +10☀️</b> cho mỗi câu trả lời đúng.</p>
               </div>
               <span class="earn-action-badge action-primary"><i class="fa-solid fa-play"></i> Luyện ngay</span>
             </div>
@@ -2691,7 +2780,7 @@
 
           <div class="earn-modal-actions">
             <button class="btn btn-primary w-100" id="btn-earn-start-quiz">
-              <i class="fa-solid fa-play"></i> Luyện Đề VSTEP Ngay (+10💧 & +10☀️)
+              <i class="fa-solid fa-play"></i> Luyện Đề Ngay (+10💧 & +10☀️)
             </button>
           </div>
         </div>
@@ -2963,21 +3052,20 @@
 
       const total = this.state.harvestCount || 0;
       const quotes = this.state.harvestedQuotes || [];
-      const basket = this.state.basket || { clover: 0, sunflower: 0, tulip: 0, cactus: 0, rose: 0 };
+      const basket = this.state.basket || {};
       const cloverCount = basket.clover || 0;
       const sunflowerCount = basket.sunflower || 0;
       const tulipCount = basket.tulip || 0;
       const cactusCount = basket.cactus || 0;
       const roseCount = basket.rose || 0;
+      const lavenderCount = basket.lavender || 0;
+      const daisyCount = basket.daisy || 0;
+      const succulentCount = basket.succulent || 0;
       const flower = this.getCurrentFlower();
       const fid = flower.id || 'clover';
-      const isSunflower = fid === 'sunflower';
-      const isTulip = fid === 'tulip';
-      const isCactus = fid === 'cactus';
-      const isRose = fid === 'rose';
 
       if (totalBadge) {
-        totalBadge.innerHTML = `Tổng gặt hái: <b>${total}</b> mùa (${cloverCount} 🍀 + ${sunflowerCount} 🌻 + ${tulipCount} 🌷 + ${cactusCount} 🌵 + ${roseCount} 🌹)`;
+        totalBadge.innerHTML = `Tổng gặt hái: <b>${total}</b> mùa (${cloverCount} 🍀 + ${sunflowerCount} 🌻 + ${tulipCount} 🌷 + ${cactusCount} 🌵 + ${roseCount} 🌹 + ${lavenderCount} 🪻 + ${daisyCount} 🌼 + ${succulentCount} 🪷)`;
       } else if (totalCount) {
         totalCount.textContent = total;
       }
@@ -3015,41 +3103,37 @@
       }
 
       const studentName = this.getStudentName();
-      const heroImg = isSunflower
-        ? 'assets/garden/sunflower_stage_4.png'
-        : (isTulip
-            ? 'assets/garden/tulip_stage_4.png'
-            : (isCactus
-                ? 'assets/garden/cactus_stage_4.png'
-                : (isRose ? 'assets/garden/rose_stage_4.png' : 'assets/garden/clover_stage_4.png')));
-      const heroBadge = isSunflower
-        ? '🌻 HOA HƯỚNG DƯƠNG RỰC RỠ'
-        : (isTulip
-            ? '🌷 HOA TULIP KIÊU HÃNH'
-            : (isCactus
-                ? '🌵 HOA XƯƠNG RỒNG KIÊN CƯỜNG'
-                : (isRose ? '🌹 HOA HỒNG ĐỎ KHÁT VỌNG' : '🍀 CỎ 4 LÁ MAY MẮN')));
-      const heroTitle = flower.name;
-      const heroQuote = isSunflower
-        ? `"Như đóa hướng dương luôn hướng về vầng thái dương, chúc <b>${this.escapeHtml(studentName)}</b> luôn kiên định, tự tin và tỏa sáng rực rỡ! 🌻☀️"`
-        : (isTulip
-            ? `"Như đóa tulip kiêu hãnh đón ngọn gió xuân, chúc <b>${this.escapeHtml(studentName)}</b> luôn thanh lịch, kiên cường và tỏa sáng rực rỡ với ước mơ của mình! 🌷✨"`
-            : (isCactus
-                ? `"Dù giữa sa mạc khô cằn, xương rồng vẫn kiên cường nở hoa rực rỡ. Chúc <b>${this.escapeHtml(studentName)}</b> luôn bền bỉ, kiên định và tỏa sáng ngoạn mục! 🌵✨"`
-                : (isRose
-                    ? `"Như đóa hồng nhung đỏ thắm kiêu sa qua bao ngày chăm bón, chúc <b>${this.escapeHtml(studentName)}</b> luôn giữ trọn ngọn lửa đam mê, tự tin và vững bước tới tương lai tươi sáng! 🌹✨"`
-                    : `"May mắn ngập tràn, niềm tin, hy vọng và tình yêu thương. Món quà diệu kỳ tiếp thêm sự tự tin và may mắn cho <b>${this.escapeHtml(studentName)}</b> mỗi ngày! 🍀✨"`)));
-      const heroHarvestText = isSunflower
-        ? `🌻 Đã thu hoạch: <b>${sunflowerCount} đóa hướng dương</b> (Tổng: <b>${total}</b> mùa)`
-        : (isTulip
-            ? `🌷 Đã thu hoạch: <b>${tulipCount} đóa tulip</b> (Tổng: <b>${total}</b> mùa)`
-            : (isCactus
-                ? `🌵 Đã thu hoạch: <b>${cactusCount} đóa xương rồng</b> (Tổng: <b>${total}</b> mùa)`
-                : (isRose
-                    ? `🌹 Đã thu hoạch: <b>${roseCount} đóa hoa hồng</b> (Tổng: <b>${total}</b> mùa)`
-                    : `🍀 Đã thu hoạch: <b>${cloverCount} cành may mắn</b> (Tổng: <b>${total}</b> mùa)`)));
+      const heroImg = `assets/garden/${fid}_stage_4.png`;
+      const heroBadgeMap = {
+        clover: '🍀 CỎ 4 LÁ MAY MẮN',
+        sunflower: '🌻 HOA HƯỚNG DƯƠNG RỰC RỠ',
+        tulip: '🌷 HOA TULIP KIÊU HÃNH',
+        cactus: '🌵 HOA XƯƠNG RỒNG KIÊN CƯỜNG',
+        rose: '🌹 HOA HỒNG ĐỎ KHÁT VỌNG',
+        lavender: '🪻 HOA OẢI HƯƠNG TĨNH TÂM',
+        daisy: '🌼 HOA CÚC HỌA MI THUẦN KHIẾT',
+        succulent: '🪷 SEN ĐÁ NGỌC BỀN BỈ'
+      };
+      const heroBadge = heroBadgeMap[fid] || `${flower.icon || '🌱'} ${flower.name.toUpperCase()}`;
 
-      // 2. Render Full-Width, Balanced 2-Tier Layout (Row 1: 4 Flowers, Row 2: 3 Resources)
+      const heroQuoteMap = {
+        clover: `"May mắn ngập tràn, niềm tin, hy vọng và tình yêu thương. Món quà diệu kỳ tiếp thêm sự tự tin và may mắn cho <b>${this.escapeHtml(studentName)}</b> mỗi ngày! 🍀✨"`,
+        sunflower: `"Như đóa hướng dương luôn hướng về vầng thái dương, chúc <b>${this.escapeHtml(studentName)}</b> luôn kiên định, tự tin và tỏa sáng rực rỡ! 🌻☀️"`,
+        tulip: `"Như đóa tulip kiêu hãnh đón ngọn gió xuân, chúc <b>${this.escapeHtml(studentName)}</b> luôn thanh lịch, kiên cường và tỏa sáng rực rỡ với ước mơ của mình! 🌷✨"`,
+        cactus: `"Dù giữa sa mạc khô cằn, xương rồng vẫn kiên cường nở hoa rực rỡ. Chúc <b>${this.escapeHtml(studentName)}</b> luôn bền bỉ, kiên định và tỏa sáng ngoạn mục! 🌵✨"`,
+        rose: `"Như đóa hồng nhung đỏ thắm kiêu sa qua bao ngày chăm bón, chúc <b>${this.escapeHtml(studentName)}</b> luôn giữ trọn ngọn lửa đam mê, tự tin và vững bước tới tương lai tươi sáng! 🌹✨"`,
+        lavender: `"Như đóa oải hương thơm ngát trong nắng sớm, chúc <b>${this.escapeHtml(studentName)}</b> luôn giữ tâm trí tĩnh tại, sáng suốt và vững vàng chạm tới ước mơ! 🪻✨"`,
+        daisy: `"Như cánh cúc họa mi trắng trong đón nắng mai, chúc <b>${this.escapeHtml(studentName)}</b> mỗi ngày mới luôn tràn đầy năng lượng tươi sáng và rạng ngời nụ cười! 🌼☀️"`,
+        succulent: `"Như đóa sen đá ngọc kiên trì chắt chiu từng giọt sương, chúc <b>${this.escapeHtml(studentName)}</b> luôn bền chí, kiên định và vững bước trên hành trình vươn tới thành công! 🪷✨"`
+      };
+      const heroQuote = heroQuoteMap[fid] || `"${flower.quote || 'Chúc bạn luôn tự tin và đạt kết quả thật cao!'}"`;
+      const heroTitle = flower.name;
+
+      const currentCount = basket[fid] || 0;
+      const unit = fid === 'clover' ? 'cành may mắn' : (fid === 'succulent' ? 'đóa sen đá ngọc' : `đóa ${flower.shortName || flower.name}`);
+      const heroHarvestText = `${flower.icon} Đã thu hoạch: <b>${currentCount} ${unit}</b> (Tổng: <b>${total}</b> mùa)`;
+
+      // 2. Render Full-Width, Balanced 2-Tier Layout (Row 1: 8 Flowers in 4-Col Grid, Row 2: 3 Resources)
       grid.innerHTML = `
         <!-- A. Hero Showcase Card -->
         <div class="basket-hero-card">
@@ -3104,6 +3188,27 @@
               <div class="mini-stat-info">
                 <span class="mini-stat-num">${roseCount} đóa</span>
                 <span class="mini-stat-label">Hoa Hồng</span>
+              </div>
+            </div>
+            <div class="basket-mini-stat stat-lavender" title="Số đóa Hoa Oải Hương Tĩnh Tâm đã gặt hái">
+              <div class="mini-stat-icon">🪻</div>
+              <div class="mini-stat-info">
+                <span class="mini-stat-num">${lavenderCount} đóa</span>
+                <span class="mini-stat-label">Oải Hương</span>
+              </div>
+            </div>
+            <div class="basket-mini-stat stat-daisy" title="Số đóa Hoa Cúc Họa Mi Thuần Khiết đã gặt hái">
+              <div class="mini-stat-icon">🌼</div>
+              <div class="mini-stat-info">
+                <span class="mini-stat-num">${daisyCount} đóa</span>
+                <span class="mini-stat-label">Cúc Họa Mi</span>
+              </div>
+            </div>
+            <div class="basket-mini-stat stat-succulent" title="Số đóa Sen Đá Ngọc Bền Bỉ đã gặt hái">
+              <div class="mini-stat-icon">🪷</div>
+              <div class="mini-stat-info">
+                <span class="mini-stat-num">${succulentCount} đóa</span>
+                <span class="mini-stat-label">Sen Đá Ngọc</span>
               </div>
             </div>
           </div>
@@ -3204,20 +3309,19 @@
         const en = q.english || q.title || 'Believe you can and you\'re halfway there.';
         const vi = q.vietnamese || q.content || 'Hãy tin rằng bạn có thể làm được, và bạn đã đi được nửa chặng đường rồi.';
         const flId = item.flowerId || 'clover';
-        const flIcon = flId === 'sunflower'
-          ? '🌻'
-          : (flId === 'tulip'
-              ? '🌷'
-              : (flId === 'cactus'
-                  ? '🌵'
-                  : (flId === 'rose' ? '🌹' : '🍀')));
-        const flLabel = flId === 'sunflower'
-          ? 'Đóa hướng dương'
-          : (flId === 'tulip'
-              ? 'Đóa tulip'
-              : (flId === 'cactus'
-                  ? 'Đóa xương rồng'
-                  : (flId === 'rose' ? 'Đóa hoa hồng' : 'Cành cỏ')));
+        const flMetaMap = {
+          clover: { icon: '🍀', label: 'Cành cỏ may mắn' },
+          sunflower: { icon: '🌻', label: 'Đóa hướng dương' },
+          tulip: { icon: '🌷', label: 'Đóa tulip' },
+          cactus: { icon: '🌵', label: 'Đóa xương rồng' },
+          rose: { icon: '🌹', label: 'Đóa hoa hồng' },
+          lavender: { icon: '🪻', label: 'Đóa oải hương' },
+          daisy: { icon: '🌼', label: 'Đóa cúc họa mi' },
+          succulent: { icon: '🪷', label: 'Đóa sen đá ngọc' }
+        };
+        const meta = flMetaMap[flId] || { icon: '🌱', label: 'Đóa hoa' };
+        const flIcon = meta.icon;
+        const flLabel = meta.label;
         return `
           <div class="archive-quote-card">
             <div class="archive-quote-head">

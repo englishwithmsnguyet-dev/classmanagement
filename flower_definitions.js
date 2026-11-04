@@ -20,7 +20,7 @@
       "color": "#10B981",
       "accentColor": "#059669",
       "bgGlow": "radial-gradient(circle at 50% 42%, rgba(254, 240, 138, 0.55) 0%, rgba(52, 211, 153, 0.24) 45%, transparent 76%)",
-      "meaning": "May mắn ngập tràn, niềm tin, hy vọng và tình yêu thương. Món quà diệu kỳ tiếp thêm sự tự tin, may mắn và năng lượng tích cực mỗi ngày.",
+      "meaning": "May mắn ngập tràn, niềm tin, hy vọng và tình yêu vĩnh cửu. Món quà diệu kỳ tiếp lửa cho học viên tự tin bứt phá mục tiêu điểm số TOEIC (450 - 650 - 800+) & VSTEP (B1 - B2 - C1)!",
       "quote": "Bé cỏ 4 lá mang đến vạn sự may mắn, bình an và kết quả rực rỡ nhất! 🍀🌟",
       "growthDifficulty": "Hiếm có",
       "stages": [
@@ -41,7 +41,7 @@
       "color": "#F59E0B",
       "accentColor": "#D97706",
       "bgGlow": "radial-gradient(circle at 50% 42%, rgba(254, 240, 138, 0.70) 0%, rgba(245, 158, 11, 0.28) 45%, transparent 76%)",
-      "meaning": "Biểu tượng của ý chí kiên định, luôn hướng về phía ánh sáng mặt trời. Tiếp thêm nguồn năng lượng tích cực, sự tự tin và nghị lực bền bỉ vươn tới thành công.",
+      "meaning": "Biểu tượng của ý chí kiên định, luôn hướng về phía ánh sáng mặt trời và đỉnh cao tri thức. Tiếp thêm nguồn năng lượng tích cực, sự tự tin và nghị lực bền bỉ vượt qua mọi kỳ thi TOEIC & VSTEP!",
       "quote": "Như đóa hướng dương luôn hướng về vầng thái dương, chúc bạn luôn kiên định, tự tin và tỏa sáng rực rỡ trên mọi chặng đường! 🌻☀️",
       "growthDifficulty": "Yêu nắng",
       "stages": [
@@ -62,7 +62,7 @@
       "color": "#F43F5E",
       "accentColor": "#E11D48",
       "bgGlow": "radial-gradient(circle at 50% 42%, rgba(254, 205, 211, 0.70) 0%, rgba(244, 63, 94, 0.28) 45%, transparent 76%)",
-      "meaning": "Biểu tượng của lòng nhiệt huyết, sự thanh lịch và niềm kiêu hãnh vươn mình. Thắp sáng ngọn lửa tự tin, tinh thần kỷ luật và bản lĩnh kiên cường để bứt phá mọi mục tiêu.",
+      "meaning": "Biểu tượng của lòng nhiệt huyết, sự thanh lịch và niềm kiêu hãnh vươn mình. Thắp sáng ngọn lửa tự tin, tinh thần kỷ luật và bản lĩnh kiên cường để bứt phá band điểm TOEIC & VSTEP mơ ước!",
       "quote": "Như đóa tulip kiêu hãnh đón ngọn gió xuân, chúc bạn luôn thanh lịch, kiên cường và tỏa sáng rực rỡ với ước mơ của mình! 🌷✨",
       "growthDifficulty": "Yêu nước & gió nhẹ",
       "stages": [
@@ -83,7 +83,7 @@
       "color": "#0D9488",
       "accentColor": "#0F766E",
       "bgGlow": "radial-gradient(circle at 50% 42%, rgba(204, 251, 241, 0.70) 0%, rgba(20, 184, 166, 0.28) 45%, transparent 76%)",
-      "meaning": "Biểu tượng của ý chí thép kiên cường, sức sống mãnh liệt vượt qua mọi nghịch cảnh và thử thách để bung nở đóa hoa diệu kỳ. Tiếp thêm bản lĩnh vững vàng và nghị lực phi thường.",
+      "meaning": "Biểu tượng của ý chí thép kiên cường, sức sống mãnh liệt vượt qua mọi nghịch cảnh và thử thách để bung nở đóa hoa diệu kỳ. Tiếp thêm bản lĩnh vững vàng và nghị lực phi thường để chinh phục đỉnh cao TOEIC & VSTEP!",
       "quote": "Dù giữa sa mạc khô cằn, xương rồng vẫn kiên cường nở hoa rực rỡ. Chúc bạn luôn bền bỉ, kiên định và tỏa sáng ngoạn mục! 🌵✨",
       "growthDifficulty": "Chịu hạn giỏi & bền bỉ",
       "stages": [
@@ -104,7 +104,7 @@
       "color": "#BE123C",
       "accentColor": "#9F1239",
       "bgGlow": "radial-gradient(circle at 50% 42%, rgba(254, 205, 211, 0.75) 0%, rgba(190, 18, 60, 0.28) 45%, transparent 76%)",
-      "meaning": "Biểu tượng của ngọn lửa đam mê, lòng nhiệt huyết cháy bỏng và khát vọng vươn tới ước mơ. Tiếp thêm sự tự tin để bạn bứt phá, tỏa sáng và gặt hái thành công trọn vẹn.",
+      "meaning": "Biểu tượng của ngọn lửa đam mê, lòng nhiệt huyết cháy bỏng và khát khao vươn tới đỉnh cao tri thức. Tiếp thêm sự tự tin để bạn bứt phá, tỏa sáng và gặt hái chứng chỉ TOEIC & VSTEP xuất sắc!",
       "quote": "Như đóa hồng nhung đỏ thắm kiêu sa qua bao ngày chăm bón, chúc bạn luôn giữ trọn ngọn lửa đam mê, tự tin và vững bước tới tương lai tươi sáng! 🌹✨",
       "growthDifficulty": "Yêu nắng ấm & gió nhẹ",
       "stages": [
@@ -113,6 +113,69 @@
         { "level": 3, "name": "Cành Lá Sum Suê", "icon": "🪴" },
         { "level": 4, "name": "Búp Hồng E Ấp", "icon": "🌸" },
         { "level": 5, "name": "Hoa Hồng Bung Nở", "icon": "🌹" }
+      ]
+    },
+    "lavender": {
+      "id": "lavender",
+      "name": "Hoa Oải Hương Tĩnh Tâm",
+      "shortName": "Hoa Oải Hương",
+      "scientific": "Lavandula angustifolia",
+      "icon": "🪻",
+      "rarity": "Tĩnh Tâm",
+      "color": "#8B5CF6",
+      "accentColor": "#7C3AED",
+      "bgGlow": "radial-gradient(circle at 50% 42%, rgba(237, 233, 254, 0.75) 0%, rgba(139, 92, 246, 0.28) 45%, transparent 76%)",
+      "meaning": "Biểu tượng của sự tĩnh tâm, thanh bình và tập trung cao độ. Hương thơm êm dịu xua tan mọi âu lo, giúp bạn giữ vững sự điềm tĩnh và tự tin trước mọi thử thách.",
+      "quote": "Như đóa oải hương thơm ngát trong nắng sớm, chúc bạn luôn giữ tâm trí tĩnh tại, sáng suốt và vững vàng chạm tới ước mơ! 🪻✨",
+      "growthDifficulty": "Thư thái & kiên nhẫn",
+      "stages": [
+        { "level": 1, "name": "Mầm Nhánh Thảo Mộc", "icon": "🌱" },
+        { "level": 2, "name": "Mầm Non Xanh Bạc", "icon": "🌿" },
+        { "level": 3, "name": "Bụi Thảo Mộc Thơm", "icon": "🪴" },
+        { "level": 4, "name": "Cành Nụ Tím Chúm Chím", "icon": "🌸" },
+        { "level": 5, "name": "Oải Hương Nở Rộ", "icon": "🪻" }
+      ]
+    },
+    "daisy": {
+      "id": "daisy",
+      "name": "Hoa Cúc Họa Mi Thuần Khiết",
+      "shortName": "Hoa Cúc Họa Mi",
+      "scientific": "Bellis perennis",
+      "icon": "🌼",
+      "rarity": "Thuần Khiết",
+      "color": "#EAB308",
+      "accentColor": "#CA8A04",
+      "bgGlow": "radial-gradient(circle at 50% 42%, rgba(254, 249, 195, 0.75) 0%, rgba(234, 179, 8, 0.28) 45%, transparent 76%)",
+      "meaning": "Biểu tượng của sự thuần khiết, năng lượng tươi mới và niềm vui dung dị. Món quà tiếp thêm niềm lạc quan yêu đời và nguồn động lực tích cực mỗi ngày.",
+      "quote": "Như cánh cúc họa mi trắng trong đón nắng mai, chúc bạn mỗi ngày mới luôn tràn đầy năng lượng tươi sáng và rạng ngời nụ cười! 🌼☀️",
+      "growthDifficulty": "Yêu nắng mai & gió nhẹ",
+      "stages": [
+        { "level": 1, "name": "Mầm Nhỏ Nhú Đất", "icon": "🌱" },
+        { "level": 2, "name": "Lá Mầm Tươi Tốt", "icon": "🌿" },
+        { "level": 3, "name": "Khóm Cúc Xanh Mướt", "icon": "🪴" },
+        { "level": 4, "name": "Nụ Hoa E Ấp", "icon": "🌸" },
+        { "level": 5, "name": "Cúc Họa Mi Bừng Nở", "icon": "🌼" }
+      ]
+    },
+    "succulent": {
+      "id": "succulent",
+      "name": "Sen Đá Ngọc Bền Bỉ",
+      "shortName": "Sen Đá Ngọc",
+      "scientific": "Echeveria",
+      "icon": "🪷",
+      "rarity": "Bền Bỉ",
+      "color": "#059669",
+      "accentColor": "#047857",
+      "bgGlow": "radial-gradient(circle at 50% 42%, rgba(209, 250, 229, 0.75) 0%, rgba(16, 185, 129, 0.28) 45%, transparent 76%)",
+      "meaning": "Biểu tượng của sự kiên trì, bền bỉ và sức sống dẻo dai. Từng lớp lá mọng nước gom góp tinh hoa đất trời, nhắc nhở ta kiên định tích lũy tri thức để vững vàng tỏa sắc.",
+      "quote": "Như đóa sen đá ngọc kiên trì chắt chiu từng giọt sương, chúc bạn luôn bền chí, kiên định và vững bước trên hành trình vươn tới thành công! 🪷✨",
+      "growthDifficulty": "Chịu hạn & bền bỉ",
+      "stages": [
+        { "level": 1, "name": "Búp Mầm Bụ Bẫm", "icon": "🌱" },
+        { "level": 2, "name": "Tầng Lá Mọng Nước", "icon": "🌿" },
+        { "level": 3, "name": "Đài Sen Đá Tròn Trịa", "icon": "🪴" },
+        { "level": 4, "name": "Nhú Cành Hoa Chuông", "icon": "🌸" },
+        { "level": 5, "name": "Sen Đá Bung Nở", "icon": "🪷" }
       ]
     }
   };
@@ -837,6 +900,94 @@
    * 4 DẠNG LUẬN VSTEP TASK 02 CỦA CÔ NGUYỆT
    * Nguồn trích xuất chuẩn: https://englishwithmsnguyet-dev.github.io/vstepwritingtask2b1/
    */
+  
+  /**
+   * BẢNG CHIẾN LƯỢC ÔN THI TOEIC THỰC CHIẾN CỦA CÔ NGUYỆT (7 PARTS)
+   * Giúp học viên nắm chắc bí quyết làm bài, nhận diện bẫy ETS và quản lý thời gian thi TOEIC tối ưu.
+   */
+  const TOEIC_OFFICIAL_STRATEGY_GUIDE = [
+    {
+      part: "Part 1",
+      nameEn: "PHOTOGRAPHS (Tranh Ảnh)",
+      nameVi: "Mô Tả Hình Ảnh (6 Câu)",
+      icon: "fa-camera",
+      color: "#3b82f6",
+      keyRule: "Quan sát tổng thể trước khi nghe: xác định người/vật, hành động chính và vị trí trong tranh.",
+      tips: [
+        "Bẫy thì tiếp diễn: Tranh KHÔNG CÓ NGƯỜI mà nghe 'is/are being + V3' (trừ display) -> Loại ngay!",
+        "Bẫy hành động vs trạng thái: 'wearing' (đang mặc trên người - trạng thái) vs 'putting on' (đang xỏ tay vào áo - hành động đang diễn ra).",
+        "Tập trung vào các danh từ chỉ vị trí: row, stacked, arranged, lined up, hung on the wall."
+      ]
+    },
+    {
+      part: "Part 2",
+      nameEn: "QUESTION - RESPONSE (Hỏi - Đáp)",
+      nameVi: "Hỏi & Đáp Nhanh (25 Câu)",
+      icon: "fa-comments",
+      color: "#8b5cf6",
+      keyRule: "Nắm chắc từ để hỏi (Wh- / How) hoặc trợ động từ (Do / Did / Have / Can) ở 3 từ đầu tiên.",
+      tips: [
+        "Bẫy từ phát âm na ná (Similar Sounds) hoặc lặp từ: 90% là bẫy sai!",
+        "Câu hỏi Wh- (Who, Where, When, Why, What): Tuyệt đối KHÔNG trả lời bằng Yes / No.",
+        "Câu trả lời gián tiếp (I don't know, It hasn't been decided yet, Check with Mary): 95% là đáp án ĐÚNG!",
+        "Câu hỏi lựa chọn (A or B): KHÔNG trả lời Yes / No, thường chọn một trong hai hoặc 'Either is fine' / 'Neither'."
+      ]
+    },
+    {
+      part: "Part 3 & 4",
+      nameEn: "CONVERSATIONS & TALKS",
+      nameVi: "Hội Thoại & Bài Nói Ngắn",
+      icon: "fa-headphones-simple",
+      color: "#06b6d4",
+      keyRule: "Quy tắc vàng: ĐỌC TRƯỚC 3 CÂU HỎI & CÁC LỰA CHỌN trong lúc máy đọc hướng dẫn hoặc trước khi audio chạy.",
+      tips: [
+        "Xác định từ khóa chính (Who, Where, What problem, What next action).",
+        "Bắt nhịp thứ tự câu hỏi: Thông tin câu 1 thường ở đầu đoạn, câu 2 ở giữa, câu 3 ở cuối.",
+        "Câu hỏi có bảng biểu / bản đồ (Graphic Questions): Đối chiếu thông tin nghe được với cột tương ứng trên hình.",
+        "Nếu bị lỡ 1 câu: Lập tức đoán nhanh và chuyển sang đọc 3 câu tiếp theo, tuyệt đối không chần chừ."
+      ]
+    },
+    {
+      part: "Part 5",
+      nameEn: "INCOMPLETE SENTENCES",
+      nameVi: "Điền Vào Câu (30 Câu)",
+      icon: "fa-pen-to-square",
+      color: "#10b981",
+      keyRule: "Nhìn 4 phương án trước: Nếu cùng gốc từ -> Câu Ngữ Pháp (nhìn trước & sau chỗ trống). Nếu 4 từ khác nhau -> Câu Từ Vựng (dịch nghĩa theo ngữ cảnh công sở).",
+      tips: [
+        "Vị trí từ loại: Đứng trước Danh từ là Tính từ (hoặc Noun ghép); Đứng trước Tính từ / Động từ / cuối câu là Trạng từ (-ly).",
+        "Phân biệt Cụm Danh Từ (Noun) vs Mệnh Đề (Clause): Due to / Because of / Despite / In spite of + Noun Phrase. Because / Although / While + S + V.",
+        "Thời gian làm bài: Tối đa 30 giây/câu, dành 10 - 12 phút cho toàn bộ 30 câu Part 5."
+      ]
+    },
+    {
+      part: "Part 6",
+      nameEn: "TEXT COMPLETION",
+      nameVi: "Điền Đoạn Văn (16 Câu)",
+      icon: "fa-file-lines",
+      color: "#f59e0b",
+      keyRule: "Luyện kỹ năng điền câu hoàn chỉnh (Sentence Insertion): Đọc câu phía trước và phía sau chỗ trống để tìm từ nối logic.",
+      tips: [
+        "Chú ý thì của toàn đoạn văn (thư báo, thông báo tuyển dụng, hóa đơn).",
+        "Các liên từ liên kết đoạn văn hay gặp: However, Therefore, In addition, Consequently, As a result.",
+        "Phân bổ thời gian: Khoảng 8 - 10 phút cho 4 đoạn (16 câu)."
+      ]
+    },
+    {
+      part: "Part 7",
+      nameEn: "READING COMPREHENSION",
+      nameVi: "Đọc Hiểu Đoạn Đơn & Đoạn Kép (54 Câu)",
+      icon: "fa-book-open-reader",
+      color: "#ec4899",
+      keyRule: "Kỹ năng Skimming & Scanning: Đọc tiêu đề, người gửi/nhận, chủ đề email trước khi đọc câu hỏi.",
+      tips: [
+        "Với đoạn kép/ba (Double / Triple Passages): Câu hỏi số 3, 4, 5 thường yêu cầu liên kết thông tin giữa 2 văn bản khác nhau.",
+        "Bẫy từ đồng nghĩa (Paraphrasing): Đáp án đúng thường dùng từ đồng nghĩa, ít khi dùng lại nguyên si từ trên bài đọc.",
+        "Quản lý thời gian: Dành trọn vẹn 55 phút cho Part 7. Không sa đà quá lâu vào một câu khó."
+      ]
+    }
+  ];
+
   const VSTEP_OFFICIAL_ESSAY_TYPES = [
     {
       id: "adv-disadv",
@@ -930,7 +1081,211 @@
    * NGÂN HÀNG CÂU HỎI TRẮC NGHIỆM VSTEP CHUẨN THỰC CHIẾN
    * Phân chia chính xác theo 4 chuyên đề thực tế của Cô Nguyệt.
    */
-  const EXAM_QUIZ_QUESTIONS = [
+  const EXAM_QUIZ_QUESTIONS = [,
+{
+  "id": "toeic-q1",
+  "category": "toeic-grammar",
+  "categoryName": "📝 TOEIC Part 5: Từ Loại",
+  "skill": "Reading",
+  "level": "TOEIC 500+",
+  "topic": "Trạng từ bổ nghĩa Tính từ",
+  "question": "The new marketing campaign was _______ successful in boosting online sales across Southeast Asia.",
+  "options": [
+    "extreme",
+    "extremely",
+    "extremity",
+    "extremist"
+  ],
+  "answer": 1,
+  "explain": "Trước tính từ 'successful', ta cần một TRẠNG TỪ (Adverb) để bổ nghĩa: 'extremely successful' (cực kỳ thành công)."
+},
+{
+  "id": "toeic-q2",
+  "category": "toeic-grammar",
+  "categoryName": "📝 TOEIC Part 5: Từ Loại",
+  "skill": "Reading",
+  "level": "TOEIC 500+",
+  "topic": "Vị trí Danh từ (Approval)",
+  "question": "All employees must obtain written _______ from the department manager before ordering office equipment.",
+  "options": [
+    "approve",
+    "approved",
+    "approving",
+    "approval"
+  ],
+  "answer": 3,
+  "explain": "Sau tính từ 'written', ta cần một DANH TỪ làm tân ngữ cho động từ 'obtain'. 'Approval' (sự phê duyệt) là danh từ có đuôi -al đặc biệt."
+},
+{
+  "id": "toeic-q3",
+  "category": "toeic-grammar",
+  "categoryName": "📝 TOEIC Part 5: Liên Từ & Giới Từ",
+  "skill": "Reading",
+  "level": "TOEIC 600+",
+  "topic": "Despite vs Although",
+  "question": "_______ the heavy traffic on Highway 101, Ms. Jenkins arrived at the board meeting on schedule.",
+  "options": [
+    "Although",
+    "Despite",
+    "Because",
+    "Even though"
+  ],
+  "answer": 1,
+  "explain": "'the heavy traffic...' là một Cụm danh từ (Noun Phrase). Ta dùng giới từ 'Despite' (+ Cụm N/V-ing) mang nghĩa 'mặc dù'. ('Although' / 'Even though' phải đi với Mệnh đề S + V)."
+},
+{
+  "id": "toeic-q4",
+  "category": "toeic-grammar",
+  "categoryName": "📝 TOEIC Part 5: Liên Từ & Giới Từ",
+  "skill": "Reading",
+  "level": "TOEIC 650+",
+  "topic": "During vs While",
+  "question": "Please turn off all mobile devices _______ the takeoff and landing of the aircraft.",
+  "options": [
+    "during",
+    "while",
+    "as",
+    "whereas"
+  ],
+  "answer": 0,
+  "explain": "'the takeoff and landing' là Cụm danh từ. Giới từ 'during' (+ Noun) mang nghĩa 'trong suốt khoảng thời gian diễn ra...'. 'While' phải đi với Mệnh đề (S + V) hoặc V-ing."
+},
+{
+  "id": "toeic-q5",
+  "category": "toeic-vocab",
+  "categoryName": "💼 TOEIC Business Vocab",
+  "skill": "Reading",
+  "level": "TOEIC 600+",
+  "topic": "Complimentary Breakfast",
+  "question": "Hotel guests are entitled to a _______ breakfast buffet at the rooftop lounge every morning.",
+  "options": [
+    "complimentary",
+    "compliment",
+    "complaining",
+    "complicated"
+  ],
+  "answer": 0,
+  "explain": "'Complimentary' (tính từ) là từ vựng TOEIC rất kinh điển, có nghĩa là 'miễn phí' (bằng với free of charge). Cụm 'complimentary breakfast' = bữa sáng miễn phí."
+},
+{
+  "id": "toeic-q6",
+  "category": "toeic-vocab",
+  "categoryName": "💼 TOEIC Business Vocab",
+  "skill": "Reading",
+  "level": "TOEIC 650+",
+  "topic": "Accommodate",
+  "question": "The newly renovated auditorium is large enough to _______ up to 500 attendees comfortably.",
+  "options": [
+    "accommodate",
+    "negotiate",
+    "investigate",
+    "participate"
+  ],
+  "answer": 0,
+  "explain": "'Accommodate' trong văn cảnh TOEIC thường mang nghĩa 'có đủ chỗ chứa, đáp ứng không gian cho' (contain or provide space for)."
+},
+{
+  "id": "toeic-q7",
+  "category": "toeic-listening",
+  "categoryName": "🎧 TOEIC Listening Part 1",
+  "skill": "Listening",
+  "level": "TOEIC 500+",
+  "topic": "Bẫy 'being + V3' trong Tranh Tả Vật",
+  "question": "Trong TOEIC Listening Part 1, nếu bức tranh chỉ có VẬT (không hề có NGƯỜI) mà nghe thấy cấu trúc nào sau đây thì 99% là đáp án SAI (bẫy)?",
+  "options": [
+    "has been placed on the table",
+    "is being loaded onto the truck",
+    "is arranged in a row",
+    "has been displayed on the shelf"
+  ],
+  "answer": 1,
+  "explain": "Cấu trúc 'is/are BEING + V3' mô tả hành động đang có người tác động vào vật ở thời điểm nói. Nếu tranh tĩnh không có người, đáp án có 'being' gần như chắc chắn là bẫy sai!"
+},
+{
+  "id": "toeic-q8",
+  "category": "toeic-listening",
+  "categoryName": "🎧 TOEIC Listening Part 2",
+  "skill": "Listening",
+  "level": "TOEIC 600+",
+  "topic": "Bẫy Âm Tương Đồng (Similar Sounds)",
+  "question": "Khi nghe câu hỏi Part 2 có từ 'coffee' mà một phương án trả lời có từ 'copy', hoặc 'stationery' với 'station', đây là dạng bẫy gì trong TOEIC?",
+  "options": [
+    "Bẫy đồng nghĩa (Synonym Trap)",
+    "Bẫy từ phát âm gần giống nhau (Same/Similar Sound Trap)",
+    "Bẫy thì quá khứ",
+    "Bẫy câu hỏi đuôi"
+  ],
+  "answer": 1,
+  "explain": "ETS rất hay dùng 'Same sound / Similar sound trap' (từ phát âm giống hoặc na ná từ trên câu hỏi) để đánh lừa thí sinh nghe không rõ. Đáp án có từ na ná âm thường là đáp án SAI!"
+},
+{
+  "id": "toeic-q9",
+  "category": "toeic-listening",
+  "categoryName": "🎧 TOEIC Listening Part 2",
+  "skill": "Listening",
+  "level": "TOEIC 650+",
+  "topic": "Câu trả lời gián tiếp (Indirect Answers)",
+  "question": "Với câu hỏi: 'When will the project report be finalized?', câu trả lời nào sau đây là 'Câu trả lời gián tiếp' thường là đáp án đúng trong đề thi TOEIC?",
+  "options": [
+    "Yes, I really liked the report.",
+    "At 50 dollars per page.",
+    "Ask Mr. Tanaka, he is in charge of it.",
+    "In the conference room on the second floor."
+  ],
+  "answer": 2,
+  "explain": "Câu hỏi 'When' nhưng đáp án không trả lời trực tiếp mốc thời gian mà trả lời gián tiếp: 'Hãy hỏi anh Tanaka, anh ấy phụ trách việc này'. Đây là xu hướng ra đề rất phổ biến của Part 2 TOEIC hiện đại."
+},
+{
+  "id": "toeic-q10",
+  "category": "toeic-grammar",
+  "categoryName": "📝 TOEIC Part 5: Cụm Giới Từ",
+  "skill": "Reading",
+  "level": "TOEIC 600+",
+  "topic": "Prior to (= Before)",
+  "question": "All attendees are requested to register online _______ to the commencement of the international seminar.",
+  "options": [
+    "prior",
+    "ahead",
+    "advance",
+    "before"
+  ],
+  "answer": 0,
+  "explain": "Cụm cố định 'prior to' (= before) mang nghĩa 'trước khi'. 'ahead' phải đi với 'of' (ahead of), 'in advance of', còn 'before' là giới từ đứng một mình không kèm 'to'."
+},
+{
+  "id": "toeic-q11",
+  "category": "toeic-vocab",
+  "categoryName": "💼 TOEIC Business Vocab",
+  "skill": "Reading",
+  "level": "TOEIC 700+",
+  "topic": "Salary Increase",
+  "question": "Due to exceptional performance, Ms. Robinson was offered a substantial salary _______ and a promotion to Vice President.",
+  "options": [
+    "increase",
+    "expand",
+    "develop",
+    "achieve"
+  ],
+  "answer": 0,
+  "explain": "Cụm danh từ 'salary increase' (hoặc pay raise) mang nghĩa 'sự tăng lương'. Các từ còn lại là động từ không đứng sau tính từ 'substantial' để làm cụm danh từ phù hợp."
+},
+{
+  "id": "toeic-q12",
+  "category": "toeic-grammar",
+  "categoryName": "📝 TOEIC Part 5: Đại Từ Phản Thân",
+  "skill": "Reading",
+  "level": "TOEIC 550+",
+  "topic": "Đại từ phản thân (Herself)",
+  "question": "The CEO inspected the new manufacturing facility _______ to ensure strict adherence to international safety standards.",
+  "options": [
+    "she",
+    "her",
+    "herself",
+    "hers"
+  ],
+  "answer": 2,
+  "explain": "Đại từ phản thân 'herself' đứng cuối mệnh đề để nhấn mạnh chính chủ ngữ tự mình làm hành động đó: 'Đích thân tổng giám đốc đã đi thanh tra cơ sở sản xuất mới'."
+},
   {
     "id": "bm-off-1",
     "category": "benefit-matrix",
@@ -2089,11 +2444,8 @@
    * Supports 'clover', 'sunflower', 'tulip', 'cactus', and 'rose'.
    */
   function renderFlowerPotSvg(flowerId, progress) {
-    const fid = (flowerId === 'sunflower')
-      ? 'sunflower'
-      : (flowerId === 'tulip'
-          ? 'tulip'
-          : (flowerId === 'cactus' ? 'cactus' : (flowerId === 'rose' ? 'rose' : 'clover')));
+    const validFids = ['clover', 'sunflower', 'tulip', 'cactus', 'rose', 'lavender', 'daisy', 'succulent'];
+    const fid = validFids.includes(flowerId) ? flowerId : 'clover';
     const stage = getCloverStage(progress);
     const glintsMap = (fid === 'sunflower')
       ? SUNFLOWER_DEW_GLINTS
@@ -2148,15 +2500,17 @@
     };
     const stageImgSrc = stageImgMap[stage] || `assets/garden/${fid}_stage_1.png`;
 
-    const altText = (fid === 'sunflower')
-      ? `Hoa Hướng Dương Rực Rỡ - Giai đoạn ${stage}/5`
-      : (fid === 'tulip')
-          ? `Hoa Tulip Kiêu Hãnh - Giai đoạn ${stage}/5`
-          : (fid === 'cactus'
-              ? `Hoa Xương Rồng Kiên Cường - Giai đoạn ${stage}/5`
-              : (fid === 'rose'
-                  ? `Hoa Hồng Đỏ Khát Vọng - Giai đoạn ${stage}/5`
-                  : `Cỏ 4 Lá May Mắn - Giai đoạn ${stage}/5`));
+    const flowerNames = {
+      sunflower: 'Hoa Hướng Dương Rực Rỡ',
+      tulip: 'Hoa Tulip Kiêu Hãnh',
+      cactus: 'Hoa Xương Rồng Kiên Cường',
+      rose: 'Hoa Hồng Đỏ Khát Vọng',
+      lavender: 'Hoa Oải Hương Tĩnh Tâm',
+      daisy: 'Hoa Cúc Họa Mi Thuần Khiết',
+      succulent: 'Sen Đá Ngọc Bền Bỉ',
+      clover: 'Cỏ 4 Lá May Mắn'
+    };
+    const altText = `${flowerNames[fid] || 'Cây Vườn'} - Giai đoạn ${stage}/5`;
 
     return `
       <div class="clover-living-stage clover-stage-${stage} flower-type-${fid}" data-stage="${stage}" data-flower="${fid}">
@@ -2270,6 +2624,7 @@
   root.VSTEP_SPEAKING_VOCAB_GUIDE = VSTEP_SPEAKING_VOCAB_GUIDE;
   root.VSTEP_OFFICIAL_LETTER_TYPES = VSTEP_OFFICIAL_LETTER_TYPES;
   root.VSTEP_OFFICIAL_ESSAY_TYPES = VSTEP_OFFICIAL_ESSAY_TYPES;
+  root.TOEIC_OFFICIAL_STRATEGY_GUIDE = typeof TOEIC_OFFICIAL_STRATEGY_GUIDE !== 'undefined' ? TOEIC_OFFICIAL_STRATEGY_GUIDE : [];
   root.EXAM_QUIZ_QUESTIONS = EXAM_QUIZ_QUESTIONS;
   root.getNextNonRepeatingQuizQuestion = getNextNonRepeatingQuizQuestion;
   root.resetQuizSeenHistory = resetQuizSeenHistory;
