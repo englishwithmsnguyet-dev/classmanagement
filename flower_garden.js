@@ -2017,8 +2017,8 @@
         <div class="modal-card garden-quiz-card vstep-hub-card">
           <div class="modal-header">
             <div>
-              <h3>🎯 ĐỐ VUI ÔN THI THỰC CHIẾN (TOEIC & VSTEP)</h3>
-              <p class="modal-subtext mb-0">Luyện tập câu hỏi chuẩn TOEIC (Listening, Grammar, Vocab) & VSTEP (4 Kỹ Năng) nhận ngay +10💧 Nước & +10☀️ Nắng Nỗ Lực!</p>
+              <h3>🎯 ĐỐ VUI ÔN THI VSTEP THỰC CHIẾN</h3>
+              <p class="modal-subtext mb-0">Luyện tập câu hỏi chuẩn VSTEP (Listening, Reading, Writing, Speaking B1 - B2 - C1) nhận ngay +10💧 Nước & +10☀️ Nắng Nỗ Lực!</p>
             </div>
             <button class="modal-close-btn" id="btn-close-quiz-modal">&times;</button>
           </div>
@@ -2028,8 +2028,8 @@
             <button class="quiz-tab-btn active" data-tab="practice">
               <span class="tab-icon">🎯</span> Luyện Đề (+10💧)
             </button>
-            <button class="quiz-tab-btn" data-tab="toeic">
-              <span class="tab-icon">💼</span> Bí Quyết TOEIC
+            <button class="quiz-tab-btn" data-tab="strategy">
+              <span class="tab-icon">🧭</span> Chiến Lược VSTEP
             </button>
             <button class="quiz-tab-btn" data-tab="benefits">
               <span class="tab-icon">📊</span> Bảng Lợi Ích
@@ -2047,9 +2047,10 @@
             <!-- Category Filter Pills -->
             <div class="quiz-filter-bar" id="quiz-filter-bar">
               <button class="quiz-filter-pill active" data-cat="all">🌟 Tất cả</button>
-              <button class="quiz-filter-pill" data-cat="toeic-grammar">📝 TOEIC Part 5</button>
-              <button class="quiz-filter-pill" data-cat="toeic-vocab">💼 TOEIC Từ Vựng</button>
-              <button class="quiz-filter-pill" data-cat="toeic-listening">🎧 TOEIC Listening</button>
+              <button class="quiz-filter-pill" data-cat="vstep-reading">📖 VSTEP Reading</button>
+              <button class="quiz-filter-pill" data-cat="vstep-listening">🎧 VSTEP Listening</button>
+              <button class="quiz-filter-pill" data-cat="vstep-speaking">🗣️ VSTEP Speaking</button>
+              <button class="quiz-filter-pill" data-cat="vstep-writing">✍️ VSTEP Writing</button>
               <button class="quiz-filter-pill" data-cat="benefit-matrix">📊 VSTEP Lợi Ích</button>
               <button class="quiz-filter-pill" data-cat="speaking-vocab">🗣️ Từ Vựng Speaking</button>
               <button class="quiz-filter-pill" data-cat="writing-letter">✉️ 7 Dạng Thư Task 1</button>
@@ -2075,7 +2076,12 @@
             </div>
           </div>
 
-          <!-- Tab Panel 2: Benefits Matrix Reference -->
+          <!-- Tab Panel 2: Strategy Reference -->
+          <div class="quiz-tab-panel" id="quiz-panel-strategy">
+            ${this.renderStrategyTabHtml()}
+          </div>
+
+          <!-- Tab Panel 3: Benefits Matrix Reference -->
           <div class="quiz-tab-panel" id="quiz-panel-benefits">
             ${this.renderBenefitsTabHtml()}
           </div>
@@ -2173,6 +2179,59 @@
       });
 
       this.loadNextQuizQuestion();
+    },
+
+    renderStrategyTabHtml() {
+      const guides = root.VSTEP_OFFICIAL_STRATEGY_GUIDE || [];
+      const skillJumpMap = {
+        Listening: 'vstep-listening',
+        Reading: 'vstep-reading',
+        Writing: 'vstep-writing',
+        Speaking: 'vstep-speaking'
+      };
+
+      return `
+        <div class="vstep-guide-wrap">
+          <div class="vstep-guide-hero" style="background:linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%); border-left:4px solid #2563EB;">
+            <div class="hero-text">
+              <h4><i class="fa-solid fa-compass" style="color:#2563EB;"></i> CHIẾN LƯỢC ÔN THI VSTEP THỰC CHIẾN (4 KỸ NĂNG B1 - B2 - C1)</h4>
+              <p>Bí quyết làm bài, nhận diện bẫy đề thi và phương pháp phân bổ thời gian chuẩn xác nhất của Cô Nguyệt dành cho học viên.</p>
+            </div>
+          </div>
+
+          <div class="vstep-strategy-grid" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; margin-top: 14px;">
+            ${guides.map(g => {
+              const jumpCat = skillJumpMap[g.skill] || 'all';
+              return `
+                <div class="vstep-strategy-card" style="background:#FFFFFF; border:1.5px solid #E2E8F0; border-radius:14px; padding:16px; box-shadow:0 2px 8px rgba(0,0,0,0.04); display:flex; flex-direction:column; justify-content:space-between;">
+                  <div>
+                    <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
+                      <span style="background:${g.color}; color:#FFFFFF; font-size:11px; font-weight:800; padding:4px 10px; border-radius:12px; letter-spacing:0.5px;">
+                        <i class="fa-solid ${g.icon}"></i> ${g.skill.toUpperCase()}
+                      </span>
+                      <small style="font-weight:700; color:#64748B;">Chuẩn VSTEP</small>
+                    </div>
+                    <h5 style="font-size:14px; font-weight:800; color:#1E293B; margin-bottom:4px;">${g.nameEn}</h5>
+                    <div style="font-size:12px; font-weight:700; color:#64748B; margin-bottom:8px;">${g.nameVi}</div>
+
+                    <div style="background:#F8FAFC; border-left:3px solid ${g.color}; padding:8px 10px; border-radius:6px; font-size:12px; color:#334155; margin-bottom:10px; line-height:1.45;">
+                      <b><i class="fa-solid fa-lightbulb" style="color:#F59E0B;"></i> Quy tắc cốt lõi:</b> ${g.keyRule}
+                    </div>
+
+                    <ul style="margin:0 0 12px; padding-left:18px; font-size:12px; color:#475569; line-height:1.5;">
+                      ${(g.tips || []).map(t => `<li style="margin-bottom:6px;">${t}</li>`).join('')}
+                    </ul>
+                  </div>
+
+                  <button class="btn btn-secondary btn-small" data-jump-cat="${jumpCat}" style="background:#F1F5F9 !important; border:1px solid #CBD5E1 !important; color:#0F172A !important; font-weight:700 !important; width:100%; border-radius:8px;">
+                    <i class="fa-solid fa-play" style="color:${g.color}; font-size:11px; margin-right:4px;"></i> Luyện Đề ${g.skill} (+10💧)
+                  </button>
+                </div>
+              `;
+            }).join('')}
+          </div>
+        </div>
+      `;
     },
 
     renderBenefitsTabHtml() {
@@ -2769,8 +2828,8 @@
             <div class="earn-method-item" id="earn-action-quiz" role="button" tabindex="0" title="Bấm để mở bộ đề ôn thi VSTEP nhận +10💧 & +10☀️">
               <div class="earn-icon-wrap" style="background:#EFF6FF; color:#2563EB;">🎯</div>
               <div class="earn-info">
-                <h4>ĐỐ VUI ÔN THI (TOEIC & VSTEP)</h4>
-                <p>Luyện tập các câu hỏi chuẩn TOEIC & VSTEP nhận ngay <b>+10💧 & +10☀️</b> cho mỗi câu trả lời đúng.</p>
+                <h4>🎯 ĐỐ VUI ÔN THI VSTEP THỰC CHIẾN</h4>
+                <p>Luyện tập các câu hỏi chuẩn VSTEP (4 Kỹ Năng B1 - B2 - C1) nhận ngay <b>+10💧 & +10☀️</b> cho mỗi câu trả lời đúng.</p>
               </div>
               <span class="earn-action-badge action-primary"><i class="fa-solid fa-play"></i> Luyện ngay</span>
             </div>
@@ -3359,11 +3418,14 @@
       if (potWrapper && typeof root.renderFlowerPotSvg === 'function') {
         const prevStage = potWrapper.dataset.cloverStage;
         const prevFlower = potWrapper.dataset.flowerId;
-        if (prevStage !== String(targetStage) || prevFlower !== fid || !potWrapper.querySelector('.clover-living-stage')) {
+        const prevBloomed = potWrapper.dataset.isBloomed;
+        const isBloomed = (p >= 100) ? 'true' : 'false';
+        if (prevStage !== String(targetStage) || prevFlower !== fid || prevBloomed !== isBloomed || !potWrapper.querySelector('.clover-living-stage')) {
           potWrapper.innerHTML = root.renderFlowerPotSvg(fid, p);
           potWrapper.dataset.cloverStage = String(targetStage);
           potWrapper.dataset.flowerId = fid;
-          if (prevStage && (prevStage !== String(targetStage) || prevFlower !== fid)) {
+          potWrapper.dataset.isBloomed = isBloomed;
+          if (prevStage && (prevStage !== String(targetStage) || prevFlower !== fid || prevBloomed !== isBloomed)) {
             potWrapper.classList.remove('stage-evolving');
             void potWrapper.offsetWidth;
             potWrapper.classList.add('stage-evolving');
@@ -3442,14 +3504,22 @@
           stageBadge.className = 'garden-stage-badge stage-wilted';
         } else {
           const stages = flower.stages || [];
-          const stageInfo = stages[targetStage - 1];
           const stageClasses = ['stage-seeding', 'stage-sprouting', 'stage-vegetative', 'stage-budding', 'stage-blooming'];
-          if (stageInfo) {
-            stageBadge.textContent = `${stageInfo.icon || '🌱'} ${stageInfo.name}`;
-            stageBadge.className = `garden-stage-badge stage-badge ${stageClasses[targetStage - 1] || 'stage-seeding'}`;
+          if (p >= 100) {
+            stageBadge.textContent = `${flower.icon} ${flower.shortName || flower.name} Bừng Nở Rực Rỡ!`;
+            stageBadge.className = 'garden-stage-badge stage-badge stage-blooming';
+          } else if (p >= 80) {
+            stageBadge.textContent = `🌸 Nụ Hoa E Ấp (${p}%)`;
+            stageBadge.className = 'garden-stage-badge stage-badge stage-budding';
           } else {
-            stageBadge.textContent = p >= 100 ? `${flower.icon} Bừng Nở Rực Rỡ!` : `🌱 Mầm Non Đang Phát Triển (${p}%)`;
-            stageBadge.className = `garden-stage-badge stage-badge ${stageClasses[targetStage - 1] || 'stage-seeding'}`;
+            const stageInfo = stages[targetStage - 1];
+            if (stageInfo) {
+              stageBadge.textContent = `${stageInfo.icon || '🌱'} ${stageInfo.name} (${p}%)`;
+              stageBadge.className = `garden-stage-badge stage-badge ${stageClasses[targetStage - 1] || 'stage-seeding'}`;
+            } else {
+              stageBadge.textContent = `🌱 Mầm Non Đang Phát Triển (${p}%)`;
+              stageBadge.className = `garden-stage-badge stage-badge ${stageClasses[targetStage - 1] || 'stage-seeding'}`;
+            }
           }
         }
       }
