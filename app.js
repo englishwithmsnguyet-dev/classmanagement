@@ -73,7 +73,7 @@ const SEED_STUDENTS = {
         "Võ Trần Bảo Tính", "Trương Thanh Toàn", "Phạm Ngọc Trâm", "Nguyễn Võ Bảo Trân"
     ],
     "CB219": [
-        "Lưu Thị Vân Anh", "Nguyễn Tuấn Anh", "Trần Thị Huỳnh Duy", "Duy Thị Huỳnh Hân",
+        "Lưu Thị Vân Anh", "Nguyễn Tuấn Anh", "Trần Thị Huỳnh Duy", "Duy Thị Quỳnh Hân",
         "Trần Thị Xuân Hoa", "Nguyễn Phạm Khang", "Đặng Văn Khánh", "Chim Nhật Luân",
         "Lư Vĩnh Phúc", "Nguyễn Chí Thiện", "Trần Thị Ngọc Thơ", "Huỳnh Yến Trang",
         "Thị Thu Trinh", "Nguyễn Thị Mỹ Xuyên", "Nguyễn Như Ý"
@@ -233,6 +233,11 @@ function loadState() {
         stateChanged = true;
     }
 
+    // Migration: Fix student name typo in CB219: "Duy Thị Huỳnh Hân" -> "Duy Thị Quỳnh Hân"
+    if (ensureStudentNameFixes(appState)) {
+        stateChanged = true;
+    }
+
     if (stateChanged) {
         saveState();
     }
@@ -291,6 +296,21 @@ function ensureAllSeedClassesExist(state) {
             changed = true;
         }
     });
+    return changed;
+}
+
+function ensureStudentNameFixes(state) {
+    if (!state || !state.classes) return false;
+    let changed = false;
+    const cb219 = state.classes.find(c => c.name === 'CB219');
+    if (cb219 && cb219.students) {
+        cb219.students.forEach(st => {
+            if (st.name === 'Duy Thị Huỳnh Hân' || st.name === 'Huỳnh Hân') {
+                st.name = 'Duy Thị Quỳnh Hân';
+                changed = true;
+            }
+        });
+    }
     return changed;
 }
 
@@ -432,6 +452,11 @@ function init() {
             }
         }
     });
+
+    // Data Migration: Fix student name typo in CB219: "Duy Thị Huỳnh Hân" -> "Duy Thị Quỳnh Hân"
+    if (ensureStudentNameFixes(appState)) {
+        saveState();
+    }
     
     // Data Migration: Pre-populate ONB103 Historical Data from Zalo posts
     if (onb103 && !onb103.historicalDataSeeded) {
@@ -1146,8 +1171,9 @@ async function fetchFromCloud() {
                 appState = cloudData;
                 const addedSeeds = ensureAllSeedClassesExist(appState);
                 const migrated = ensureClassScheduleMigrations(appState);
+                const studentFix = ensureStudentNameFixes(appState);
                 localStorage.setItem('attendance_app_v2', JSON.stringify(appState));
-                if (addedSeeds || migrated) {
+                if (addedSeeds || migrated || studentFix) {
                     saveState();
 
                     // Award effort water to flower garden (throttled once every 4 seconds)
